@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="tl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Guest guide ng Cabins by the Generals: mga pasyalan, kainan at pasalubong malapit sa Sariaya, Quezon, with Google Maps directions.">
+<title>Ikot sa Sariaya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: one narrow phone-first column; ready-made routes first, then places grouped by what guests want to do */
+:root{
+  --bg:#F5F2EA; --surface:#FFFDF8; --fg:#1E2A21; --muted:#5E6A5F; --line:#DCD6C6;
+  --forest:#2F5D3A; --gold:#9A7428; --gold-soft:#F1E6CB; --chip:#E8EFE6;
+  --display:'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --body:'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111511; --surface:#1A201B; --fg:#ECE7DA; --muted:#A6AD9F; --line:#2E362F;
+  --forest:#8FC09A; --gold:#D8B566; --gold-soft:#2C2719; --chip:#223024; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111511; --surface:#1A201B; --fg:#ECE7DA; --muted:#A6AD9F; --line:#2E362F;
+  --forest:#8FC09A; --gold:#D8B566; --gold-soft:#2C2719; --chip:#223024; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.55;margin:0}
+.wrap{max-width:680px;margin:0 auto;padding-inline:16px;padding-block:28px 56px;display:flex;flex-direction:column;gap:36px}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.3rem,9vw,3.3rem);line-height:1.02}
+h2{font-size:1.65rem;line-height:1.15}
+h3{font-size:1.15rem;line-height:1.25}
+p{margin:0}
+a{color:var(--forest)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.eyebrow{font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+header{display:flex;flex-direction:column;gap:12px}
+header .lede{color:var(--muted);max-width:56ch}
+.facts{display:flex;flex-wrap:wrap;gap:8px}
+.facts span{background:var(--chip);color:var(--fg);border-radius:999px;padding:5px 12px;font-size:.82rem;font-weight:600}
+nav.jump{display:flex;flex-wrap:wrap;gap:8px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding-block:10px;z-index:2;border-bottom:1px solid var(--line)}
+nav.jump a{text-decoration:none;font-size:.85rem;font-weight:700;color:var(--forest);border:1px solid var(--line);border-radius:999px;padding:6px 12px;background:var(--surface)}
+section{display:flex;flex-direction:column;gap:14px;scroll-margin-top:72px}
+section > .intro{color:var(--muted)}
+.routes{display:flex;flex-direction:column;gap:14px}
+.route{background:var(--gold-soft);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.route ol{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:2px}
+.route .note{font-size:.88rem;color:var(--muted)}
+.btn{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:800;font-size:.9rem;background:var(--forest);color:var(--bg);border-radius:999px;padding:10px 16px}
+.list{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.place{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 14px;padding-block:14px;border-bottom:1px solid var(--line);align-items:start}
+.place .meta{font-size:.8rem;color:var(--muted);font-weight:600}
+.place .why{grid-column:1 / -1;font-size:.93rem}
+.place .tip{grid-column:1 / -1;font-size:.83rem;color:var(--gold);font-weight:700}
+.place a.go{font-size:.82rem;font-weight:800;text-decoration:none;white-space:nowrap;color:var(--forest);border:1px solid var(--forest);border-radius:999px;padding:5px 11px;margin-top:2px}
+.place .name{display:flex;flex-direction:column;gap:2px;min-width:0}
+footer{border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:.85rem;display:flex;flex-direction:column;gap:8px}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Cabins by the Generals · Guest guide</div>
+    <h1>Ikot sa Sariaya</h1>
+    <p class="lede">Mga pwedeng puntahan, kainan at pasalubong malapit sa CBTG. Every "Directions" button opens Google Maps with the drive from the cabins already set. Enjoy po! 🌿</p>
+    <div class="facts">
+      <span>Check-in 4:00 PM</span><span>Check-out 12:00 NN</span><span>Brgy. Tumbaga 1, Sariaya</span>
+    </div>
+  </header>
+
+  <nav class="jump" aria-label="Jump to section">
+    <a href="#routes">Routes</a><a href="#sights">Sights</a><a href="#nature">Nature</a><a href="#banahaw">Banahaw cafés</a><a href="#food">Kainan</a><a href="#lucban">Lucban &amp; Tayabas eats</a><a href="#pasalubong">Pasalubong</a><a href="#malls">Malls</a>
+  </nav>
+
+  <section id="routes">
+    <div class="eyebrow">Ready-made drives</div>
+    <h2>Pick a route</h2>
+    <p class="intro">Each one starts and ends at CBTG. Tip: go in the morning before check-in, or after check-out.</p>
+    <div class="routes" id="routeList"></div>
+  </section>
+
+  <section id="sights"><div class="eyebrow">History &amp; faith</div><h2>Sights</h2><div class="list" data-cat="sights"></div></section>
+  <section id="nature"><div class="eyebrow">Outdoors &amp; family fun</div><h2>Nature &amp; day trips</h2><div class="list" data-cat="nature"></div></section>
+  <section id="banahaw"><div class="eyebrow">Up the Mamala road</div><h2>Banahaw cafés &amp; viewdecks</h2><p class="intro">Malamig dito, magdala ng jacket. All four are close together, so you can do them in one trip.</p><div class="list" data-cat="banahaw"></div></section>
+  <section id="food"><div class="eyebrow">Near the cabins</div><h2>Kainan</h2><div class="list" data-cat="food"></div></section>
+  <section id="lucban"><div class="eyebrow">Pancit habhab &amp; longganisa</div><h2>Lucban &amp; Tayabas eats</h2><div class="list" data-cat="lucban"></div></section>
+  <section id="pasalubong"><div class="eyebrow">For the grill &amp; for home</div><h2>Pasalubong &amp; ihaw supplies</h2><p class="intro">May full kitchen, griller at libreng gasul ang cabin mo, kaya bili na ng longganisa at fresh na gulay para iluto.</p><div class="list" data-cat="pasalubong"></div></section>
+  <section id="malls"><div class="eyebrow">Groceries &amp; errands</div><h2>Malls in Lucena</h2><div class="list" data-cat="malls"></div></section>
+
+  <footer>
+    <p>Opening hours are from Google Maps as of October 2026. Please check the place's page before you go, especially on holidays.</p>
+    <p>May tanong? Message us on our <a href="https://www.facebook.com/share/164L1d4j1f/" target="_blank" rel="noopener">Facebook page</a>. Ingat sa biyahe! 🌿</p>
+  </footer>
+</div>
+
+<script>
+const CBTG = '13.9443251,121.5251939';
+const P = [
+ // sights
+ {c:'sights',n:"St. Francis of Assisi Church",t:'Sariaya town',lat:13.9634515,lng:121.5239184,id:'ChIJYT9oRLBOvTMREeUfo87f7p8',h:'Tue–Sun 9 AM–5 PM · closed Mon',w:'Built in 1748. Home of the Santo Cristo de Burgos shrine, right on the town plaza.'},
+ {c:'sights',n:'Gala-Rodriguez House',t:'Sariaya town',lat:13.9619642,lng:121.5248568,id:'ChIJc9bO0bFOvTMR5lw0S5jV12o',h:'Daily 8 AM–5 PM',w:"Sariaya's famous Art Deco ancestral house. The Don Cayo Gala and Don Lucio Rodriguez houses are next door.",tip:'Walkable from the church'},
+ {c:'sights',n:'Tayabas Basilica (St. Michael the Archangel)',t:'Tayabas City',lat:14.0259863,lng:121.5909807,id:'ChIJf4lTB31NvTMRmZQ0Pyap3eA',h:'Open daily',w:'One of the biggest and oldest churches in the country, with food stalls in the park outside.'},
+ {c:'sights',n:'Malagonlong Bridge',t:'Tayabas City',lat:14.0129375,lng:121.6167969,id:'ChIJtUo8VkVNvTMRjw9E2EXGMlA',h:'Open anytime',w:'The longest Spanish-era stone arch bridge in the Philippines, a National Cultural Treasure. Nice by the river near sunset.',tip:'Steps down to the river are steep'},
+ {c:'sights',n:'Kamay ni Hesus',t:'Lucban',lat:14.101285,lng:121.5728675,id:'ChIJbarSyppTvTMRMwEPZWlQbto',h:'Daily 7 AM–5 PM · free entrance',w:'The 50-ft Jesus statue on the hill, about 300 steps with the Stations of the Cross along the way.',tip:'Go early, crowded and hot by noon'},
+ // nature
+ {c:'nature',n:"Mother's Wonderland",t:'Tayabas City',lat:13.9670144,lng:121.5517006,id:'ChIJodzJJpNNvTMRRX1BVj7q3_c',h:'Thu–Sun 10:30 AM–8 PM · closed Mon–Wed',w:'Theme park with the giant Mother Earth statue and 30+ activities: zipline, golf cart, horseback, boating, cultural shows.',tip:'Check their current rate before going'},
+ {c:'nature',n:'Sariaya Beach',t:'Sariaya',lat:13.8816175,lng:121.5680595,id:'ChIJ7S8DG1VLvTMRYbgILuGUyyE',h:'',w:'Closest beach to the cabins. Clear water and nice sunsets; the sand is gray, not white.'},
+ {c:'nature',n:'Bilaran Sandbar',t:'Pagbilao',lat:13.896496,lng:121.719086,id:'ChIJnde7WIy1ojMRhMPI8nCk2X8',h:'By boat tour only',w:'Turquoise water and a white sandbar with starfish. Part of the Pagbilao island-hopping tours.',tip:'Only visible at low tide · wear aqua shoes'},
+ {c:'nature',n:'Bangkong Kahoy Valley',t:'Dolores (Mt. Banahaw)',lat:14.05468,lng:121.447494,id:'ChIJbwyeHGhEvTMRCBPezLFqr-k',h:'Daily 7 AM–6 PM · small entrance fee',w:'A mountain valley for picnics and fresh air, with a spring river nearby.',tip:'Last 1 km is rough, high-clearance car best'},
+ {c:'nature',n:'Kinabuhayan Cave',t:'Dolores (Mt. Banahaw)',lat:14.0407129,lng:121.4476149,id:'ChIJUZAxCapPvTMRl3hmo5eTriQ',h:'',w:'One of the sacred sites of Banahaw, with a cold, clean stream for a dip.'},
+ {c:'nature',n:'Lucena Perez Park',t:'Lucena City',lat:13.9287437,lng:121.6129413,id:'ChIJxQgtQkRLvTMR-GmPtg62ghQ',h:'Open 24 hours',w:'Big, clean city park with playgrounds. Good for kids and a morning jog.',tip:'Best early morning or after 4 PM'},
+ // banahaw
+ {c:'banahaw',n:'Kape Rosa kina Amamang Juan',t:'Sariaya, foot of Banahaw',lat:14.0153263,lng:121.517282,id:'ChIJLdj78ZlPvTMRxXtX9SfbxIw',h:'Daily 7 AM–10 PM',w:'Coffee, empanada and a wide view of Quezon. Great at sunset.'},
+ {c:'banahaw',n:'Banahaw Viewdeck 2.0',t:'Mamala 1, Sariaya',lat:14.0140287,lng:121.5171228,id:'ChIJOx_taMJPvTMRLJ6_Q8jbP5s',h:'',w:'Try the sinulbot and Lucban longganisa. Locals sell fresh vegetables here, cheap.'},
+ {c:'banahaw',n:'Bukid Amyr Restaurant',t:'Mamala 1, Sariaya',lat:14.0109443,lng:121.5206982,id:'ChIJLbrCaAlPvTMRxzOFd78ZbHI',h:'Daily 10 AM–9 PM',w:'Top-rated in the area. Huge servings, view of Mt. Banahaw and rice fields, good for groups.'},
+ {c:'banahaw',n:'Cafe Kalayu',t:'Sampaloc 1, Sariaya',lat:14.0188333,lng:121.5125428,id:'ChIJhbdAKx5PvTMRaGiqkLDr09Y',h:'Daily 6 AM–10 PM',w:'Hilltop café beside vegetable farms, the farthest up the road. View all the way to Lucena port.'},
+ // food
+ {c:'food',n:'Jardin de Pio',t:'Tayabas (near Sariaya)',lat:13.9705322,lng:121.5511692,id:'ChIJS1pJsKxNvTMR5Imfdj1hNvg',h:'Mon–Sat 12 NN–11 PM · Sun until 9 PM',w:'Al fresco Spanish-Filipino: paella, gambas, salpicao, tapa al horno.',tip:'Reserve on weekends · nicer at night'},
+ {c:'food',n:"Julieta's Cafe",t:'Sariaya Bypass Road',lat:13.9482842,lng:121.5434875,id:'ChIJAcQoi_BLvTMRcvvbY_m5Hb0',h:'Tue–Sun 11 AM–9 PM · closed Mon',w:'Cozy and budget-friendly, generous portions. Try the Hanging Noodles.'},
+ {c:'food',n:'Choco Zone Farm & Resto',t:'Tayabas City',lat:13.9994729,lng:121.6354759,id:'ChIJHz_bbTizojMRyH4bHDURmo8',h:'Daily 11 AM–10 PM',w:'Eat under the cacao trees. The tablea hot chocolate and choco burger are the must-tries.'},
+ {c:'food',n:"Lutgarda's Bistro",t:'Lucena City',lat:13.9402118,lng:121.6077757,id:'ChIJQdfd_Z5LvTMRbJvIv8Sc76o',h:'',w:'Try the chami, the local noodle dish. Has private rooms for celebrations.',tip:'Reserve on holidays'},
+ {c:'food',n:'La Grande Maison · Yelo Lane',t:'Lucena City',lat:13.9610084,lng:121.6081944,id:'ChIJ4x0vnoxNvTMRg5mlpA9BNYY',h:'8 AM–9 PM · closed Tue',w:'Pretty dining room, good for birthdays and special dinners.'},
+ {c:'food',n:'Saraph Garden Restaurant & Bar',t:'Isabang, Lucena',lat:13.9546415,lng:121.5733453,id:'ChIJzXaVxvZNvTMRLM3ijlRNcsY',h:'Mon–Sat 5 PM–1 AM · closed Sun',w:'Rooftop garden bar with cocktails and acoustic nights.'},
+ // lucban / tayabas eats
+ {c:'lucban',n:"Buddy's Restaurant",t:'Lucban',lat:14.1146363,lng:121.5548014,id:'ChIJocZD-PVTvTMReZq_KCiabM4',h:'Daily 9 AM–10 PM',w:'The classic stop for pancit habhab and Lucban longganisa, big servings.',tip:'Parking is limited'},
+ {c:'lucban',n:"Mustiola's",t:'Lucban',lat:14.1143804,lng:121.5555443,id:'ChIJKYTh9PVTvTMRP9iYs8pbi8I',h:'Daily 9 AM–9 PM',w:'Lutong-bahay in an old bahay na bato. Longganisa on sticks and pancit habhab.'},
+ {c:'lucban',n:"Mommy Neng's Cubo Kusina",t:'Lucban',lat:14.1242155,lng:121.5337363,id:'ChIJLeF169VXvTMR0PFjX7_2dZs',h:'',w:'Relaxed farm-view restaurant. Pinadapang manok, bulalo, chicken sisig.'},
+ {c:'lucban',n:"Liwag's Pansit Habhab",t:'Tayabas City',lat:14.0252333,lng:121.5980696,id:'ChIJp_BsSiZNvTMRsKWE0tRT2ys',h:'Daily 6 AM–6 PM',w:'Cheap and good habhab near the Tayabas Basilica, with homemade spiced vinegar.'},
+ // pasalubong
+ {c:'pasalubong',n:"Villamater's Bakery & Pasalubong",t:'Sariaya town',lat:13.9611524,lng:121.525166,id:'ChIJyVRv57FOvTMR-UIhZT5k07Q',h:'Daily 6 AM–6 PM',w:"Sariaya's go-to pasalubong shop: pinagong, broas, pianono, uraro, longganisa."},
+ {c:'pasalubong',n:'Sariaya Longganisa',t:'Sariaya',lat:13.9521602,lng:121.5037481,id:'ChIJtylxIqBJvTMRRqZQIAX3i6M',h:'',w:'Local longganisa in sweet garlic, hamonado and spicy. Perfect for the cabin griller.'},
+ {c:'pasalubong',n:'Eker and Ely Lucban Longganisa',t:'Lucban',lat:14.1143813,lng:121.5535095,id:'ChIJn_MXBfZTvTMRtW3D3QMtZMk',h:'Daily 5 AM–6:30 PM · cash only',w:'Authentic Lucban longganisa plus Quezon delicacies from all over the province.',tip:'Hard to park, busy street'},
+ // malls
+ {c:'malls',n:'SM City Lucena',t:'Lucena City',lat:13.9407966,lng:121.6242826,id:'ChIJfbeyfqpMvTMRwsLPqO6ilOU',h:'Daily 10 AM–9 PM',w:'Supermarket, restaurants, cinema and arcade. Best for big grocery runs.'},
+ {c:'malls',n:'Pacific Mall Lucena',t:'Lucena City',lat:13.9371224,lng:121.6089207,id:'ChIJwXO76l5LvTMREUKYhZE6Qm8',h:'Daily 10 AM–8 PM (Fri–Sat to 9 PM)',w:'Smaller mall with grocery and food court, easy parking.'}
+];
+const R = [
+ {n:'Banahaw food trip',s:['CBTG','Bukid Amyr','Banahaw Viewdeck 2.0','Kape Rosa','back to CBTG'],
+  w:['14.0109443,121.5206982','14.0140287,121.5171228','14.0153263,121.517282'],note:'Half day. Coffee, lunch with a mountain view, and fresh veggies to cook back at the cabin.'},
+ {n:'Sariaya heritage walk',s:['CBTG','St. Francis of Assisi Church','Gala-Rodriguez House','Villamater\'s pasalubong','back to CBTG'],
+  w:['13.9634515,121.5239184','13.9619642,121.5248568','13.9611524,121.525166'],note:'1 to 2 hours. Park once at the plaza and walk. Church is closed on Mondays.'},
+ {n:'Lucban + Tayabas day trip',s:['CBTG','Kamay ni Hesus','Lucban (pancit habhab)','Tayabas Basilica','Malagonlong Bridge','back to CBTG'],
+  w:['14.101285,121.5728675','14.1146363,121.5548014','14.0259863,121.5909807','14.0129375,121.6167969'],note:'Full day. Start early, Kamay ni Hesus closes at 5 PM.'},
+ {n:"Mother's Wonderland",s:['CBTG',"Mother's Wonderland",'back to CBTG'],
+  w:['13.9670144,121.5517006'],note:'Thursday to Sunday only. Plan for most of the day.'}
+];
+const dir = p => 'https://www.google.com/maps/dir/?api=1&origin='+CBTG+'&destination='+encodeURIComponent(p.n)+'&destination_place_id='+p.id+'&travelmode=driving';
+const route = r => 'https://www.google.com/maps/dir/?api=1&origin='+CBTG+'&destination='+CBTG+'&waypoints='+encodeURIComponent(r.w.join('|'))+'&travelmode=driving';
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+document.getElementById('routeList').innerHTML = R.map(r =>
+ `<div class="route"><h3>${esc(r.n)}</h3><ol>${r.s.map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p class="note">${esc(r.note)}</p><a class="btn" href="${route(r)}" target="_blank" rel="noopener">Open route in Google Maps ↗</a></div>`).join('');
+
+document.querySelectorAll('.list').forEach(el => {
+ el.innerHTML = P.filter(p => p.c === el.dataset.cat).map(p =>
+  `<div class="place"><div class="name"><h3>${esc(p.n)}</h3><span class="meta">${esc(p.t)}${p.h?' · '+esc(p.h):''}</span></div><a class="go" href="${dir(p)}" target="_blank" rel="noopener">Directions ↗</a><p class="why">${esc(p.w)}</p>${p.tip?`<p class="tip">${esc(p.tip)}</p>`:''}</div>`).join('');
+});
+</script>
+
+</body>
+</html>
