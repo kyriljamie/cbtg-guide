@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#2F5D3A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CBTG Staff">
+<title>CBTG Staff</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#F5F2EA; --surface:#FFFDF8; --fg:#1E2A21; --muted:#5E6A5F; --line:#DCD6C6;
+  --forest:#2F5D3A; --forest-ink:#FFFFFF; --gold:#9A7428; --gold-soft:#F1E6CB; --chip:#E8EFE6;
+  --ok:#2E6B3F; --ok-soft:#DDEFE1; --warn:#8A5A00; --warn-soft:#FBEFD5; --bad:#B3261E; --bad-soft:#F7E1DE;
+  --display:'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --body:'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111511; --surface:#1A201B; --fg:#ECE7DA; --muted:#A6AD9F; --line:#2E362F;
+  --forest:#8FC09A; --forest-ink:#10170F; --gold:#D8B566; --gold-soft:#2C2719; --chip:#223024;
+  --ok:#8FC09A; --ok-soft:#1E2D21; --warn:#D8B566; --warn-soft:#2C2719; --bad:#F2A49B; --bad-soft:#3A1F1C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111511; --surface:#1A201B; --fg:#ECE7DA; --muted:#A6AD9F; --line:#2E362F;
+  --forest:#8FC09A; --forest-ink:#10170F; --gold:#D8B566; --gold-soft:#2C2719; --chip:#223024;
+  --ok:#8FC09A; --ok-soft:#1E2D21; --warn:#D8B566; --warn-soft:#2C2719; --bad:#F2A49B; --bad-soft:#3A1F1C; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:560px;margin:0 auto;padding:20px 16px calc(40px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:18px;min-height:100dvh}
+h1,h2{font-family:var(--display);font-weight:400;margin:0;line-height:1.1}
+h1{font-size:2rem}
+h2{font-size:1.5rem}
+p{margin:0}
+.eyebrow{font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.link{background:none;border:0;color:var(--forest);font:inherit;font-weight:700;padding:8px 0;cursor:pointer;min-height:44px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
+button.btn{font:inherit;font-weight:800;font-size:1.05rem;border-radius:14px;border:0;min-height:56px;padding:0 18px;width:100%;cursor:pointer}
+.btn.primary{background:var(--forest);color:var(--forest-ink)}
+.btn.secondary{background:var(--surface);color:var(--forest);border:1.5px solid var(--forest)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.pin{font:inherit;font-size:2rem;letter-spacing:.5em;text-align:center;width:100%;min-height:64px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);color:var(--fg)}
+.pin:focus{outline:2px solid var(--gold);outline-offset:2px}
+.error{background:var(--bad-soft);color:var(--bad);border-radius:12px;padding:12px 14px;font-weight:700}
+.notice{background:var(--ok-soft);color:var(--ok);border-radius:12px;padding:12px 14px;font-weight:700}
+.cabins{display:flex;flex-direction:column;gap:12px}
+.cabin{display:flex;align-items:center;gap:12px;text-align:left;width:100%;font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-left-width:6px;border-radius:16px;padding:16px;cursor:pointer;min-height:76px}
+.cabin .name{font-weight:800;font-size:1.15rem}
+.cabin .meta{font-size:.85rem;color:var(--muted)}
+.cabin .go{margin-left:auto;font-size:1.4rem;color:var(--muted)}
+.tag{display:inline-block;font-size:.78rem;font-weight:800;border-radius:999px;padding:3px 10px;margin-top:4px}
+.tag.ready{background:var(--ok-soft);color:var(--ok)}
+.tag.cleaning{background:var(--warn-soft);color:var(--warn)}
+.tag.none{background:var(--chip);color:var(--muted)}
+.arrive{color:var(--bad);font-weight:800}
+.next h2{font-size:1.2rem;margin-bottom:8px}
+.next ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.next li{display:flex;gap:12px;align-items:baseline;padding:10px 0;border-top:1px solid var(--line)}
+.next li:first-child{border-top:0;padding-top:2px}
+.next .d{font-weight:800;min-width:92px}
+.next .d.today{color:var(--bad)}
+.next .w{flex:1;min-width:0}
+.progress{height:10px;border-radius:5px;background:var(--chip);overflow:hidden}
+.progress > div{height:100%;background:var(--forest);width:0;transition:width .2s}
+.list{display:flex;flex-direction:column;gap:8px}
+.item{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:60px;cursor:pointer;user-select:none}
+.item input{width:28px;height:28px;accent-color:var(--forest);flex:none;margin:0}
+.item.done{background:var(--ok-soft);border-color:transparent}
+.item.done span{text-decoration:line-through;color:var(--muted)}
+textarea{font:inherit;width:100%;min-height:72px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:12px}
+.sticky{position:sticky;bottom:0;padding:12px 0 calc(12px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 75%,transparent);display:flex;flex-direction:column;gap:8px}
+.big-check{font-size:3.5rem;line-height:1}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<main class="wrap" id="app" aria-live="polite"></main>
+<script>
+// CBTG staff cleaning checklist. Talks only to the CBTG Supabase functions
+// (staff_login / staff_mark), which check the PIN and the checklist on the server.
+const API = 'https://fnebydfckdqgigtfhjfk.supabase.co/rest/v1/rpc/';
+const KEY = 'sb_publishable_PLLPO77LyLTlHHQr1yF23Q_Y27vUAO1';
+const STORE = 'cbtg-staff-v1';
+
+const state = { pin: null, me: null, data: null, cabin: null, ticks: {}, note: '', msg: null, busy: false, done: null };
+const app = document.getElementById('app');
+
+function load() {
+  try { const s = JSON.parse(localStorage.getItem(STORE) || '{}'); state.pin = s.pin || null; state.ticks = s.ticks || {}; } catch (e) { /* storage blocked */ }
+}
+function save() {
+  try { localStorage.setItem(STORE, JSON.stringify({ pin: state.pin, ticks: state.ticks })); } catch (e) { /* ignore */ }
+}
+async function rpc(fn, body) {
+  const res = await fetch(API + fn, { method: 'POST', headers: { apikey: KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if (!res.ok) throw new Error('No connection to CBTG (' + res.status + '). Check your data / Wi-Fi and try again.');
+  return res.json();
+}
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const timeText = (iso) => {
+  const d = new Date(iso);
+  return d.toLocaleString('en-PH', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+};
+const todayIso = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+const COLORS = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#008300'];
+
+async function login(pin) {
+  state.busy = true; state.msg = null; render();
+  try {
+    const r = await rpc('staff_login', { p_pin: pin });
+    if (r.error) { state.msg = { kind: 'error', text: r.error }; state.pin = null; save(); }
+    else { state.pin = pin; state.me = r.name; state.data = r; save(); }
+  } catch (e) { state.msg = { kind: 'error', text: e.message }; }
+  state.busy = false; render();
+}
+async function refresh() { if (state.pin) await login(state.pin); }
+
+async function mark(status) {
+  const cabin = state.cabin;
+  const items = (state.data.checklist || []).filter((_, i) => (state.ticks[cabin] || {})[i]);
+  state.busy = true; state.msg = null; render();
+  try {
+    const r = await rpc('staff_mark', { p_pin: state.pin, p_cabin: cabin, p_status: status, p_items: status === 'ready' ? items : [], p_note: state.note });
+    if (r.error) { state.msg = { kind: 'error', text: r.error }; }
+    else if (status === 'ready') {
+      delete state.ticks[cabin]; state.note = ''; save();
+      state.cabin = null;
+      await refresh();
+      const parts = ((state.data && state.data.parts) || {})[cabin] || {};
+      const waiting = ((state.data && state.data.team) || []).filter((n) => n !== r.name && !(parts[n] && parts[n].status === 'ready'));
+      state.done = { cabin, at: r.at, name: r.name, waiting };
+    } else {
+      state.msg = { kind: 'ok', text: cabin + ' marked Cleaning · ' + timeText(r.at) };
+      await refresh();
+    }
+  } catch (e) { state.msg = { kind: 'error', text: e.message }; }
+  state.busy = false; render();
+}
+
+function msgHtml() {
+  if (!state.msg) return '';
+  return '<p class="' + (state.msg.kind === 'error' ? 'error' : 'notice') + '" role="status">' + esc(state.msg.text) + '</p>';
+}
+
+function render() {
+  if (!state.me) return renderLogin();
+  if (state.done) return renderDone();
+  if (state.cabin) return renderChecklist();
+  return renderCabins();
+}
+
+function renderLogin() {
+  app.innerHTML = `
+    <div class="top"><div><p class="eyebrow">Cabins by the Generals</p><h1>Staff</h1></div></div>
+    <p class="muted">Enter your PIN to mark cabins as cleaned and ready.</p>
+    ${msgHtml()}
+    <form id="f" class="card" style="display:flex;flex-direction:column;gap:12px">
+      <label for="pin" class="small muted">Your PIN</label>
+      <input id="pin" class="pin" type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" maxlength="6" required>
+      <button class="btn primary" ${state.busy ? 'disabled' : ''}>${state.busy ? 'Checking…' : 'Log in'}</button>
+    </form>
+    <p class="small muted">Tip: tap your browser's menu → “Add to Home screen” to open this like an app.</p>`;
+  const f = document.getElementById('f');
+  const pin = document.getElementById('pin');
+  if (!state.busy) pin.focus();
+  f.onsubmit = (e) => { e.preventDefault(); if (pin.value.trim()) login(pin.value.trim()); };
+}
+
+function nextHtml(list, today) {
+  if (!list.length) return '';
+  const day = (iso) => new Date(iso + 'T00:00:00').toLocaleDateString('en-PH', { weekday: 'short', month: 'short', day: 'numeric' });
+  return `<section class="card next" aria-label="Next bookings"><h2>Next bookings</h2><ol>${list.map((b) => {
+    const isToday = b.checkIn === today;
+    const g = Number(b.guests) || 0;
+    return `<li><span class="d${isToday ? ' today' : ''}">${isToday ? 'TODAY' : esc(day(b.checkIn))}</span><span class="w">${esc((b.cabins || []).join(' + '))}<br><span class="small muted">${b.nights} night${b.nights === 1 ? '' : 's'} · out ${esc(day(b.checkOut))}${g ? ' · ' + g + '&nbsp;guest' + (g === 1 ? '' : 's') : ''}</span></span></li>`;
+  }).join('')}</ol></section>`;
+}
+
+function renderCabins() {
+  const d = state.data;
+  const today = todayIso();
+  const cabins = d.cabins || [];
+  app.innerHTML = `
+    <div class="top">
+      <div><p class="eyebrow">Hi, ${esc(state.me)}</p><h1>Cabins</h1></div>
+      <button class="link" id="out">Log out</button>
+    </div>
+    ${msgHtml()}
+    ${nextHtml(d.upcoming || [], today)}
+    <div class="cabins">
+      ${cabins.map((c, i) => {
+        const parts = (d.parts || {})[c] || {};
+        const team = d.team || [];
+        const arr = (d.arrivals || {})[c];
+        const ng = Number((d.arrivalGuests || {})[c]) || 0;
+        const gTxt = ng ? ' · ' + ng + '&nbsp;guest' + (ng === 1 ? '' : 's') : '';
+        const ticked = Object.values(state.ticks[c] || {}).filter(Boolean).length;
+        const allDone = team.length > 0 && team.every((n) => parts[n] && parts[n].status === 'ready');
+        const tag = allDone
+          ? '<span class="tag ready">✓ Ready — everyone done</span>'
+          : team.map((n) => {
+              const p = parts[n];
+              const st = p ? p.status : 'none';
+              const label = p ? (p.status === 'ready' ? '✓ ' + esc(n) + ' done ' + timeText(p.at) : esc(n) + ' cleaning') : esc(n) + ' not yet';
+              return '<span class="tag ' + st + '">' + label + '</span>';
+            }).join(' ');
+        return `<button class="cabin" data-c="${esc(c)}" style="border-left-color:${COLORS[i % COLORS.length]}">
+          <div>
+            <div class="name">${esc(c)}</div>
+            <div class="meta">${arr === today ? '<span class="arrive">Guests arrive TODAY 4:00 PM' + gTxt + '</span>' : arr ? 'Next guests ' + new Date(arr + 'T00:00:00').toLocaleDateString('en-PH', { weekday: 'short', month: 'short', day: 'numeric' }) + gTxt : 'No guests coming yet'}${ticked ? ' · ' + ticked + ' ticked' : ''}</div>
+            ${tag}
+          </div>
+          <span class="go" aria-hidden="true">›</span>
+        </button>`;
+      }).join('')}
+    </div>
+    <button class="btn secondary" id="ref">Refresh</button>`;
+  document.getElementById('out').onclick = () => { state.pin = null; state.me = null; state.data = null; save(); state.msg = null; render(); };
+  document.getElementById('ref').onclick = () => refresh();
+  app.querySelectorAll('.cabin').forEach((b) => (b.onclick = () => { state.cabin = b.dataset.c; state.msg = null; render(); window.scrollTo(0, 0); }));
+}
+
+function renderChecklist() {
+  const c = state.cabin;
+  const list = state.data.checklist || [];
+  const t = state.ticks[c] || (state.ticks[c] = {});
+  const n = list.filter((_, i) => t[i]).length;
+  const all = list.length > 0 && n === list.length;
+  app.innerHTML = `
+    <div class="top">
+      <div><p class="eyebrow">${esc(state.me)}'s checklist</p><h1>${esc(c)}</h1></div>
+      <button class="link" id="back">‹ Cabins</button>
+    </div>
+    ${msgHtml()}
+    <div>
+      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${list.length}" aria-valuenow="${n}"><div style="width:${list.length ? (n / list.length) * 100 : 0}%"></div></div>
+      <p class="small muted" style="margin-top:6px">${n} of ${list.length} done${all ? ' — you can mark it Ready' : ''}</p>
+    </div>
+    <div class="list">
+      ${list.map((item, i) => `<label class="item ${t[i] ? 'done' : ''}"><input type="checkbox" data-i="${i}" ${t[i] ? 'checked' : ''}><span>${esc(item)}</span></label>`).join('')}
+    </div>
+    <label for="note" class="small muted">Note for the owner (optional) — e.g. something broken, supplies running low</label>
+    <textarea id="note" placeholder="Optional">${esc(state.note)}</textarea>
+    <div class="sticky">
+      <button class="btn secondary" id="start" ${state.busy ? 'disabled' : ''}>I'm starting to clean</button>
+      <button class="btn primary" id="ready" ${!all || state.busy ? 'disabled' : ''}>${all ? '✓ Ready — my part is done' : list.length ? 'Ready (tick all ' + list.length + ' first)' : 'No checklist yet — ask the owner'}</button>
+    </div>`;
+  document.getElementById('back').onclick = () => { state.cabin = null; state.msg = null; render(); };
+  document.getElementById('note').oninput = (e) => { state.note = e.target.value; };
+  app.querySelectorAll('input[type=checkbox]').forEach((cb) => (cb.onchange = () => {
+    t[cb.dataset.i] = cb.checked; save();
+    const y = window.scrollY; renderChecklist(); window.scrollTo(0, y);
+  }));
+  document.getElementById('start').onclick = () => mark('cleaning');
+  document.getElementById('ready').onclick = () => mark('ready');
+}
+
+function renderDone() {
+  const d = state.done;
+  app.innerHTML = `
+    <div class="card" style="text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center;padding:28px 16px">
+      <div class="big-check" aria-hidden="true">✅</div>
+      <h2>${d.waiting && d.waiting.length ? 'Your part of ' + esc(d.cabin) + ' is done' : esc(d.cabin) + ' is Ready'}</h2>
+      <p class="muted">Recorded for ${esc(d.name)} · ${timeText(d.at)}</p>
+      <p class="small muted">${d.waiting && d.waiting.length ? esc(d.cabin) + ' becomes fully Ready when ' + esc(d.waiting.join(' and ')) + ' finish' + (d.waiting.length === 1 ? 'es' : '') + ' too.' : 'Everyone is done — ' + esc(d.cabin) + ' is fully Ready.'} The owner's CBTG app will show it shortly. Thank you!</p>
+    </div>
+    <button class="btn primary" id="ok">Back to cabins</button>`;
+  document.getElementById('ok').onclick = () => { state.done = null; render(); };
+}
+
+load();
+if (state.pin) login(state.pin); else render();
+</script>
+</body>
+</html>
