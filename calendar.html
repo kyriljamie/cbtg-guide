@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2F4F3A">
+<title>CBTG Availability</title>
+<meta name="description" content="Live availability calendar for Cabins by the Generals, Sariaya, Quezon.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#F5F2EC; --surface:#FFFFFF; --fg:#23261F; --muted:#6B6A63; --line:#DDD6CA;
+  --forest:#2F4F3A; --forest-ink:#FFFFFF; --soft:#DCE6DD; --gold:#9A7428; --red:#B3261E;
+  --c1:#2a78d6; --c2:#eb6834; --c3:#1baf7a;
+  --display:'DM Serif Display', Georgia, serif;
+  --body:'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111511; --surface:#1A201B; --fg:#ECE7DA; --muted:#A6AD9F; --line:#2E362F;
+  --forest:#8FC09A; --forest-ink:#10170F; --soft:#223024; --gold:#D8B566; --red:#F2A49B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111511; --surface:#1A201B; --fg:#ECE7DA; --muted:#A6AD9F; --line:#2E362F;
+  --forest:#8FC09A; --forest-ink:#10170F; --soft:#223024; --gold:#D8B566; --red:#F2A49B; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:560px;margin:0 auto;padding:22px 16px calc(40px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:16px}
+.eyebrow{font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0}
+h1{font-family:var(--display);font-weight:400;font-size:2.1rem;line-height:1.1;margin:4px 0 0}
+p{margin:0}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px 14px 16px}
+.head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.head b{font-size:1.25rem;font-weight:700}
+.nav{width:44px;height:44px;border-radius:12px;border:0;background:none;color:var(--forest);font-size:1.6rem;cursor:pointer}
+.nav:disabled{opacity:.25;cursor:default}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);row-gap:4px}
+.dow{text-align:center;font-size:.8rem;color:var(--muted);padding:4px 0 8px}
+.day{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 2px 6px;min-height:68px;border:0;background:none;font:inherit;color:inherit;border-radius:12px;cursor:pointer}
+.day .n{font-size:1.1rem;line-height:1.2}
+.day.hol .n{color:var(--red);font-weight:700}
+.day.hol .n::after{content:"";position:absolute;top:6px;right:calc(50% - 20px);width:6px;height:6px;border-radius:50%;background:var(--red)}
+.day.past{opacity:.35;cursor:default}
+.day.full .n{text-decoration:line-through;text-decoration-thickness:1.5px}
+.day.sel{background:var(--forest);color:var(--forest-ink)}
+.day.sel .n{color:var(--forest-ink)}
+.day:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+.bars{display:flex;flex-direction:column;gap:2px;width:78%}
+.bars i{display:block;height:5px;border-radius:2px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:center;margin-top:14px;font-size:.88rem;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:14px;height:14px;border-radius:4px;display:inline-block}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--red);display:inline-block}
+.note{text-align:center;margin-top:8px}
+.detail h2{font-family:var(--display);font-weight:400;font-size:1.45rem;margin:0 0 4px}
+.rows{display:flex;flex-direction:column;gap:8px;margin:12px 0 14px}
+.row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--bg)}
+.row .sw{flex:none}
+.row b{flex:1;font-weight:700}
+.tag{font-size:.78rem;font-weight:800;border-radius:999px;padding:3px 10px}
+.tag.open{background:var(--soft);color:var(--forest)}
+.tag.booked{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:52px;border-radius:14px;font:inherit;font-weight:800;font-size:1rem;text-decoration:none;cursor:pointer;border:0}
+.btn.primary{background:var(--forest);color:var(--forest-ink)}
+.btn.line{background:none;color:var(--forest);border:1.5px solid var(--forest);margin-top:8px}
+.status{font-size:.85rem}
+.status.err{color:var(--red);font-weight:700}
+footer{text-align:center;font-size:.85rem}
+footer a{color:var(--forest);font-weight:700}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:700;font-size:.9rem;max-width:90vw;text-align:center}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <p class="eyebrow">Cabins by the Generals · Sariaya</p>
+    <h1>Availability</h1>
+    <p class="status muted" id="status" role="status">Loading the latest dates…</p>
+  </header>
+
+  <section class="card" aria-label="Availability calendar">
+    <div class="head">
+      <button class="nav" id="prev" aria-label="Previous month">‹</button>
+      <b id="month" aria-live="polite"></b>
+      <button class="nav" id="next" aria-label="Next month">›</button>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--c1)"></i>Cabin 1</span>
+      <span><i class="sw" style="background:var(--c2)"></i>Cabin 2</span>
+      <span><i class="sw" style="background:var(--c3)"></i>Cabin 3</span>
+      <span><i class="dot"></i>holiday</span>
+    </div>
+    <p class="note small muted">A coloured bar means that cabin is <b>booked</b> that night. No bar = open. Tap a date to see what's free.</p>
+  </section>
+
+  <section class="card detail" id="detail" aria-live="polite"></section>
+
+  <footer class="muted">Check-in 4:00 PM · Check-out 12:00 NN · Exclusive cabin, private pool<br>
+    <a href="https://www.facebook.com/share/164L1d4j1f/" target="_blank" rel="noopener">Message us on Facebook</a></footer>
+</main>
+<div class="toast" id="toast" hidden></div>
+<script>
+(function () {
+  var FEED = "https://fnebydfckdqgigtfhjfk.supabase.co/functions/v1/cbtg-calendar/availability.json";
+  var FB = "https://www.facebook.com/share/164L1d4j1f/";
+  var HOL = {"2026-01-01": "New Year's Day", "2026-02-17": "Chinese New Year", "2026-04-02": "Maundy Thursday", "2026-04-03": "Good Friday", "2026-04-04": "Black Saturday", "2026-04-09": "Araw ng Kagitingan", "2026-05-01": "Labor Day", "2026-06-12": "Independence Day", "2026-08-21": "Ninoy Aquino Day", "2026-08-31": "National Heroes Day", "2026-11-01": "All Saints' Day", "2026-11-02": "All Souls' Day", "2026-11-30": "Bonifacio Day", "2026-12-08": "Immaculate Conception", "2026-12-24": "Christmas Eve", "2026-12-25": "Christmas Day", "2026-12-30": "Rizal Day", "2026-12-31": "Last Day of the Year", "2027-01-01": "New Year's Day", "2027-02-06": "Chinese New Year", "2027-03-25": "Maundy Thursday", "2027-03-26": "Good Friday", "2027-03-27": "Black Saturday", "2027-04-09": "Araw ng Kagitingan", "2027-05-01": "Labor Day", "2027-06-12": "Independence Day", "2027-08-21": "Ninoy Aquino Day", "2027-08-30": "National Heroes Day", "2027-11-01": "All Saints' Day", "2027-11-02": "All Souls' Day", "2027-11-30": "Bonifacio Day", "2027-12-08": "Immaculate Conception", "2027-12-24": "Christmas Eve", "2027-12-25": "Christmas Day", "2027-12-30": "Rizal Day", "2027-12-31": "Last Day of the Year"};
+  var CABINS = [
+    { key: "Cabin 1", name: "Cabin 1 · Entertainment Suite", color: "var(--c1)", pax: "up to 14 pax" },
+    { key: "Cabin 2", name: "Cabin 2 · Fresco Cinema", color: "var(--c2)", pax: "up to 14 pax" },
+    { key: "Cabin 3", name: "Cabin 3 · add-on to Cabin 2", color: "var(--c3)", pax: "for bigger groups" }
+  ];
+  var MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  var $ = function (id) { return document.getElementById(id); };
+  var booked = {}, live = false, failed = false, updated = null;
+  var now = new Date(), first = new Date(now.getFullYear(), now.getMonth(), 1), view = new Date(first), sel = null;
+  function iso(d) { var m = d.getMonth() + 1, x = d.getDate(); return d.getFullYear() + "-" + (m < 10 ? "0" : "") + m + "-" + (x < 10 ? "0" : "") + x; }
+  var today = iso(now);
+  function nice(s, opts) { return new Date(s + "T00:00:00").toLocaleDateString("en-PH", opts || { weekday: "short", month: "short", day: "numeric" }); }
+  function isBooked(c, d) { return !!(booked[c] && booked[c][d]); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  function status() {
+    var el = $("status");
+    el.className = "status " + (failed ? "err" : "muted");
+    if (failed) el.textContent = "We couldn't load the calendar right now. Message us on Facebook and we'll check your date.";
+    else if (!live) el.textContent = "Loading the latest dates…";
+    else el.textContent = "Live · updated " + new Date(updated).toLocaleString("en-PH", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  }
+
+  function draw() {
+    var y = view.getFullYear(), m = view.getMonth(), h = "";
+    ["Su","Mo","Tu","We","Th","Fr","Sa"].forEach(function (w) { h += '<div class="dow" aria-hidden="true">' + w + "</div>"; });
+    var start = new Date(y, m, 1).getDay(), days = new Date(y, m + 1, 0).getDate();
+    for (var i = 0; i < start; i++) h += "<div></div>";
+    for (var d = 1; d <= days; d++) {
+      var s = iso(new Date(y, m, d)), past = s < today, hol = HOL[s];
+      var bars = "", taken = [];
+      if (live) CABINS.forEach(function (c) { if (isBooked(c.key, s)) { bars += '<i style="background:' + c.color + '"></i>'; taken.push(c.key); } });
+      var full = live && taken.length === CABINS.length;
+      var label = nice(s, { weekday: "long", month: "long", day: "numeric" }) + (hol ? ", " + hol : "") +
+        (past ? ", past" : !live ? "" : full ? ", fully booked" : taken.length ? ", booked: " + taken.join(", ") : ", all cabins open");
+      h += '<button type="button" class="day' + (past ? " past" : "") + (hol ? " hol" : "") + (full ? " full" : "") + (sel === s ? " sel" : "") +
+        '" data-d="' + s + '"' + (past ? " disabled" : "") + ' aria-label="' + esc(label) + '"><span class="n">' + d + '</span><span class="bars">' + bars + "</span></button>";
+    }
+    $("grid").innerHTML = h;
+    $("month").textContent = MONTHS[m] + " " + y;
+    $("prev").disabled = view <= first;
+    $("next").disabled = (view.getFullYear() - first.getFullYear()) * 12 + view.getMonth() - first.getMonth() >= 12;
+  }
+
+  function detail() {
+    var el = $("detail");
+    if (!sel) {
+      el.innerHTML = '<h2>Pick a date</h2><p class="muted">Tap a night on the calendar to see which cabins are open, then send us your inquiry.</p>' +
+        '<a class="btn line" href="' + FB + '" target="_blank" rel="noopener">Message us on Facebook</a>';
+      return;
+    }
+    var out = new Date(sel + "T00:00:00"); out.setDate(out.getDate() + 1);
+    var open = CABINS.filter(function (c) { return !isBooked(c.key, sel); });
+    var rows = CABINS.map(function (c) {
+      var b = isBooked(c.key, sel);
+      return '<div class="row"><i class="sw" style="background:' + c.color + '"></i><b>' + esc(c.name) + '<br><span class="small muted" style="font-weight:500">' + c.pax + '</span></b><span class="tag ' + (b ? "booked" : "open") + '">' + (b ? "Booked" : "Open") + "</span></div>";
+    }).join("");
+    var hol = HOL[sel] ? '<p class="small" style="color:var(--red);font-weight:700">' + esc(HOL[sel]) + "</p>" : "";
+    el.innerHTML = '<h2>' + esc(nice(sel, { weekday: "short", month: "long", day: "numeric" })) + ' night</h2>' + hol +
+      '<p class="muted small">Check-in ' + esc(nice(sel)) + " 4:00 PM · Check-out " + esc(nice(iso(out))) + " 12:00 NN</p>" +
+      '<div class="rows">' + rows + "</div>" +
+      (open.length
+        ? '<button class="btn primary" id="ask">Inquire for this date</button><a class="btn line" href="' + FB + '" target="_blank" rel="noopener">Open our Facebook page</a>' +
+          '<p class="small muted" style="margin-top:8px;text-align:center">We copy your message — just paste it in Messenger.</p>'
+        : '<p class="muted">Fully booked this night. Try another date, or message us for the waitlist.</p><a class="btn line" href="' + FB + '" target="_blank" rel="noopener">Message us on Facebook</a>');
+    var ask = $("ask");
+    if (ask) ask.onclick = function () {
+      var msg = "Hi CBTG! 🌿 Pa-check po ng availability:\n• Check-in: " + nice(sel, { weekday: "short", month: "short", day: "numeric", year: "numeric" }) +
+        "\n• Check-out: " + nice(iso(out), { weekday: "short", month: "short", day: "numeric", year: "numeric" }) +
+        "\n• Open cabins: " + open.map(function (c) { return c.key; }).join(", ") + "\n• Ilang pax: \nSalamat po!";
+      var go = function () { window.open(FB, "_blank", "noopener"); };
+      try { navigator.clipboard.writeText(msg).then(function () { toast("Message copied — paste it in Messenger 🌿"); setTimeout(go, 700); }, go); }
+      catch (e) { go(); }
+    };
+  }
+
+  var tt;
+  function toast(m) { var el = $("toast"); el.textContent = m; el.hidden = false; clearTimeout(tt); tt = setTimeout(function () { el.hidden = true; }, 2600); }
+
+  $("grid").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-d]"); if (!b || b.disabled || !live) return;
+    sel = b.getAttribute("data-d"); draw(); detail();
+    $("detail").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+  $("prev").onclick = function () { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); draw(); };
+  $("next").onclick = function () { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); draw(); };
+
+  function load() {
+    fetch(FEED, { cache: "no-store" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      if (!j || !j.booked) { if (!live) { failed = true; status(); } return; }
+      booked = {};
+      Object.keys(j.booked).forEach(function (c) { booked[c] = {}; (j.booked[c] || []).forEach(function (d) { booked[c][d] = 1; }); });
+      updated = j.updated; live = true; failed = false; status(); draw(); detail();
+    }).catch(function () { if (!live) { failed = true; status(); } });
+  }
+  status(); draw(); detail(); load();
+  setInterval(function () { if (!document.hidden) load(); }, 5 * 60 * 1000);
+})();
+</script>
+</body>
+</html>
