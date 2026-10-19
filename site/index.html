@@ -1,0 +1,523 @@
+<title>Cabins by the Generals</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Layout: a night-time property site. Full-bleed dark bands, content in a 1180px column; a lit A-frame scene carries the hero. Single dark look by choice (evenings at the pool). */
+:root {
+  --night: #0B120E;
+  --forest: #12201A;
+  --moss: #1C3027;
+  --line: #2A4036;
+  --gold: #D9AE52;
+  --gold-soft: #F1D58F;
+  --pool: #5FD3C6;
+  --ink: #EEF2EA;
+  --muted: #A9B8AE;
+  --font-display: "Bricolage Grotesque", "Figtree", system-ui, sans-serif;
+  --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--night); color: var(--ink); }
+body { font-family: var(--font-body); font-size: 17px; line-height: 1.6; }
+a { color: var(--gold-soft); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.05; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+h2 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; }
+h3 { font-size: 24px; font-weight: 700; }
+p { margin: 0; }
+.eyebrow { font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+.muted { color: var(--muted); }
+section { padding-block: clamp(64px, 9vw, 120px); }
+
+/* nav */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(11,18,14,0.86); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--night); }
+.nav-in { display: flex; align-items: center; gap: 22px; padding-block: 12px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); margin-right: auto; }
+.brand b { font-family: var(--font-display); font-size: 18px; font-weight: 700; letter-spacing: 0.01em; }
+.brand small { display: block; font-size: 11px; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; }
+.links { display: flex; gap: 22px; }
+.links a { color: var(--muted); text-decoration: none; font-weight: 500; font-size: 15px; }
+.links a:hover { color: var(--ink); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 12px 24px; border-radius: 999px; font: 600 16px var(--font-body); text-decoration: none; cursor: pointer; border: 1.5px solid transparent; }
+.btn-gold { background: var(--gold); color: #17110A; }
+.btn-gold:hover { background: var(--gold-soft); }
+.btn-line { border-color: var(--line); color: var(--ink); background: transparent; }
+.btn-line:hover { border-color: var(--gold); }
+:focus-visible { outline: 3px solid var(--pool); outline-offset: 3px; border-radius: 6px; }
+@media (max-width: 860px) { .links { display: none; } }
+
+/* hero */
+.hero { position: relative; padding-block: 0; overflow: hidden; background: linear-gradient(180deg, #08100C 0%, #0E1A14 60%, var(--night) 100%); }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 32px; align-items: center; padding-block: clamp(48px, 7vw, 96px) clamp(40px, 6vw, 72px); }
+.hero h1 { font-size: clamp(44px, 7.4vw, 92px); font-weight: 800; }
+.hero h1 em { font-style: normal; color: var(--gold); }
+.hero p.lead { font-size: clamp(18px, 2vw, 21px); color: var(--muted); margin-top: 22px; max-width: 34ch; }
+.hero .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.scene { width: 100%; max-width: 100%; height: auto; display: block; }
+@media (max-width: 860px) { .hero-grid { grid-template-columns: 1fr; } .scene-box { order: -1; } }
+.facts { border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.facts div { padding: 20px 18px; border-right: 1px solid var(--line); }
+.facts div:last-child { border-right: 0; }
+.facts b { display: block; font-family: var(--font-display); font-size: 20px; color: var(--ink); }
+.facts span { font-size: 14px; color: var(--muted); }
+@media (max-width: 760px) { .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } .facts div:nth-child(2) { border-right: 0; } .facts div:nth-child(-n+2) { border-bottom: 1px solid var(--line); } }
+
+/* cabins */
+.head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 44px; }
+.head p { max-width: 46ch; }
+.cabins { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+@media (max-width: 980px) { .cabins { grid-template-columns: 1fr; } }
+.cabin { background: var(--forest); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; display: flex; flex-direction: column; }
+.cabin svg { display: block; width: 100%; height: auto; }
+.cabin .body { padding: 24px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.tag { display: inline-flex; align-self: flex-start; padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(217,174,82,0.14); color: var(--gold-soft); }
+.cabin ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.cabin li { display: flex; gap: 10px; font-size: 15px; color: var(--ink); }
+.cabin li::before { content: ""; width: 6px; height: 6px; margin-top: 9px; border-radius: 50%; background: var(--pool); flex-shrink: 0; }
+.quote { font-size: 15px; color: var(--gold-soft); border-top: 1px dashed var(--line); padding-top: 14px; margin-top: auto; }
+.pax { font-size: 14px; color: var(--muted); }
+
+/* moments */
+.moments { background: var(--forest); border-block: 1px solid var(--line); }
+.mgrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; }
+.mgrid div { padding: 28px 24px; border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
+.mgrid div:last-child { border-right: 0; }
+.mgrid h3 { font-size: 22px; }
+.mgrid p { font-size: 15px; color: var(--muted); }
+@media (max-width: 900px) { .mgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .mgrid div:nth-child(2) { border-right: 0; } .mgrid div:nth-child(-n+2) { border-bottom: 1px solid var(--line); } }
+@media (max-width: 520px) { .mgrid { grid-template-columns: 1fr; } .mgrid div { border-right: 0; border-bottom: 1px solid var(--line); } .mgrid div:last-child { border-bottom: 0; } }
+
+/* included */
+.incl { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 48px; align-items: start; }
+@media (max-width: 860px) { .incl { grid-template-columns: 1fr; } }
+.ilist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 520px) { .ilist { grid-template-columns: 1fr; } }
+.ilist div { background: var(--forest); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: flex; gap: 14px; align-items: flex-start; }
+.ilist svg { flex-shrink: 0; }
+.ilist b { display: block; font-size: 16px; }
+.ilist span { font-size: 14px; color: var(--muted); }
+.times { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
+.time { border: 1px solid var(--gold); border-radius: 16px; padding: 14px 18px; }
+.time b { font-family: var(--font-display); font-size: 28px; color: var(--gold-soft); display: block; line-height: 1.1; }
+.time span { font-size: 13px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* rates */
+.rates { background: linear-gradient(180deg, var(--night), #0D1712); }
+.rtable { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.rbox { overflow-x: auto; border: 1px solid var(--line); border-radius: 20px; background: var(--forest); }
+.rtable th, .rtable td { text-align: left; padding: 18px 20px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.rtable th { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.rtable tr:last-child td { border-bottom: 0; }
+.rtable td b { font-family: var(--font-display); font-size: 20px; }
+.rtable td.price { color: var(--gold-soft); font-family: var(--font-display); font-size: 20px; font-weight: 700; }
+.note { margin-top: 16px; font-size: 14px; color: var(--muted); }
+
+/* inquiry */
+.book { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 40px; align-items: start; }
+@media (max-width: 900px) { .book { grid-template-columns: 1fr; } }
+form { background: var(--forest); border: 1px solid var(--line); border-radius: 22px; padding: 26px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 520px) { form { grid-template-columns: 1fr; } }
+.f { display: flex; flex-direction: column; gap: 6px; }
+.f.full { grid-column: 1 / -1; }
+label { font-size: 14px; color: var(--muted); font-weight: 500; }
+input, select { font: 500 16px var(--font-body); color: var(--ink); background: var(--night); border: 1.5px solid var(--line); border-radius: 12px; padding: 13px 14px; min-height: 48px; width: 100%; }
+input:focus, select:focus { border-color: var(--pool); outline: none; }
+.msg { grid-column: 1 / -1; background: var(--night); border: 1px dashed var(--gold); border-radius: 14px; padding: 16px; white-space: pre-wrap; font-size: 15px; min-height: 120px; }
+.frow { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 10px; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); background: var(--gold); color: #17110A; padding: 12px 18px; border-radius: 12px; font-weight: 600; z-index: 40; max-width: calc(100% - 32px); }
+
+
+/* availability */
+.avail { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 40px; align-items: start; }
+@media (max-width: 900px) { .avail { grid-template-columns: 1fr; } }
+.cal { background: var(--forest); border: 1px solid var(--line); border-radius: 22px; padding: 22px; }
+.cal-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.cal-tabs button { font: 600 14px var(--font-body); color: var(--muted); background: transparent; border: 1.5px solid var(--line); border-radius: 999px; padding: 9px 16px; cursor: pointer; min-height: 40px; }
+.cal-tabs button[aria-pressed="true"] { color: #17110A; background: var(--gold); border-color: var(--gold); }
+.cal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.cal-head b { font-family: var(--font-display); font-size: 22px; }
+.cal-head button { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--line); background: transparent; color: var(--ink); font-size: 18px; cursor: pointer; }
+.cal-head button:disabled { opacity: 0.3; cursor: default; }
+.grid7 { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.dow { font-size: 12px; color: var(--muted); text-align: center; letter-spacing: 0.08em; padding-bottom: 4px; }
+.dcell { aspect-ratio: 1 / 1; max-width: 100%; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font: 600 15px var(--font-body); font-variant-numeric: tabular-nums; border: 1.5px solid transparent; background: transparent; color: var(--ink); }
+button.dcell { cursor: pointer; background: rgba(95,211,198,0.10); border-color: rgba(95,211,198,0.35); }
+button.dcell:hover { border-color: var(--pool); }
+button.dcell.sel { background: var(--pool); color: #062421; }
+.dcell.booked { color: #6E7D73; text-decoration: line-through; background: rgba(255,255,255,0.03); }
+.dcell.past { color: #3E4D44; }
+.dcell small { font-size: 9px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; }
+.legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 8px; }
+.sw { width: 14px; height: 14px; border-radius: 4px; display: inline-block; }
+
+/* faq */
+details { border-bottom: 1px solid var(--line); padding-block: 18px; }
+summary { cursor: pointer; font-family: var(--font-display); font-size: 21px; font-weight: 700; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; color: var(--gold); font-size: 26px; line-height: 1; }
+details[open] summary::after { content: "–"; }
+details p { margin-top: 10px; color: var(--muted); max-width: 64ch; }
+
+footer { border-top: 1px solid var(--line); padding-block: 40px 56px; }
+.foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; align-items: center; }
+
+/* motion */
+@media (prefers-reduced-motion: no-preference) {
+  .twinkle { animation: tw 3.6s ease-in-out infinite; }
+  .twinkle:nth-child(3n) { animation-delay: 1.2s; }
+  .twinkle:nth-child(4n) { animation-delay: 2.1s; }
+  @keyframes tw { 50% { opacity: 0.25; } }
+  .shimmer { animation: sh 4.5s ease-in-out infinite; }
+  @keyframes sh { 50% { opacity: 0.55; transform: translateX(6px); } }
+  .glow { animation: gl 5s ease-in-out infinite; }
+  @keyframes gl { 50% { opacity: 0.75; } }
+}
+</style>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="Cabins by the Generals, home">
+      <svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="21" fill="#0B0B0B" stroke="#D9AE52" stroke-width="1.6"></circle><circle cx="22" cy="22" r="17" fill="none" stroke="#D9AE52" stroke-width="0.6"></circle><path d="M11 31 L22 11 L33 31" fill="none" stroke="#D9AE52" stroke-width="2.2" stroke-linejoin="round"></path><path d="M17 31 L22 22 L27 31" fill="none" stroke="#D9AE52" stroke-width="1.4"></path><line x1="9" y1="31" x2="35" y2="31" stroke="#D9AE52" stroke-width="1.6"></line></svg>
+      <span><b>Cabins by the Generals</b><small>Sariaya · Quezon</small></span>
+    </a>
+    <nav class="links" aria-label="Sections">
+      <a href="#cabins">Cabins</a><a href="#included">What's included</a><a href="#availability">Availability</a><a href="#rates">Rates</a><a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-gold" href="#book">Check dates</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" aria-label="Welcome">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Private A-frame cabins · Sariaya, Quezon</p>
+        <h1 style="margin-top:16px">Your own cabin. Your own pool. <em>All night.</em></h1>
+        <p class="lead">Modern A-frame cabins with a private pool each, a full kitchen, and enough tech for a barkada that never wants to sleep.</p>
+        <div class="ctas"><a class="btn btn-gold" href="#book">Check your date</a><a class="btn btn-line" href="#cabins">See the cabins</a></div>
+      </div>
+      <div class="scene-box">
+        <svg class="scene" viewBox="0 0 640 520" role="img" aria-label="An illustrated A-frame cabin glowing at night beside its private pool, with Mount Banahaw behind">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0A1520"></stop><stop offset="1" stop-color="#17302A"></stop></linearGradient>
+            <radialGradient id="warm" cx="50%" cy="60%" r="60%"><stop offset="0" stop-color="#FFD98A"></stop><stop offset="1" stop-color="#C97C2B"></stop></radialGradient>
+            <linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5FD3C6"></stop><stop offset="1" stop-color="#0F5A58"></stop></linearGradient>
+            <radialGradient id="halo" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFC970" stop-opacity="0.45"></stop><stop offset="1" stop-color="#FFC970" stop-opacity="0"></stop></radialGradient>
+            <clipPath id="frame"><rect x="0" y="0" width="640" height="520" rx="28"></rect></clipPath>
+          </defs>
+          <g clip-path="url(#frame)">
+            <rect width="640" height="520" fill="url(#sky)"></rect>
+            <g fill="#F4EFD8">
+              <circle class="twinkle" cx="60" cy="50" r="1.6"></circle><circle class="twinkle" cx="140" cy="90" r="1.2"></circle><circle class="twinkle" cx="220" cy="40" r="1.8"></circle><circle class="twinkle" cx="300" cy="80" r="1.1"></circle><circle class="twinkle" cx="380" cy="30" r="1.5"></circle><circle class="twinkle" cx="470" cy="70" r="1.3"></circle><circle class="twinkle" cx="560" cy="40" r="1.7"></circle><circle class="twinkle" cx="600" cy="110" r="1.1"></circle><circle class="twinkle" cx="40" cy="130" r="1.2"></circle><circle class="twinkle" cx="510" cy="130" r="1.4"></circle>
+            </g>
+            <circle cx="520" cy="96" r="26" fill="#F4EFD8" opacity="0.92"></circle>
+            <path d="M0 270 L120 190 L210 160 L300 120 L360 150 L430 170 L520 210 L640 250 L640 520 L0 520 Z" fill="#132820"></path>
+            <path d="M0 300 L90 260 L180 250 L260 230 L340 250 L430 240 L540 270 L640 280 L640 520 L0 520 Z" fill="#0F211A"></path>
+            <g fill="#0B1712"><path d="M40 330 l14 -60 l14 60z"></path><path d="M70 340 l18 -78 l18 78z"></path><path d="M560 330 l16 -70 l16 70z"></path><path d="M590 345 l18 -82 l18 82z"></path><path d="M20 352 l12 -48 l12 48z"></path></g>
+            <ellipse class="glow" cx="300" cy="300" rx="200" ry="150" fill="url(#halo)"></ellipse>
+            <path d="M170 390 L300 150 L430 390 Z" fill="#1B1B1B"></path>
+            <path d="M196 390 L300 198 L404 390 Z" fill="url(#warm)"></path>
+            <g stroke="#2B1A08" stroke-width="2.5" opacity="0.55"><line x1="300" y1="198" x2="300" y2="390"></line><line x1="236" y1="316" x2="364" y2="316"></line><line x1="262" y1="268" x2="338" y2="268"></line></g>
+            <rect x="250" y="330" width="100" height="56" rx="4" fill="#20140A" opacity="0.35"></rect>
+            <rect x="262" y="338" width="76" height="40" rx="3" fill="#5FD3C6" opacity="0.55"></rect>
+            <path d="M150 392 L450 392 L460 404 L140 404 Z" fill="#2A2A28"></path>
+            <rect x="120" y="410" width="400" height="72" rx="10" fill="url(#water)"></rect>
+            <g class="shimmer" stroke="#CFF6F0" stroke-width="2" stroke-linecap="round" opacity="0.8"><line x1="150" y1="430" x2="200" y2="430"></line><line x1="240" y1="446" x2="320" y2="446"></line><line x1="360" y1="432" x2="420" y2="432"></line><line x1="180" y1="462" x2="240" y2="462"></line><line x1="400" y1="458" x2="470" y2="458"></line></g>
+            <path d="M230 416 L300 420 L370 416" stroke="#FFD98A" stroke-width="3" fill="none" opacity="0.6"></path>
+            <g fill="#D9AE52"><circle cx="110" cy="404" r="5"></circle><circle cx="530" cy="404" r="5"></circle></g>
+            <g stroke="#3A2A15" stroke-width="3"><line x1="110" y1="404" x2="110" y2="430"></line><line x1="530" y1="404" x2="530" y2="430"></line></g>
+            <rect x="0" y="482" width="640" height="38" fill="#0B1712"></rect>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="facts">
+        <div><b>Private pool</b><span>One for each cabin</span></div>
+        <div><b>Full kitchen</b><span>Free gasul and purified water</span></div>
+        <div><b>No corkage</b><span>Bring your own drinks</span></div>
+        <div><b>4 PM – 12 NN</b><span>Check-in to check-out</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cabins" aria-labelledby="cabins-h">
+    <div class="wrap">
+      <div class="head"><div><p class="eyebrow">The cabins</p><h2 id="cabins-h" style="margin-top:12px">Pick your kind of night</h2></div><p class="muted">Each cabin is fully private with its own pool. Book one, or combine cabins for bigger groups.</p></div>
+      <div class="cabins">
+        <article class="cabin">
+          <svg viewBox="0 0 400 220" role="img" aria-label="Cabin 1 illustration: a glowing glass A-frame with a big screen and game controller">
+            <rect width="400" height="220" fill="#0E1C17"></rect>
+            <path d="M110 200 L200 40 L290 200 Z" fill="#202A27"></path>
+            <path d="M128 200 L200 72 L272 200 Z" fill="#7BD7F0" opacity="0.18"></path>
+            <rect x="160" y="128" width="80" height="46" rx="4" fill="#0B1224" stroke="#5FD3C6" stroke-width="2"></rect>
+            <path d="M178 160 q22 -24 44 0" stroke="#D9AE52" stroke-width="3" fill="none"></path>
+            <g transform="translate(300 150)"><rect x="-26" y="-12" width="52" height="24" rx="12" fill="#D9AE52"></rect><circle cx="-12" cy="0" r="4" fill="#17110A"></circle><circle cx="12" cy="-3" r="2.5" fill="#17110A"></circle><circle cx="17" cy="2" r="2.5" fill="#17110A"></circle></g>
+            <g transform="translate(86 140)" stroke="#F1D58F" stroke-width="3" fill="none"><path d="M0 0 v28"></path><circle cx="0" cy="-8" r="9"></circle></g>
+            <rect x="0" y="200" width="400" height="20" fill="#5FD3C6" opacity="0.7"></rect>
+          </svg>
+          <div class="body">
+            <span class="tag">Cabin 1</span>
+            <h3>The Ultimate Indoor Entertainment Suite</h3>
+            <p class="pax">Good for up to 14 guests</p>
+            <ul><li>PS5 on a 65" 4K TV, plus streaming</li><li>Videoke and board games</li><li>Jacuzzi bathtub and outdoor private pool</li><li>Gourmet kitchen and griller</li></ul>
+            <p class="quote">Sound-insulated glass cabin kaya walang quiet time. Videoke hanggang umaga! 🎤</p>
+          </div>
+        </article>
+        <article class="cabin">
+          <svg viewBox="0 0 400 220" role="img" aria-label="Cabin 2 illustration: an A-frame facing a huge outdoor screen with a bonfire">
+            <rect width="400" height="220" fill="#0E1C17"></rect>
+            <rect x="200" y="36" width="170" height="100" rx="4" fill="#E9F3FF" opacity="0.9"></rect>
+            <rect x="210" y="46" width="150" height="80" fill="#12324A"></rect>
+            <path d="M226 110 l26 -34 l20 22 l16 -14 l32 26 z" fill="#5FD3C6" opacity="0.8"></path>
+            <line x1="214" y1="136" x2="214" y2="200" stroke="#2B3A35" stroke-width="5"></line><line x1="356" y1="136" x2="356" y2="200" stroke="#2B3A35" stroke-width="5"></line>
+            <path d="M30 200 L100 70 L170 200 Z" fill="#202A27"></path>
+            <path d="M48 200 L100 104 L152 200 Z" fill="#E7A645" opacity="0.8"></path>
+            <g transform="translate(186 196)"><path d="M-12 0 q12 -30 24 0z" fill="#F0B84A"></path><path d="M-6 0 q6 -16 12 0z" fill="#FFE2A0"></path></g>
+            <rect x="0" y="200" width="400" height="20" fill="#5FD3C6" opacity="0.7"></rect>
+          </svg>
+          <div class="body">
+            <span class="tag">Cabin 2</span>
+            <h3>The Fresco Cinema</h3>
+            <p class="pax">Good for up to 14 guests</p>
+            <ul><li>200" outdoor cinema under the stars</li><li>Videoke</li><li>Jacuzzi pool</li><li>Griddle, dual griller and bonfire pit</li></ul>
+            <p class="quote">Movie night, poolside. Bring the popcorn, kami na sa screen. 🎬</p>
+          </div>
+        </article>
+        <article class="cabin">
+          <svg viewBox="0 0 400 220" role="img" aria-label="Cabin 3 illustration: a large premium A-frame with a wide pool">
+            <rect width="400" height="220" fill="#0E1C17"></rect>
+            <path d="M80 200 L200 22 L320 200 Z" fill="#1B1B1B"></path>
+            <path d="M100 200 L200 52 L300 200 Z" fill="#D9AE52" opacity="0.85"></path>
+            <g stroke="#2B1A08" stroke-width="2.5" opacity="0.5"><line x1="200" y1="52" x2="200" y2="200"></line><line x1="140" y1="140" x2="260" y2="140"></line><line x1="166" y1="102" x2="234" y2="102"></line></g>
+            <path d="M190 30 l4 -10 l4 10 l10 1 l-8 6 l3 10 l-9 -6 l-9 6 l3 -10 l-8 -6 z" fill="#F1D58F"></path>
+            <rect x="0" y="200" width="400" height="20" fill="#5FD3C6" opacity="0.7"></rect>
+          </svg>
+          <div class="body">
+            <span class="tag">Cabin 3 · Premium</span>
+            <h3>The Flagship</h3>
+            <p class="pax">Our biggest cabin, for up to 18 guests</p>
+            <ul><li>Premium finishes and the most space</li><li>Private pool</li><li>Pairs with Cabin 2 for groups up to 20</li></ul>
+            <p class="quote">Message us for Cabin 3 dates and rates. 🌿</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="moments" aria-labelledby="moments-h">
+    <div class="wrap">
+      <div class="head"><div><p class="eyebrow">Made for</p><h2 id="moments-h" style="margin-top:12px">The nights people talk about</h2></div></div>
+      <div class="mgrid">
+        <div><h3>Barkada reunions</h3><p>Videoke until morning, games, and a pool to yourselves. No neighbors to worry about.</p></div>
+        <div><h3>Family birthdays</h3><p>A full kitchen for the handaan, space for the lola and the kids, and no corkage fee.</p></div>
+        <div><h3>Couples' getaways</h3><p>A private pool, a movie under the stars, and nowhere you need to be until noon.</p></div>
+        <div><h3>Team outings</h3><p>Book cabins together for groups up to 24, with a billiard pavilion for the competitive ones.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="included" aria-labelledby="inc-h">
+    <div class="wrap incl">
+      <div>
+        <p class="eyebrow">What's included</p>
+        <h2 id="inc-h" style="margin-top:12px">Just bring the food and the people</h2>
+        <p class="muted" style="margin-top:18px;max-width:40ch">Everything for cooking, swimming and staying up late is already there. No surprise fees.</p>
+        <div class="times"><div class="time"><b>4:00 PM</b><span>Check-in</span></div><div class="time"><b>12:00 NN</b><span>Check-out</span></div></div>
+      </div>
+      <div class="ilist">
+        <div><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#5FD3C6" stroke-width="1.8" stroke-linecap="round"><path d="M3 15c2 1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0M3 19c2 1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0M7 12V4m10 8V4M7 7h10"></path></svg><span><b>Private pool</b>Yours alone, per cabin</span></div>
+        <div><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#5FD3C6" stroke-width="1.8" stroke-linecap="round"><path d="M4 11h16v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM8 11V7a4 4 0 0 1 8 0v4"></path></svg><span><b>Complete kitchenware</b>Pots, pans, plates, utensils</span></div>
+        <div><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#5FD3C6" stroke-width="1.8" stroke-linecap="round"><path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z"></path></svg><span><b>Free gasul and purified water</b>Cook as much as you like</span></div>
+        <div><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#5FD3C6" stroke-width="1.8" stroke-linecap="round"><path d="M8 3h8l-1 7a3 3 0 0 1-6 0zM12 13v8M8 21h8"></path></svg><span><b>No corkage fee</b>Bring your own drinks</span></div>
+        <div><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#5FD3C6" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="12" r="3"></circle><circle cx="16" cy="12" r="3"></circle><path d="M3 20h18"></path></svg><span><b>Billiard pavilion</b>Shared, for every guest</span></div>
+        <div><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#5FD3C6" stroke-width="1.8" stroke-linecap="round"><path d="M9 18V6l10-2v12M9 10l10-2"></path><circle cx="6" cy="18" r="3"></circle><circle cx="16" cy="16" r="3"></circle></svg><span><b>Videoke</b>In every cabin</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="rates" class="rates" aria-labelledby="rates-h">
+    <div class="wrap">
+      <div class="head"><div><p class="eyebrow">Rates</p><h2 id="rates-h" style="margin-top:12px">Simple nightly rates</h2></div><p class="muted">Per night, for the whole cabin. Weeknights are the best value.</p></div>
+      <div class="rbox">
+        <table class="rtable">
+          <thead><tr><th scope="col">Stay</th><th scope="col">Guests</th><th scope="col">Sun – Thu</th><th scope="col">Fri – Sat</th></tr></thead>
+          <tbody>
+            <tr><td><b>Cabin 2</b> · Fresco Cinema</td><td>up to 14</td><td class="price">₱7,900</td><td class="price">₱10,270</td></tr>
+            <tr><td><b>Cabin 1</b> · Entertainment Suite</td><td>up to 14</td><td class="price">₱8,900</td><td class="price">₱11,570</td></tr>
+            <tr><td><b>Cabins 2 + 3</b></td><td>up to 20</td><td class="price">₱13,500</td><td class="price">₱16,875</td></tr>
+            <tr><td><b>Cabins 1 + 2</b></td><td>up to 24</td><td class="price">₱15,900</td><td class="price">₱19,875</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Reserve your date with a ₱2,000 reservation fee. Holiday rates apply from December 12 to January 15. Message us for direct-booking rates.</p>
+    </div>
+  </section>
+
+  <section id="availability" aria-labelledby="av-h" style="padding-top:0">
+    <div class="wrap avail">
+      <div>
+        <p class="eyebrow">Availability</p>
+        <h2 id="av-h" style="margin-top:12px">See which nights are still open</h2>
+        <p class="muted" style="margin-top:18px;max-width:40ch">This calendar updates from our booking system. Tap an open night to start your inquiry. Weekends and holidays fill up first.</p>
+        <p class="muted" id="avStatus" style="margin-top:14px;font-size:14px"></p>
+      </div>
+      <div class="cal">
+        <div class="cal-tabs" role="group" aria-label="Choose a cabin">
+          <button type="button" data-cab="Cabin 1" aria-pressed="true">Cabin 1</button>
+          <button type="button" data-cab="Cabin 2" aria-pressed="false">Cabin 2</button>
+          <button type="button" data-cab="Cabin 3" aria-pressed="false">Cabin 3</button>
+          <button type="button" data-cab="Cabin 1+Cabin 2" aria-pressed="false">Cabins 1 + 2</button>
+          <button type="button" data-cab="Cabin 2+Cabin 3" aria-pressed="false">Cabins 2 + 3</button>
+        </div>
+        <div class="cal-head"><button type="button" id="prevM" aria-label="Previous month">‹</button><b id="mName" aria-live="polite"></b><button type="button" id="nextM" aria-label="Next month">›</button></div>
+        <div class="grid7" id="calGrid"></div>
+        <div class="legend"><span><i class="sw" style="background:rgba(95,211,198,0.25);border:1.5px solid rgba(95,211,198,0.6)"></i>Open: tap to inquire</span><span><i class="sw" style="background:rgba(255,255,255,0.06)"></i>Booked</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="book" aria-labelledby="book-h">
+    <div class="wrap book">
+      <div>
+        <p class="eyebrow">Check your date</p>
+        <h2 id="book-h" style="margin-top:12px">Tell us your plan, we'll reply fast</h2>
+        <p class="muted" style="margin-top:18px;max-width:40ch">Fill this in and we'll write the message for you. Copy it and send it to us on Messenger, or book instantly on Airbnb.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:26px">
+          <a class="btn btn-line" href="https://www.airbnb.com/rooms/1668741995292624618" target="_blank" rel="noopener">Book Cabins 1 + 2 on Airbnb</a>
+          <a class="btn btn-line" href="https://www.airbnb.com/rooms/1784785119302977307" target="_blank" rel="noopener">Book Cabins 2 + 3 on Airbnb</a>
+        </div>
+      </div>
+      <form id="inq" novalidate>
+        <div class="f"><label for="ci">Check-in</label><input id="ci" type="date"></div>
+        <div class="f"><label for="co">Check-out</label><input id="co" type="date"></div>
+        <div class="f"><label for="pax">Guests</label><input id="pax" type="number" min="1" max="24" value="10"></div>
+        <div class="f"><label for="cab">Cabin</label><select id="cab"><option>Cabin 1 · Entertainment Suite</option><option>Cabin 2 · Fresco Cinema</option><option>Cabin 3 · Flagship</option><option>Cabins 1 + 2</option><option>Cabins 2 + 3</option><option>Not sure yet</option></select></div>
+        <div class="f full"><label for="occ">What's the occasion?</label><select id="occ"><option>Barkada staycation</option><option>Family birthday</option><option>Couple getaway</option><option>Team outing</option><option>Just relaxing</option></select></div>
+        <div class="msg" id="msg" aria-live="polite"></div>
+        <div class="frow"><button type="button" class="btn btn-gold" id="copy">Copy my message</button><a class="btn btn-line" href="https://www.facebook.com/share/164L1d4j1f/" target="_blank" rel="noopener">Open our Facebook page</a><span class="muted" style="align-self:center;font-size:14px;flex-basis:100%">Copy your message, then send it to us on Messenger.</span></div>
+      </form>
+    </div>
+  </section>
+
+  <section id="faq" aria-labelledby="faq-h" style="padding-top:0">
+    <div class="wrap" style="max-width:860px">
+      <p class="eyebrow">Questions</p>
+      <h2 id="faq-h" style="margin-top:12px;margin-bottom:20px">Good to know</h2>
+      <details><summary>How do I reserve my date?</summary><p>Message us your date and number of guests. We'll confirm availability and send payment details. A ₱2,000 reservation fee holds your date.</p></details>
+      <details><summary>Is there a quiet time?</summary><p>Not in Cabin 1. It's a sound-insulated glass cabin, kaya pwede ang videoke hanggang umaga.</p></details>
+      <details><summary>Can we bring our own food and drinks?</summary><p>Yes. Every cabin has complete kitchenware, free gasul and purified water, and there's no corkage fee.</p></details>
+      <details><summary>What time is check-in and check-out?</summary><p>Check-in is at 4:00 PM and check-out at 12:00 noon.</p></details>
+      <details><summary>We're a big group. Can we book more than one cabin?</summary><p>Yes. Cabins 1 + 2 fit up to 24 guests, and Cabins 2 + 3 up to 20. Message us for whole-property bookings.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="brand" style="margin:0"><span><b>Cabins by the Generals</b><small>Modern A-frame cabins · Sariaya, Quezon</small></span></div>
+    <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="https://www.google.com/maps/search/?api=1&query=Cabins+by+the+Generals+Sariaya+Quezon" target="_blank" rel="noopener">Get directions</a><a href="#book">Check your date</a><a href="https://www.facebook.com/share/164L1d4j1f/" target="_blank" rel="noopener">Facebook</a></div>
+  </div>
+</footer>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  function fmt(v) {
+    if (!v) return "";
+    var d = new Date(v + "T00:00:00");
+    return d.toLocaleDateString("en-PH", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+  }
+  function build() {
+    var ci = $("ci").value, co = $("co").value, nights = "";
+    if (ci && co) { var n = Math.round((new Date(co) - new Date(ci)) / 864e5); if (n > 0) nights = " (" + n + " night" + (n > 1 ? "s" : "") + ")"; }
+    var t = "Hi CBTG! 🌿\nPa-check po ng availability:\n" +
+      "• Check-in: " + (fmt(ci) || "[date]") + "\n" +
+      "• Check-out: " + (fmt(co) || "[date]") + nights + "\n" +
+      "• Guests: " + ($("pax").value || "[number]") + " pax\n" +
+      "• Cabin: " + $("cab").value + "\n" +
+      "• Occasion: " + $("occ").value + "\n" +
+      "Salamat po!";
+    $("msg").textContent = t;
+    return t;
+  }
+  ["ci", "co", "pax", "cab", "occ"].forEach(function (id) { $(id).addEventListener("input", build); $(id).addEventListener("change", build); });
+  try {
+    var d = new Date(); d.setDate(d.getDate() + 14); while (d.getDay() !== 5) d.setDate(d.getDate() + 1);
+    var iso = function (x) { return x.toISOString().slice(0, 10); };
+    $("ci").value = iso(d); var e = new Date(d); e.setDate(e.getDate() + 1); $("co").value = iso(e);
+  } catch (err) {}
+  build();
+  var tt;
+  function toast(m) { var el = $("toast"); el.textContent = m; el.hidden = false; clearTimeout(tt); tt = setTimeout(function () { el.hidden = true; }, 2800); }
+  $("copy").addEventListener("click", function () {
+    var t = build();
+    try {
+      navigator.clipboard.writeText(t).then(function () { toast("Copied. Paste it in Messenger 🌿"); }, sel);
+    } catch (e) { sel(); }
+    function sel() { var r = document.createRange(); r.selectNodeContents($("msg")); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); toast("Message selected. Copy it, then send it on Messenger."); }
+  });
+  $("inq").addEventListener("submit", function (e) { e.preventDefault(); });
+  /* ---------- live availability ---------- */
+  var FEED = "https://fnebydfckdqgigtfhjfk.supabase.co/functions/v1/cbtg-calendar/availability.json";
+  var AV = { booked: {} }, live = false, failed = false, cab = "Cabin 1";
+  var now = new Date(); var view = new Date(now.getFullYear(), now.getMonth(), 1);
+  var first = new Date(now.getFullYear(), now.getMonth(), 1);
+  var MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  function isoOf(d) { var m = d.getMonth() + 1, x = d.getDate(); return d.getFullYear() + "-" + (m < 10 ? "0" : "") + m + "-" + (x < 10 ? "0" : "") + x; }
+  function bookedSet() {
+    var s = {}; cab.split("+").forEach(function (c) { (AV.booked[c] || []).forEach(function (d) { s[d] = 1; }); }); return s;
+  }
+  function status() {
+    if (failed) { $("avStatus").textContent = "We couldn't load the calendar right now. Message us on Facebook and we'll check your date."; return; }
+    if (!live) { $("avStatus").textContent = "Loading the latest dates…"; return; }
+    var t = new Date(AV.updated);
+    $("avStatus").textContent = "Live · updated " + t.toLocaleString("en-PH", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  }
+  function draw() {
+    var grid = $("calGrid"), y = view.getFullYear(), m = view.getMonth(), b = bookedSet(), today = isoOf(now), h = "";
+    ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(function (w) { h += '<div class="dow">' + w + "</div>"; });
+    var start = new Date(y, m, 1).getDay(), days = new Date(y, m + 1, 0).getDate();
+    for (var i = 0; i < start; i++) h += "<div></div>";
+    for (var d = 1; d <= days; d++) {
+      var iso = isoOf(new Date(y, m, d));
+      if (!live) h += '<div class="dcell past" aria-label="' + iso + ', loading">' + d + "</div>";
+      else if (iso < today) h += '<div class="dcell past" aria-label="' + iso + ', past">' + d + "</div>";
+      else if (b[iso]) h += '<div class="dcell booked" aria-label="' + iso + ', booked">' + d + "<small>booked</small></div>";
+      else h += '<button type="button" class="dcell' + ($("ci").value === iso && $("cab").value === CAB_OPT[cab] ? " sel" : "") + '" data-day="' + iso + '" aria-label="' + iso + ', open. Start an inquiry">' + d + "</button>";
+    }
+    grid.innerHTML = h;
+    $("mName").textContent = MONTHS[m] + " " + y;
+    $("prevM").disabled = view <= first;
+    $("nextM").disabled = (view.getFullYear() - first.getFullYear()) * 12 + view.getMonth() - first.getMonth() >= 12;
+  }
+  var CAB_OPT = { "Cabin 1": "Cabin 1 · Entertainment Suite", "Cabin 2": "Cabin 2 · Fresco Cinema", "Cabin 3": "Cabin 3 · Flagship", "Cabin 1+Cabin 2": "Cabins 1 + 2", "Cabin 2+Cabin 3": "Cabins 2 + 3" };
+  $("calGrid").addEventListener("click", function (e) {
+    var t = e.target.closest("[data-day]"); if (!t) return;
+    var d = new Date(t.getAttribute("data-day") + "T00:00:00"), n = new Date(d); n.setDate(n.getDate() + 1);
+    $("ci").value = isoOf(d); $("co").value = isoOf(n); $("cab").value = CAB_OPT[cab]; build(); draw();
+    toast("Date added to your inquiry below 🌿");
+    document.getElementById("book").scrollIntoView({ behavior: "smooth" });
+  });
+  document.querySelectorAll(".cal-tabs button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      cab = b.getAttribute("data-cab");
+      document.querySelectorAll(".cal-tabs button").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      draw();
+    });
+  });
+  $("prevM").addEventListener("click", function () { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); draw(); });
+  $("nextM").addEventListener("click", function () { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); draw(); });
+  status(); draw();
+  try {
+    fetch(FEED, { cache: "no-store" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      if (j && j.booked) { AV = j; live = true; status(); draw(); } else { failed = true; status(); }
+    }).catch(function () { failed = true; status(); });
+  } catch (e) {}
+
+})();
+</script>
