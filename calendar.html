@@ -162,7 +162,8 @@ footer a{color:var(--forest);font-weight:700}
     var open = CABINS.filter(function (c) { return !isBooked(c.key, sel); });
     var rows = CABINS.map(function (c) {
       var b = isBooked(c.key, sel);
-      return '<div class="row"><i class="sw" style="background:' + c.color + '"></i><b>' + esc(c.name) + '<br><span class="small muted" style="font-weight:500">' + c.pax + '</span></b><span class="tag ' + (b ? "booked" : "open") + '">' + (b ? "Booked" : "Open") + "</span></div>";
+      var tag = !live ? '<span class="tag booked">Ask us</span>' : '<span class="tag ' + (b ? "booked" : "open") + '">' + (b ? "Booked" : "Open") + "</span>";
+      return '<div class="row"><i class="sw" style="background:' + c.color + '"></i><b>' + esc(c.name) + '<br><span class="small muted" style="font-weight:500">' + c.pax + '</span></b>' + tag + "</div>";
     }).join("");
     var hol = HOL[sel] ? '<p class="small" style="color:var(--red);font-weight:700">' + esc(HOL[sel]) + "</p>" : "";
     el.innerHTML = '<h2>' + esc(nice(sel, { weekday: "short", month: "long", day: "numeric" })) + ' night</h2>' + hol +
@@ -176,7 +177,7 @@ footer a{color:var(--forest);font-weight:700}
     if (ask) ask.onclick = function () {
       var msg = "Hi CBTG! 🌿 Pa-check po ng availability:\n• Check-in: " + nice(sel, { weekday: "short", month: "short", day: "numeric", year: "numeric" }) +
         "\n• Check-out: " + nice(iso(out), { weekday: "short", month: "short", day: "numeric", year: "numeric" }) +
-        "\n• Open cabins: " + open.map(function (c) { return c.key; }).join(", ") + "\n• Ilang pax: \nSalamat po!";
+        (live ? "\n• Open cabins: " + open.map(function (c) { return c.key; }).join(", ") : "") + "\n• Ilang pax: \nSalamat po!";
       var go = function () { window.open(FB, "_blank", "noopener"); };
       try { navigator.clipboard.writeText(msg).then(function () { toast("Message copied — paste it in Messenger 🌿"); setTimeout(go, 700); }, go); }
       catch (e) { go(); }
@@ -187,7 +188,7 @@ footer a{color:var(--forest);font-weight:700}
   function toast(m) { var el = $("toast"); el.textContent = m; el.hidden = false; clearTimeout(tt); tt = setTimeout(function () { el.hidden = true; }, 2600); }
 
   $("grid").addEventListener("click", function (e) {
-    var b = e.target.closest("[data-d]"); if (!b || b.disabled || !live) return;
+    var b = e.target.closest("[data-d]"); if (!b || b.disabled) return;
     sel = b.getAttribute("data-d"); draw(); detail();
     $("detail").scrollIntoView({ behavior: "smooth", block: "nearest" });
   });
