@@ -66,6 +66,27 @@ button.btn{font:inherit;font-weight:800;font-size:1.05rem;border-radius:14px;bor
 .next .d{font-weight:800;min-width:92px}
 .next .d.today{color:var(--bad)}
 .next .w{flex:1;min-width:0}
+.whobtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;border-radius:14px;border:1.5px solid var(--forest);background:var(--surface);color:var(--forest);font:inherit;font-weight:800;font-size:1.05rem;cursor:pointer}
+.whobtn small{font-weight:600;color:var(--muted);font-size:.8rem}
+.days{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;margin:0 -2px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.days button{flex:none;scroll-snap-align:start;min-width:64px;min-height:60px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 10px;position:relative}
+.days button b{font-size:1.15rem;line-height:1.1}
+.days button span{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.days button.on{background:var(--forest);border-color:var(--forest);color:var(--forest-ink)}
+.days button.on span{color:var(--forest-ink)}
+.days button i{position:absolute;top:4px;right:5px;width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.days button.on i{background:var(--forest-ink)}
+.sum{font-weight:700}
+.wcab{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.wcab .cn{font-weight:800;font-size:1.1rem}
+.ev{display:flex;flex-direction:column;gap:2px;padding-top:10px;border-top:1px solid var(--line)}
+.ev:first-of-type{border-top:0;padding-top:0}
+.ev .k{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.ev .k.in{color:var(--ok)}
+.ev .k.out{color:var(--bad)}
+.ev .k.stay{color:var(--warn)}
+.ev .g{font-weight:700;font-size:1.05rem}
+.free{color:var(--muted)}
 .progress{height:10px;border-radius:5px;background:var(--chip);overflow:hidden}
 .progress > div{height:100%;background:var(--forest);width:0;transition:width .2s}
 .list{display:flex;flex-direction:column;gap:8px}
@@ -88,7 +109,7 @@ const API = 'https://fnebydfckdqgigtfhjfk.supabase.co/rest/v1/rpc/';
 const KEY = 'sb_publishable_PLLPO77LyLTlHHQr1yF23Q_Y27vUAO1';
 const STORE = 'cbtg-staff-v1';
 
-const state = { pin: null, me: null, data: null, cabin: null, ticks: {}, note: '', msg: null, busy: false, done: null };
+const state = { pin: null, me: null, data: null, cabin: null, ticks: {}, note: '', msg: null, busy: false, done: null, who: false, whoDate: null };
 const app = document.getElementById('app');
 
 function load() {
@@ -151,6 +172,7 @@ function msgHtml() {
 function render() {
   if (!state.me) return renderLogin();
   if (state.done) return renderDone();
+  if (state.who) return renderWho();
   if (state.cabin) return renderChecklist();
   return renderCabins();
 }
@@ -172,13 +194,21 @@ function renderLogin() {
   f.onsubmit = (e) => { e.preventDefault(); if (pin.value.trim()) login(pin.value.trim()); };
 }
 
+// New app versions send every stay for the next 30 days (marked s:1), with the
+// next 3 arrivals flagged; older versions sent just the next 3.
+const isSchedule = (list) => list.some((b) => b && b.s);
+const nextOf = (list) => (isSchedule(list) ? list.filter((b) => b.next) : list);
+const addDaysIso = (iso, n) => { const d = new Date(iso + 'T00:00:00'); d.setDate(d.getDate() + n); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+const paxText = (g) => (g ? g + '&nbsp;guest' + (g === 1 ? '' : 's') : '');
+
 function nextHtml(list, today) {
+  list = nextOf(list);
   if (!list.length) return '';
   const day = (iso) => new Date(iso + 'T00:00:00').toLocaleDateString('en-PH', { weekday: 'short', month: 'short', day: 'numeric' });
   return `<section class="card next" aria-label="Next bookings"><h2>Next bookings</h2><ol>${list.map((b) => {
     const isToday = b.checkIn === today;
     const g = Number(b.guests) || 0;
-    return `<li><span class="d${isToday ? ' today' : ''}">${isToday ? 'TODAY' : esc(day(b.checkIn))}</span><span class="w">${esc((b.cabins || []).join(' + '))}<br><span class="small muted">${b.nights} night${b.nights === 1 ? '' : 's'} · out ${esc(day(b.checkOut))}${g ? ' · ' + g + '&nbsp;guest' + (g === 1 ? '' : 's') : ''}</span></span></li>`;
+    return `<li><span class="d${isToday ? ' today' : ''}">${isToday ? 'TODAY' : esc(day(b.checkIn))}</span><span class="w">${b.guest ? '<b>' + esc(b.guest) + '</b> · ' : ''}${esc((b.cabins || []).join(' + '))}<br><span class="small muted">${b.nights} night${b.nights === 1 ? '' : 's'} · out ${esc(day(b.checkOut))}${g ? ' · ' + g + '&nbsp;guest' + (g === 1 ? '' : 's') : ''}</span></span></li>`;
   }).join('')}</ol></section>`;
 }
 
@@ -192,6 +222,7 @@ function renderCabins() {
       <button class="link" id="out">Log out</button>
     </div>
     ${msgHtml()}
+    ${isSchedule(d.upcoming || []) ? '<button class="whobtn" id="who">📅 Who\'s coming <small>guests per cabin, by day</small></button>' : ''}
     ${nextHtml(d.upcoming || [], today)}
     <div class="cabins">
       ${cabins.map((c, i) => {
@@ -221,9 +252,64 @@ function renderCabins() {
       }).join('')}
     </div>
     <button class="btn secondary" id="ref">Refresh</button>`;
-  document.getElementById('out').onclick = () => { state.pin = null; state.me = null; state.data = null; save(); state.msg = null; render(); };
+  document.getElementById('out').onclick = () => { state.pin = null; state.me = null; state.data = null; state.who = false; save(); state.msg = null; render(); };
   document.getElementById('ref').onclick = () => refresh();
+  const who = document.getElementById('who');
+  if (who) who.onclick = () => { state.who = true; state.whoDate = state.whoDate || today; state.msg = null; render(); window.scrollTo(0, 0); };
   app.querySelectorAll('.cabin').forEach((b) => (b.onclick = () => { state.cabin = b.dataset.c; state.msg = null; render(); window.scrollTo(0, 0); }));
+}
+
+function renderWho() {
+  const d = state.data;
+  const today = todayIso();
+  const stays = (d.upcoming || []).filter((b) => b && b.s);
+  const cabins = d.cabins || [];
+  if (!state.whoDate || state.whoDate < today) state.whoDate = today;
+  const sel = state.whoDate;
+  const busy = (iso) => stays.some((b) => b.checkIn === iso || b.checkOut === iso);
+  const days = [];
+  for (let i = 0; i <= 30; i++) days.push(addDaysIso(today, i));
+  const chip = (iso, i) => {
+    const dt = new Date(iso + 'T00:00:00');
+    const top = i === 0 ? 'Today' : i === 1 ? 'Tmrw' : dt.toLocaleDateString('en-PH', { weekday: 'short' });
+    return '<button data-day="' + iso + '" class="' + (iso === sel ? 'on' : '') + '" aria-pressed="' + (iso === sel) + '" aria-label="' + esc(dt.toLocaleDateString('en-PH', { weekday: 'long', month: 'long', day: 'numeric' })) + '">' +
+      (busy(iso) ? '<i aria-hidden="true"></i>' : '') + '<span>' + top + '</span><b>' + dt.getDate() + '</b><span>' + dt.toLocaleDateString('en-PH', { month: 'short' }) + '</span></button>';
+  };
+  let ins = 0, outs = 0, pax = 0;
+  const cards = cabins.map((c, i) => {
+    const mine = stays.filter((b) => (b.cabins || []).includes(c));
+    const out = mine.filter((b) => b.checkOut === sel);
+    const stay = mine.filter((b) => b.checkIn <= sel && sel < b.checkOut);
+    const evs = [];
+    const who = (b) => '<span class="g">' + (b.guest ? esc(b.guest) : 'Guest') + '</span><span class="small muted">' +
+      [paxText(Number(b.guests) || 0), (b.cabins || []).length > 1 ? esc(b.cabins.join(' + ')) + ' booking' : ''].filter(Boolean).join(' · ') + '</span>';
+    out.forEach((b) => { outs++; evs.push('<div class="ev"><span class="k out">Check-out 12:00 NN</span>' + who(b) + '</div>'); });
+    stay.forEach((b) => {
+      const n = Math.round((new Date(sel + 'T00:00:00') - new Date(b.checkIn + 'T00:00:00')) / 86400000) + 1;
+      if (b.checkIn === sel) { ins++; pax += Number(b.guests) || 0; evs.push('<div class="ev"><span class="k in">Check-in 4:00 PM</span>' + who(b) + '<span class="small muted">' + b.nights + ' night' + (b.nights === 1 ? '' : 's') + ' · out ' + esc(new Date(b.checkOut + 'T00:00:00').toLocaleDateString('en-PH', { weekday: 'short', month: 'short', day: 'numeric' })) + '</span></div>'); }
+      else { pax += Number(b.guests) || 0; evs.push('<div class="ev"><span class="k stay">Staying · night ' + n + ' of ' + b.nights + '</span>' + who(b) + '</div>'); }
+    });
+    return '<div class="wcab" style="border-left-color:' + COLORS[i % COLORS.length] + '"><div class="cn">' + esc(c) + '</div>' +
+      (evs.length ? evs.join('') : '<div class="free">No guests — free tonight</div>') + '</div>';
+  }).join('');
+  const label = new Date(sel + 'T00:00:00').toLocaleDateString('en-PH', { weekday: 'long', month: 'long', day: 'numeric' });
+  const sum = [ins ? ins + ' check-in' + (ins === 1 ? '' : 's') : '', outs ? outs + ' check-out' + (outs === 1 ? '' : 's') : '', pax ? pax + ' guests tonight' : ''].filter(Boolean).join(' · ') || 'No guests';
+  app.innerHTML = `
+    <div class="top">
+      <div><p class="eyebrow">Who's coming</p><h1>${sel === today ? 'Today' : sel === addDaysIso(today, 1) ? 'Tomorrow' : esc(new Date(sel + 'T00:00:00').toLocaleDateString('en-PH', { weekday: 'short', month: 'short', day: 'numeric' }))}</h1></div>
+      <button class="link" id="back">‹ Cabins</button>
+    </div>
+    <div class="days" id="days" role="group" aria-label="Pick a day">${days.map(chip).join('')}</div>
+    <p class="sum">${esc(label)}<br><span class="small muted" style="font-weight:600">${sum}</span></p>
+    <div class="cabins">${cards}</div>
+    <p class="small muted">A dot on a day means guests check in or out. Check-in 4:00 PM · Check-out 12:00 NN.</p>
+    <button class="btn secondary" id="ref">Refresh</button>`;
+  document.getElementById('back').onclick = () => { state.who = false; render(); window.scrollTo(0, 0); };
+  document.getElementById('ref').onclick = () => refresh();
+  const strip = document.getElementById('days');
+  strip.querySelectorAll('button').forEach((b) => (b.onclick = () => { const x = strip.scrollLeft; state.whoDate = b.dataset.day; render(); document.getElementById('days').scrollLeft = x; }));
+  const on = strip.querySelector('.on');
+  if (on && strip.scrollLeft === 0) on.scrollIntoView({ block: 'nearest', inline: 'center' });
 }
 
 function renderChecklist() {
