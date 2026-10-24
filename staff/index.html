@@ -74,6 +74,7 @@ button.btn{font:inherit;font-weight:800;font-size:1.05rem;border-radius:14px;bor
 .ocular li:first-child{border-top:0;padding-top:2px}
 .ocular .t{font-weight:800;color:#2A78D6}
 .ocular a{color:var(--forest);font-weight:800}
+.backbtn{flex:none;font:inherit;font-weight:800;font-size:1rem;color:var(--forest);background:var(--surface);border:2px solid var(--forest);border-radius:999px;min-height:44px;padding:0 16px;cursor:pointer}
 .whobtn small{font-weight:600;color:var(--muted);font-size:.8rem}
 .days{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;margin:0 -2px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
 .days button{flex:none;scroll-snap-align:start;min-width:64px;min-height:60px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 10px;position:relative}
@@ -187,13 +188,30 @@ function msgHtml() {
   return '<p class="' + (state.msg.kind === 'error' ? 'error' : 'notice') + '" role="status">' + esc(state.msg.text) + '</p>';
 }
 
+// Back navigation: every inner screen (checklist, Who's coming, supplies, done) adds one
+// history step, so the phone's Back button / swipe returns to the cabins list instead of
+// leaving the page. The on-screen "‹ Back" buttons do the same.
+const inSub = () => !!(state.me && (state.done || state.who || state.stock || state.cabin));
+function goHome() { state.done = null; state.who = false; state.stock = false; state.cabin = null; state.msg = null; render(); window.scrollTo(0, 0); }
+function goBack() { if (history.state && history.state.cbtgSub) history.back(); else goHome(); }
+window.addEventListener('popstate', () => { if (inSub()) goHome(); });
+
 function render() {
+  const marked = !!(history.state && history.state.cbtgSub);
+  if (inSub() && !marked) history.pushState({ cbtgSub: 1 }, '');
+  else if (!inSub() && marked) history.back(); // back on the main list by a button: drop the extra step
   if (!state.me) return renderLogin();
   if (state.done) return renderDone();
-  if (state.who) return renderWho();
-  if (state.stock) return renderStock();
-  if (state.cabin) return renderChecklist();
+  if (state.who) return addBottomBack(renderWho());
+  if (state.stock) return addBottomBack(renderStock());
+  if (state.cabin) return addBottomBack(renderChecklist());
   return renderCabins();
+}
+function addBottomBack() {
+  const b = document.createElement('button');
+  b.className = 'btn secondary'; b.type = 'button'; b.textContent = '‹ Back to cabins';
+  b.onclick = goBack;
+  app.appendChild(b);
 }
 
 function renderLogin() {
@@ -323,7 +341,7 @@ function renderStock() {
   app.innerHTML = `
     <div class="top">
       <div><p class="eyebrow">${esc(state.me)} · supply count</p><h1>Stock check</h1></div>
-      <button class="link" id="back">‹ Cabins</button>
+      <button class="backbtn" id="back" aria-label="Back to cabins">‹ Back</button>
     </div>
     ${msgHtml()}
     <p class="small muted">Count what's in the supply room now. Type the number or use − / +. "About" is the app's estimate — if yours is very different, count again.</p>
@@ -345,7 +363,7 @@ function renderStock() {
     <div class="sticky">
       <button class="btn primary" id="ssend" ${!all || state.busy ? 'disabled' : ''}>${state.busy ? 'Sending…' : all ? 'Submit count' : 'Count every item first (' + (items.length - filled) + ' left)'}</button>
     </div>`;
-  document.getElementById('back').onclick = () => { state.stock = false; state.msg = null; render(); };
+  document.getElementById('back').onclick = goBack;
   document.getElementById('snote').oninput = (e) => { state.stockNote = e.target.value; };
   const keep = (fn) => { const y = window.scrollY; fn(); renderStock(); window.scrollTo(0, y); };
   app.querySelectorAll('.step').forEach((b) => (b.onclick = () => keep(() => {
@@ -414,7 +432,7 @@ function renderWho() {
   app.innerHTML = `
     <div class="top">
       <div><p class="eyebrow">Who's coming</p><h1>${sel === today ? 'Today' : sel === addDaysIso(today, 1) ? 'Tomorrow' : esc(new Date(sel + 'T00:00:00').toLocaleDateString('en-PH', { weekday: 'short', month: 'short', day: 'numeric' }))}</h1></div>
-      <button class="link" id="back">‹ Cabins</button>
+      <button class="backbtn" id="back" aria-label="Back to cabins">‹ Back</button>
     </div>
     <div class="days" id="days" role="group" aria-label="Pick a day">${days.map(chip).join('')}</div>
     <p class="sum">${esc(label)}<br><span class="small muted" style="font-weight:600">${sum}${visitsOn(d, sel).length ? ' · ' + visitsOn(d, sel).length + ' ocular visit' + (visitsOn(d, sel).length === 1 ? '' : 's') : ''}</span></p>
@@ -422,7 +440,7 @@ function renderWho() {
     <div class="cabins">${cards}</div>
     <p class="small muted">A dot on a day means guests check in or out, or someone comes to see the place. Check-in 4:00 PM · Check-out 12:00 NN.</p>
     <button class="btn secondary" id="ref">Refresh</button>`;
-  document.getElementById('back').onclick = () => { state.who = false; render(); window.scrollTo(0, 0); };
+  document.getElementById('back').onclick = goBack;
   document.getElementById('ref').onclick = () => refresh();
   const strip = document.getElementById('days');
   strip.querySelectorAll('button').forEach((b) => (b.onclick = () => { const x = strip.scrollLeft; state.whoDate = b.dataset.day; render(); document.getElementById('days').scrollLeft = x; }));
@@ -439,7 +457,7 @@ function renderChecklist() {
   app.innerHTML = `
     <div class="top">
       <div><p class="eyebrow">${esc(state.me)}'s checklist</p><h1>${esc(c)}</h1></div>
-      <button class="link" id="back">‹ Cabins</button>
+      <button class="backbtn" id="back" aria-label="Back to cabins">‹ Back</button>
     </div>
     ${msgHtml()}
     <div>
@@ -455,7 +473,7 @@ function renderChecklist() {
       <button class="btn secondary" id="start" ${state.busy ? 'disabled' : ''}>I'm starting to clean</button>
       <button class="btn primary" id="ready" ${!all || state.busy ? 'disabled' : ''}>${all ? '✓ Ready — my part is done' : list.length ? 'Ready (tick all ' + list.length + ' first)' : 'No checklist yet — ask the owner'}</button>
     </div>`;
-  document.getElementById('back').onclick = () => { state.cabin = null; state.msg = null; render(); };
+  document.getElementById('back').onclick = goBack;
   document.getElementById('note').oninput = (e) => { state.note = e.target.value; };
   app.querySelectorAll('input[type=checkbox]').forEach((cb) => (cb.onchange = () => {
     t[cb.dataset.i] = cb.checked; save();
@@ -476,7 +494,7 @@ function renderDone() {
     </div>
     ${(state.data && (state.data.stock || []).length) ? '<button class="btn primary" id="cnt">📦 Count the supplies now</button>' : ''}
     <button class="btn ${(state.data && (state.data.stock || []).length) ? 'secondary' : 'primary'}" id="ok">Back to cabins</button>`;
-  document.getElementById('ok').onclick = () => { state.done = null; render(); };
+  document.getElementById('ok').onclick = goBack;
   const cnt = document.getElementById('cnt');
   if (cnt) cnt.onclick = () => { state.done = null; openStock(); };
 }
