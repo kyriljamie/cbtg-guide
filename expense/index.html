@@ -97,6 +97,7 @@ const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '
 const peso = (n) => { n = Number(n); const f = n % 1 ? 2 : 0; return '₱' + n.toLocaleString('en-PH', { minimumFractionDigits: f, maximumFractionDigits: f }); };
 const dayText = (iso) => new Date(iso + 'T00:00:00').toLocaleDateString('en-PH', { weekday: 'short', month: 'short', day: 'numeric' });
 const whenText = (iso) => new Date(iso).toLocaleString('en-PH', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+const acctName = (m) => (m === 'Cash' ? 'Cash on hand' : m);
 const parseAmount = (s) => { const n = Number(String(s).replace(/[₱,\s]/g, '')); return Number.isFinite(n) && n > 0 ? Math.round(n * 100) / 100 : null; };
 
 async function login(pin) {
@@ -164,13 +165,14 @@ function render() {
       <div class="f"><label for="payee">What for / paid to</label><input class="t" id="payee" list="payees" autocomplete="off" placeholder="e.g. Marelco, plumber, LPG" value="${esc(f.payee)}">
         <datalist id="payees">${payees.map((p) => `<option value="${esc(p)}">`).join('')}</datalist></div>
       <div class="f"><span class="lab">Cabin ${needCabin ? '<em>· needed for ' + esc(f.category) + '</em>' : ''}</span><div class="chips">${needCabin ? '' : chip('cabin', '', 'General (whole place)', !f.cabin)}${(d.cabins || []).map((c) => chip('cabin', c, c, f.cabin === c)).join('')}</div></div>
-      <div class="f"><span class="lab">Paid with</span><div class="chips">${(d.methods || []).map((m) => chip('method', m, m, f.method === m)).join('')}</div></div>
+      <div class="f"><span class="lab">Money taken from</span><div class="chips">${(d.methods || []).map((m) => chip('method', m, acctName(m), f.method === m)).join('')}</div>
+        <p class="small muted">${f.status === 'Paid' ? 'Deducted from the ' + esc(acctName(f.method)) + ' balance in the app.' : 'Deducted from this account once it is marked Paid in the app.'}</p></div>
       <div class="f"><label for="notes">Note (optional)</label><textarea class="t" id="notes" maxlength="500" placeholder="e.g. October bill, 2 tanks">${esc(f.notes)}</textarea></div>
       <button class="btn primary" ${state.busy ? 'disabled' : ''}>${state.busy ? 'Saving…' : '＋ Save expense'}</button>
     </form>
     ${(d.recent || []).length ? `<section class="card recent"><h2>Sent from the web</h2><ul>${d.recent.map((r) => `
       <li><div class="w"><b>${esc(r.data.category)}</b> · ${esc(r.data.payee)}${r.data.cabin ? ' · ' + esc(r.data.cabin) : ''}<br>
-        <span class="small muted">${esc(dayText(r.data.date))} · ${esc(r.data.method)}${r.data.status === 'Unpaid' ? ' · <span class="unpaid">Unpaid</span>' : ''} · by ${esc(r.by)}, ${esc(whenText(r.at))}</span></div>
+        <span class="small muted">${esc(dayText(r.data.date))} · from ${esc(acctName(r.data.method))}${r.data.status === 'Unpaid' ? ' · <span class="unpaid">Unpaid</span>' : ''} · by ${esc(r.by)}, ${esc(whenText(r.at))}</span></div>
         <span class="a">${esc(peso(r.data.amount))}</span></li>`).join('')}</ul>
       <p class="small muted" style="margin-top:8px">Made a mistake? Tell Jay to fix or delete it in the app.</p></section>` : ''}
     <p class="small muted">Tip (iPhone): tap Share → “Add to Home Screen” to open this like an app.</p>`;
