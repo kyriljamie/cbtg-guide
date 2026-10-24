@@ -113,6 +113,27 @@ input.t:focus,textarea.t:focus,.pin:focus{outline:2px solid var(--gold);outline-
 .preview .rw{display:flex;justify-content:space-between;font-size:.92rem;padding:2px 0}
 .pend{background:var(--warn-soft);color:var(--warn);border-radius:12px;padding:10px 12px;font-size:.88rem;font-weight:700}
 .buyhead.ok{background:var(--ok-soft);border-color:var(--ok)}
+/* Bookings & money overview (view only) */
+.ovbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;border-radius:14px;border:2px solid #1F5F8B;background:var(--surface);color:#1F5F8B;font:inherit;font-weight:800;font-size:1.05rem;cursor:pointer}
+.ovbtn small{color:var(--muted);font-weight:700}
+.tiles2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.tile{background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:10px 12px}
+.tile .n{font-size:.75rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.tile .v{font-weight:800;font-size:1.25rem;white-space:nowrap}
+.tile.green{border-color:#2E6B3F}.tile.green .v{color:var(--ok)}
+.tile.red{border-color:var(--bad)}.tile.red .v{color:var(--bad)}
+.tile.blue{border-color:#1F5F8B}
+.bar{height:12px;border-radius:999px;background:var(--chip);overflow:hidden;margin:8px 0 4px}
+.bar span{display:block;height:100%;background:var(--forest);border-radius:999px}
+.list{list-style:none;margin:0;padding:0}
+.list li{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
+.list li:first-child{border-top:0}
+.list .w{flex:1;min-width:0}
+.list .a{font-weight:800;white-space:nowrap;text-align:right}
+.pill{display:inline-block;font-size:.72rem;font-weight:800;border-radius:999px;padding:1px 8px;margin-left:4px;vertical-align:middle}
+.pill.late{background:var(--bad);color:#fff}.pill.inq{background:var(--gold-soft);color:var(--gold)}.pill.now{background:var(--ok-soft);color:var(--ok)}
+.dayhead{font-size:.78rem;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;padding-top:12px}
+.sec h2{margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -248,6 +269,7 @@ const msgHtml = () => state.msg ? `<div class="${state.msg.kind}" role="${state.
 function render() {
   if (!state.data) return renderLogin();
   if (state.view === 'stock') return renderStock();
+  if (state.view === 'overview' && state.data.overview) return renderOverview();
   if (state.view === 'accounts' && state.data.accounts) return renderAccounts();
   if (state.view === 'transfer' && state.data.accounts) return renderTransfer();
   if (state.view === 'start' && state.data.accounts && state.st) return renderStart();
@@ -349,7 +371,8 @@ function topButtons() {
   const d = state.data, st = stockList(), n = st.filter((i) => i.low).length;
   const stock = st.length ? `<button class="stockbtn${n ? ' low' : ''}" id="stock">📦 ${n ? 'Low stocks' : 'Stock'} ${n ? '<span class="badge">' + n + ' low</span>' : '<small class="muted">all OK</small>'}</button>` : '';
   const acc = d.accounts && d.accounts.periods ? `<button class="acctbtn" id="acct">🏦 Money in the accounts <small>${esc(pesoShort(d.accounts.periods.today.total.closing))}</small></button>` : '';
-  return stock + acc;
+  const ov = d.overview && d.overview.receivables ? `<button class="ovbtn" id="ovw">📊 Bookings &amp; money <small>${esc(pesoShort(d.overview.receivables.total))} to collect</small></button>` : '';
+  return ov + stock + acc;
 }
 function segHtml() {
   return `<div class="seg" role="group" aria-label="What are you adding?"><button type="button" data-mode="expense" class="${state.mode === 'expense' ? 'on' : ''}">Expense</button><button type="button" data-mode="advance" class="${state.mode === 'advance' ? 'on' : ''}">Advance to owner</button></div>`;
@@ -357,6 +380,7 @@ function segHtml() {
 function wireTop() {
   const sb = document.getElementById('stock'); if (sb) sb.onclick = () => show('stock');
   const ab = document.getElementById('acct'); if (ab) ab.onclick = () => show('accounts');
+  const ob = document.getElementById('ovw'); if (ob) ob.onclick = () => show('overview');
   app.querySelectorAll('[data-mode]').forEach((b) => b.onclick = () => { state.mode = b.dataset.mode; state.msg = null; render(); });
 }
 function recentLine(r) {
@@ -545,6 +569,56 @@ function renderStart() {
       if (history.state && history.state.cbtgView === 'start') history.back();
     });
   };
+  ['back', 'back2'].forEach((id) => document.getElementById(id).onclick = goBack);
+}
+
+// ---- Bookings & money overview (view only). Figures come from Jay's app; nothing can be changed here.
+const shortDay = (iso) => new Date(iso + 'T00:00:00').toLocaleDateString('en-PH', { month: 'short', day: 'numeric' });
+const cabinsText = (c) => (c || []).join(' + ') || '—';
+function monthCard(m, first) {
+  const pct = m.target ? Math.min(100, Math.round((m.booked / m.target) * 100)) : null;
+  return `<section class="card sec"><p class="eyebrow">${first ? 'This month' : 'Next month'}</p><h2>${esc(m.label)}</h2>
+    ${m.target ? `<div class="bar" role="img" aria-label="${pct}% of the target"><span style="width:${pct}%"></span></div>
+      <p class="small"><b>${esc(peso(m.booked))}</b> booked of the ${esc(peso(m.target))} target (${pct}%)${m.needed > 0 ? ' · <b>' + esc(peso(m.needed)) + '</b> still needed' + (m.bookingsNeeded ? ', about ' + esc(m.bookingsNeeded) + ' more booking' + (m.bookingsNeeded === 1 ? '' : 's') : '') : ' · 🎉 target reached'}</p>`
+      : `<p class="small muted">No target set for this month.</p>`}
+    <div class="tiles2" style="margin-top:10px">
+      <div class="tile blue"><div class="n">Booked</div><div class="v">${esc(pesoShort(m.booked))}</div><div class="small muted">${esc(m.bookings)} booking${m.bookings === 1 ? '' : 's'} · ${esc(m.cabinNights)} cabin-nights</div></div>
+      <div class="tile green"><div class="n">Collected</div><div class="v">${esc(pesoShort(m.collected))}</div><div class="small muted">${esc(pesoShort(m.toCollect))} still to collect</div></div>
+      <div class="tile red"><div class="n">Expenses</div><div class="v">${esc(pesoShort(m.spent))}</div><div class="small muted">${m.unpaidBills ? esc(m.unpaidBills) + ' unpaid · ' + esc(pesoShort(m.unpaidBillsTotal)) : 'all paid'}</div></div>
+      <div class="tile"><div class="n">Open nights</div><div class="v">${esc(m.openCabinNightsLeft)}</div><div class="small muted">cabin-nights still free${m.lastYear ? ' · last year ' + esc(pesoShort(m.lastYear)) : ''}</div></div>
+    </div>
+    <p class="small muted" style="margin-top:8px">Booked = room rate + extras of stays checking in this month. Expenses = everything dated this month.</p></section>`;
+}
+function renderOverview() {
+  const O = state.data.overview, R = O.receivables, today = O.today;
+  const nowIn = O.upcoming.filter((s) => s.checkIn <= today && s.checkOut > today);
+  const coming = O.upcoming.filter((s) => s.checkIn > today);
+  const byDay = {};
+  for (const s of coming) (byDay[s.checkIn] = byDay[s.checkIn] || []).push(s);
+  const stayLine = (s, showDue) => `<li><div class="w"><b>${esc(s.guest)}</b>${s.status === 'Inquiry' ? '<span class="pill inq">inquiry</span>' : ''}
+      <br><span class="small muted">#${esc(s.no)} · ${esc(cabinsText(s.cabins))} · ${esc(shortDay(s.checkIn))} → ${esc(shortDay(s.checkOut))} · ${esc(s.nights)} night${s.nights === 1 ? '' : 's'}${s.pax ? ' · ' + esc(s.pax) + ' pax' : ''}</span></div>
+      <span class="a">${showDue && s.due > 0 ? '<span class="red">' + esc(peso(s.due)) + '</span><br><span class="small muted">due</span>' : s.status === 'Inquiry' ? '' : s.due > 0 ? '<span class="red">' + esc(peso(s.due)) + '</span><br><span class="small muted">due</span>' : '<span class="g small">✓ paid</span>'}</span></li>`;
+  app.innerHTML = `
+    <div class="top"><div><p class="eyebrow">View only</p><h1>Bookings &amp; money</h1><p class="small muted">From Jay's app${state.data.stockAt ? ', updated ' + esc(whenText(state.data.stockAt)) : ''}</p></div><button class="backbtn" id="back">‹ Back</button></div>
+    <div class="tiles2">
+      <div class="tile red"><div class="n">Still to collect</div><div class="v">${esc(pesoShort(R.total))}</div><div class="small muted">${esc(R.count)} booking${R.count === 1 ? '' : 's'}</div></div>
+      <div class="tile${R.overdue ? ' red' : ''}"><div class="n">Overdue</div><div class="v">${esc(pesoShort(R.overdue))}</div><div class="small muted">past check-in date</div></div>
+    </div>
+    ${(O.months || []).map((m, i) => (i === 0 ? monthCard(m, true) : '')).join('')}
+    <section class="card sec"><h2>Who still owes</h2>
+      ${R.rows.length ? `<ul class="list">${R.rows.map((s) => `<li><div class="w"><b>${esc(s.guest)}</b>${s.checkIn < today ? '<span class="pill late">overdue</span>' : ''}
+        <br><span class="small muted">#${esc(s.no)} · ${esc(cabinsText(s.cabins))} · check-in ${esc(shortDay(s.checkIn))} · total ${esc(peso(s.total))}, paid ${esc(peso(s.paid))}</span></div>
+        <span class="a red">${esc(peso(s.due))}</span></li>`).join('')}</ul>${R.count > R.rows.length ? '<p class="small muted">…and ' + esc(R.count - R.rows.length) + ' more in the app.</p>' : ''}`
+      : '<p class="muted">Nobody owes anything. 🎉</p>'}
+    </section>
+    <section class="card sec"><h2>Stays — next 30 days</h2>
+      ${nowIn.length ? `<p class="dayhead">In the cabins now</p><ul class="list">${nowIn.map((s) => stayLine(s, true)).join('')}</ul>` : '<p class="small muted">No guests in the cabins tonight.</p>'}
+      ${Object.keys(byDay).sort().map((d) => `<p class="dayhead">${esc(dayText(d))}</p><ul class="list">${byDay[d].map((s) => stayLine(s, false)).join('')}</ul>`).join('')}
+      ${!coming.length ? '<p class="small muted" style="margin-top:8px">No check-ins in the next 30 days yet.</p>' : ''}
+    </section>
+    ${(O.months || [])[1] ? monthCard(O.months[1], false) : ''}
+    <p class="small muted">To change a booking or a payment, tell Jay — this page only shows what's in the app. No phone numbers are shown here.</p>
+    <button class="btn secondary" id="back2">‹ Back to disbursements</button>`;
   ['back', 'back2'].forEach((id) => document.getElementById(id).onclick = goBack);
 }
 
