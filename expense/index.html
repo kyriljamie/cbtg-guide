@@ -60,7 +60,9 @@ input.t:focus,textarea.t:focus,.pin:focus{outline:2px solid var(--gold);outline-
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chips button{font:inherit;font-weight:700;font-size:.95rem;min-height:44px;padding:0 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
 .chips button.on{background:var(--forest);border-color:var(--forest);color:var(--forest-ink)}
-.row2{display:grid;grid-template-columns:1fr auto;gap:12px}
+.row2{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px}
+.row2 .chips{gap:6px}
+.row2 .chips button{padding:0 12px}
 .row2 .chips{flex-wrap:nowrap}
 .recent h2{margin-bottom:6px}
 .recent ul{list-style:none;margin:0;padding:0}
@@ -69,6 +71,24 @@ input.t:focus,textarea.t:focus,.pin:focus{outline:2px solid var(--gold);outline-
 .recent .w{flex:1;min-width:0}
 .recent .a{font-weight:800;white-space:nowrap}
 .unpaid{color:var(--warn);font-weight:800}
+.backbtn{flex:none;font:inherit;font-weight:800;font-size:1rem;color:var(--forest);background:var(--surface);border:2px solid var(--forest);border-radius:999px;min-height:44px;padding:0 16px;cursor:pointer}
+.btn.secondary{background:var(--surface);color:var(--forest);border:2px solid var(--forest)}
+.stockbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;border-radius:14px;border:2px solid var(--forest);background:var(--surface);color:var(--forest);font:inherit;font-weight:800;font-size:1.05rem;cursor:pointer}
+.stockbtn.low{border-color:var(--bad);color:var(--bad);background:var(--bad-soft)}
+.badge{font-size:.8rem;font-weight:800;border-radius:999px;padding:2px 10px;background:var(--bad);color:#fff}
+.items{display:flex;flex-direction:column;gap:10px}
+.item{display:flex;align-items:center;gap:12px;width:100%;text-align:left;font:inherit;color:inherit;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:14px 16px;min-height:64px;cursor:pointer}
+.item .n{font-weight:800;font-size:1.05rem}
+.item .q{margin-left:auto;text-align:right;font-weight:800;white-space:nowrap}
+.item.low{border-color:var(--bad);background:var(--bad-soft)}
+.item.low .q{color:var(--bad)}
+.item .tag{display:inline-block;font-size:.72rem;font-weight:800;border-radius:999px;padding:2px 8px;background:var(--bad);color:#fff;margin-left:6px;vertical-align:middle}
+.item .go{font-size:.8rem;font-weight:800;color:var(--forest)}
+.qty{display:flex;align-items:center;gap:10px}
+.qty button{font:inherit;font-weight:800;font-size:1.6rem;width:56px;height:56px;border-radius:14px;border:2px solid var(--forest);background:var(--surface);color:var(--forest);cursor:pointer}
+.qty input{text-align:center;font-size:1.6rem;font-weight:800;min-height:56px}
+.buyhead{background:var(--bad-soft);border-color:var(--bad)}
+.buyhead.ok{background:var(--ok-soft);border-color:var(--ok)}
 </style>
 </head>
 <body>
@@ -83,7 +103,7 @@ const STORE = 'cbtg-expense-v1';
 
 const manilaToday = () => new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10);
 const blank = () => ({ date: manilaToday(), amount: '', category: null, payee: '', cabin: null, method: 'Cash', status: 'Paid', notes: '' });
-const state = { pin: null, data: null, form: blank(), msg: null, busy: false };
+const state = { pin: null, data: null, form: blank(), msg: null, busy: false, view: 'form', buy: null };
 const app = document.getElementById('app');
 
 function load() { try { const s = JSON.parse(localStorage.getItem(STORE) || '{}'); state.pin = s.pin || null; if (s.method) state.form.method = s.method; } catch (e) { /* storage blocked */ } }
@@ -116,25 +136,75 @@ function problem() {
   if (!f.date) return 'Pick the date.';
   if (parseAmount(f.amount) === null) return 'Type the amount.';
   if (!f.category) return 'Pick a category.';
-  if (!f.payee.trim()) return 'Type what it was for or who was paid.';
+  if (state.view === 'buy' && parseAmount(f.qty) === null) return 'Type how many were bought.';
+  if (!f.payee.trim() && state.view !== 'buy') return 'Type what it was for or who was paid.';
   if (!f.cabin && (d.perCabin || []).includes(f.category)) return 'Pick the cabin for this ' + f.category + ' expense.';
   return null;
 }
+
+// ---- Supplies (Stock button). onHand = the app's estimate + purchases sent after the app last updated.
+function stockList() {
+  const d = state.data || {};
+  const since = d.stockAt ? Date.parse(d.stockAt) : 0;
+  const pending = {};
+  for (const r of d.recent || []) {
+    const st = r.data && r.data.stock;
+    if (st && st.itemId && Date.parse(r.at) > since) pending[st.itemId] = (pending[st.itemId] || 0) + Number(st.qty || 0);
+  }
+  return (d.stock || []).map((i) => {
+    const onHand = i.onHand === null || i.onHand === undefined ? null : Number(i.onHand) + (pending[i.id] || 0);
+    return { ...i, onHand, low: onHand !== null && onHand <= Number(i.lowAt || 0) };
+  }).sort((a, b) => (b.low - a.low) || String(a.name).localeCompare(String(b.name)));
+}
+const unitText = (i) => (i.unit ? ' ' + esc(i.unit) : '');
+const supplyCategory = () => ((state.data && state.data.categories) || []).find((c) => /suppl|consum|toiletr|amenit/i.test(c)) || null;
+
+// Back navigation: Stock and Buy screens add a history step so the phone's Back returns here.
+function show(view, buy) {
+  state.view = view; state.buy = buy || null; state.msg = null;
+  if (view === 'buy') {
+    state.form = { ...blank(), date: state.form.date || manilaToday(), method: state.form.method, category: supplyCategory(), qty: '' };
+  } else if (view === 'form') {
+    state.form = { ...blank(), date: state.form.date, method: state.form.method };
+  }
+  if (view !== 'form' && !(history.state && history.state.cbtgView === view)) history.pushState({ cbtgView: view }, '');
+  render(); window.scrollTo(0, 0);
+}
+function goBack() { if (history.state && history.state.cbtgView) history.back(); else show('form'); }
+window.addEventListener('popstate', () => {
+  const v = (history.state && history.state.cbtgView) || 'form';
+  if (v === state.view) return;
+  state.view = v === 'buy' && !state.buy ? 'stock' : v; state.msg = null;
+  if (state.view !== 'buy') state.buy = null;
+  if (state.view === 'form') state.form = { ...blank(), date: state.form.date, method: state.form.method };
+  render(); window.scrollTo(0, 0);
+});
 
 async function send() {
   const bad = problem();
   if (bad) { state.msg = { kind: 'error', text: bad }; render(); return; }
   const f = state.form;
-  const data = { date: f.date, amount: parseAmount(f.amount), category: f.category, payee: f.payee.trim(), cabin: f.cabin, method: f.method, status: f.status, notes: f.notes.trim() || null };
+  const item = state.view === 'buy' ? state.buy : null;
+  const qty = item ? parseAmount(f.qty) : null;
+  if (item && qty === null) { state.msg = { kind: 'error', text: 'Type how many ' + (item.unit || '') + ' were bought.' }; render(); return; }
+  const data = { date: f.date, amount: parseAmount(f.amount), category: f.category, payee: f.payee.trim() || (item ? item.name : ''), cabin: f.cabin, method: f.method, status: f.status,
+    notes: [item ? 'Bought ' + qty + (item.unit ? ' ' + item.unit : '') + ' ' + item.name : '', f.notes.trim()].filter(Boolean).join(' · ') || null,
+    ...(item ? { stock: { itemId: item.id, qty } } : {}) };
   state.busy = true; state.msg = null; render();
   try {
     const r = await rpc('expense_add', { p_pin: state.pin, p_data: data });
     if (r.error) { state.msg = { kind: 'error', text: r.error }; if (r.error === 'Wrong PIN.') { state.pin = null; state.data = null; save(); } }
     else {
-      state.msg = { kind: 'notice', text: '✓ Saved ' + peso(data.amount) + ' · ' + data.category + (r.duplicate ? ' (already sent)' : '') + '. It shows in the CBTG app within a minute.' };
-      state.form = { ...blank(), date: f.date, method: f.method };
       const fresh = await rpc('expense_login', { p_pin: state.pin }).catch(() => null);
       if (fresh && !fresh.error) state.data = fresh;
+      if (item) {
+        state.view = 'stock'; state.buy = null;
+        if (history.state && history.state.cbtgView === 'buy') history.back(); // drop the Buy step; Back then goes to the form
+        state.msg = { kind: 'notice', text: '✓ Added ' + qty + (item.unit ? ' ' + item.unit : '') + ' ' + item.name + ' · ' + peso(data.amount) + (r.duplicate ? ' (already sent)' : '') + '. Stock and expense update in the CBTG app within a minute.' };
+      } else {
+        state.msg = { kind: 'notice', text: '✓ Saved ' + peso(data.amount) + ' · ' + data.category + (r.duplicate ? ' (already sent)' : '') + '. It shows in the CBTG app within a minute.' };
+      }
+      state.form = { ...blank(), date: f.date, method: f.method };
     }
   } catch (e) { state.msg = { kind: 'error', text: e.message + ' Nothing was saved.' }; }
   state.busy = false; render();
@@ -145,39 +215,78 @@ const msgHtml = () => state.msg ? `<div class="${state.msg.kind}" role="${state.
 
 function render() {
   if (!state.data) return renderLogin();
+  if (state.view === 'stock') return renderStock();
+  return renderForm();
+}
+
+function renderStock() {
+  const list = stockList();
+  const low = list.filter((i) => i.low).length;
+  app.innerHTML = `
+    <div class="top">
+      <div><p class="eyebrow">Supplies</p><h1>Stock</h1><p class="muted small">${low ? '<b style="color:var(--bad)">' + low + ' running low</b> · ' : ''}tap an item to buy / add</p></div>
+      <button class="backbtn" id="back">‹ Back</button>
+    </div>
+    ${msgHtml()}
+    ${list.length ? `<div class="items">${list.map((i) => `
+      <button class="item${i.low ? ' low' : ''}" data-id="${esc(i.id)}">
+        <div><div class="n">${esc(i.name)}${i.low ? '<span class="tag">LOW</span>' : ''}</div>
+          <div class="small muted">Low at ${esc(i.lowAt)}${unitText(i)} · <span class="go">${i.low ? 'Tap to buy' : 'Buy / add'} ›</span></div></div>
+        <div class="q">${i.onHand === null ? '<span class="small muted">not counted</span>' : 'about ' + esc(Math.max(0, Math.round(i.onHand))) + unitText(i)}</div>
+      </button>`).join('')}</div>` : '<div class="card muted">No supplies set up yet. Jay can add them in the CBTG app (Cabins & upkeep → Stock).</div>'}
+    <p class="small muted">Amounts are the app's estimate from the last count and the stays since. Buying here adds to the stock and records the expense.</p>
+    <button class="btn secondary" id="back2">‹ Back to expenses</button>`;
+  document.getElementById('back').onclick = goBack;
+  document.getElementById('back2').onclick = goBack;
+  app.querySelectorAll('.item').forEach((b) => b.onclick = () => show('buy', list.find((i) => i.id === b.dataset.id)));
+}
+
+function renderForm() {
   const d = state.data, f = state.form;
+  const item = state.view === 'buy' ? state.buy : null;
   const chip = (group, value, label, on) => `<button type="button" data-g="${group}" data-v="${esc(value ?? '')}" class="${on ? 'on' : ''}" aria-pressed="${on}">${esc(label)}</button>`;
   const needCabin = (d.perCabin || []).includes(f.category);
   const payees = [...new Set((d.recent || []).map((r) => r.data && r.data.payee).filter(Boolean))];
   app.innerHTML = `
-    <div class="top">
+    ${item ? `<div class="top">
+      <div><p class="eyebrow">Buy / add supplies</p><h1>${esc(item.name)}</h1></div>
+      <button class="backbtn" id="back">‹ Back</button>
+    </div>
+    <div class="card buyhead${item.low ? '' : ' ok'}"><b>${item.onHand === null ? 'Not counted yet' : 'About ' + esc(Math.max(0, Math.round(item.onHand))) + unitText(item) + ' left'}</b>
+      <span class="small muted"> · low at ${esc(item.lowAt)}${unitText(item)}</span>${item.low ? '<br><span class="small" style="color:var(--bad);font-weight:700">Running low — please buy more.</span>' : ''}</div>` : `<div class="top">
       <div><p class="eyebrow">Cabins by the Generals</p><h1>Add expense</h1><p class="muted small">Hi, ${esc(d.name)}!</p></div>
       <button class="link" id="out">Log out</button>
     </div>
+    ${(() => { const st = stockList(); const n = st.filter((i) => i.low).length; return st.length ? `<button class="stockbtn${n ? ' low' : ''}" id="stock">📦 ${n ? 'Low stocks' : 'Stock'} ${n ? '<span class="badge">' + n + ' low</span>' : '<small class="muted">all OK</small>'}</button>` : ''; })()}`}
     ${msgHtml()}
     <form id="f" class="card" novalidate>
+      ${item ? `<div class="f"><label for="qty">How many ${esc(item.unit || '')} bought</label><div class="qty">
+        <button type="button" id="qm" aria-label="One less">−</button><input class="t" id="qty" inputmode="decimal" autocomplete="off" placeholder="0" value="${esc(f.qty || '')}">
+        <button type="button" id="qp" aria-label="One more">＋</button></div></div>` : ''}
       <div class="row2">
         <div class="f"><label for="date">Date</label><input class="t" id="date" type="date" value="${esc(f.date)}"></div>
         <div class="f"><span class="lab">Status</span><div class="chips">${chip('status', 'Paid', 'Paid', f.status === 'Paid')}${chip('status', 'Unpaid', 'Unpaid', f.status === 'Unpaid')}</div></div>
       </div>
-      <div class="f"><label for="amount">Amount</label><div class="amt"><span>₱</span><input class="t" id="amount" inputmode="decimal" autocomplete="off" placeholder="0" value="${esc(f.amount)}"></div></div>
+      <div class="f"><label for="amount">${item ? 'Total price paid' : 'Amount'}</label><div class="amt"><span>₱</span><input class="t" id="amount" inputmode="decimal" autocomplete="off" placeholder="0" value="${esc(f.amount)}"></div></div>
       <div class="f"><span class="lab">Category</span><div class="chips">${(d.categories || []).map((c) => chip('category', c, c, f.category === c)).join('')}</div></div>
-      <div class="f"><label for="payee">What for / paid to</label><input class="t" id="payee" list="payees" autocomplete="off" placeholder="e.g. Marelco, plumber, LPG" value="${esc(f.payee)}">
+      <div class="f"><label for="payee">${item ? 'Where bought (optional)' : 'What for / paid to'}</label><input class="t" id="payee" list="payees" autocomplete="off" placeholder="${item ? 'e.g. Puregold, sari-sari store' : 'e.g. Marelco, plumber, LPG'}" value="${esc(f.payee)}">
         <datalist id="payees">${payees.map((p) => `<option value="${esc(p)}">`).join('')}</datalist></div>
       <div class="f"><span class="lab">Cabin ${needCabin ? '<em>· needed for ' + esc(f.category) + '</em>' : ''}</span><div class="chips">${needCabin ? '' : chip('cabin', '', 'General (whole place)', !f.cabin)}${(d.cabins || []).map((c) => chip('cabin', c, c, f.cabin === c)).join('')}</div></div>
       <div class="f"><span class="lab">Money taken from</span><div class="chips">${(d.methods || []).map((m) => chip('method', m, acctName(m), f.method === m)).join('')}</div>
         <p class="small muted">${f.status === 'Paid' ? 'Deducted from the ' + esc(acctName(f.method)) + ' balance in the app.' : 'Deducted from this account once it is marked Paid in the app.'}</p></div>
       <div class="f"><label for="notes">Note (optional)</label><textarea class="t" id="notes" maxlength="500" placeholder="e.g. October bill, 2 tanks">${esc(f.notes)}</textarea></div>
-      <button class="btn primary" ${state.busy ? 'disabled' : ''}>${state.busy ? 'Saving…' : '＋ Save expense'}</button>
+      <button class="btn primary" ${state.busy ? 'disabled' : ''}>${state.busy ? 'Saving…' : item ? '✓ Save purchase' : '＋ Save expense'}</button>
     </form>
-    ${(d.recent || []).length ? `<section class="card recent"><h2>Sent from the web</h2><ul>${d.recent.map((r) => `
+    ${item ? '<button class="btn secondary" id="back2">‹ Back to stock</button>' : ''}
+    ${!item && (d.recent || []).length ? `<section class="card recent"><h2>Sent from the web</h2><ul>${d.recent.map((r) => `
       <li><div class="w"><b>${esc(r.data.category)}</b> · ${esc(r.data.payee)}${r.data.cabin ? ' · ' + esc(r.data.cabin) : ''}<br>
         <span class="small muted">${esc(dayText(r.data.date))} · from ${esc(acctName(r.data.method))}${r.data.status === 'Unpaid' ? ' · <span class="unpaid">Unpaid</span>' : ''} · by ${esc(r.by)}, ${esc(whenText(r.at))}</span></div>
         <span class="a">${esc(peso(r.data.amount))}</span></li>`).join('')}</ul>
       <p class="small muted" style="margin-top:8px">Made a mistake? Tell Jay to fix or delete it in the app.</p></section>` : ''}
-    <p class="small muted">Tip (iPhone): tap Share → “Add to Home Screen” to open this like an app.</p>`;
+    ${item ? '' : '<p class="small muted">Tip (iPhone): tap Share → “Add to Home Screen” to open this like an app.</p>'}`;
 
   const keep = () => {
+    const q = document.getElementById('qty'); if (q) f.qty = q.value;
     f.date = document.getElementById('date').value;
     f.amount = document.getElementById('amount').value;
     f.payee = document.getElementById('payee').value;
@@ -193,7 +302,13 @@ function render() {
     state.msg = null; render();
   });
   document.getElementById('f').onsubmit = (e) => { e.preventDefault(); keep(); send(); };
-  document.getElementById('out').onclick = () => { state.pin = null; state.data = null; state.msg = null; save(); render(); };
+  const out = document.getElementById('out');
+  if (out) out.onclick = () => { state.pin = null; state.data = null; state.msg = null; save(); render(); };
+  const sb = document.getElementById('stock'); if (sb) sb.onclick = () => show('stock');
+  ['back', 'back2'].forEach((id) => { const b = document.getElementById(id); if (b) b.onclick = goBack; });
+  const step = (n) => { keep(); const v = Math.max(0, (parseAmount(f.qty) || 0) + n); f.qty = v ? String(v) : ''; render(); };
+  const qm = document.getElementById('qm'); if (qm) qm.onclick = () => step(-1);
+  const qp = document.getElementById('qp'); if (qp) qp.onclick = () => step(1);
 }
 
 function renderLogin() {
