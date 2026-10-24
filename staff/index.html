@@ -40,7 +40,7 @@ p{margin:0}
 .small{font-size:.85rem}
 .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .link{background:none;border:0;color:var(--forest);font:inherit;font-weight:700;padding:8px 0;cursor:pointer;min-height:44px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
+.card{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px}
 button.btn{font:inherit;font-weight:800;font-size:1.05rem;border-radius:14px;border:0;min-height:56px;padding:0 18px;width:100%;cursor:pointer}
 .btn.primary{background:var(--forest);color:var(--forest-ink)}
 .btn.secondary{background:var(--surface);color:var(--forest);border:1.5px solid var(--forest)}
@@ -50,7 +50,7 @@ button.btn{font:inherit;font-weight:800;font-size:1.05rem;border-radius:14px;bor
 .error{background:var(--bad-soft);color:var(--bad);border-radius:12px;padding:12px 14px;font-weight:700}
 .notice{background:var(--ok-soft);color:var(--ok);border-radius:12px;padding:12px 14px;font-weight:700}
 .cabins{display:flex;flex-direction:column;gap:12px}
-.cabin{display:flex;align-items:center;gap:12px;text-align:left;width:100%;font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-left-width:6px;border-radius:16px;padding:16px;cursor:pointer;min-height:76px}
+.cabin{display:flex;align-items:center;gap:12px;text-align:left;width:100%;font:inherit;color:inherit;background:var(--surface);border:2px solid var(--line);border-left-width:6px;border-radius:16px;padding:16px;cursor:pointer;min-height:76px}
 .cabin .name{font-weight:800;font-size:1.15rem}
 .cabin .meta{font-size:.85rem;color:var(--muted)}
 .cabin .go{margin-left:auto;font-size:1.4rem;color:var(--muted)}
@@ -77,7 +77,7 @@ button.btn{font:inherit;font-weight:800;font-size:1.05rem;border-radius:14px;bor
 .days button i{position:absolute;top:4px;right:5px;width:6px;height:6px;border-radius:50%;background:var(--gold)}
 .days button.on i{background:var(--forest-ink)}
 .sum{font-weight:700}
-.wcab{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.wcab{background:var(--surface);border:2px solid var(--line);border-left:6px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
 .wcab .cn{font-weight:800;font-size:1.1rem}
 .ev{display:flex;flex-direction:column;gap:2px;padding-top:10px;border-top:1px solid var(--line)}
 .ev:first-of-type{border-top:0;padding-top:0}
@@ -87,10 +87,21 @@ button.btn{font:inherit;font-weight:800;font-size:1.05rem;border-radius:14px;bor
 .ev .k.stay{color:var(--warn)}
 .ev .g{font-weight:700;font-size:1.05rem}
 .free{color:var(--muted)}
+.stockbox{border:2.5px solid var(--warn);background:var(--warn-soft);color:var(--warn);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.stockbox.ok{border-color:var(--line);background:var(--surface);color:var(--fg)}
+.stockbox b{font-size:1.05rem}
+.low{color:var(--bad);font-weight:800}
+.sitem{background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:10px}
+.sitem.done{border-color:var(--ok)}
+.sitem .nm{flex:1;min-width:0}
+.sitem .nm b{display:block}
+.step{width:46px;height:46px;border-radius:12px;border:2px solid var(--forest);background:var(--surface);color:var(--forest);font:inherit;font-size:1.4rem;font-weight:800;cursor:pointer;flex:none}
+.qty{width:64px;height:46px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--fg);font:inherit;font-size:1.2rem;font-weight:800;text-align:center;flex:none}
+.qty:focus{outline:2px solid var(--gold);outline-offset:1px}
 .progress{height:10px;border-radius:5px;background:var(--chip);overflow:hidden}
 .progress > div{height:100%;background:var(--forest);width:0;transition:width .2s}
 .list{display:flex;flex-direction:column;gap:8px}
-.item{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:60px;cursor:pointer;user-select:none}
+.item{display:flex;align-items:center;gap:14px;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:14px;min-height:60px;cursor:pointer;user-select:none}
 .item input{width:28px;height:28px;accent-color:var(--forest);flex:none;margin:0}
 .item.done{background:var(--ok-soft);border-color:transparent}
 .item.done span{text-decoration:line-through;color:var(--muted)}
@@ -109,7 +120,7 @@ const API = 'https://fnebydfckdqgigtfhjfk.supabase.co/rest/v1/rpc/';
 const KEY = 'sb_publishable_PLLPO77LyLTlHHQr1yF23Q_Y27vUAO1';
 const STORE = 'cbtg-staff-v1';
 
-const state = { pin: null, me: null, data: null, cabin: null, ticks: {}, note: '', msg: null, busy: false, done: null, who: false, whoDate: null };
+const state = { pin: null, me: null, data: null, cabin: null, ticks: {}, note: '', msg: null, busy: false, done: null, who: false, whoDate: null, stock: false, counts: {}, stockNote: '' };
 const app = document.getElementById('app');
 
 function load() {
@@ -173,6 +184,7 @@ function render() {
   if (!state.me) return renderLogin();
   if (state.done) return renderDone();
   if (state.who) return renderWho();
+  if (state.stock) return renderStock();
   if (state.cabin) return renderChecklist();
   return renderCabins();
 }
@@ -223,6 +235,7 @@ function renderCabins() {
     </div>
     ${msgHtml()}
     ${isSchedule(d.upcoming || []) ? '<button class="whobtn" id="who">📅 Who\'s coming <small>guests per cabin, by day</small></button>' : ''}
+    ${stockBoxHtml(d)}
     ${nextHtml(d.upcoming || [], today)}
     <div class="cabins">
       ${cabins.map((c, i) => {
@@ -252,11 +265,94 @@ function renderCabins() {
       }).join('')}
     </div>
     <button class="btn secondary" id="ref">Refresh</button>`;
-  document.getElementById('out').onclick = () => { state.pin = null; state.me = null; state.data = null; state.who = false; save(); state.msg = null; render(); };
+  document.getElementById('out').onclick = () => { state.pin = null; state.me = null; state.data = null; state.who = false; state.stock = false; save(); state.msg = null; render(); };
   document.getElementById('ref').onclick = () => refresh();
+  const sb = document.getElementById('stockgo');
+  if (sb) sb.onclick = () => openStock();
   const who = document.getElementById('who');
   if (who) who.onclick = () => { state.who = true; state.whoDate = state.whoDate || today; state.msg = null; render(); window.scrollTo(0, 0); };
   app.querySelectorAll('.cabin').forEach((b) => (b.onclick = () => { state.cabin = b.dataset.c; state.msg = null; render(); window.scrollTo(0, 0); }));
+}
+
+// ---------- supply count (stock check) ----------
+function lowList(d, counts) {
+  return (d.stock || []).filter((i) => typeof counts[i.id] === 'number' && counts[i.id] <= (i.lowAt || 0))
+    .map((i) => esc(i.name) + ' ' + counts[i.id] + (i.unit ? ' ' + esc(i.unit) : ''));
+}
+function stockBoxHtml(d) {
+  const items = d.stock || [];
+  if (!items.length) return '';
+  const last = d.stockLast;
+  const lastTxt = last ? 'Last counted ' + timeText(last.at) + ' by ' + esc(last.staff) : 'Not counted yet';
+  const low = last ? lowList(d, last.counts || {}) : [];
+  return `<div class="stockbox${d.stockDue ? '' : ' ok'}" role="status">
+    <b>${d.stockDue ? '📦 Stock check due' : '📦 Supplies'}</b>
+    <span class="small">${lastTxt}${low.length ? ' · <span class="low">Low: ' + low.join(', ') + '</span>' : last ? ' · nothing low' : ''}</span>
+    ${d.stockDue ? '<span class="small">After you finish cleaning, count the supplies so the owner knows what to buy.</span>' : ''}
+    <button class="btn ${d.stockDue ? 'primary' : 'secondary'}" id="stockgo">${d.stockDue ? 'Count the supplies' : 'Count again'}</button>
+  </div>`;
+}
+function openStock() { state.stock = true; state.counts = {}; state.stockNote = ''; state.msg = null; render(); window.scrollTo(0, 0); }
+
+function renderStock() {
+  const d = state.data;
+  const items = d.stock || [];
+  const filled = items.filter((i) => state.counts[i.id] !== undefined && state.counts[i.id] !== '').length;
+  const all = items.length > 0 && filled === items.length;
+  app.innerHTML = `
+    <div class="top">
+      <div><p class="eyebrow">${esc(state.me)} · supply count</p><h1>Stock check</h1></div>
+      <button class="link" id="back">‹ Cabins</button>
+    </div>
+    ${msgHtml()}
+    <p class="small muted">Count what's in the supply room now. Type the number or use − / +. "About" is the app's estimate — if yours is very different, count again.</p>
+    <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${items.length}" aria-valuenow="${filled}"><div style="width:${items.length ? (filled / items.length) * 100 : 0}%"></div></div>
+    <p class="small muted">${filled} of ${items.length} counted</p>
+    <div class="list">${items.map((i) => {
+      const v = state.counts[i.id];
+      const has = v !== undefined && v !== '';
+      const isLow = has && Number(v) <= (i.lowAt || 0);
+      return `<div class="sitem${has ? ' done' : ''}">
+        <div class="nm"><b>${esc(i.name)}</b><span class="small muted">${i.unit ? esc(i.unit) + ' · ' : ''}${i.expected !== null && i.expected !== undefined ? 'about ' + i.expected + ' left' : 'first count'}${isLow ? ' · <span class="low">LOW</span>' : ''}</span></div>
+        <button class="step" data-id="${esc(i.id)}" data-d="-1" aria-label="One less ${esc(i.name)}">−</button>
+        <input class="qty" data-id="${esc(i.id)}" type="number" inputmode="numeric" min="0" step="1" value="${has ? esc(v) : ''}" placeholder="?" aria-label="${esc(i.name)} count">
+        <button class="step" data-id="${esc(i.id)}" data-d="1" aria-label="One more ${esc(i.name)}">+</button>
+      </div>`;
+    }).join('')}</div>
+    <label for="snote" class="small muted">Note for the owner (optional) — e.g. what to buy</label>
+    <textarea id="snote" placeholder="Optional">${esc(state.stockNote)}</textarea>
+    <div class="sticky">
+      <button class="btn primary" id="ssend" ${!all || state.busy ? 'disabled' : ''}>${state.busy ? 'Sending…' : all ? 'Submit count' : 'Count every item first (' + (items.length - filled) + ' left)'}</button>
+    </div>`;
+  document.getElementById('back').onclick = () => { state.stock = false; state.msg = null; render(); };
+  document.getElementById('snote').oninput = (e) => { state.stockNote = e.target.value; };
+  const keep = (fn) => { const y = window.scrollY; fn(); renderStock(); window.scrollTo(0, y); };
+  app.querySelectorAll('.step').forEach((b) => (b.onclick = () => keep(() => {
+    const id = b.dataset.id; const cur = state.counts[id];
+    const base = cur === undefined || cur === '' ? (items.find((i) => i.id === id) || {}).expected || 0 : Number(cur);
+    state.counts[id] = String(Math.max(0, base + Number(b.dataset.d)));
+  })));
+  app.querySelectorAll('.qty').forEach((inp) => {
+    inp.onchange = () => keep(() => { const n = inp.value.trim(); state.counts[inp.dataset.id] = n === '' ? '' : String(Math.max(0, Math.round(Number(n)) || 0)); });
+  });
+  document.getElementById('ssend').onclick = () => sendStock();
+}
+
+async function sendStock() {
+  const counts = {};
+  for (const [k, v] of Object.entries(state.counts)) if (v !== '' && v !== undefined) counts[k] = Number(v);
+  state.busy = true; state.msg = null; render();
+  try {
+    const r = await rpc('staff_stock', { p_pin: state.pin, p_counts: counts, p_note: state.stockNote });
+    if (r.error) state.msg = { kind: 'error', text: r.error };
+    else {
+      const low = lowList(state.data, counts);
+      state.stock = false; state.counts = {}; state.stockNote = '';
+      await refresh();
+      state.msg = { kind: 'ok', text: 'Supply count sent · ' + timeText(r.at) + (low.length ? '. Low: ' + low.join(', ').replace(/<[^>]+>/g, '') : '. Nothing low.') };
+    }
+  } catch (e) { state.msg = { kind: 'error', text: e.message }; }
+  state.busy = false; render();
 }
 
 function renderWho() {
@@ -356,8 +452,11 @@ function renderDone() {
       <p class="muted">Recorded for ${esc(d.name)} · ${timeText(d.at)}</p>
       <p class="small muted">${d.waiting && d.waiting.length ? esc(d.cabin) + ' becomes fully Ready when ' + esc(d.waiting.join(' and ')) + ' finish' + (d.waiting.length === 1 ? 'es' : '') + ' too.' : 'Everyone is done — ' + esc(d.cabin) + ' is fully Ready.'} The owner's CBTG app will show it shortly. Thank you!</p>
     </div>
-    <button class="btn primary" id="ok">Back to cabins</button>`;
+    ${(state.data && (state.data.stock || []).length) ? '<button class="btn primary" id="cnt">📦 Count the supplies now</button>' : ''}
+    <button class="btn ${(state.data && (state.data.stock || []).length) ? 'secondary' : 'primary'}" id="ok">Back to cabins</button>`;
   document.getElementById('ok').onclick = () => { state.done = null; render(); };
+  const cnt = document.getElementById('cnt');
+  if (cnt) cnt.onclick = () => { state.done = null; openStock(); };
 }
 
 load();
