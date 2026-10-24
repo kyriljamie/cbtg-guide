@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="CBTG Expenses">
-<title>CBTG Expenses</title>
+<title>CBTG Disbursements</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap">
 <style>
@@ -88,6 +88,30 @@ input.t:focus,textarea.t:focus,.pin:focus{outline:2px solid var(--gold);outline-
 .qty button{font:inherit;font-weight:800;font-size:1.6rem;width:56px;height:56px;border-radius:14px;border:2px solid var(--forest);background:var(--surface);color:var(--forest);cursor:pointer}
 .qty input{text-align:center;font-size:1.6rem;font-weight:800;min-height:56px}
 .buyhead{background:var(--bad-soft);border-color:var(--bad)}
+.seg{display:flex;border:2px solid #5A4AA8;border-radius:14px;overflow:hidden}
+.seg button{flex:1;font:inherit;font-weight:800;font-size:1rem;min-height:50px;border:0;background:var(--surface);color:#5A4AA8;cursor:pointer}
+.seg button.on{background:#5A4AA8;color:#fff}
+.seg.small button{min-height:44px;font-size:.95rem}
+.acctbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;border-radius:14px;border:2px solid var(--forest);background:var(--surface);color:var(--forest);font:inherit;font-weight:800;font-size:1.05rem;cursor:pointer}
+.acctbtn small{color:var(--muted);font-weight:700}
+.boxes{display:flex;flex-direction:column;gap:10px}
+.abox{background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 14px}
+.abox .t{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.abox .n{font-weight:800}.abox .v{font-weight:800;font-size:1.35rem;white-space:nowrap}
+.abox .r{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;font-size:.8rem;color:var(--muted);margin-top:4px}
+.abox.tot{background:#DDF1EA;border-color:#13866A}
+.abox.adv{background:#ECE7F6;border-color:#5A4AA8}
+.abox.assets{border-style:dashed}
+.g{color:var(--ok)}.red{color:var(--bad)}
+.tiles3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.tile3{font:inherit;color:inherit;background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:10px 6px;min-height:72px;cursor:pointer;text-align:center}
+.tile3 .n{font-size:.78rem;font-weight:700;color:var(--muted)}.tile3 .v{font-weight:800;font-size:1rem;margin-top:2px;white-space:nowrap}
+.tile3.on{border:3px solid var(--forest);background:var(--ok-soft)}.tile3.on .n{color:var(--forest)}
+.tile3:disabled{opacity:.35;cursor:not-allowed}
+.arrow{text-align:center;font-size:1.4rem;color:var(--forest)}
+.preview{border:2px dashed var(--forest);border-radius:12px;padding:10px 12px;background:var(--ok-soft)}
+.preview .rw{display:flex;justify-content:space-between;font-size:.92rem;padding:2px 0}
+.pend{background:var(--warn-soft);color:var(--warn);border-radius:12px;padding:10px 12px;font-size:.88rem;font-weight:700}
 .buyhead.ok{background:var(--ok-soft);border-color:var(--ok)}
 </style>
 </head>
@@ -103,7 +127,9 @@ const STORE = 'cbtg-expense-v1';
 
 const manilaToday = () => new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10);
 const blank = () => ({ date: manilaToday(), amount: '', category: null, payee: '', cabin: null, method: 'Cash', status: 'Paid', notes: '' });
-const state = { pin: null, data: null, form: blank(), msg: null, busy: false, view: 'form', buy: null };
+const blankAdv = () => ({ kind: 'advance', owner: null, amount: '', date: manilaToday(), account: 'BDO', note: '' });
+const blankTr = () => ({ from: 'Cash', to: 'BDO', amount: '', fee: '', date: manilaToday(), note: '' });
+const state = { pin: null, data: null, form: blank(), msg: null, busy: false, view: 'form', buy: null, mode: 'expense', adv: blankAdv(), period: 'today', tr: blankTr(), st: null };
 const app = document.getElementById('app');
 
 function load() { try { const s = JSON.parse(localStorage.getItem(STORE) || '{}'); state.pin = s.pin || null; if (s.method) state.form.method = s.method; } catch (e) { /* storage blocked */ } }
@@ -166,6 +192,12 @@ function show(view, buy) {
     state.form = { ...blank(), date: state.form.date || manilaToday(), method: state.form.method, category: supplyCategory(), qty: '' };
   } else if (view === 'form') {
     state.form = { ...blank(), date: state.form.date, method: state.form.method };
+  } else if (view === 'transfer') {
+    state.tr = blankTr();
+  } else if (view === 'start') {
+    const a = (state.data && state.data.accounts) || {};
+    const keys = [...((state.data && state.data.methods) || []), ...((state.data && state.data.owners) || []).map((o) => 'Adv:' + o)];
+    state.st = { date: a.asOf || manilaToday(), vals: Object.fromEntries(keys.map((k) => [k, a.start && a.start[k] !== undefined ? String(a.start[k]) : ''])) };
   }
   if (view !== 'form' && !(history.state && history.state.cbtgView === view)) history.pushState({ cbtgView: view }, '');
   render(); window.scrollTo(0, 0);
@@ -174,7 +206,7 @@ function goBack() { if (history.state && history.state.cbtgView) history.back();
 window.addEventListener('popstate', () => {
   const v = (history.state && history.state.cbtgView) || 'form';
   if (v === state.view) return;
-  state.view = v === 'buy' && !state.buy ? 'stock' : v; state.msg = null;
+  state.view = v === 'buy' && !state.buy ? 'stock' : v === 'start' && !state.st ? 'accounts' : v; state.msg = null;
   if (state.view !== 'buy') state.buy = null;
   if (state.view === 'form') state.form = { ...blank(), date: state.form.date, method: state.form.method };
   render(); window.scrollTo(0, 0);
@@ -216,6 +248,10 @@ const msgHtml = () => state.msg ? `<div class="${state.msg.kind}" role="${state.
 function render() {
   if (!state.data) return renderLogin();
   if (state.view === 'stock') return renderStock();
+  if (state.view === 'accounts' && state.data.accounts) return renderAccounts();
+  if (state.view === 'transfer' && state.data.accounts) return renderTransfer();
+  if (state.view === 'start' && state.data.accounts && state.st) return renderStart();
+  if (state.view === 'form' && state.mode === 'advance') return renderAdvance();
   return renderForm();
 }
 
@@ -254,10 +290,11 @@ function renderForm() {
     </div>
     <div class="card buyhead${item.low ? '' : ' ok'}"><b>${item.onHand === null ? 'Not counted yet' : 'About ' + esc(Math.max(0, Math.round(item.onHand))) + unitText(item) + ' left'}</b>
       <span class="small muted"> · low at ${esc(item.lowAt)}${unitText(item)}</span>${item.low ? '<br><span class="small" style="color:var(--bad);font-weight:700">Running low — please buy more.</span>' : ''}</div>` : `<div class="top">
-      <div><p class="eyebrow">Cabins by the Generals</p><h1>Add expense</h1><p class="muted small">Hi, ${esc(d.name)}!</p></div>
+      <div><p class="eyebrow">Cabins by the Generals</p><h1>Add disbursement</h1><p class="muted small">Hi, ${esc(d.name)}!</p></div>
       <button class="link" id="out">Log out</button>
     </div>
-    ${(() => { const st = stockList(); const n = st.filter((i) => i.low).length; return st.length ? `<button class="stockbtn${n ? ' low' : ''}" id="stock">📦 ${n ? 'Low stocks' : 'Stock'} ${n ? '<span class="badge">' + n + ' low</span>' : '<small class="muted">all OK</small>'}</button>` : ''; })()}`}
+    ${topButtons()}
+    ${segHtml()}`}
     ${msgHtml()}
     <form id="f" class="card" novalidate>
       ${item ? `<div class="f"><label for="qty">How many ${esc(item.unit || '')} bought</label><div class="qty">
@@ -278,11 +315,7 @@ function renderForm() {
       <button class="btn primary" ${state.busy ? 'disabled' : ''}>${state.busy ? 'Saving…' : item ? '✓ Save purchase' : '＋ Save expense'}</button>
     </form>
     ${item ? '<button class="btn secondary" id="back2">‹ Back to stock</button>' : ''}
-    ${!item && (d.recent || []).length ? `<section class="card recent"><h2>Sent from the web</h2><ul>${d.recent.map((r) => `
-      <li><div class="w"><b>${esc(r.data.category)}</b> · ${esc(r.data.payee)}${r.data.cabin ? ' · ' + esc(r.data.cabin) : ''}<br>
-        <span class="small muted">${esc(dayText(r.data.date))} · from ${esc(acctName(r.data.method))}${r.data.status === 'Unpaid' ? ' · <span class="unpaid">Unpaid</span>' : ''} · by ${esc(r.by)}, ${esc(whenText(r.at))}</span></div>
-        <span class="a">${esc(peso(r.data.amount))}</span></li>`).join('')}</ul>
-      <p class="small muted" style="margin-top:8px">Made a mistake? Tell Jay to fix or delete it in the app.</p></section>` : ''}
+    ${!item ? recentHtml() : ''}
     ${item ? '' : '<p class="small muted">Tip (iPhone): tap Share → “Add to Home Screen” to open this like an app.</p>'}`;
 
   const keep = () => {
@@ -304,17 +337,221 @@ function renderForm() {
   document.getElementById('f').onsubmit = (e) => { e.preventDefault(); keep(); send(); };
   const out = document.getElementById('out');
   if (out) out.onclick = () => { state.pin = null; state.data = null; state.msg = null; save(); render(); };
-  const sb = document.getElementById('stock'); if (sb) sb.onclick = () => show('stock');
+  wireTop();
   ['back', 'back2'].forEach((id) => { const b = document.getElementById(id); if (b) b.onclick = goBack; });
   const step = (n) => { keep(); const v = Math.max(0, (parseAmount(f.qty) || 0) + n); f.qty = v ? String(v) : ''; render(); };
   const qm = document.getElementById('qm'); if (qm) qm.onclick = () => step(-1);
   const qp = document.getElementById('qp'); if (qp) qp.onclick = () => step(1);
 }
 
+// ---- Shared bits of the main screen: Stock + Accounts buttons, Expense / Advance switch, recent list.
+function topButtons() {
+  const d = state.data, st = stockList(), n = st.filter((i) => i.low).length;
+  const stock = st.length ? `<button class="stockbtn${n ? ' low' : ''}" id="stock">📦 ${n ? 'Low stocks' : 'Stock'} ${n ? '<span class="badge">' + n + ' low</span>' : '<small class="muted">all OK</small>'}</button>` : '';
+  const acc = d.accounts && d.accounts.periods ? `<button class="acctbtn" id="acct">🏦 Money in the accounts <small>${esc(pesoShort(d.accounts.periods.today.total.closing))}</small></button>` : '';
+  return stock + acc;
+}
+function segHtml() {
+  return `<div class="seg" role="group" aria-label="What are you adding?"><button type="button" data-mode="expense" class="${state.mode === 'expense' ? 'on' : ''}">Expense</button><button type="button" data-mode="advance" class="${state.mode === 'advance' ? 'on' : ''}">Advance to owner</button></div>`;
+}
+function wireTop() {
+  const sb = document.getElementById('stock'); if (sb) sb.onclick = () => show('stock');
+  const ab = document.getElementById('acct'); if (ab) ab.onclick = () => show('accounts');
+  app.querySelectorAll('[data-mode]').forEach((b) => b.onclick = () => { state.mode = b.dataset.mode; state.msg = null; render(); });
+}
+function recentLine(r) {
+  const x = r.data || {}, who = ' · by ' + esc(r.by) + ', ' + esc(whenText(r.at));
+  if (x.type === 'advance' || x.type === 'repay') return `<li><div class="w"><b>👤 ${esc(x.owner)} ${x.type === 'advance' ? 'took' : 'paid back'}</b><br><span class="small muted">${esc(dayText(x.date))} · ${x.type === 'advance' ? 'from' : 'into'} ${esc(acctName(x.account))}${x.note ? ' · ' + esc(x.note) : ''}${who}</span></div><span class="a">${esc(peso(x.amount))}</span></li>`;
+  if (x.type === 'transfer') return `<li><div class="w"><b>⇄ ${esc(acctName(x.from))} → ${esc(acctName(x.to))}</b><br><span class="small muted">${esc(dayText(x.date))}${x.fee ? ' · fee ' + esc(peso(x.fee)) : ''}${x.note ? ' · ' + esc(x.note) : ''}${who}</span></div><span class="a">${esc(peso(x.amount))}</span></li>`;
+  if (x.type === 'start') return `<li><div class="w"><b>✎ Starting balances</b><br><span class="small muted">as of ${esc(dayText(x.date))}${who}</span></div><span class="a"></span></li>`;
+  return `<li><div class="w"><b>${esc(x.category)}</b> · ${esc(x.payee)}${x.cabin ? ' · ' + esc(x.cabin) : ''}<br>
+        <span class="small muted">${esc(dayText(x.date))} · from ${esc(acctName(x.method))}${x.status === 'Unpaid' ? ' · <span class="unpaid">Unpaid</span>' : ''}${who}</span></div>
+        <span class="a">${esc(peso(x.amount))}</span></li>`;
+}
+function recentHtml() {
+  const rec = state.data.recent || [];
+  return rec.length ? `<section class="card recent"><h2>Sent from the web</h2><ul>${rec.map(recentLine).join('')}</ul>
+      <p class="small muted" style="margin-top:8px">Made a mistake? Tell Jay to fix or delete it in the app.</p></section>` : '';
+}
+const pesoShort = (n) => { const a = Math.abs(n), sg = n < 0 ? '−' : ''; if (a >= 1e6) return sg + '₱' + (a / 1e6).toFixed(2) + 'M'; if (a >= 1e5) return sg + '₱' + Math.round(a / 1e3) + 'K'; return sg + peso(Math.round(a)); };
+const pesoS = (n) => (n < 0 ? '−' : '') + peso(Math.round(Math.abs(n)));
+// Entries sent from the web that the app hasn't taken in yet.
+const pendingMoney = () => { const d = state.data, since = d.stockAt ? Date.parse(d.stockAt) : 0; return (d.recent || []).filter((r) => r.data && ['advance', 'repay', 'transfer', 'start'].includes(r.data.type) && Date.parse(r.at) > since); };
+
+async function sendMoney(payload, okText, after) {
+  state.busy = true; state.msg = null; render();
+  try {
+    const r = await rpc('expense_add', { p_pin: state.pin, p_data: payload });
+    if (r.error) { state.msg = { kind: 'error', text: r.error }; if (r.error === 'Wrong PIN.') { state.pin = null; state.data = null; save(); } }
+    else {
+      const fresh = await rpc('expense_login', { p_pin: state.pin }).catch(() => null);
+      if (fresh && !fresh.error) state.data = fresh;
+      after();
+      state.msg = { kind: 'notice', text: okText + (r.duplicate ? ' (already sent)' : '') + ' It shows in the CBTG app within a minute.' };
+    }
+  } catch (e) { state.msg = { kind: 'error', text: e.message + ' Nothing was saved.' }; }
+  state.busy = false; render(); window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ---- Advance to owner / pay-back (on the main screen when the switch is on "Advance to owner").
+function renderAdvance() {
+  const d = state.data, a = state.adv, owners = d.owners || [];
+  if (!a.owner) a.owner = owners[0] || null;
+  const chip = (g, v, label, on) => `<button type="button" data-a="${g}" data-v="${esc(v)}" class="${on ? 'on' : ''}" aria-pressed="${on}">${esc(label)}</button>`;
+  app.innerHTML = `
+    <div class="top"><div><p class="eyebrow">Cabins by the Generals</p><h1>Add disbursement</h1><p class="muted small">Hi, ${esc(d.name)}!</p></div><button class="link" id="out">Log out</button></div>
+    ${topButtons()}${segHtml()}${msgHtml()}
+    <form id="af" class="card" novalidate>
+      <div class="seg small"><button type="button" data-k="advance" class="${a.kind === 'advance' ? 'on' : ''}">Took money</button><button type="button" data-k="repay" class="${a.kind === 'repay' ? 'on' : ''}">Paid back</button></div>
+      <div class="f"><span class="lab">Owner</span><div class="chips">${owners.map((o) => chip('owner', o, o, a.owner === o)).join('')}</div></div>
+      <div class="f"><label for="aamt">Amount</label><div class="amt"><span>₱</span><input class="t" id="aamt" inputmode="decimal" autocomplete="off" placeholder="0" value="${esc(a.amount)}"></div></div>
+      <div class="f"><label for="adate">Date</label><input class="t" id="adate" type="date" value="${esc(a.date)}"></div>
+      <div class="f"><span class="lab">${a.kind === 'advance' ? 'Taken from' : 'Paid back into'}</span><div class="chips">${(d.methods || []).map((m) => chip('account', m, acctName(m), a.account === m)).join('')}</div></div>
+      <div class="f"><label for="anote">Purpose / note</label><input class="t" id="anote" autocomplete="off" placeholder="${a.kind === 'advance' ? 'e.g. personal, to return in Nov' : 'Optional'}" value="${esc(a.note)}"></div>
+      <button class="btn primary" style="background:#5A4AA8" ${state.busy ? 'disabled' : ''}>${state.busy ? 'Saving…' : a.kind === 'advance' ? '✓ Save advance' : '✓ Save pay-back'}</button>
+      <p class="small muted">${a.kind === 'advance' ? 'Comes out of ' + esc(acctName(a.account)) + ' and is owed back by ' + esc(a.owner || 'the owner') + '. Not an expense, so profit doesn\'t change.' : 'Goes back into ' + esc(acctName(a.account)) + ' and lowers what ' + esc(a.owner || 'the owner') + ' owes.'}</p>
+    </form>
+    ${recentHtml()}`;
+  const keep = () => { a.amount = document.getElementById('aamt').value; a.date = document.getElementById('adate').value; a.note = document.getElementById('anote').value; };
+  app.querySelectorAll('[data-a]').forEach((b) => b.onclick = () => { keep(); a[b.dataset.a] = b.dataset.v; state.msg = null; render(); });
+  app.querySelectorAll('[data-k]').forEach((b) => b.onclick = () => { keep(); a.kind = b.dataset.k; state.msg = null; render(); });
+  document.getElementById('af').onsubmit = (e) => {
+    e.preventDefault(); keep();
+    const amt = parseAmount(a.amount);
+    if (!a.owner) { state.msg = { kind: 'error', text: 'Pick the owner.' }; return render(); }
+    if (amt === null) { state.msg = { kind: 'error', text: 'Type the amount.' }; return render(); }
+    if (!a.date) { state.msg = { kind: 'error', text: 'Pick the date.' }; return render(); }
+    sendMoney({ type: a.kind, date: a.date, owner: a.owner, amount: amt, account: a.account, note: a.note.trim() || null },
+      '✓ Saved: ' + a.owner + (a.kind === 'advance' ? ' took ' : ' paid back ') + peso(amt) + '.', () => { state.adv = { ...blankAdv(), kind: a.kind, owner: a.owner, account: a.account, date: a.date }; });
+  };
+  const out = document.getElementById('out');
+  if (out) out.onclick = () => { state.pin = null; state.data = null; state.msg = null; save(); render(); };
+  wireTop();
+}
+
+// ---- Money in the accounts.
+function boxHtml(cls, name, p, inL, outL, hint) {
+  return `<div class="abox ${cls}"><div class="t"><span class="n">${name}</span><span class="v${p.closing < 0 ? ' red' : ''}">${esc(pesoS(p.closing))}</span></div>
+    <div class="r"><span>Start ${esc(pesoS(p.opening))}</span><span class="g">${inL} +${esc(pesoS(p.in))}</span><span class="red">${outL} −${esc(pesoS(p.out))}</span></div>${hint ? '<p class="small muted" style="margin-top:4px">' + hint + '</p>' : ''}</div>`;
+}
+function renderAccounts() {
+  const A = state.data.accounts, P = A.periods[state.period] || A.periods.today;
+  const pend = pendingMoney();
+  app.innerHTML = `
+    <div class="top"><div><p class="eyebrow">Money</p><h1>Accounts</h1></div><button class="backbtn" id="back">‹ Back</button></div>
+    ${msgHtml()}
+    <div class="chips">${[['today', 'Today'], ['month', 'This month'], ['year', 'This year']].map(([k, l]) => `<button type="button" data-p="${k}" class="${state.period === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+    ${pend.length ? `<div class="pend">⏳ ${pend.length} change${pend.length === 1 ? '' : 's'} sent from the web ${pend.length === 1 ? 'is' : 'are'} not in these balances yet. They update once the CBTG app syncs (about a minute while it's open).</div>` : ''}
+    <div class="boxes">
+      ${P.rows.map((r) => boxHtml('', esc(acctName(r.account)), r, 'In', 'Out')).join('')}
+      ${boxHtml('tot', 'Total cash &amp; bank', P.total, 'In', 'Out')}
+      ${boxHtml('adv', '👤 Advances to Owners', { opening: P.advances.opening, in: P.advances.taken, out: P.advances.returned, closing: P.advances.closing }, 'Taken', 'Returned',
+        esc(P.owners.map((o) => o.owner + ' ' + pesoS(o.closing)).join(' · ')) + ' — still to be returned. Not cash, not an expense.')}
+      <div class="abox assets"><div class="t"><span class="n">Total assets</span><span class="v">${esc(pesoS(P.totalAssets))}</span></div></div>
+    </div>
+    ${A.asOf ? '<p class="small muted">Counted from the starting balances on ' + esc(dayText(A.asOf)) + '.</p>' : '<p class="small" style="color:var(--warn);font-weight:700">Starting balances aren\'t set yet, so these count from zero. Tap “Starting balances”.</p>'}
+    <button class="btn primary" id="tr">⇄ Transfer</button>
+    <button class="btn secondary" id="st">✎ Starting balances</button>
+    ${(A.transfers || []).length ? `<section class="card recent"><h2>Recent transfers</h2><ul>${A.transfers.map((t) => `<li><div class="w">${esc(dayText(t.date))} · ${esc(acctName(t.from))} → ${esc(acctName(t.to))}${t.note ? '<br><span class="small muted">' + esc(t.note) + '</span>' : ''}</div><span class="a">${esc(peso(t.amount))}${t.fee ? ' <span class="small muted">(+' + esc(peso(t.fee)) + ' fee)</span>' : ''}</span></li>`).join('')}</ul></section>` : ''}
+    <p class="small muted">In = guest payments, transfers in and owners' pay-backs. Out = paid expenses, transfers out (with fees) and owners' advances.</p>
+    <button class="btn secondary" id="back2">‹ Back to disbursements</button>`;
+  app.querySelectorAll('[data-p]').forEach((b) => b.onclick = () => { state.period = b.dataset.p; render(); });
+  document.getElementById('tr').onclick = () => show('transfer');
+  document.getElementById('st').onclick = () => show('start');
+  ['back', 'back2'].forEach((id) => document.getElementById(id).onclick = goBack);
+}
+
+function renderTransfer() {
+  const A = state.data.accounts, now = A.periods.today, t = state.tr, methods = state.data.methods || [];
+  const bal = (m) => (now.rows.find((r) => r.account === m) || { closing: 0 }).closing;
+  const amt = parseAmount(t.amount), fee = t.fee.trim() ? parseAmount(t.fee) : 0;
+  const ready = amt !== null && fee !== null;
+  const fromAfter = bal(t.from) - (ready ? amt + fee : 0), toAfter = bal(t.to) + (ready ? amt : 0);
+  const tiles = (g, picked, disabled) => `<div class="tiles3">${methods.map((m) => `<button type="button" class="tile3${picked === m ? ' on' : ''}" data-t="${g}" data-v="${esc(m)}" ${m === disabled ? 'disabled' : ''} aria-pressed="${picked === m}"><div class="n">${esc(acctName(m))}</div><div class="v${bal(m) < 0 ? ' red' : ''}">${esc(pesoS(bal(m)))}</div></button>`).join('')}</div>`;
+  app.innerHTML = `
+    <div class="top"><div><p class="eyebrow">Accounts</p><h1>⇄ Transfer</h1></div><button class="backbtn" id="back">‹ Back</button></div>
+    ${msgHtml()}
+    <form id="tf" class="card" novalidate>
+      <div class="f"><span class="lab">From</span>${tiles('from', t.from)}</div>
+      <div class="arrow" aria-hidden="true">↓</div>
+      <div class="f"><span class="lab">To</span>${tiles('to', t.to, t.from)}</div>
+      <div class="f"><label for="tamt">Amount moved</label><div class="amt"><span>₱</span><input class="t" id="tamt" inputmode="decimal" autocomplete="off" placeholder="0" value="${esc(t.amount)}"></div></div>
+      <div class="f"><label for="tfee">Fee (optional)</label><input class="t" id="tfee" inputmode="decimal" autocomplete="off" placeholder="0" value="${esc(t.fee)}"><p class="small muted">e.g. GCash cash-out or bank fee. It's taken from the “From” account too.</p></div>
+      <div id="tprev">${ready ? previewHtml(t, bal, fromAfter, toAfter) : ''}</div>
+      <div class="f"><label for="tdate">Date</label><input class="t" id="tdate" type="date" value="${esc(t.date)}"></div>
+      <div class="f"><label for="tnote">Note (optional)</label><input class="t" id="tnote" autocomplete="off" placeholder="e.g. deposited cash at BDO" value="${esc(t.note)}"></div>
+      <button class="btn primary" ${state.busy ? 'disabled' : ''}>${state.busy ? 'Saving…' : '✓ Save transfer'}</button>
+    </form>
+    <p class="small muted">A transfer isn't income or an expense; it only moves money between balances. Balances shown are as of the app's last sync.</p>
+    <button class="btn secondary" id="back2">‹ Back to accounts</button>`;
+  const keep = () => { t.amount = document.getElementById('tamt').value; t.fee = document.getElementById('tfee').value; t.date = document.getElementById('tdate').value; t.note = document.getElementById('tnote').value; };
+  const live = () => { keep(); const a2 = parseAmount(t.amount), f2 = t.fee.trim() ? parseAmount(t.fee) : 0; document.getElementById('tprev').innerHTML = a2 !== null && f2 !== null ? previewHtml(t, bal, bal(t.from) - a2 - f2, bal(t.to) + a2) : ''; };
+  document.getElementById('tamt').oninput = live; document.getElementById('tfee').oninput = live;
+  app.querySelectorAll('[data-t]').forEach((b) => b.onclick = () => {
+    keep(); t[b.dataset.t] = b.dataset.v;
+    if (t.from === t.to) t.to = methods.find((m) => m !== t.from) || t.to;
+    render();
+  });
+  document.getElementById('tf').onsubmit = (e) => {
+    e.preventDefault(); keep();
+    const a2 = parseAmount(t.amount), f2 = t.fee.trim() ? parseAmount(t.fee) : 0;
+    if (a2 === null) { state.msg = { kind: 'error', text: 'Type the amount moved.' }; return render(); }
+    if (f2 === null) { state.msg = { kind: 'error', text: 'Check the fee.' }; return render(); }
+    if (!t.date) { state.msg = { kind: 'error', text: 'Pick the date.' }; return render(); }
+    sendMoney({ type: 'transfer', date: t.date, from: t.from, to: t.to, amount: a2, fee: f2 || null, note: t.note.trim() || null },
+      '✓ Transfer saved: ' + acctName(t.from) + ' → ' + acctName(t.to) + ' ' + peso(a2) + '.', () => {
+        state.view = 'accounts'; state.tr = blankTr();
+        if (history.state && history.state.cbtgView === 'transfer') history.back();
+      });
+  };
+  ['back', 'back2'].forEach((id) => document.getElementById(id).onclick = goBack);
+}
+function previewHtml(t, bal, fromAfter, toAfter) {
+  return (fromAfter < 0 ? `<div class="error" style="margin-bottom:10px">${esc(acctName(t.from))} only has ${esc(pesoS(bal(t.from)))}. After this it would be ${esc(pesoS(fromAfter))}. Check the amount (you can still save if the app's balance is behind).</div>` : '') +
+    `<div class="preview"><span class="lab" style="font-size:.75rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">After this transfer</span>
+      <div class="rw"><span>${esc(acctName(t.from))}</span><span>${esc(pesoS(bal(t.from)))} → <b class="${fromAfter < 0 ? 'red' : ''}">${esc(pesoS(fromAfter))}</b></span></div>
+      <div class="rw"><span>${esc(acctName(t.to))}</span><span>${esc(pesoS(bal(t.to)))} → <b class="g">${esc(pesoS(toAfter))}</b></span></div></div>`;
+}
+
+function renderStart() {
+  const s2 = state.st, d = state.data, methods = d.methods || [], owners = d.owners || [];
+  const field = (k, label) => `<div class="f"><label for="sv-${esc(k)}">${esc(label)}</label><div class="amt"><span>₱</span><input class="t" id="sv-${esc(k)}" data-k="${esc(k)}" inputmode="decimal" autocomplete="off" placeholder="0" value="${esc(s2.vals[k] || '')}"></div></div>`;
+  app.innerHTML = `
+    <div class="top"><div><p class="eyebrow">Accounts</p><h1>Starting balances</h1></div><button class="backbtn" id="back">‹ Back</button></div>
+    ${msgHtml()}
+    <form id="sf" class="card" novalidate>
+      <p class="small muted">Type what was in each account at the START of this date (check the BDO and GCash apps, count the cash). Everything from that date on is added or taken away automatically.</p>
+      <div class="f"><label for="sdate">As of the start of</label><input class="t" id="sdate" type="date" value="${esc(s2.date)}"></div>
+      ${methods.map((m) => field(m, acctName(m))).join('')}
+      <p class="lab" style="font-size:.8rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:6px">Owners still owe (advances not yet returned)</p>
+      ${owners.map((o) => field('Adv:' + o, o)).join('')}
+      <button class="btn primary" ${state.busy ? 'disabled' : ''}>${state.busy ? 'Saving…' : '✓ Save balances'}</button>
+    </form>
+    <div class="notice">Changes show in Jay's app with your name on them.</div>
+    <button class="btn secondary" id="back2">‹ Back to accounts</button>`;
+  document.getElementById('sf').onsubmit = (e) => {
+    e.preventDefault();
+    s2.date = document.getElementById('sdate').value;
+    const balances = {};
+    for (const inp of app.querySelectorAll('[data-k]')) {
+      s2.vals[inp.dataset.k] = inp.value;
+      const v = inp.value.trim() ? Number(inp.value.replace(/[₱,\s]/g, '')) : 0;
+      if (!Number.isFinite(v)) { state.msg = { kind: 'error', text: 'Check the amounts.' }; return render(); }
+      balances[inp.dataset.k] = Math.round(v * 100) / 100;
+    }
+    if (!s2.date) { state.msg = { kind: 'error', text: 'Pick the date.' }; return render(); }
+    sendMoney({ type: 'start', date: s2.date, balances }, '✓ Starting balances saved.', () => {
+      state.view = 'accounts'; state.st = null;
+      if (history.state && history.state.cbtgView === 'start') history.back();
+    });
+  };
+  ['back', 'back2'].forEach((id) => document.getElementById(id).onclick = goBack);
+}
+
 function renderLogin() {
   app.innerHTML = `
-    <div class="top"><div><p class="eyebrow">Cabins by the Generals</p><h1>Expenses</h1></div></div>
-    <p class="muted">Enter your PIN to add expenses to the CBTG app.</p>
+    <div class="top"><div><p class="eyebrow">Cabins by the Generals</p><h1>Disbursements</h1></div></div>
+    <p class="muted">Enter your PIN to add expenses and owner advances to the CBTG app.</p>
     ${msgHtml()}
     <form id="f" class="card">
       <label for="pin" class="small muted">Your PIN</label>
