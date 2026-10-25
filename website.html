@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
-<link rel="preload" as="image" href="img/c1-hero.jpg">
+<link rel="preload" as="image" href="img/c2-pool-dusk.jpg">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -134,10 +134,12 @@ section{padding:96px 0}
 .hero .wrap{max-width:1440px}
 .hero-frame{position:relative;border-radius:28px;overflow:hidden;background:var(--char);isolation:isolate}
 @media (min-width:760px){.hero-frame{border-radius:36px}}
-.hero-frame>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 45%;z-index:-2;animation:drift 18s var(--ease) both}
+.hero-frame>img,.hero-frame>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.hero-frame>video{z-index:-1}
+.hero-frame>img{animation:drift 18s var(--ease) both}
 @keyframes drift{from{transform:scale(1.08)}to{transform:scale(1)}}
-.hero-frame::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(18,20,18,.88) 0%,rgba(18,20,18,.35) 48%,rgba(18,20,18,.12) 100%)}
-.hero-grid{display:grid;gap:34px;align-content:end;min-height:min(680px,calc(100svh - 120px));padding:120px 22px 24px;color:var(--on-char)}
+.hero-frame::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(0deg,rgba(18,20,18,.88) 0%,rgba(18,20,18,.35) 48%,rgba(18,20,18,.12) 100%)}
+.hero-grid{position:relative;z-index:1;display:grid;gap:34px;align-content:end;min-height:min(680px,calc(100svh - 120px));padding:120px 22px 24px;color:var(--on-char)}
 @media (min-width:760px){.hero-grid{padding:140px 44px 40px}}
 @media (min-width:1060px){.hero-grid{grid-template-columns:1.4fr .6fr;align-items:end;padding:160px 56px 52px}}
 .hero .eyebrow{color:var(--champ-2)}
@@ -478,7 +480,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
 .am-note{margin-top:20px;padding:12px 14px;border-radius:14px;background:#F6EADF;color:#7A4A1F;font-size:.9rem}
 .am-foot{padding:14px 22px calc(16px + env(safe-area-inset-bottom, 0px));border-top:1px solid var(--line)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rise{animation:none}.hero-frame>img{animation:none}*{transition:none !important}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rise{animation:none}.hero-frame>img{animation:none}.hero-frame>video{display:none}*{transition:none !important}}
 </style>
 </head>
 <body>
@@ -511,7 +513,8 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
 <section class="hero" aria-label="Welcome">
   <div class="wrap">
     <div class="hero-frame">
-      <img src="img/c1-hero.jpg" alt="Cabin Charlie at dusk, its glass A-frame lit with warm lights above the private pool" fetchpriority="high">
+      <img src="img/c2-pool-dusk.jpg" alt="Cabin Charlotte's pool deck at dusk, under string lights and coconut trees" fetchpriority="high">
+      <video id="hero-video" muted loop playsinline autoplay preload="auto" poster="img/c2-pool-dusk.jpg" aria-hidden="true"><source src="video/c2-pool.mp4" type="video/mp4"></video>
       <div class="hero-grid">
         <div>
           <p class="eyebrow rise">Private A-frame cabins beside the Mamala River</p>
@@ -1407,6 +1410,18 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
     if (navigator.share) { navigator.share(data).catch(function () {}); return; }
     try { navigator.clipboard.writeText(data.url).then(function () { toast("Website link copied"); }); } catch (e) { window.prompt("Copy this link:", data.url); }
   };
+
+  /* ---------- hero clip ---------- */
+  var hv = $("hero-video");
+  if (hv) {
+    if (calm || (navigator.connection && navigator.connection.saveData)) { hv.removeAttribute("autoplay"); hv.pause(); hv.remove(); }
+    else {
+      var hp = hv.play(); if (hp && hp.catch) hp.catch(function () {});
+      if ("IntersectionObserver" in window) new IntersectionObserver(function (es) {
+        es.forEach(function (x) { if (x.isIntersecting) { var p = hv.play(); if (p && p.catch) p.catch(function () {}); } else hv.pause(); });
+      }).observe(hv);
+    }
+  }
 
   /* ---------- mobile menu ---------- */
   var mb = $("menu-btn"), menu = $("menu");
