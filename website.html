@@ -327,7 +327,7 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
       <div>
         <p class="cabin-num">Cabin 1</p>
         <h3>Charlie</h3>
-        <p class="who">Up to 14 guests · named in memory of our orange boy</p>
+        <p class="who">Up to 14 guests, or 15 on a budget · named in memory of our orange boy</p>
         <p class="blurb">A sound-insulated glass cabin made for staying up. Sing until morning without worrying about the neighbors.</p>
         <ul class="feat">
           <li>PS5 on a 65-inch 4K TV, plus streaming</li>
@@ -348,10 +348,10 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
       <div>
         <p class="cabin-num">Cabin 2</p>
         <h3>Charlotte</h3>
-        <p class="who">Up to 14 guests · up to 20 with Choco</p>
+        <p class="who">Up to 14 guests, or 15 on a budget · up to 20 with Choco</p>
         <p class="blurb">Movie night by the pool. Lanterns over the lanai, a giant screen under the stars, and the grill going.</p>
         <ul class="feat">
-          <li>200-inch outdoor cinema</li>
+          <li>175-inch outdoor cinema</li>
           <li>Jacuzzi pool and videoke</li>
           <li>Griddle, dual griller and bonfire pit</li>
           <li>Ground-floor bedroom facing the pool, plus a loft</li>
@@ -411,8 +411,8 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
     <div class="book-grid">
       <div class="panel">
         <div class="opts" role="group" aria-label="Choose a cabin">
-          <button class="opt" data-opt="c1" aria-pressed="false"><b>Charlie</b><span>Cabin 1 · up to 14</span></button>
-          <button class="opt" data-opt="c2" aria-pressed="false"><b>Charlotte</b><span>Cabin 2 · up to 14</span></button>
+          <button class="opt" data-opt="c1" aria-pressed="false"><b>Charlie</b><span>Cabin 1 · up to 15</span></button>
+          <button class="opt" data-opt="c2" aria-pressed="false"><b>Charlotte</b><span>Cabin 2 · up to 15</span></button>
           <button class="opt" data-opt="c12" aria-pressed="false"><b>Charlie + Charlotte</b><span>Cabins 1 and 2 · up to 24</span></button>
           <button class="opt" data-opt="c23" aria-pressed="false"><b>Charlotte + Choco</b><span>Cabins 2 and 3 · up to 20</span></button>
         </div>
@@ -442,6 +442,7 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
         </div>
         <div class="lines" id="lines"></div>
         <p class="hint" id="hint">Choose your dates to see the total.</p>
+        <p class="hint" id="tight" hidden style="color:#7A4B00;background:#FFF4E0;border-radius:12px;padding:10px 12px">15 guests in one cabin is our budget option. It saves you from booking two cabins, but the sleeping area will be tight. For more room, choose Charlie + Charlotte or Charlotte + Choco.</p>
 
         <form class="form" id="req" hidden novalidate>
           <label>Your name<input name="name" autocomplete="name" required></label>
@@ -497,9 +498,9 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
   <div class="wrap">
     <div class="sec-head"><h2 id="faq-h">Good to know</h2></div>
     <div class="faq">
-      <details><summary>How do I reserve my dates?</summary><p>Pick your dates above and send the request on Messenger or by text. We'll confirm availability and send the reservation fee and payment details. Your dates are held once the reservation fee is paid.</p></details>
+      <details><summary>How do I reserve my dates?</summary><p>Pick your dates above and send the request on Messenger or by text. We'll confirm availability and send the payment details. A reservation fee of 30% of your total holds your dates.</p></details>
       <details><summary>Why is booking direct cheaper than Airbnb?</summary><p>Airbnb adds its own service fees. When you book with us directly, there's no middleman, so we pass the savings to you.</p></details>
-      <details><summary>How many guests can we bring?</summary><p>Charlie and Charlotte fit up to 14 guests each. Charlotte + Choco fits up to 20, and Charlie + Charlotte up to 24. Each booking includes a set number of guests (8 for one cabin, 12 for Charlotte + Choco, 16 for Charlie + Charlotte). Extra guests are ₱600 each per night, or ₱750 for nights in December.</p></details>
+      <details><summary>How many guests can we bring?</summary><p>Charlie and Charlotte are comfortable for up to 14 guests each. If you're a group of 15 and want to save, you can book just one cabin, but the sleeping area will be tight. Charlotte + Choco fits up to 20, and Charlie + Charlotte up to 24. Each booking includes a set number of guests (8 for one cabin, 12 for Charlotte + Choco, 16 for Charlie + Charlotte). Extra guests are ₱600 each per night, or ₱750 for nights in December.</p></details>
       <details><summary>Are holiday rates different?</summary><p>Yes. From December 12 to January 15, one cabin is ₱15,000 a night and two cabins are ₱20,000 a night. Holiday dates fill up first, so book early.</p></details>
       <details><summary>Can we bring our own food and drinks?</summary><p>Yes. There's no corkage fee, and every cabin has complete kitchenware, free gasul and purified water.</p></details>
       <details><summary>Is there a quiet time?</summary><p>Not in Charlie. It's a sound-insulated glass cabin, so videoke until morning is fine.</p></details>
@@ -609,8 +610,8 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
 
   /* ---------- rates ---------- */
   var OPT = {
-    c1:  { name: "Charlie (Cabin 1)", short: "Charlie", cabins: ["Cabin 1"], wk: 8000, we: 10400, hol: 15000, base: 8, max: 14 },
-    c2:  { name: "Charlotte (Cabin 2)", short: "Charlotte", cabins: ["Cabin 2"], wk: 7100, we: 9200, hol: 15000, base: 8, max: 14 },
+    c1:  { name: "Charlie (Cabin 1)", short: "Charlie", cabins: ["Cabin 1"], wk: 8000, we: 10400, hol: 15000, base: 8, max: 15, comfy: 14 },
+    c2:  { name: "Charlotte (Cabin 2)", short: "Charlotte", cabins: ["Cabin 2"], wk: 7100, we: 9200, hol: 15000, base: 8, max: 15, comfy: 14 },
     c12: { name: "Charlie + Charlotte (Cabins 1 and 2)", short: "Charlie + Charlotte", cabins: ["Cabin 1", "Cabin 2"], wk: 14300, we: 17900, hol: 20000, base: 16, max: 24 },
     c23: { name: "Charlotte + Choco (Cabins 2 and 3)", short: "Charlotte + Choco", cabins: ["Cabin 2", "Cabin 3"], wk: 12200, we: 15200, hol: 20000, base: 12, max: 20 }
   };
@@ -700,6 +701,7 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
     $("g-n").textContent = guests;
     $("g-minus").disabled = guests <= 1; $("g-plus").disabled = guests >= o.max;
     $("g-note").textContent = "Up to " + o.max + ", " + o.base + " included";
+    $("tight").hidden = !(o.comfy && guests > o.comfy);
     $("s-in").querySelector(".v").textContent = ci ? nice(ci) : "Add date";
     $("s-out").querySelector(".v").textContent = co ? nice(co) : "Add date";
     var L = $("lines");
@@ -717,6 +719,7 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
     if (q.nhol) r += row(q.nhol, o.hol, "holiday night", q.hol);
     if (q.extraN) r += '<div><span>' + q.extraN + " extra guest" + (q.extraN > 1 ? "s" : "") + " × " + n + " night" + (n > 1 ? "s" : "") + "</span><span>" + peso(q.extra) + "</span></div>";
     r += '<div class="tot"><span>Total</span><span>' + peso(q.total) + "</span></div>";
+    r += '<div class="muted"><span>Reservation fee (30%) to hold your dates</span><span>' + peso(Math.round(q.total * 0.3)) + "</span></div>";
     L.innerHTML = r;
     $("s-big").textContent = peso(q.total); $("s-per").textContent = "for " + n + (n > 1 ? " nights" : " night");
     $("hint").hidden = true; $("req").hidden = false;
@@ -763,7 +766,7 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
       "• Check-in: " + nice(ci, { weekday: "short", month: "short", day: "numeric", year: "numeric" }) + ", 4 PM",
       "• Check-out: " + nice(co, { weekday: "short", month: "short", day: "numeric", year: "numeric" }) + ", 12 NN",
       "• " + n + (n > 1 ? " nights" : " night") + ", " + guests + " guests",
-      "• Total from the website: " + peso(q.total)
+      "• Total from the website: " + peso(q.total) + " (30% reservation fee: " + peso(Math.round(q.total * 0.3)) + ")"
     ];
     if (f.occ.value) lines.push("• Occasion: " + f.occ.value);
     lines.push("• Name: " + f.name.value.trim());
