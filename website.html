@@ -618,6 +618,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
           <li><i data-lucide="snowflake" class="ico"></i>Air-conditioned bedroom for 6 to 7</li>
           <li><i data-lucide="shower-head" class="ico"></i>Its own CR</li>
           <li><i data-lucide="bed" class="ico"></i>Loft for up to 10</li>
+          <li><i data-lucide="door-closed" class="ico"></i>Hidden slatted door</li>
         </ul>
         <p class="note-addon">Choco is still being finished, so for now it's only available with Charlotte. More amenities are coming soon.</p>
         <div class="price-line">
@@ -815,7 +816,6 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
             <li><i data-lucide="glass-water" class="ico"></i><span>Free purified water</span></li>
             <li><i data-lucide="mic-vocal" class="ico"></i><span>Videoke</span></li>
             <li><i data-lucide="wifi" class="ico"></i><span>Free WiFi</span></li>
-            <li><i data-lucide="circle-dot" class="ico"></i><span>Billiard pavilion</span></li>
             <li><i data-lucide="car" class="ico"></i><span>Free parking inside</span></li>
           </ul>
           <p><button class="btn line small" data-amen="all">See amenities per cabin</button></p>
@@ -949,7 +949,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
       <div role="tabpanel" id="p-all" aria-labelledby="t-all" class="am-p" hidden>
         <p class="am-sub">Included in every booking</p>
         <div class="am-groups">
-          <div><h3>Around the property</h3><ul><li>Billiard pavilion</li><li>Free parking inside the property</li><li>Beside the Mamala River</li></ul></div>
+          <div><h3>Around the property</h3><ul><li>Free parking inside the property</li><li>Beside the Mamala River</li></ul></div>
           <div><h3>Every cabin</h3><ul><li>A private pool, never shared with other guests</li><li>Complete kitchenware, free gasul and purified water</li><li>Videoke</li><li>Free WiFi</li><li>No corkage fee</li></ul></div>
           <div><h3>Stay times</h3><ul><li>Check-in 4:00 PM</li><li>Check-out 12:00 NN</li></ul></div>
         </div>
@@ -1002,6 +1002,9 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
       ["c1-tub", "Jacuzzi bathtub"],
       ["c1-kitchen", "The kitchen"]
     ],
+    choco: [
+      ["c3-door", "Hidden door to the bedroom"]
+    ],
     charlotte: [
       ["c2-cinema", "Movie night by the pool"],
       ["c2-party", "Party lights and videoke"],
@@ -1017,7 +1020,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
     var box = document.querySelector('[data-gallery="' + k + '"]'); if (!box) return;
     var list = G[k];
     var h = '<button class="cover" data-g="' + k + '" data-i="0" aria-label="Open ' + list.length + ' photos of ' + k + '">' +
-      '<img src="img/' + list[0][0] + '.jpg" alt="' + list[0][1] + '" loading="lazy"><span class="count">' + list.length + ' photos' + (V[k] ? " · " + V[k].length + " clips" : "") + '</span></button><div class="strip">';
+      '<img src="img/' + list[0][0] + '.jpg" alt="' + list[0][1] + '" loading="lazy"><span class="count">' + list.length + ' photos' + (V[k] ? " · " + V[k].length + (V[k].length > 1 ? " clips" : " clip") : "") + '</span></button><div class="strip">';
     for (var i = 1; i < list.length; i++) h += '<button data-g="' + k + '" data-i="' + i + '" aria-label="Open photo: ' + list[i][1] + '"><img src="img/' + list[i][0] + '.jpg" alt="' + list[i][1] + '" loading="lazy"></button>';
     h += "</div>";
     if (V[k]) {
