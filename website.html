@@ -144,6 +144,14 @@ section{padding:88px 0}
 .strip button{scroll-snap-align:start;border:0;padding:0;border-radius:14px;overflow:hidden;aspect-ratio:1;background:var(--dusk);cursor:zoom-in}
 .strip img{width:100%;height:100%;object-fit:cover}
 @media (min-width:960px){.strip{grid-auto-columns:23%}}
+.reel{display:grid;grid-auto-flow:column;grid-auto-columns:36%;gap:10px;margin-top:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:2px}
+.reel::-webkit-scrollbar{display:none}
+@media (min-width:960px){.reel{grid-auto-columns:23%}}
+.clip{position:relative;scroll-snap-align:start;aspect-ratio:9/16;border:0;padding:0;border-radius:16px;overflow:hidden;background:var(--dusk);cursor:pointer;display:block}
+.clip video{width:100%;height:100%;object-fit:cover;display:block}
+.clip::after{content:"";position:absolute;inset:55% 0 0 0;background:linear-gradient(180deg,transparent,rgba(5,12,22,.85));pointer-events:none}
+.clip-cap{position:absolute;left:10px;right:10px;bottom:10px;z-index:1;display:flex;gap:7px;align-items:center;text-align:left;font-size:.85rem;font-weight:700;color:#fff;line-height:1.25}
+.clip-cap i{flex:none;font-style:normal;width:24px;height:24px;border-radius:50%;background:var(--lantern);color:var(--lantern-ink);display:flex;align-items:center;justify-content:center;font-size:.6rem;padding-left:2px}
 
 /* ---------- shared amenities band ---------- */
 .shared{background:var(--deep)}
@@ -277,6 +285,7 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
 .lb-track::-webkit-scrollbar{display:none}
 .lb-track figure{margin:0;scroll-snap-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:64px 12px 40px;gap:12px}
 .lb-track img{max-width:100%;max-height:calc(100dvh - 140px);object-fit:contain;border-radius:8px}
+.lb-track video{max-width:100%;max-height:calc(100dvh - 140px);border-radius:8px;background:#000}
 .lb-track figcaption{color:#B8C5D2;font-size:.95rem;text-align:center}
 .lb-close{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;width:46px;height:46px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:1.4rem;cursor:pointer;z-index:2}
 .lb-arrow{position:fixed;top:50%;width:48px;height:48px;margin-top:-24px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:1.4rem;cursor:pointer;display:none;z-index:2}
@@ -684,27 +693,69 @@ dialog.am::backdrop{background:rgba(5,12,22,.72)}
       ["c3-globe", "Fairy-light ceiling lamp"]
     ]
   };
+  var V = {
+    charlie: [
+      ["c1-videoke", "Videoke night"],
+      ["c1-ps5", "PS5 on the 65-inch TV"],
+      ["c1-tub", "Jacuzzi bathtub"],
+      ["c1-kitchen", "The kitchen"]
+    ],
+    charlotte: [
+      ["c2-cinema", "Movie night by the pool"],
+      ["c2-party", "Party lights and videoke"],
+      ["c2-pool", "Pool deck at dusk"]
+    ]
+  };
   var $ = function (id) { return document.getElementById(id); };
+  var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var lbSet = null;
   Object.keys(G).forEach(function (k) {
     var box = document.querySelector('[data-gallery="' + k + '"]'); if (!box) return;
     var list = G[k];
     var h = '<button class="cover" data-g="' + k + '" data-i="0" aria-label="Open ' + list.length + ' photos of ' + k + '">' +
-      '<img src="img/' + list[0][0] + '.jpg" alt="' + list[0][1] + '" loading="lazy"><span class="count">' + list.length + ' photos</span></button><div class="strip">';
+      '<img src="img/' + list[0][0] + '.jpg" alt="' + list[0][1] + '" loading="lazy"><span class="count">' + list.length + ' photos' + (V[k] ? " · " + V[k].length + " clips" : "") + '</span></button><div class="strip">';
     for (var i = 1; i < list.length; i++) h += '<button data-g="' + k + '" data-i="' + i + '" aria-label="Open photo: ' + list[i][1] + '"><img src="img/' + list[i][0] + '.jpg" alt="' + list[i][1] + '" loading="lazy"></button>';
-    box.innerHTML = h + "</div>";
+    h += "</div>";
+    if (V[k]) {
+      h += '<div class="reel" aria-label="Video clips">';
+      V[k].forEach(function (c, j) {
+        h += '<button class="clip" data-v="' + k + '" data-i="' + j + '" aria-label="Play clip: ' + c[1] + '">' +
+          '<video muted loop playsinline preload="none" poster="video/' + c[0] + '.jpg" src="video/' + c[0] + '.mp4" aria-hidden="true"></video>' +
+          '<span class="clip-cap"><i aria-hidden="true">▶</i>' + c[1] + "</span></button>";
+      });
+      h += "</div>";
+    }
+    box.innerHTML = h;
   });
+  if ("IntersectionObserver" in window && !calm) {
+    var vio = new IntersectionObserver(function (es) {
+      es.forEach(function (x) { var v = x.target; if (x.isIntersecting) { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } else v.pause(); });
+    }, { threshold: 0.6 });
+    document.querySelectorAll(".clip video").forEach(function (v) { vio.observe(v); });
+  }
   var lb = $("lb"), track = $("lb-track");
-  function openLb(k, i) {
+  var lbo = null;
+  function openLb(k, i, vid) {
     lbSet = k;
-    track.innerHTML = G[k].map(function (p) { return '<figure><img src="img/' + p[0] + '.jpg" alt="' + p[1] + '"><figcaption>' + p[1] + "</figcaption></figure>"; }).join("");
+    track.innerHTML = vid
+      ? V[k].map(function (p) { return '<figure><video controls muted loop playsinline preload="metadata" poster="video/' + p[0] + '.jpg" src="video/' + p[0] + '.mp4"></video><figcaption>' + p[1] + "</figcaption></figure>"; }).join("")
+      : G[k].map(function (p) { return '<figure><img src="img/' + p[0] + '.jpg" alt="' + p[1] + '"><figcaption>' + p[1] + "</figcaption></figure>"; }).join("");
+    if (vid && "IntersectionObserver" in window) {
+      if (lbo) lbo.disconnect();
+      lbo = new IntersectionObserver(function (es) {
+        es.forEach(function (x) { var v = x.target; if (x.isIntersecting) { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } else v.pause(); });
+      }, { root: track, threshold: 0.6 });
+      track.querySelectorAll("video").forEach(function (v) { lbo.observe(v); });
+    }
     if (lb.showModal) lb.showModal(); else lb.setAttribute("open", "");
     requestAnimationFrame(function () { track.scrollLeft = track.clientWidth * i; });
   }
   document.addEventListener("click", function (e) {
-    var b = e.target.closest("[data-g]"); if (b) openLb(b.getAttribute("data-g"), +b.getAttribute("data-i"));
+    var b = e.target.closest("[data-g]"); if (b) { openLb(b.getAttribute("data-g"), +b.getAttribute("data-i")); return; }
+    var c = e.target.closest("[data-v]"); if (c) openLb(c.getAttribute("data-v"), +c.getAttribute("data-i"), true);
   });
   $("lb-close").onclick = function () { lb.close(); };
+  lb.addEventListener("close", function () { if (lbo) lbo.disconnect(); track.querySelectorAll("video").forEach(function (v) { v.pause(); }); track.innerHTML = ""; });
   $("lb-prev").onclick = function () { track.scrollBy({ left: -track.clientWidth, behavior: "smooth" }); };
   $("lb-next").onclick = function () { track.scrollBy({ left: track.clientWidth, behavior: "smooth" }); };
   lb.addEventListener("keydown", function (e) {
