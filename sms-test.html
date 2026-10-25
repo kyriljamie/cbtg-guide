@@ -7,19 +7,16 @@ h1{font-size:1.4rem;margin:0 0 6px}p{color:#A9B8C6;margin:0 0 18px;line-height:1
 a{display:block;background:#F2B45C;color:#2A1A04;text-decoration:none;font-weight:700;padding:16px;border-radius:14px;margin:0 0 12px;font-size:1.05rem}
 small{display:block;font-weight:500;opacity:.75;margin-top:2px}
 </style></head><body>
-<h1>Text message test, round 3</h1>
-<p>Tap each one. Does Messages open with the number <b>and</b> the message? Tell Claude which numbers worked.</p>
+<h1>Text message test, round 4</h1>
+<p>Tap each one. Does Messages open with the number <b>and</b> the message? Tell Claude if A and B worked.</p>
 <script>
 var n='09274466154';
 var full="Hi Testing! 🌿 This is Cabins by the Generals. Salamat po for your booking request on our website (Ref WU8NRE)!\n\nCabin: Cabin 2\nCheck-in: Jan 14, 2027 | 4:00 PM\nCheck-out: Jan 15, 2027 | 12:00 NN\nGuests: 2\nTotal: ₱15,000\n\nAvailable pa po ang dates! Before we send our payment details, may we ask for a photo of your valid ID (front only)? Standard po ito for guest verification and security. Private po ito at buburahin after your stay. Pwede pong takpan ang ID number.\n\nOnce we receive it, we'll send the payment details for the 30% reservation fee (₱4,500) to secure your dates. Salamat po! 😊";
 function strict(s){return encodeURIComponent(s).replace(/[!'()*]/g,function(c){return '%'+c.charCodeAt(0).toString(16).toUpperCase();});}
 var plainLong=Array(9).join("This is a long plain test message without special marks. ");
 var L=[
- ['1','sms:'+n+'?body='+strict(full),'full reply, stricter encoding'],
- ['2','sms:'+n+'?body='+encodeURIComponent(plainLong),'long plain text (about 450 letters)'],
- ['3','sms:'+n+'?body='+encodeURIComponent("Fee (30%) and we'll text you!"),'short with ( ) % \' !'],
- ['4','sms:'+n+'?body='+strict("Fee (30%) and we'll text you!"),'same as 3, stricter encoding'],
- ['5','sms:'+n+'?body='+encodeURIComponent("Total: ₱15,000 | 4:00 PM"),'short with ₱ and |']
+ ['A','sms:'+n+'?body='+encodeURIComponent(full.replace(/%/g,'％')),'full reply with ％ instead of %'],
+ ['B','sms:'+n+'?body='+encodeURIComponent("Fee (front only) and we'll text you!"),'short with ( ) \' ! but no %']
 ];
 L.forEach(function(x){document.write('<a href="'+x[1].replace(/"/g,'&quot;')+'">'+x[0]+'<small>'+x[2]+'</small></a>');});
 </script>
