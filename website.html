@@ -13,6 +13,8 @@
 <meta property="og:image" content="https://kyriljamie.github.io/cbtg-guide/img/c1-hero.jpg">
 <meta property="og:url" content="https://kyriljamie.github.io/cbtg-guide/website.html">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="img/favicon-48.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Figtree:wght@400;500;600;700&display=swap">
@@ -24,6 +26,8 @@
   "name": "Cabins by the Generals",
   "description": "Private glass A-frame cabins with their own pool in Sariaya, Quezon, Philippines.",
   "url": "https://kyriljamie.github.io/cbtg-guide/website.html",
+  "logo": "https://kyriljamie.github.io/cbtg-guide/img/logo-320.png",
+  "slogan": "Private. Stylish. Yours.",
   "image": ["https://kyriljamie.github.io/cbtg-guide/img/c1-hero.jpg","https://kyriljamie.github.io/cbtg-guide/img/c2-hero.jpg"],
   "telephone": "+63 927 446 6154",
   "priceRange": "₱7,100 – ₱20,000 per night",
@@ -78,7 +82,7 @@ p{margin:0}
 .top{position:fixed;inset:0 0 auto 0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:calc(10px + env(safe-area-inset-top)) var(--gut) 10px;transition:background .3s}
 .top.solid{background:rgba(8,22,38,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-size:1.15rem}
-.brand svg{flex:none}
+.brand img{flex:none;width:44px;height:44px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
 .top nav{display:none;gap:22px;font-weight:600;font-size:.95rem}
 .top nav a{text-decoration:none;color:var(--on-night-soft)}
 .top nav a:hover{color:var(--on-night)}
@@ -250,6 +254,7 @@ footer{background:var(--deep);padding:72px 0 calc(110px + env(safe-area-inset-bo
 @media (min-width:860px){footer{padding-bottom:72px}}
 .foot{display:grid;gap:30px}
 @media (min-width:860px){.foot{grid-template-columns:1.4fr 1fr 1fr}}
+.foot-logo{width:160px;height:160px}
 .foot h2{font-size:clamp(2rem,5vw,3rem);max-width:12ch}
 .foot a{text-decoration:none}
 .foot .links{display:grid;gap:10px;align-content:start;color:var(--on-night-soft)}
@@ -279,7 +284,7 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
 .lb-prev{left:14px}.lb-next{right:14px}
 .toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:40;background:var(--ink);color:#fff;padding:12px 18px;border-radius:14px;font-weight:600;font-size:.95rem;max-width:92vw;text-align:center}
 #book,#months,#cabins,#cats,#faq{scroll-margin-top:72px}
-@media (max-width:420px){.brand{font-size:1rem}.top .btn.small{padding:0 13px}}
+@media (max-width:420px){.brand{font-size:1rem}.brand img{width:38px;height:38px}.top .btn.small{padding:0 13px}}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>
 </head>
@@ -287,8 +292,8 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
 
 <header class="top" id="top">
   <a class="brand" href="#" aria-label="Cabins by the Generals, back to top">
-    <svg width="26" height="24" viewBox="0 0 26 24" aria-hidden="true"><path d="M13 1 25 23H1Z" fill="none" stroke="#F2B45C" stroke-width="2" stroke-linejoin="round"/><path d="M13 9 19 20H7Z" fill="#F2B45C"/></svg>
-    Cabins by the Generals
+    <img src="img/logo-96.png" alt="" width="44" height="44">
+    <span>Cabins by the Generals</span>
   </a>
   <nav aria-label="Sections">
     <a href="#cabins">Cabins</a><a href="#book">Rates and dates</a><a href="#cats">The cats</a><a href="#faq">Questions</a>
@@ -513,7 +518,7 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
 <footer>
   <div class="wrap">
     <div class="foot">
-      <h2>See you at the cabins 🌿</h2>
+      <div><img class="foot-logo" src="img/logo-320.png" alt="Cabins by the Generals logo: Private. Stylish. Yours. Est. 2025" width="160" height="160" loading="lazy"><h2 style="margin-top:22px">See you at the cabins 🌿</h2></div>
       <div class="links">
         <a class="tel" href="tel:09274466154">0927 446 6154</a>
         <a href="https://www.facebook.com/share/164L1d4j1f/" target="_blank" rel="noopener">Message us on Facebook</a>
