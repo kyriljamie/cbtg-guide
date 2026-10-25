@@ -964,7 +964,8 @@ dialog.am::backdrop{background:rgba(5,12,22,.72)}
     var ok = form.name.value.trim().length >= 2 && form.phone.value.replace(/\D/g, "").length >= 10;
     $("req-err").hidden = !!ok; return ok;
   }
-  $("sms").addEventListener("click", function () { this.href = "sms:" + PHONE + "?&body=" + encodeURIComponent(message(form)); });
+  // Some Android Messages apps open a blank text when it contains "%": use the look-alike "％".
+  $("sms").addEventListener("click", function () { this.href = "sms:" + PHONE + "?body=" + encodeURIComponent(message(form).replace(/%/g, "％")); });
   function failWith(msg) {
     $("req-fail-msg").textContent = msg;
     $("req-fail").hidden = false;
