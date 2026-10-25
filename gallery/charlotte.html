@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cabin Charlotte Photos and Videos | Cabins by the Generals</title>
+<meta name="description" content="Every photo and video of Cabin Charlotte at Cabins by the Generals, a private A-frame pool cabin in Sariaya, Quezon.">
+<meta name="theme-color" content="#121412">
+<meta property="og:title" content="Cabin Charlotte · Cabins by the Generals">
+<meta property="og:image" content="https://kyriljamie.github.io/cbtg-guide/gallery/charlotte/p3.jpg">
+<link rel="icon" type="image/png" href="../img/favicon-48.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:15;background:rgba(18,20,18,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:16;background:var(--night)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px}
+.bar a{color:var(--ink);text-decoration:none;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:8px;min-height:40px}
+.bar a.cta-btn{border-radius:999px;padding:0 18px;background:var(--ink);color:var(--night)}
+.bar a:focus-visible,footer a:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+.bar img{width:28px;height:28px}
+footer a{color:var(--brass)}
+footer .links{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:14px}
+
+/* Layout: one tall night-time scroll — full-bleed pool hero, amenity strip, then a portrait-first gallery of rooms and clips */
+:root{
+  --night:#121412; --panel:#1B1E1B; --line:#2F342F; --ink:#F3F1EC; --muted:rgba(243,241,236,.66); --brass:#DCCAA4;
+  --display:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --body:'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme:dark;
+}
+body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2{font-family:var(--display);letter-spacing:0;line-height:1;margin:0;text-wrap:balance}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);font-weight:600}
+
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero img{display:block;width:100%;height:clamp(500px,70vw,640px);object-fit:cover;object-position:center 60%}
+.hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,20,18,.15) 0%,rgba(18,20,18,.35) 40%,rgba(18,20,18,.94) 100%)}
+.hero .cap{position:absolute;left:0;right:0;bottom:0}
+.hero .cap .wrap{padding-block:28px;display:grid;gap:10px}
+.hero h1{font-size:clamp(54px,11vw,112px);font-weight:500}
+.hero p{margin:0;max-width:44ch;color:var(--ink);font-size:17px}
+.hero .sub{color:var(--brass);font-weight:600}
+
+section{padding-block:44px}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.sec-head h2{font-size:clamp(34px,6vw,52px);font-weight:500}
+.sec-head p{margin:0;color:var(--muted);max-width:46ch}
+
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.facts div{padding:16px;border-right:1px solid var(--line);min-width:0}
+.facts div:last-child{border-right:0}
+.facts b{display:block;font-family:var(--display);font-size:34px;font-weight:500;color:var(--brass);line-height:1;font-variant-numeric:tabular-nums}
+.facts span{font-size:13px;color:var(--muted)}
+@media (max-width:640px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}.facts div:nth-child(2){border-right:0}.facts div:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+
+.amen{columns:2 260px;column-gap:32px;margin:0;padding:0;list-style:none}
+.amen li{break-inside:avoid;padding:9px 0;border-bottom:1px solid var(--line);display:flex;gap:10px}
+.amen li::before{content:"";flex:none;width:7px;height:7px;margin-top:9px;background:var(--brass);transform:rotate(45deg)}
+.note{margin-top:22px;padding:16px 18px;background:var(--panel);border-left:3px solid var(--brass);border-radius:0 6px 6px 0}
+.note b{color:var(--brass)}
+
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tile{margin:0;background:var(--panel);border-radius:6px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.tile img,.tile video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;background:#000;max-width:100%}
+.tile.wide{grid-column:span 2}
+.tile.wide img{aspect-ratio:16/10}
+.tile figcaption{padding:10px 12px;font-size:14px;color:var(--muted)}
+.tile figcaption strong{color:var(--ink);font-weight:600;display:block}
+button.zoom{all:unset;cursor:zoom-in;display:block}
+button.zoom:focus-visible{outline:2px solid var(--brass);outline-offset:-2px}
+
+.stay{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:640px){.stay{grid-template-columns:1fr}}
+.stay div{padding:18px;border:1px solid var(--line);border-radius:6px}
+.stay b{font-family:var(--display);font-size:26px;font-weight:500;display:block;color:var(--ink)}
+.stay span{color:var(--muted);font-size:14px}
+
+footer{border-top:1px solid var(--line);padding-block:32px;color:var(--muted);font-size:14px}
+footer .cta{font-family:var(--display);font-size:clamp(30px,6vw,44px);font-weight:500;color:var(--ink);line-height:1;margin-bottom:8px}
+
+.lb{position:fixed;inset:0;background:rgba(8,8,10,.94);display:flex;align-items:center;justify-content:center;z-index:20;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.lb img{max-height:100%;max-width:100%;object-fit:contain}
+.lb button{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:8px 14px;font:600 14px var(--body);cursor:pointer}
+@media (prefers-reduced-motion:no-preference){.tile img{transition:transform .4s ease}.zoom:hover img{transform:scale(1.03)}}
+</style>
+</head>
+<body>
+<div class="bar"><div class="wrap"><a href="../website.html#charlotte"><img src="../img/logo-96.png" alt="">&larr; All cabins</a><a class="cta-btn" href="../website.html#book">Check dates</a></div></div>
+<header class="hero">
+  <img src="charlotte/p3.jpg" alt="Cabin Charlotte's A-frame and private pool at dusk" style="object-position:center 58%">
+  <div class="shade"></div>
+  <div class="cap"><div class="wrap">
+    <div class="eyebrow">Cabins by the Generals · Sariaya, Quezon</div>
+    <h1>Cabin Charlotte</h1>
+    <p class="sub">The Fresco Cinema</p>
+    <p>A 175-inch outdoor cinema right beside your private pool, plus videoke, griller and bonfire. Kasya hanggang 14 pax.</p>
+  </div></div>
+</header>
+
+<main>
+  <section><div class="wrap">
+    <div class="facts">
+      <div><b>14</b><span>pax max</span></div>
+      <div><b>20 hrs</b><span>full stay, every booking</span></div>
+      <div><b>175"</b><span>outdoor cinema</span></div>
+      <div><b>1</b><span>private jacuzzi pool</span></div>
+    </div>
+  </div></section>
+
+  <section><div class="wrap">
+    <div class="sec-head"><h2>What's inside</h2><p>Everything here is included in the rate. Just bring food and the barkada.</p></div>
+    <ul class="amen">
+      <li>175-inch outdoor cinema with streaming services</li>
+      <li>Jacuzzi outdoor private pool</li>
+      <li>Sony / Platinum videoke</li>
+      <li>NBA League Pass</li>
+      <li>Royal Gourmet Griddle</li>
+      <li>Dual griller and bonfire pit</li>
+      <li>Complete kitchenware</li>
+      <li>Free gasul and free purified water</li>
+      <li>No corkage fee</li>
+      <li>Queen memory foam bed in an aircon room facing the pool</li>
+      <li>Loft sleeping area</li>
+      <li>Modern A-frame design</li>
+      <li>Free WiFi and free parking</li>
+    </ul>
+    <div class="note"><b>Movie night sa pool.</b> Manood ng sine habang nagsu-swimming, sa 175-inch na screen under the stars.</div>
+  </div></section>
+
+  <section><div class="wrap">
+    <div class="sec-head"><h2>Take the tour</h2><p>Tap a video to play. Tap a photo to see it full size.</p></div>
+    <div class="grid" id="gallery">
+      <figure class="tile wide"><button class="zoom" data-full="charlotte/p1.jpg"><img src="charlotte/p1.jpg" alt="Outdoor cinema screen showing a nature film beside the lit pool" loading="lazy" style="object-position:center 30%"></button><figcaption><strong>175-inch cinema by the pool</strong>Movie night while you swim</figcaption></figure>
+      <figure class="tile"><button class="zoom" data-full="charlotte/p3.jpg"><img src="charlotte/p3.jpg" alt="Cabin Charlotte A-frame with lit pool at dusk" loading="lazy"></button><figcaption><strong>The A-frame at dusk</strong>Pool, deck and lantern-lit patio</figcaption></figure>
+      <figure class="tile"><video src="charlotte/v9.mp4" poster="charlotte/v9.jpg" controls playsinline preload="none"></video><figcaption><strong>Fresco Cinema</strong>Big-screen movies from the pool</figcaption></figure>
+      <figure class="tile"><video src="charlotte/v4.mp4" poster="charlotte/v4.jpg" controls playsinline preload="none"></video><figcaption><strong>Pool time</strong>Barkada in the pool, cinema on the deck</figcaption></figure>
+      <figure class="tile"><video src="charlotte/v8.mp4" poster="charlotte/v8.jpg" controls playsinline preload="none"></video><figcaption><strong>Walk the grounds</strong>From the garden to the patio at dusk</figcaption></figure>
+      <figure class="tile"><button class="zoom" data-full="charlotte/p7.jpg"><img src="charlotte/p7.jpg" alt="Guests swimming and eating at the patio table" loading="lazy"></button><figcaption><strong>Pool party</strong>Kids in the pool, kainan sa patio</figcaption></figure>
+      <figure class="tile"><button class="zoom" data-full="charlotte/p8.jpg"><img src="charlotte/p8.jpg" alt="Patio with long wooden table and pool at night" loading="lazy"></button><figcaption><strong>Patio dining</strong>Long table under the lanterns</figcaption></figure>
+      <figure class="tile"><button class="zoom" data-full="charlotte/p2.jpg"><img src="charlotte/p2.jpg" alt="Rattan pendant lanterns over a stone column" loading="lazy" style="object-position:center 30%"></button><figcaption><strong>Lantern corner</strong>Rattan lanterns and stone columns</figcaption></figure>
+      <figure class="tile"><button class="zoom" data-full="charlotte/p5.jpg"><img src="charlotte/p5.jpg" alt="Pool lit blue at night with string lights on the wall" loading="lazy"></button><figcaption><strong>Night swim</strong>Blue pool lights and string lights</figcaption></figure>
+      <figure class="tile"><button class="zoom" data-full="charlotte/p4.jpg"><img src="charlotte/p4.jpg" alt="Pool deck with potted palms and lit edge" loading="lazy"></button><figcaption><strong>Garden deck</strong>Potted palms and LED edging</figcaption></figure>
+      <figure class="tile"><video src="charlotte/v5.mp4" poster="charlotte/v5.jpg" controls playsinline preload="none"></video><figcaption><strong>Pool at night</strong>Calm water, warm lights</figcaption></figure>
+      <figure class="tile"><video src="charlotte/v6.mp4" poster="charlotte/v6.jpg" controls playsinline preload="none"></video><figcaption><strong>Loft bedroom</strong>Big A-frame windows, garden view</figcaption></figure>
+      <figure class="tile"><video src="charlotte/v2.mp4" poster="charlotte/v2.jpg" controls playsinline preload="none"></video><figcaption><strong>Loft beds</strong>Room for the whole group</figcaption></figure>
+      <figure class="tile"><video src="charlotte/v1.mp4" poster="charlotte/v1.jpg" controls playsinline preload="none"></video><figcaption><strong>Downstairs bedroom</strong>Air-conditioned and ready</figcaption></figure>
+      <figure class="tile"><button class="zoom" data-full="charlotte/p10.jpg"><img src="charlotte/p10.jpg" alt="Light wood cabinet with plants against a slatted wood wall" loading="lazy" style="object-position:center 40%"></button><figcaption><strong>Inside details</strong>Wood slat wall and open stairs</figcaption></figure>
+      <figure class="tile"><button class="zoom" data-full="charlotte/p9.jpg"><img src="charlotte/p9.jpg" alt="Sony party speaker with two wireless microphones" loading="lazy"></button><figcaption><strong>Sony videoke</strong>Two wireless mics, full party sound</figcaption></figure>
+      <figure class="tile"><video src="charlotte/v7.mp4" poster="charlotte/v7.jpg" controls playsinline preload="none"></video><figcaption><strong>String-light pathway</strong>The way to the pool at night</figcaption></figure>
+      <figure class="tile"><video src="charlotte/v10.mp4" poster="charlotte/v10.jpg" controls playsinline preload="none"></video><figcaption><strong>Dusk view</strong>The cabin as the lights come on</figcaption></figure>
+      <figure class="tile wide"><button class="zoom" data-full="charlotte/p6.jpg"><img src="charlotte/p6.jpg" alt="Garden wall lights and pool after dark" loading="lazy" style="object-position:center 60%"></button><figcaption><strong>Garden lights</strong>Wall lights after dark</figcaption></figure>
+    </div>
+  </div></section>
+
+  <section><div class="wrap">
+    <div class="sec-head"><h2>How the stay works</h2></div>
+    <div class="stay">
+      <div><b>Check-in 4:00 PM</b><span>Late arrival? Your check-out moves later, so you still get the full 20 hours.</span></div>
+      <div><b>Check-out 12:00 NN</b><span>Next day, for a standard 4 PM check-in.</span></div>
+      <div><b>Extend 20 hrs</b><span>Add another 20 hours at a discounted ₱5,500.</span></div>
+    </div>
+  </div></section>
+</main>
+
+<footer><div class="wrap">
+  <div class="cta">Book na sa Charlotte 🌿</div>
+  See live availability and rates, then send a booking request in a minute.
+  <div class="links"><a href="../website.html#book">Check dates and rates</a><a href="https://www.facebook.com/people/Cabins-by-the-Generals/61566419019212/" target="_blank" rel="noopener">Message us on Facebook</a><span>Text or call 0927 446 6154</span></div>
+  <p style="margin:18px 0 0">Also see <a href="charlie.html">Cabin Charlie's photos and videos</a>.</p>
+</div></footer>
+
+<div class="lb" id="lb" hidden><button type="button" id="lbClose">Close</button><img id="lbImg" alt=""></div>
+
+<script>
+const lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg');
+document.querySelectorAll('button.zoom').forEach(b=>b.addEventListener('click',()=>{lbImg.src=b.dataset.full;lbImg.alt=b.querySelector('img').alt;lb.hidden=false;document.getElementById('lbClose').focus();}));
+function closeLb(){lb.hidden=true;lbImg.src='';}
+lb.addEventListener('click',e=>{if(e.target!==lbImg)closeLb();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!lb.hidden)closeLb();});
+document.querySelectorAll('video').forEach(v=>v.addEventListener('play',()=>document.querySelectorAll('video').forEach(o=>{if(o!==v)o.pause();})));
+</script>
+</body>
+</html>
