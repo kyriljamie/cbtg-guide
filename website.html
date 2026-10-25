@@ -292,6 +292,31 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
 .follow h2{font-size:clamp(2rem,5vw,3.2rem)}
 .follow-btns{display:flex;flex-wrap:wrap;gap:10px}
 @media (min-width:860px){.follow-in{grid-template-columns:1.3fr 1fr}.follow-btns{justify-content:flex-end}}
+/* ---------- amenities dialog ---------- */
+.btn.amen-btn{background:transparent;color:var(--lantern);box-shadow:inset 0 0 0 1.5px rgba(242,180,92,.55)}
+.btn.amen-btn:hover{box-shadow:inset 0 0 0 1.5px var(--lantern)}
+dialog.am{border:0;padding:0;margin:auto;width:min(760px,100vw);max-width:100vw;max-height:100dvh;background:transparent;color:var(--ink)}
+dialog.am::backdrop{background:rgba(5,12,22,.72)}
+@media (max-width:719px){dialog.am{margin:auto 0 0;height:92dvh}}
+.am-in{background:var(--paper);display:flex;flex-direction:column;max-height:min(88dvh,820px);border-radius:24px;overflow:hidden}
+@media (max-width:719px){.am-in{height:100%;max-height:none;border-radius:24px 24px 0 0}}
+.am-head{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 6px}
+.am-head h2{font-size:2rem;color:var(--ink)}
+.am-x{width:42px;height:42px;border-radius:50%;border:1px solid var(--line-light);background:var(--paper);cursor:pointer;font-size:1.1rem;color:var(--ink)}
+.am-tabs{display:flex;gap:6px;padding:10px 20px 12px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--line-light)}
+.am-tabs::-webkit-scrollbar{display:none}
+.am-tabs button{flex:none;border:1.5px solid var(--line-light);background:var(--paper);color:var(--ink);border-radius:999px;padding:9px 16px;font-weight:700;cursor:pointer;font-size:.95rem}
+.am-tabs button[aria-selected="true"]{background:var(--night);border-color:var(--night);color:#fff}
+.am-body{overflow-y:auto;padding:18px 20px 8px;flex:1}
+.am-sub{color:var(--ink-soft);margin-bottom:16px}
+.am-groups{display:grid;gap:18px}
+@media (min-width:600px){.am-groups{grid-template-columns:1fr 1fr;gap:20px 28px}}
+.am-groups h3{font-family:var(--body);font-weight:700;font-size:1rem;margin-bottom:8px;color:var(--ink)}
+.am-groups ul{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.am-groups li{display:flex;gap:10px;align-items:baseline;font-size:.98rem}
+.am-groups li::before{content:"";flex:none;width:8px;height:7px;background:#C9892B;clip-path:polygon(50% 0,100% 100%,0 100%)}
+.am-note{margin-top:18px;padding:12px 14px;border-radius:12px;background:#FFF4E0;color:#7A4B00;font-size:.95rem}
+.am-foot{padding:14px 20px calc(16px + env(safe-area-inset-bottom));border-top:1px solid var(--line-light)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>
 </head>
@@ -303,7 +328,7 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
     <span>Cabins by the Generals</span>
   </a>
   <nav aria-label="Sections">
-    <a href="#cabins">Cabins</a><a href="#book">Rates and dates</a><a href="#cats">The cats</a><a href="#faq">Questions</a><a href="https://www.facebook.com/share/164L1d4j1f/" target="_blank" rel="noopener" class="fb-nav"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>Facebook</a>
+    <a href="#cabins">Cabins</a><a href="#" data-amen="charlie">Amenities</a><a href="#book">Rates and dates</a><a href="#cats">The cats</a><a href="#faq">Questions</a><a href="https://www.facebook.com/share/164L1d4j1f/" target="_blank" rel="noopener" class="fb-nav"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>Facebook</a>
   </nav>
   <a class="btn glow small" href="#book">Check dates</a>
 </header>
@@ -317,6 +342,7 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
     <div class="hero-actions">
       <a class="btn glow" href="#book">Check dates</a>
       <a class="btn ghost" href="#cabins">See the cabins</a>
+      <button class="btn amen-btn" data-amen="charlie">Amenities</button>
       <a class="btn ghost" href="https://www.facebook.com/share/164L1d4j1f/" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>Our Facebook page</a>
     </div>
     <div class="facts">
@@ -352,6 +378,7 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
         <div class="price-line">
           <p class="from">from <b>₱8,000</b> a night</p>
           <button class="btn ghost small" data-pick="c1">Check dates for Charlie</button>
+          <button class="btn amen-btn small" data-amen="charlie">All amenities</button>
         </div>
       </div>
     </article>
@@ -372,6 +399,7 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
         <div class="price-line">
           <p class="from">from <b>₱7,100</b> a night</p>
           <button class="btn ghost small" data-pick="c2">Check dates for Charlotte</button>
+          <button class="btn amen-btn small" data-amen="charlotte">All amenities</button>
         </div>
       </div>
     </article>
@@ -392,6 +420,7 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
         <div class="price-line">
           <p class="from">Charlotte + Choco from <b>₱12,200</b> a night</p>
           <button class="btn ghost small" data-pick="c23">Check dates</button>
+          <button class="btn amen-btn small" data-amen="choco">All amenities</button>
         </div>
       </div>
     </article>
@@ -412,6 +441,7 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
       <div><b>Billiard pavilion</b><span>Free for all guests</span></div>
       <div><b>Parking</b><span>Inside the property</span></div>
     </div>
+    <p style="margin-top:22px"><button class="btn amen-btn" data-amen="all">See amenities per cabin</button></p>
   </div>
 </section>
 
@@ -565,6 +595,60 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
   <button class="lb-arrow lb-prev" id="lb-prev" aria-label="Previous photo">‹</button>
   <button class="lb-arrow lb-next" id="lb-next" aria-label="Next photo">›</button>
   <div class="lb-track" id="lb-track"></div>
+</dialog>
+<dialog class="am" id="am" aria-labelledby="am-h">
+  <div class="am-in">
+    <div class="am-head">
+      <h2 id="am-h">Amenities</h2>
+      <button class="am-x" id="am-close" aria-label="Close amenities">✕</button>
+    </div>
+    <div class="am-tabs" role="tablist" aria-label="Choose a cabin">
+      <button role="tab" id="t-charlie" aria-controls="p-charlie" data-tab="charlie">Charlie</button>
+      <button role="tab" id="t-charlotte" aria-controls="p-charlotte" data-tab="charlotte">Charlotte</button>
+      <button role="tab" id="t-choco" aria-controls="p-choco" data-tab="choco">Choco</button>
+      <button role="tab" id="t-all" aria-controls="p-all" data-tab="all">Whole property</button>
+    </div>
+    <div class="am-body">
+      <div role="tabpanel" id="p-charlie" aria-labelledby="t-charlie" class="am-p">
+        <p class="am-sub">Cabin 1 · the indoor entertainment suite · up to 14 guests, or 15 on a budget</p>
+        <div class="am-groups">
+          <div><h3>Entertainment</h3><ul><li>PS5</li><li>65-inch 4K UHD Smart TV</li><li>Streaming services and NBA League Pass</li><li>Videoke with Platinum DK88 Duo speaker</li><li>Board games</li><li>No quiet time: sound-insulated glass cabin</li></ul></div>
+          <div><h3>Pool and bath</h3><ul><li>Outdoor private pool</li><li>Jacuzzi bathtub</li><li>Hot and cold water</li></ul></div>
+          <div><h3>Kitchen and dining</h3><ul><li>22 sqm gourmet kitchen</li><li>Complete kitchenware</li><li>Outdoor griller</li><li>Free gasul and purified water</li></ul></div>
+          <div><h3>Sleeping</h3><ul><li>2 queen memory foam beds</li><li>Air-conditioned (3 aircon units)</li></ul></div>
+          <div><h3>Free for you</h3><ul><li>WiFi</li><li>Parking</li><li>No corkage fee</li></ul></div>
+        </div>
+      </div>
+      <div role="tabpanel" id="p-charlotte" aria-labelledby="t-charlotte" class="am-p" hidden>
+        <p class="am-sub">Cabin 2 · the fresco cinema · up to 14 guests, or 15 on a budget</p>
+        <div class="am-groups">
+          <div><h3>Entertainment</h3><ul><li>175-inch outdoor cinema</li><li>Streaming services and NBA League Pass</li><li>Sony and Platinum videoke</li></ul></div>
+          <div><h3>Pool</h3><ul><li>Jacuzzi outdoor pool</li><li>Lanai with lanterns</li></ul></div>
+          <div><h3>Kitchen and dining</h3><ul><li>Royal Gourmet griddle</li><li>Dual griller and bonfire pit</li><li>Complete kitchenware</li><li>Free gasul and purified water</li></ul></div>
+          <div><h3>Sleeping</h3><ul><li>1 queen memory foam bed in an air-conditioned room facing the pool</li><li>Loft sleeping area</li></ul></div>
+          <div><h3>Free for you</h3><ul><li>WiFi</li><li>Parking</li><li>No corkage fee</li></ul></div>
+        </div>
+      </div>
+      <div role="tabpanel" id="p-choco" aria-labelledby="t-choco" class="am-p" hidden>
+        <p class="am-sub">Cabin 3 · add-on to Charlotte for groups of up to 20</p>
+        <div class="am-groups">
+          <div><h3>Sleeping</h3><ul><li>Air-conditioned bedroom for 6 to 7 guests</li><li>Loft for up to 10 guests (not air-conditioned)</li></ul></div>
+          <div><h3>Bath</h3><ul><li>Its own CR</li></ul></div>
+          <div><h3>Shared with Charlotte</h3><ul><li>Jacuzzi outdoor pool</li><li>175-inch outdoor cinema and videoke</li><li>Kitchen, griddle, grillers and bonfire pit</li></ul></div>
+        </div>
+        <p class="am-note">Choco is still being finished, so for now it's only booked together with Charlotte. More amenities are coming soon.</p>
+      </div>
+      <div role="tabpanel" id="p-all" aria-labelledby="t-all" class="am-p" hidden>
+        <p class="am-sub">Included in every booking</p>
+        <div class="am-groups">
+          <div><h3>Around the property</h3><ul><li>Billiard pavilion</li><li>Free parking inside the property</li><li>Beside the Mamala River</li></ul></div>
+          <div><h3>Every cabin</h3><ul><li>A private pool, never shared with other guests</li><li>Complete kitchenware, free gasul and purified water</li><li>Videoke</li><li>Free WiFi</li><li>No corkage fee</li></ul></div>
+          <div><h3>Stay times</h3><ul><li>Check-in 4:00 PM</li><li>Check-out 12:00 NN</li></ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="am-foot"><a class="btn dark" href="#book" id="am-book">Check dates</a></div>
+  </div>
 </dialog>
 <div class="toast" id="toast" hidden role="status"></div>
 
@@ -853,6 +937,30 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
       feed(); render();
     }).catch(function () { if (!live) { failed = true; feed(); } });
   }
+
+  /* ---------- amenities ---------- */
+  var am = $("am");
+  function amTab(k) {
+    document.querySelectorAll("[data-tab]").forEach(function (b) {
+      var on = b.getAttribute("data-tab") === k;
+      b.setAttribute("aria-selected", on ? "true" : "false"); b.tabIndex = on ? 0 : -1;
+      $("p-" + b.getAttribute("data-tab")).hidden = !on;
+    });
+    document.querySelector(".am-body").scrollTop = 0;
+  }
+  function amOpen(k) { amTab(k || "charlie"); if (am.showModal) am.showModal(); else am.setAttribute("open", ""); }
+  document.querySelectorAll("[data-amen]").forEach(function (b) { b.onclick = function (e) { e.preventDefault(); amOpen(b.getAttribute("data-amen")); }; });
+  document.querySelectorAll("[data-tab]").forEach(function (b) {
+    b.onclick = function () { amTab(b.getAttribute("data-tab")); };
+    b.onkeydown = function (e) {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+      var tabs = Array.prototype.slice.call(document.querySelectorAll("[data-tab]")), i = tabs.indexOf(b);
+      var n = tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length]; n.focus(); n.click();
+    };
+  });
+  $("am-close").onclick = function () { am.close(); };
+  am.addEventListener("click", function (e) { if (e.target === am) am.close(); });
+  $("am-book").onclick = function () { am.close(); };
   $("yr").textContent = now.getFullYear();
   $("share").onclick = function () {
     var data = { title: "Cabins by the Generals", text: "Private A-frame pool cabins in Sariaya, Quezon 🌿", url: location.href.split("#")[0] };
