@@ -285,6 +285,13 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
 .toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:40;background:var(--ink);color:#fff;padding:12px 18px;border-radius:14px;font-weight:600;font-size:.95rem;max-width:92vw;text-align:center}
 #book,#months,#cabins,#cats,#faq{scroll-margin-top:72px}
 @media (max-width:420px){.brand{font-size:1rem}.brand img{width:38px;height:38px}.top .btn.small{padding:0 13px}}
+.fb-nav{display:inline-flex;align-items:center;gap:6px}
+.btn svg{flex:none}
+.follow{background:linear-gradient(180deg,var(--dusk),var(--night));padding:72px 0}
+.follow-in{display:grid;gap:24px;align-items:center}
+.follow h2{font-size:clamp(2rem,5vw,3.2rem)}
+.follow-btns{display:flex;flex-wrap:wrap;gap:10px}
+@media (min-width:860px){.follow-in{grid-template-columns:1.3fr 1fr}.follow-btns{justify-content:flex-end}}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>
 </head>
@@ -296,7 +303,7 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
     <span>Cabins by the Generals</span>
   </a>
   <nav aria-label="Sections">
-    <a href="#cabins">Cabins</a><a href="#book">Rates and dates</a><a href="#cats">The cats</a><a href="#faq">Questions</a>
+    <a href="#cabins">Cabins</a><a href="#book">Rates and dates</a><a href="#cats">The cats</a><a href="#faq">Questions</a><a href="https://www.facebook.com/share/164L1d4j1f/" target="_blank" rel="noopener" class="fb-nav"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>Facebook</a>
   </nav>
   <a class="btn glow small" href="#book">Check dates</a>
 </header>
@@ -310,6 +317,7 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
     <div class="hero-actions">
       <a class="btn glow" href="#book">Check dates</a>
       <a class="btn ghost" href="#cabins">See the cabins</a>
+      <a class="btn ghost" href="https://www.facebook.com/share/164L1d4j1f/" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>Our Facebook page</a>
     </div>
     <div class="facts">
       <span><b>Private pool</b> in every booking</span>
@@ -513,6 +521,18 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
     </div>
   </div>
 </section>
+<section class="follow" aria-labelledby="follow-h">
+  <div class="wrap follow-in">
+    <div>
+      <h2 id="follow-h">Follow us on Facebook</h2>
+      <p class="lede" style="margin-top:12px">See new photos, guest moments, promos and holiday openings first. You can also message us there anytime.</p>
+    </div>
+    <div class="follow-btns">
+      <a class="btn glow" href="https://www.facebook.com/share/164L1d4j1f/" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>Visit our Facebook page</a>
+      <button class="btn ghost" id="share" type="button">Share this website</button>
+    </div>
+  </div>
+</section>
 </main>
 
 <footer>
@@ -521,7 +541,7 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
       <div><img class="foot-logo" src="img/logo-320.png" alt="Cabins by the Generals logo: Private. Stylish. Yours. Est. 2025" width="160" height="160" loading="lazy"><h2 style="margin-top:22px">See you at the cabins 🌿</h2></div>
       <div class="links">
         <a class="tel" href="tel:09274466154">0927 446 6154</a>
-        <a href="https://www.facebook.com/share/164L1d4j1f/" target="_blank" rel="noopener">Message us on Facebook</a>
+        <a href="https://www.facebook.com/share/164L1d4j1f/" target="_blank" rel="noopener">Facebook: Cabins by the Generals</a>
         <a href="sms:09274466154">Send a text</a>
       </div>
       <div class="links">
@@ -834,6 +854,11 @@ dialog.lb::backdrop{background:rgba(5,12,22,.97)}
     }).catch(function () { if (!live) { failed = true; feed(); } });
   }
   $("yr").textContent = now.getFullYear();
+  $("share").onclick = function () {
+    var data = { title: "Cabins by the Generals", text: "Private A-frame pool cabins in Sariaya, Quezon 🌿", url: location.href.split("#")[0] };
+    if (navigator.share) { navigator.share(data).catch(function () {}); return; }
+    try { navigator.clipboard.writeText(data.url).then(function () { toast("Website link copied"); }); } catch (e) { window.prompt("Copy this link:", data.url); }
+  };
   feed(); render(); load();
   setInterval(function () { if (!document.hidden) load(); }, 5 * 60 * 1000);
 })();
