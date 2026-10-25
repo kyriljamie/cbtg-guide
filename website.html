@@ -66,6 +66,7 @@
 }
 @media (min-width:720px){:root{--gut:32px}}
 *{box-sizing:border-box}
+[hidden]{display:none !important}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{margin:0;background:var(--night);color:var(--on-night);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
@@ -228,6 +229,13 @@ section{padding:88px 0}
 .btn.out{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line-light);width:100%}
 .alt{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .fine{font-size:.85rem;color:var(--ink-soft);text-align:center}
+.fail{margin-top:14px;background:#FDEDEA;color:#7E2414;border-radius:14px;padding:12px 14px;display:grid;gap:10px;font-size:.95rem}
+.done{text-align:center;display:grid;gap:10px;padding:6px 0}
+.done-mark{font-size:2rem;margin:0}
+.done h3{font-family:var(--display);font-weight:400;font-size:2rem;color:var(--ink)}
+.done-ref{font-size:1.05rem}
+.done-ref b{font-size:1.3rem;letter-spacing:.06em;background:#F1F4F7;border-radius:8px;padding:2px 10px}
+.done a{color:var(--ink)}
 .err-msg{color:#A3341F;font-size:.9rem;font-weight:600}
 
 /* ---------- cats ---------- */
@@ -503,14 +511,27 @@ dialog.am::backdrop{background:rgba(5,12,22,.72)}
             <select name="occ"><option value="">Just a getaway</option><option>Barkada staycation</option><option>Birthday</option><option>Family reunion</option><option>Couple's getaway</option><option>Team outing</option></select>
           </label>
           <label>Anything we should know?<textarea name="note" placeholder="Arrival time, celebration, questions"></textarea></label>
-          <p class="err-msg" id="req-err" hidden>Add your name and mobile number so we can reply.</p>
-          <button class="btn dark" type="submit">Request to book on Messenger</button>
-          <div class="alt">
-            <a class="btn out small" id="sms" href="sms:09274466154">Send as text</a>
-            <a class="btn out small" href="tel:09274466154">Call us</a>
-          </div>
-          <p class="fine">No payment yet. We'll confirm your dates and send the reservation details.</p>
+          <p class="err-msg" id="req-err" hidden>Add your name and a mobile number (like 0917 123 4567) so we can text you.</p>
+          <button class="btn dark" type="submit" id="send">Send booking request</button>
+          <p class="fine">No payment on the website. We'll text you to confirm your dates and send the payment details for the 30% reservation fee.</p>
         </form>
+        <div class="fail" id="req-fail" hidden role="alert">
+            <p id="req-fail-msg">We couldn't send your request online right now. Text or call us and we'll book you in.</p>
+            <div class="alt">
+              <a class="btn out small" id="sms" href="sms:09274466154">Send as text</a>
+              <a class="btn out small" href="tel:09274466154">Call us</a>
+            </div>
+          </div>
+
+        <div class="done" id="done" hidden role="status" tabindex="-1">
+          <p class="done-mark" aria-hidden="true">🌿</p>
+          <h3>Request sent</h3>
+          <p class="done-ref">Reference <b id="d-ref"></b></p>
+          <p id="d-sum"></p>
+          <p>We'll text you at <b id="d-ph"></b> soon to confirm. Your dates are held once the reservation fee of <b id="d-fee"></b> is paid.</p>
+          <p class="fine">Questions? Call or text <a href="tel:09274466154">0927 446 6154</a>.</p>
+          <button class="btn out" type="button" id="d-new">Book other dates</button>
+        </div>
       </aside>
     </div>
   </div>
@@ -550,7 +571,7 @@ dialog.am::backdrop{background:rgba(5,12,22,.72)}
   <div class="wrap">
     <div class="sec-head"><h2 id="faq-h">Good to know</h2></div>
     <div class="faq">
-      <details><summary>How do I reserve my dates?</summary><p>Pick your dates above and send the request on Messenger or by text. We'll confirm availability and send the payment details. A reservation fee of 30% of your total holds your dates.</p></details>
+      <details><summary>How do I reserve my dates?</summary><p>Pick your dates above and tap Send booking request. We'll text you to confirm and send the payment details. A reservation fee of 30% of your total holds your dates.</p></details>
       <details><summary>Why is booking direct cheaper than Airbnb?</summary><p>Airbnb adds its own service fees. When you book with us directly, there's no middleman, so we pass the savings to you.</p></details>
       <details><summary>How many guests can we bring?</summary><p>Charlie and Charlotte are comfortable for up to 14 guests each. If you're a group of 15 and want to save, you can book just one cabin, but the sleeping area will be tight. Charlotte + Choco fits up to 20, and Charlie + Charlotte up to 24. Each booking includes a set number of guests (8 for one cabin, 12 for Charlotte + Choco, 16 for Charlie + Charlotte). Extra guests are ₱600 each per night, or ₱750 for nights in December.</p></details>
       <details><summary>Are holiday rates different?</summary><p>Yes. From December 12 to January 15, one cabin is ₱15,000 a night and two cabins are ₱20,000 a night. Holiday dates fill up first, so book early.</p></details>
@@ -664,8 +685,9 @@ dialog.am::backdrop{background:rgba(5,12,22,.72)}
 <script>
 (function () {
   "use strict";
+  var API = "https://fnebydfckdqgigtfhjfk.supabase.co/rest/v1/rpc/";
+  var KEY = "sb_publishable_PLLPO77LyLTlHHQr1yF23Q_Y27vUAO1";
   var FEED = "https://fnebydfckdqgigtfhjfk.supabase.co/functions/v1/cbtg-calendar/availability.json";
-  var FB = "https://www.facebook.com/share/164L1d4j1f/";
   var PHONE = "09274466154";
 
   /* ---------- galleries ---------- */
@@ -855,6 +877,7 @@ dialog.am::backdrop{background:rgba(5,12,22,.72)}
   }
 
   function drawSummary() {
+    if (!$("done").hidden) return;
     var o = OPT[opt];
     document.querySelectorAll(".opt").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-opt") === opt ? "true" : "false"); });
     if (guests > o.max) guests = o.max;
@@ -892,6 +915,7 @@ dialog.am::backdrop{background:rgba(5,12,22,.72)}
   $("months").addEventListener("click", function (e) {
     var b = e.target.closest("[data-d]"); if (!b || b.disabled) return;
     var s = b.getAttribute("data-d");
+    $("req-fail").hidden = true;
     if (!ci || co) { ci = s; co = null; }
     else if (s === ci) { ci = null; }
     else if (s < ci) { ci = s; }
@@ -937,21 +961,59 @@ dialog.am::backdrop{background:rgba(5,12,22,.72)}
   }
   var form = $("req");
   function valid() {
-    var ok = form.name.value.trim() && form.phone.value.replace(/\D/g, "").length >= 7;
+    var ok = form.name.value.trim().length >= 2 && form.phone.value.replace(/\D/g, "").length >= 10;
     $("req-err").hidden = !!ok; return ok;
   }
-  form.addEventListener("input", function () {
-    if (ci && co) $("sms").href = "sms:" + PHONE + "?&body=" + encodeURIComponent(message(form));
-  });
-  $("sms").addEventListener("click", function (e) { if (!valid()) { e.preventDefault(); return; } this.href = "sms:" + PHONE + "?&body=" + encodeURIComponent(message(form)); });
+  $("sms").addEventListener("click", function () { this.href = "sms:" + PHONE + "?&body=" + encodeURIComponent(message(form)); });
+  function failWith(msg) {
+    $("req-fail-msg").textContent = msg;
+    $("req-fail").hidden = false;
+    $("req-fail").scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  var sending = false;
   form.addEventListener("submit", function (e) {
-    e.preventDefault(); if (!valid()) return;
-    var msg = message(form), go = function () { window.open(FB, "_blank", "noopener"); };
-    try {
-      navigator.clipboard.writeText(msg).then(function () { toast("Request copied. Paste it in Messenger and send. 🌿"); setTimeout(go, 900); }, function () { fallback(msg); });
-    } catch (err) { fallback(msg); }
+    e.preventDefault(); if (!valid() || sending || !(ci && co)) return;
+    sending = true; $("req-fail").hidden = true;
+    var btn = $("send"); btn.disabled = true; btn.textContent = "Sending…";
+    var body = { p_data: {
+      option: opt, name: form.name.value.trim(), phone: form.phone.value.trim(),
+      checkIn: ci, checkOut: co, guests: guests, occasion: form.occ.value, note: form.note.value.trim()
+    } };
+    var done = function () { sending = false; btn.disabled = false; btn.textContent = "Send booking request"; };
+    var ctl = window.AbortController ? new AbortController() : null, timer = setTimeout(function () { if (ctl) ctl.abort(); }, 20000);
+    fetch(API + "booking_request", { method: "POST", headers: { apikey: KEY, "Content-Type": "application/json" }, body: JSON.stringify(body), signal: ctl ? ctl.signal : undefined })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (j) {
+        clearTimeout(timer); done();
+        if (!j || j.error) {
+          if (j && j.taken) { ci = co = null; render(); load(); }
+          failWith((j && j.error) || "Something went wrong. Text or call us and we'll book you in.");
+          return;
+        }
+        showDone(j);
+      })
+      .catch(function () {
+        clearTimeout(timer); done();
+        failWith("We couldn't send your request online right now. Text or call us and we'll book you in.");
+      });
   });
-  function fallback(msg) { window.prompt("Copy this message, then send it to us on Messenger:", msg); window.open(FB, "_blank", "noopener"); }
+  function showDone(j) {
+    var o = OPT[opt], n = nights();
+    $("d-ref").textContent = j.ref;
+    $("d-sum").textContent = o.short + " · " + nice(ci) + " to " + nice(co) + " · " + n + (n > 1 ? " nights" : " night") + " · " + guests + " guests · " + peso(+j.total);
+    $("d-ph").textContent = form.phone.value.trim();
+    $("d-fee").textContent = peso(+j.fee);
+    form.hidden = true; $("lines").hidden = true; $("hint").hidden = true; $("tight").hidden = true; $("done").hidden = false;
+    document.querySelector(".summary .dates").hidden = true; document.querySelector(".summary .guests").hidden = true;
+    $("done").focus({ preventScroll: true });
+    $("done").scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  $("d-new").onclick = function () {
+    $("done").hidden = true; $("lines").hidden = false;
+    document.querySelector(".summary .dates").hidden = false; document.querySelector(".summary .guests").hidden = false;
+    form.note.value = ""; $("req-fail").hidden = true; ci = co = null; render();
+    $("months").scrollIntoView({ behavior: "smooth", block: "center" });
+  };
 
   var tt;
   function toast(m) { var el = $("toast"); el.textContent = m; el.hidden = false; clearTimeout(tt); tt = setTimeout(function () { el.hidden = true; }, 3200); }
