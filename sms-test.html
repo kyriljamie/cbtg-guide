@@ -8,10 +8,13 @@ a{display:block;background:#F2B45C;color:#2A1A04;text-decoration:none;font-weigh
 small{display:block;font-weight:500;opacity:.75;margin-top:2px}
 </style></head><body>
 <h1>Text message test</h1>
-<p>Tap each button. Check if your Messages app opens with the number <b>and</b> the message "CBTG test" filled in. Then come back here and try the next one. Tell Claude which letters worked.</p>
+<p>Tap each button. Check if your Messages app opens with the number <b>and</b> the message "CBTG test" filled in. Then come back here and try the next one. Tell Claude which letters worked, especially F and G.</p>
 <script>
 var n='09274466154', m=encodeURIComponent('CBTG test A-D: number and message filled in?');
 var L=[['A','sms:'+n+'?body='+m,'sms: …?body='],['B','sms:'+n+'?&body='+m,'sms: …?&body='],['C','smsto:'+n+'?body='+m,'smsto: …?body='],['D','sms:'+n+';?body='+m,'sms: …;?body='],['E','intent:'+n+'#Intent;action=android.intent.action.SENDTO;scheme=smsto;S.sms_body='+m+';end','Android intent']];
+var full=encodeURIComponent("Hi Testing! 🌿 This is Cabins by the Generals. Salamat po for your booking request on our website (Ref WU8NRE)!\n\nCabin: Cabin 2\nCheck-in: Jan 14, 2027 | 4:00 PM\nCheck-out: Jan 15, 2027 | 12:00 NN\nGuests: 2\nTotal: ₱15,000\n\nAvailable pa po ang dates! Before we send our payment details, may we ask for a photo of your valid ID (front only)? Standard po ito for guest verification and security. Private po ito at buburahin after your stay. Pwede pong takpan ang ID number.\n\nOnce we receive it, we'll send the payment details for the 30% reservation fee (₱4,500) to secure your dates. Salamat po! 😊");
+var short=encodeURIComponent("Line one\nLine two 🌿");
+L.push(['F','sms:'+n+'?body='+full,'real reply (long, line breaks, emoji)'],['G','sms:'+n+'?body='+short,'short with a line break and emoji']);
 L.forEach(function(x){document.write('<a href="'+x[1].replace(/"/g,'&quot;')+'">'+x[0]+'<small>'+x[2]+'</small></a>');});
 </script>
 </body></html>
