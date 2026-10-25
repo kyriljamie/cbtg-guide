@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>SMS link test</title>
+<style>
+body{margin:0;background:#0F2238;color:#E9EEF2;font-family:system-ui,sans-serif;padding:20px 16px}
+h1{font-size:1.4rem;margin:0 0 6px}p{color:#A9B8C6;margin:0 0 18px;line-height:1.5}
+a{display:block;background:#F2B45C;color:#2A1A04;text-decoration:none;font-weight:700;padding:16px;border-radius:14px;margin:0 0 12px;font-size:1.05rem}
+small{display:block;font-weight:500;opacity:.75;margin-top:2px}
+</style></head><body>
+<h1>Text message test</h1>
+<p>Tap each button. Check if your Messages app opens with the number <b>and</b> the message "CBTG test" filled in. Then come back here and try the next one. Tell Claude which letters worked.</p>
+<script>
+var n='09274466154', m=encodeURIComponent('CBTG test A-D: number and message filled in?');
+var L=[['A','sms:'+n+'?body='+m,'sms: …?body='],['B','sms:'+n+'?&body='+m,'sms: …?&body='],['C','smsto:'+n+'?body='+m,'smsto: …?body='],['D','sms:'+n+';?body='+m,'sms: …;?body='],['E','intent:'+n+'#Intent;action=android.intent.action.SENDTO;scheme=smsto;S.sms_body='+m+';end','Android intent']];
+L.forEach(function(x){document.write('<a href="'+x[1].replace(/"/g,'&quot;')+'">'+x[0]+'<small>'+x[2]+'</small></a>');});
+</script>
+</body></html>
