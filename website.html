@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Cabins by the Generals | Private A-frame pool cabins in Sariaya, Quezon</title>
-<meta name="description" content="Private glass A-frame cabins with their own pool in Sariaya, Quezon. Videoke, outdoor cinema, full kitchen, no corkage. Groups of 2 to 24. Check live availability and book direct.">
+<meta name="description" content="Private A-frame cabins with their own pool in Sariaya, Quezon. Videoke, outdoor cinema, PS5, full kitchen, no corkage. Groups of 2 to 24. Check live availability and book direct.">
 <link rel="canonical" href="https://kyriljamie.github.io/cbtg-guide/website.html">
-<meta name="theme-color" content="#0F2238">
+<meta name="theme-color" content="#F9F8F6">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Cabins by the Generals, Sariaya, Quezon">
-<meta property="og:description" content="Private A-frame cabins with their own pool. Check dates and book direct.">
+<meta property="og:description" content="Your private modern sanctuary in Sariaya. Private A-frame cabins with their own pool. Check dates and book direct.">
 <meta property="og:image" content="https://kyriljamie.github.io/cbtg-guide/img/c1-hero.jpg">
 <meta property="og:url" content="https://kyriljamie.github.io/cbtg-guide/website.html">
 <meta name="twitter:card" content="summary_large_image">
@@ -17,14 +17,14 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
 <link rel="preload" as="image" href="img/c1-hero.jpg">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LodgingBusiness",
   "name": "Cabins by the Generals",
-  "description": "Private glass A-frame cabins with their own pool in Sariaya, Quezon, Philippines.",
+  "description": "Private A-frame cabins with their own pool in Sariaya, Quezon, Philippines.",
   "url": "https://kyriljamie.github.io/cbtg-guide/website.html",
   "logo": "https://kyriljamie.github.io/cbtg-guide/img/logo-320.png",
   "slogan": "Private. Stylish. Yours.",
@@ -41,382 +41,517 @@
     {"@type":"LocationFeatureSpecification","name":"Videoke","value":true},
     {"@type":"LocationFeatureSpecification","name":"Free parking","value":true}
   ],
-  "sameAs": ["https://www.facebook.com/share/164L1d4j1f/"]
+  "sameAs": ["https://www.facebook.com/people/Cabins-by-the-Generals/61566419019212/"]
 }
 </script>
 <style>
+/* Layout: editorial and asymmetric. Warm stone page, charcoal bands, the photos carry the colour.
+   One glass nav floating over everything; booking is the brightest, calmest surface. */
 :root{
-  --night:#0F2238;      /* blue hour */
-  --dusk:#1C3A57;
-  --deep:#081626;
-  --lantern:#F2B45C;    /* warm glass glow */
-  --lantern-ink:#2A1A04;
-  --mist:#EEF2F4;
-  --paper:#FFFFFF;
-  --ink:#1B2430;
-  --ink-soft:#5A6675;
-  --pool:#3FA7A0;
-  --line-dark:rgba(238,242,244,.14);
-  --line-light:#D7DEE4;
-  --on-night:#E9EEF2;
-  --on-night-soft:#A9B8C6;
-  --display:'Gloock', 'Times New Roman', serif;
-  --body:'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --gut:16px;
+  --stone:#F9F8F6; --stone-2:#F1EEE8; --stone-3:#E8E3D9; --paper:#FFFFFF;
+  --line:#E3DED5; --line-2:#D5CFC3;
+  --char:#121412; --char-2:#1B1E1B; --char-3:#262A26; --char-line:#2F342F;
+  --terra:#B5653F; --terra-2:#C98462;
+  --forest:#24402F; --forest-2:#3C5A45;
+  --champ:#C8AE7D; --champ-2:#DCCAA4;
+  --ink:#1E211E; --ink-soft:#5E625C; --ink-mute:#8B8F87;
+  --on-char:#F3F1EC; --on-char-soft:rgba(243,241,236,.66); --on-char-mute:rgba(243,241,236,.45);
+  --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --sans:'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --gut:max(20px, env(safe-area-inset-left, 0px));
+  --gut-r:max(20px, env(safe-area-inset-right, 0px));
+  --ease:cubic-bezier(.2,.7,.2,1);
+  color-scheme:light;
 }
-@media (min-width:720px){:root{--gut:32px}}
+@media (min-width:760px){:root{--gut:max(36px, env(safe-area-inset-left, 0px));--gut-r:max(36px, env(safe-area-inset-right, 0px))}}
 *{box-sizing:border-box}
 [hidden]{display:none !important}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{margin:0;background:var(--night);color:var(--on-night);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+body{margin:0;background:var(--stone);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
 img{display:block;max-width:100%}
 a{color:inherit}
 button{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--lantern);outline-offset:3px;border-radius:6px}
-.wrap{max-width:1180px;margin:0 auto;padding:0 var(--gut)}
-h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:1.05;letter-spacing:-.01em}
+:focus-visible{outline:2px solid var(--terra);outline-offset:3px;border-radius:8px}
+h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;line-height:1;letter-spacing:-.01em;text-wrap:balance}
 p{margin:0}
-.lede{font-size:1.15rem;color:var(--on-night-soft);max-width:34em}
+.wrap{max-width:1200px;margin:0 auto;padding-left:var(--gut);padding-right:var(--gut-r)}
+.eyebrow{font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:700;color:var(--terra)}
+.dark .eyebrow{color:var(--champ)}
+.lede{font-size:1.05rem;color:var(--ink-soft);max-width:34em;line-height:1.7}
+.dark .lede{color:var(--on-char-soft)}
+.ico{width:18px;height:18px;flex:none;stroke-width:1.75}
+section{padding:96px 0}
+@media (min-width:760px){section{padding:128px 0}}
+.dark{background:var(--char);color:var(--on-char)}
+.sec-head{display:grid;gap:18px;margin-bottom:52px}
+@media (min-width:960px){.sec-head.split{grid-template-columns:1fr 1fr;align-items:end;gap:48px}.sec-head.split .lede{justify-self:end}}
+.sec-head h2{font-size:clamp(2.6rem,6vw,4.4rem)}
+#book,#months,#cabins,#guide,#cats,#reviews,#visit{scroll-margin-top:96px}
 
-/* ---------- top bar ---------- */
-.top{position:fixed;inset:0 0 auto 0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:calc(10px + env(safe-area-inset-top)) var(--gut) 10px;transition:background .3s}
-.top.solid{background:rgba(8,22,38,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-size:1.15rem}
-.brand img{flex:none;width:44px;height:44px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
-.top nav{display:none;gap:22px;font-weight:600;font-size:.95rem}
-.top nav a{text-decoration:none;color:var(--on-night-soft)}
-.top nav a:hover{color:var(--on-night)}
-@media (min-width:860px){.top nav{display:flex}}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;border:0;font-weight:700;font-size:1rem;text-decoration:none;cursor:pointer;white-space:nowrap}
-.btn.glow{background:var(--lantern);color:var(--lantern-ink)}
-.btn.glow:hover{background:#F6C57A}
-.btn.ghost{background:transparent;color:var(--on-night);box-shadow:inset 0 0 0 1.5px var(--line-dark)}
-.btn.ghost:hover{box-shadow:inset 0 0 0 1.5px var(--on-night-soft)}
-.btn.small{min-height:40px;padding:0 16px;font-size:.92rem}
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:50px;padding:0 24px;border-radius:999px;border:0;font-weight:600;font-size:.94rem;text-decoration:none;cursor:pointer;white-space:nowrap;transition:background .3s,color .3s,box-shadow .3s,transform .3s}
+.btn.small{min-height:42px;padding:0 18px;font-size:.88rem}
+.btn.solid{background:var(--char);color:var(--on-char)}
+.btn.solid:hover{background:var(--forest)}
+.btn.terra{background:var(--terra);color:#fff}
+.btn.terra:hover{background:var(--terra-2)}
+.btn.light{background:var(--stone);color:var(--char)}
+.btn.light:hover{background:var(--champ-2)}
+.btn.line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line-2)}
+.btn.line:hover{box-shadow:inset 0 0 0 1px var(--ink)}
+.dark .btn.line,.btn.line.on-dark{color:var(--on-char);box-shadow:inset 0 0 0 1px rgba(243,241,236,.28)}
+.dark .btn.line:hover,.btn.line.on-dark:hover{box-shadow:inset 0 0 0 1px var(--on-char);background:rgba(243,241,236,.06)}
+.btn.champ{background:transparent;color:var(--champ-2);box-shadow:inset 0 0 0 1px rgba(200,174,125,.5)}
+.btn.champ:hover{box-shadow:inset 0 0 0 1px var(--champ-2)}
+.glass{background:rgba(249,248,246,.68);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%)}
+.glass-dark{background:rgba(18,20,18,.46);backdrop-filter:blur(16px) saturate(130%);-webkit-backdrop-filter:blur(16px) saturate(130%)}
 
-/* ---------- hero: the lit A-frame ---------- */
-.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;background:var(--deep)}
-.hero-img{position:absolute;inset:0;clip-path:polygon(50% 0,50% 0,100% 100%,0 100%);animation:open 1.6s cubic-bezier(.7,0,.2,1) .35s forwards}
-.hero-img img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;transform:scale(1.08);animation:settle 2.4s cubic-bezier(.2,.7,.2,1) .35s forwards}
-@keyframes open{to{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}}
-@keyframes settle{to{transform:scale(1)}}
-@media (prefers-reduced-motion:reduce){.hero-img{animation:none;clip-path:none}.hero-img img{animation:none;transform:none}}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,22,38,.55) 0%,rgba(8,22,38,0) 28%,rgba(8,22,38,0) 45%,rgba(8,22,38,.92) 88%);pointer-events:none}
-.hero-copy{position:relative;z-index:2;padding:0 var(--gut) calc(40px + env(safe-area-inset-bottom));max-width:1180px;margin:0 auto;width:100%}
-.hero h1{font-size:clamp(2.7rem,9vw,6.4rem);max-width:11ch}
-.hero .lede{margin-top:16px;color:#D3DDE6}
-.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
-.facts{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:28px;padding-top:18px;border-top:1px solid var(--line-dark);font-size:.95rem;color:#C9D4DE}
-.rev-chip{color:#C9D4DE;text-decoration:underline;text-underline-offset:3px}
-.rev-chip b{color:var(--lantern)!important}
-.facts b{color:var(--on-night);font-weight:600}
+/* ---------- floating nav ---------- */
+.top{position:fixed;inset:0 0 auto 0;z-index:30;padding:calc(12px + env(safe-area-inset-top, 0px)) var(--gut-r) 0 var(--gut)}
+.pill{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 7px 7px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.6);box-shadow:0 12px 40px -24px rgba(18,20,18,.5);transition:box-shadow .3s,background .3s}
+.top.solid .pill{background:rgba(249,248,246,.86);box-shadow:0 14px 44px -22px rgba(18,20,18,.55)}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;min-width:0}
+.brand img{flex:none;width:42px;height:42px;border-radius:50%}
+.brand b{display:block;font-family:var(--serif);font-weight:600;font-size:1.2rem;line-height:1.1;white-space:nowrap}
+.brand small{display:block;font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft)}
+.links{display:none;gap:28px;font-size:.88rem;font-weight:500;color:var(--ink-soft)}
+.links a{text-decoration:none;transition:color .2s}
+.links a:hover{color:var(--ink)}
+@media (min-width:1060px){.links{display:flex}}
+.top-actions{display:flex;align-items:center;gap:6px}
+.top-actions .btn{min-height:44px}
+.menu-btn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(30,33,30,.12);background:transparent;display:grid;place-items:center;cursor:pointer}
+@media (min-width:1060px){.menu-btn{display:none}}
+@media (max-width:520px){.top-actions .btn{display:none}.brand small{display:none}.brand b{font-size:1.1rem}}
+.menu{max-width:1200px;margin:8px auto 0;border-radius:26px;border:1px solid rgba(255,255,255,.6);padding:10px;display:grid;gap:2px;box-shadow:0 20px 50px -30px rgba(18,20,18,.6)}
+.menu a{display:flex;align-items:center;justify-content:space-between;text-decoration:none;font-family:var(--serif);font-size:1.6rem;padding:10px 16px;border-radius:16px}
+.menu a:hover{background:rgba(255,255,255,.6)}
+.menu .btn{margin-top:8px;font-family:var(--sans);font-size:.95rem;justify-content:center}
+@media (min-width:1060px){.menu{display:none !important}}
 
-/* ---------- sections ---------- */
-section{padding:88px 0}
-@media (min-width:720px){section{padding:120px 0}}
-.sec-head{display:grid;gap:14px;margin-bottom:40px}
-.sec-head h2{font-size:clamp(2.1rem,5.5vw,3.6rem);max-width:16ch}
+/* ---------- hero ---------- */
+.hero{padding:calc(88px + env(safe-area-inset-top, 0px)) 0 0}
+.hero .wrap{max-width:1440px}
+.hero-frame{position:relative;border-radius:28px;overflow:hidden;background:var(--char);isolation:isolate}
+@media (min-width:760px){.hero-frame{border-radius:36px}}
+.hero-frame>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 45%;z-index:-2;animation:drift 18s var(--ease) both}
+@keyframes drift{from{transform:scale(1.08)}to{transform:scale(1)}}
+.hero-frame::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(18,20,18,.88) 0%,rgba(18,20,18,.35) 48%,rgba(18,20,18,.12) 100%)}
+.hero-grid{display:grid;gap:34px;align-content:end;min-height:min(680px,calc(100svh - 120px));padding:120px 22px 24px;color:var(--on-char)}
+@media (min-width:760px){.hero-grid{padding:140px 44px 40px}}
+@media (min-width:1060px){.hero-grid{grid-template-columns:1.4fr .6fr;align-items:end;padding:160px 56px 52px}}
+.hero .eyebrow{color:var(--champ-2)}
+.hero h1{margin-top:20px;font-size:clamp(3.1rem,8.6vw,6.6rem);line-height:.94;font-weight:500;max-width:11ch}
+.hero h1 em{font-weight:400;color:var(--champ-2)}
+.hero .lede{margin-top:22px;color:rgba(243,241,236,.8);max-width:31em;font-size:1.06rem}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.rise{animation:rise .9s var(--ease) both}
+.rise.d1{animation-delay:.1s}.rise.d2{animation-delay:.2s}.rise.d3{animation-delay:.32s}
+@keyframes rise{from{transform:translateY(14px);opacity:.2}to{transform:none;opacity:1}}
+.rate-card{border-radius:26px;border:1px solid rgba(255,255,255,.16);padding:22px;max-width:380px;width:100%;justify-self:start}
+@media (min-width:1060px){.rate-card{justify-self:end}}
+.rate-card .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.rate-card .row span{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--on-char-mute);font-weight:600}
+.rev-chip{white-space:nowrap;display:inline-flex;align-items:center;gap:5px;font-size:.8rem;color:var(--champ-2);text-decoration:none;font-weight:600}
+.rev-chip:hover{text-decoration:underline}
+.rate-card .big{margin-top:6px;font-family:var(--serif);font-size:3.2rem;line-height:1}
+.rate-card .big small{font-family:var(--sans);font-size:.85rem;color:var(--on-char-soft)}
+.rate-card dl{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0 0;padding-top:16px;border-top:1px solid rgba(255,255,255,.16);font-size:.8rem}
+.rate-card dt{color:var(--on-char-mute)}
+.rate-card dd{margin:3px 0 0;font-weight:600}
+
+/* ---------- highlights ---------- */
+.highs{padding:64px 0}
+@media (min-width:760px){.highs{padding:84px 0}}
+.high-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:28px;overflow:hidden}
+@media (min-width:960px){.high-grid{grid-template-columns:repeat(4,1fr)}}
+.high-grid div{background:var(--stone);padding:26px 22px 28px}
+@media (min-width:760px){.high-grid div{padding:34px 30px}}
+.high-grid .ico{width:24px;height:24px}
+.high-grid h3{margin-top:26px;font-size:1.65rem}
+.high-grid p{margin-top:8px;font-size:.9rem;color:var(--ink-soft);line-height:1.6}
+.c-terra{color:var(--terra)}.c-forest{color:var(--forest)}.c-champ{color:#A88A52}
 
 /* ---------- cabins ---------- */
-.cabin{display:grid;gap:26px;padding:56px 0;border-top:1px solid var(--line-dark)}
+.cabin{display:grid;gap:30px;padding:60px 0;border-top:1px solid var(--char-line)}
 .cabin:first-of-type{border-top:0;padding-top:0}
-@media (min-width:960px){
-  .cabin{grid-template-columns:1.25fr 1fr;gap:56px;align-items:start}
-  .cabin.flip .cabin-media{order:2}
-}
-.cabin-num{font-size:.95rem;color:var(--lantern);font-weight:600}
-.cabin h3{font-size:clamp(3rem,10vw,5.6rem);margin-top:2px}
-.cabin .who{font-size:1.02rem;color:var(--on-night-soft);margin-top:10px}
-.cabin .blurb{margin-top:18px;font-size:1.1rem;max-width:30em}
-.feat{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:10px}
-.feat li{display:flex;gap:12px;align-items:baseline}
-.feat li::before{content:"";flex:none;width:9px;height:8px;margin-top:2px;background:var(--lantern);clip-path:polygon(50% 0,100% 100%,0 100%)}
-.price-line{margin-top:24px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px}
-.price-line .from{font-size:1rem;color:var(--on-night-soft)}
-.price-line .from b{font-family:var(--display);font-weight:400;font-size:1.7rem;color:var(--on-night)}
-.note-addon{margin-top:18px;padding:14px 16px;border-radius:14px;background:rgba(242,180,92,.1);color:#F4D7A8;font-size:.98rem}
-
+@media (min-width:960px){.cabin{grid-template-columns:1.2fr 1fr;gap:64px;align-items:center}.cabin.flip .cabin-media{order:2}}
+.cabin-num{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:700;color:var(--champ)}
+.cabin-num::after{content:"";width:40px;height:1px;background:var(--char-line)}
+.cabin h3{font-size:clamp(3.6rem,9vw,5.8rem);margin-top:10px;font-weight:500}
+.cabin .who{font-size:.92rem;color:var(--on-char-mute);margin-top:12px}
+.cabin .blurb{margin-top:18px;font-size:1.06rem;color:var(--on-char-soft);max-width:30em;line-height:1.7}
+.chips{list-style:none;padding:0;margin:24px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.chips li{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--char-line);border-radius:999px;padding:8px 14px;font-size:.84rem;color:var(--on-char)}
+.chips .ico{width:15px;height:15px;color:var(--champ)}
+.price-line{margin-top:28px;padding-top:22px;border-top:1px solid var(--char-line);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+.price-line .from{font-size:.85rem;color:var(--on-char-mute)}
+.price-line .from b{display:block;font-family:var(--serif);font-weight:500;font-size:2.2rem;color:var(--champ-2);line-height:1.1}
+.price-btns{display:flex;flex-wrap:wrap;gap:8px}
+.note-addon{margin-top:18px;padding:14px 16px;border-radius:16px;background:rgba(200,174,125,.1);border:1px solid rgba(200,174,125,.25);color:var(--champ-2);font-size:.9rem}
 .cabin-media{min-width:0}
-.cover{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:4/3;background:var(--dusk);cursor:zoom-in;border:0;padding:0;width:100%;display:block}
-.cover img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
-.cover:hover img{transform:scale(1.03)}
-.cover .count{position:absolute;right:12px;bottom:12px;background:rgba(8,22,38,.78);color:#fff;font-size:.85rem;font-weight:600;padding:6px 12px;border-radius:999px}
+.cover{position:relative;border-radius:26px;overflow:hidden;aspect-ratio:4/3;background:var(--char-3);cursor:zoom-in;border:0;padding:0;width:100%;display:block}
+.cover img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.cover:hover img{transform:scale(1.05)}
+.cover .count{position:absolute;right:14px;bottom:14px;background:rgba(18,20,18,.5);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:.78rem;font-weight:600;padding:7px 13px;border-radius:999px}
 .strip{display:grid;grid-auto-flow:column;grid-auto-columns:30%;gap:10px;margin-top:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:2px}
 .strip::-webkit-scrollbar{display:none}
-.strip button{scroll-snap-align:start;border:0;padding:0;border-radius:14px;overflow:hidden;aspect-ratio:1;background:var(--dusk);cursor:zoom-in}
-.strip img{width:100%;height:100%;object-fit:cover}
+.strip button{scroll-snap-align:start;border:0;padding:0;border-radius:16px;overflow:hidden;aspect-ratio:1;background:var(--char-3);cursor:zoom-in}
+.strip img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.strip button:hover img{transform:scale(1.06)}
 @media (min-width:960px){.strip{grid-auto-columns:23%}}
 .reel{display:grid;grid-auto-flow:column;grid-auto-columns:36%;gap:10px;margin-top:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:2px}
 .reel::-webkit-scrollbar{display:none}
 @media (min-width:960px){.reel{grid-auto-columns:23%}}
-.clip{position:relative;scroll-snap-align:start;aspect-ratio:9/16;border:0;padding:0;border-radius:16px;overflow:hidden;background:var(--dusk);cursor:pointer;display:block}
+.clip{position:relative;scroll-snap-align:start;aspect-ratio:9/16;border:0;padding:0;border-radius:18px;overflow:hidden;background:var(--char-3);cursor:pointer;display:block}
 .clip video{width:100%;height:100%;object-fit:cover;display:block}
-.clip::after{content:"";position:absolute;inset:55% 0 0 0;background:linear-gradient(180deg,transparent,rgba(5,12,22,.85));pointer-events:none}
-.clip-cap{position:absolute;left:10px;right:10px;bottom:10px;z-index:1;display:flex;gap:7px;align-items:center;text-align:left;font-size:.85rem;font-weight:700;color:#fff;line-height:1.25}
-.clip-cap i{flex:none;font-style:normal;width:24px;height:24px;border-radius:50%;background:var(--lantern);color:var(--lantern-ink);display:flex;align-items:center;justify-content:center;font-size:.6rem;padding-left:2px}
+.clip::after{content:"";position:absolute;inset:55% 0 0 0;background:linear-gradient(180deg,transparent,rgba(18,20,18,.85));pointer-events:none}
+.clip-cap{position:absolute;left:10px;right:10px;bottom:10px;z-index:1;display:flex;gap:7px;align-items:center;text-align:left;font-size:.8rem;font-weight:600;color:#fff;line-height:1.25}
+.clip-cap i{flex:none;font-style:normal;width:24px;height:24px;border-radius:50%;background:var(--stone);color:var(--char);display:flex;align-items:center;justify-content:center;font-size:.55rem;padding-left:2px}
+.cabin.choco{background:linear-gradient(135deg,rgba(36,64,47,.55),rgba(18,20,18,0) 70%);border:1px solid rgba(200,174,125,.22);border-radius:30px;padding:28px 22px;margin-top:20px}
+@media (min-width:760px){.cabin.choco{padding:44px}}
+.retreat{margin-top:34px;display:flex;flex-direction:column;gap:18px;border:1px solid var(--char-line);border-radius:28px;padding:26px 24px}
+@media (min-width:760px){.retreat{flex-direction:row;align-items:center;justify-content:space-between;padding:32px 36px}}
+.retreat b{display:block;font-family:var(--serif);font-weight:500;font-size:2rem;line-height:1.1}
+.retreat span{display:block;margin-top:6px;color:var(--on-char-soft);font-size:.92rem}
 
-/* ---------- shared amenities band ---------- */
-.shared{background:var(--deep)}
-.amen{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--line-dark);border-radius:20px;overflow:hidden}
-.amen div{background:var(--deep);padding:24px 22px}
-.amen b{display:block;font-family:var(--display);font-weight:400;font-size:1.5rem;color:var(--on-night)}
-.amen span{display:block;margin-top:4px;color:var(--on-night-soft);font-size:.98rem}
-
-/* ---------- booking (the one light surface) ---------- */
-.book{background:var(--mist);color:var(--ink)}
-.book .lede{color:var(--ink-soft)}
-.book-grid{display:grid;gap:22px}
-@media (min-width:980px){.book-grid{grid-template-columns:1.35fr 1fr;align-items:start}}
-.panel{background:var(--paper);border-radius:24px;padding:20px 16px;border:1px solid var(--line-light)}
-@media (min-width:720px){.panel{padding:26px}}
-.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
-.opt{border:1.5px solid var(--line-light);background:var(--paper);border-radius:14px;padding:10px 12px;text-align:left;cursor:pointer;color:var(--ink);min-height:62px}
-.opt b{display:block;font-weight:700;font-size:.98rem}
-.opt span{display:block;font-size:.82rem;color:var(--ink-soft)}
-.opt[aria-pressed="true"]{border-color:var(--night);box-shadow:inset 0 0 0 1px var(--night);background:#F6F8FA}
-.cal-head{display:flex;align-items:center;justify-content:space-between;margin:4px 0 8px}
-.cal-head b{font-size:1.08rem}
-.nav{width:42px;height:42px;border-radius:50%;border:1px solid var(--line-light);background:var(--paper);cursor:pointer;font-size:1.2rem;color:var(--ink)}
+/* ---------- booking ---------- */
+.book{background:var(--stone-2)}
+.book-grid{display:grid;gap:20px}
+@media (min-width:1000px){.book-grid{grid-template-columns:1.35fr 1fr;align-items:start}}
+.panel{background:var(--paper);border-radius:28px;padding:20px 16px;border:1px solid var(--line);box-shadow:0 30px 60px -50px rgba(18,20,18,.35)}
+@media (min-width:760px){.panel{padding:28px}}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.opt{border:1px solid var(--line);background:var(--paper);border-radius:16px;padding:11px 13px;text-align:left;cursor:pointer;color:var(--ink);min-height:64px;transition:border-color .2s,background .2s}
+.opt:hover{border-color:var(--line-2)}
+.opt b{display:block;font-weight:600;font-size:.92rem}
+.opt span{display:block;font-size:.76rem;color:var(--ink-soft)}
+.opt[aria-pressed="true"]{border-color:var(--char);box-shadow:inset 0 0 0 1px var(--char);background:var(--stone)}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin:4px 0 10px}
+.cal-head b{font-family:var(--serif);font-weight:600;font-size:1.35rem}
+.nav{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--paper);cursor:pointer;display:grid;place-items:center;color:var(--ink)}
+.nav:hover:not(:disabled){border-color:var(--ink)}
 .nav:disabled{opacity:.3;cursor:default}
-.months{display:grid;gap:24px}
-@media (min-width:720px){.months{grid-template-columns:1fr 1fr}}
-.mname{text-align:center;font-weight:700;margin-bottom:6px}
+.months{display:grid;gap:26px}
+@media (min-width:760px){.months{grid-template-columns:1fr 1fr}}
+.mname{text-align:center;font-weight:600;font-size:.9rem;margin-bottom:6px;letter-spacing:.02em}
 .grid{display:grid;grid-template-columns:repeat(7,1fr);row-gap:2px}
-.dow{text-align:center;font-size:.75rem;color:var(--ink-soft);padding:2px 0 6px;font-weight:600}
-.d{position:relative;aspect-ratio:1;border:0;background:none;cursor:pointer;color:var(--ink);font-weight:600;font-size:.98rem;padding:0;display:flex;align-items:center;justify-content:center}
-.d span{position:relative;z-index:1;width:88%;height:88%;display:flex;align-items:center;justify-content:center;border-radius:50%}
-.d:hover:not(:disabled) span{box-shadow:inset 0 0 0 1.5px var(--ink)}
-.d:disabled{cursor:default;color:#B5BEC7}
+.dow{text-align:center;font-size:.7rem;color:var(--ink-mute);padding:2px 0 6px;font-weight:600;letter-spacing:.06em}
+.d{position:relative;aspect-ratio:1;border:0;background:none;cursor:pointer;color:var(--ink);font-weight:600;font-size:.92rem;padding:0;display:flex;align-items:center;justify-content:center}
+.d span{position:relative;z-index:1;width:88%;height:88%;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:box-shadow .15s}
+.d:hover:not(:disabled) span{box-shadow:inset 0 0 0 1px var(--ink)}
+.d:disabled{cursor:default;color:#C3C0B8}
 .d.taken span{text-decoration:line-through;text-decoration-thickness:1.5px}
-.d.hol::after{content:"";position:absolute;bottom:9%;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:#C2452D}
-.d.in-range{background:#E3E9EE}
-.d.start{background:linear-gradient(90deg,transparent 50%,#E3E9EE 50%)}
-.d.end{background:linear-gradient(90deg,#E3E9EE 50%,transparent 50%)}
+.d.hol::after{content:"";position:absolute;bottom:9%;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--terra)}
+.d.in-range{background:var(--stone-3)}
+.d.start{background:linear-gradient(90deg,transparent 50%,var(--stone-3) 50%)}
+.d.end{background:linear-gradient(90deg,var(--stone-3) 50%,transparent 50%)}
 .d.start.end{background:none}
-.d.start span,.d.end span{background:var(--night);color:#fff}
-.d.only span{background:var(--night);color:#fff}
-.cal-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-top:14px;font-size:.85rem;color:var(--ink-soft)}
-.cal-foot i{display:inline-block;width:5px;height:5px;border-radius:50%;background:#C2452D;margin-right:6px;vertical-align:middle}
-.linkbtn{background:none;border:0;padding:0;text-decoration:underline;cursor:pointer;color:var(--ink);font-weight:600;font-size:.88rem}
-.feed{font-size:.85rem;color:var(--ink-soft);margin-top:4px}
-.feed.err{color:#A3341F;font-weight:600}
-
-.summary{position:sticky;top:84px}
+.d.start span,.d.end span,.d.only span{background:var(--char);color:#fff}
+.cal-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-top:14px;font-size:.82rem;color:var(--ink-soft)}
+.cal-foot i{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--terra);margin-right:6px;vertical-align:middle}
+.linkbtn{background:none;border:0;padding:0;text-decoration:underline;text-underline-offset:3px;cursor:pointer;color:var(--ink);font-weight:600;font-size:.84rem}
+.feed{font-size:.8rem;color:var(--ink-mute);margin-top:6px}
+.feed.err{color:#9A3B1D;font-weight:600}
+.summary{position:sticky;top:100px}
 .sum-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.sum-top .big{font-family:var(--display);font-size:2rem}
-.sum-top .per{color:var(--ink-soft)}
-.dates{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line-light);border-radius:14px;margin-top:16px;overflow:hidden}
-.dates button{background:none;border:0;text-align:left;padding:10px 14px;cursor:pointer;color:var(--ink)}
-.dates button+button{border-left:1px solid var(--line-light)}
-.dates small{display:block;font-size:.75rem;font-weight:700;color:var(--ink-soft)}
-.dates .v{font-weight:600}
-.guests{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line-light);border-radius:14px;padding:8px 8px 8px 14px;margin-top:10px}
-.guests small{display:block;font-size:.75rem;font-weight:700;color:var(--ink-soft)}
+.sum-top .big{font-family:var(--serif);font-weight:600;font-size:2.5rem;line-height:1}
+.sum-top .per{color:var(--ink-soft);font-size:.9rem}
+.dates{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:16px;margin-top:18px;overflow:hidden}
+.dates button{background:none;border:0;text-align:left;padding:11px 14px;cursor:pointer;color:var(--ink)}
+.dates button+button{border-left:1px solid var(--line)}
+.dates small,.guests small{display:block;font-size:.66rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute)}
+.dates .v{font-weight:600;font-size:.95rem}
+.guests{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:16px;padding:8px 8px 8px 14px;margin-top:10px}
+.guests #g-note{font-size:.88rem}
 .step{display:flex;align-items:center;gap:10px}
-.step button{width:38px;height:38px;border-radius:50%;border:1px solid var(--line-light);background:var(--paper);cursor:pointer;font-size:1.2rem;color:var(--ink)}
+.step button{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--paper);cursor:pointer;font-size:1.15rem;color:var(--ink)}
+.step button:hover:not(:disabled){border-color:var(--ink)}
 .step button:disabled{opacity:.3;cursor:default}
 .step output{min-width:2ch;text-align:center;font-weight:700}
-.lines{margin:18px 0 0;display:grid;gap:8px;font-size:.98rem}
+.lines{margin:18px 0 0;display:grid;gap:8px;font-size:.92rem;font-variant-numeric:tabular-nums}
 .lines div{display:flex;justify-content:space-between;gap:12px}
 .lines .muted{color:var(--ink-soft)}
-.lines .tot{border-top:1px solid var(--line-light);padding-top:12px;margin-top:4px;font-weight:700;font-size:1.08rem}
-.hint{margin-top:14px;font-size:.92rem;color:var(--ink-soft)}
-.form{display:grid;gap:10px;margin-top:18px}
-.form label{display:grid;gap:4px;font-size:.82rem;font-weight:700;color:var(--ink-soft)}
-.form input,.form select,.form textarea{font:inherit;font-size:1rem;color:var(--ink);border:1px solid var(--line-light);border-radius:12px;padding:12px;background:var(--paper);width:100%}
-.form textarea{min-height:70px;resize:vertical}
-.btn.dark{background:var(--night);color:#fff;width:100%}
-.btn.dark:hover{background:var(--dusk)}
-.btn.out{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line-light);width:100%}
+.lines .tot{border-top:1px solid var(--line);padding-top:12px;margin-top:4px;font-weight:700;font-size:1.02rem}
+.hint{margin-top:14px;font-size:.88rem;color:var(--ink-soft)}
+.tight{color:#7A4A1F !important;background:#F6EADF;border-radius:14px;padding:11px 13px}
+.form{display:grid;gap:10px;margin-top:20px}
+.form label{display:grid;gap:5px;font-size:.66rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute)}
+.form input,.form select,.form textarea{font:inherit;font-size:1rem;letter-spacing:0;text-transform:none;color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:12px 13px;background:var(--stone);width:100%;transition:border-color .2s,background .2s}
+.form input:focus,.form select:focus,.form textarea:focus{outline:none;border-color:var(--ink);background:var(--paper)}
+.form textarea{min-height:72px;resize:vertical}
+.btn.dark{background:var(--char);color:#fff;width:100%}
+.btn.dark:hover{background:var(--forest)}
+.btn.out{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line-2);width:100%}
 .alt{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.fine{font-size:.85rem;color:var(--ink-soft);text-align:center}
-.fail{margin-top:14px;background:#FDEDEA;color:#7E2414;border-radius:14px;padding:12px 14px;display:grid;gap:10px;font-size:.95rem}
+.fine{font-size:.8rem;color:var(--ink-soft);text-align:center;line-height:1.55}
+.fail{margin-top:14px;background:#F8E8E0;color:#7A2E14;border-radius:16px;padding:13px 14px;display:grid;gap:10px;font-size:.9rem}
 .done{text-align:center;display:grid;gap:10px;padding:6px 0}
-.done-mark{font-size:2rem;margin:0}
-.done h3{font-family:var(--display);font-weight:400;font-size:2rem;color:var(--ink)}
-.done-ref{font-size:1.05rem}
-.done-ref b{font-size:1.3rem;letter-spacing:.06em;background:#F1F4F7;border-radius:8px;padding:2px 10px}
+.done-mark{display:grid;place-items:center;width:56px;height:56px;margin:0 auto;border-radius:50%;background:var(--forest);color:#fff}
+.done h3{font-size:2.4rem;color:var(--ink)}
+.done-ref b{font-size:1.2rem;letter-spacing:.08em;background:var(--stone-2);border-radius:8px;padding:2px 10px}
 .done a{color:var(--ink)}
-.err-msg{color:#A3341F;font-size:.9rem;font-weight:600}
+.err-msg{color:#9A3B1D;font-size:.85rem;font-weight:600;text-transform:none;letter-spacing:0}
 
-/* ---------- cats ---------- */
-.cats{display:grid;gap:18px}
-@media (min-width:760px){.cats{grid-template-columns:repeat(3,1fr)}}
-.cat{margin:0}
-.cat img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:20px;background:var(--dusk)}
-.cat figcaption{margin-top:14px}
-.cat b{font-family:var(--display);font-weight:400;font-size:1.9rem;display:block}
-.cat span{color:var(--on-night-soft)}
-.cat-note{margin-top:30px;color:var(--on-night-soft);max-width:40em}
-
-/* ---------- place + faq ---------- */
-.place{display:grid;gap:26px}
-@media (min-width:960px){.place{grid-template-columns:1fr 1.2fr;align-items:center}}
-.place img{border-radius:22px;width:100%;aspect-ratio:4/3;object-fit:cover}
-.times{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}
-.times div{border:1px solid var(--line-dark);border-radius:16px;padding:16px}
-.times b{display:block;font-family:var(--display);font-weight:400;font-size:1.8rem}
-.times span{color:var(--on-night-soft);font-size:.95rem}
-.faq{max-width:760px}
-.faq details{border-top:1px solid var(--line-dark);padding:4px 0}
-.faq details:last-child{border-bottom:1px solid var(--line-dark)}
-.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;padding:18px 0;font-weight:600;font-size:1.08rem}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";font-size:1.5rem;line-height:1;color:var(--lantern)}
-.faq details[open] summary::after{content:"–"}
-.faq p{padding:0 0 20px;color:var(--on-night-soft);max-width:40em}
-
-/* ---------- footer ---------- */
-footer{background:var(--deep);padding:72px 0 calc(110px + env(safe-area-inset-bottom))}
-@media (min-width:860px){footer{padding-bottom:72px}}
-.foot{display:grid;gap:30px}
-@media (min-width:860px){.foot{grid-template-columns:1.4fr 1fr 1fr}}
-.foot-logo{width:160px;height:160px}
-.foot h2{font-size:clamp(2rem,5vw,3rem);max-width:12ch}
-.foot a{text-decoration:none}
-.foot .links{display:grid;gap:10px;align-content:start;color:var(--on-night-soft)}
-.foot .links a:hover{color:var(--on-night)}
-.tel{font-family:var(--display);font-size:1.7rem}
-.copy{margin-top:46px;color:#6F8093;font-size:.85rem}
-
-/* ---------- sticky mobile bar ---------- */
-.bar{position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--paper);color:var(--ink);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px var(--gut) calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--line-light);transform:translateY(110%);transition:transform .3s}
-.bar.show{transform:none}
-.bar b{display:block;font-size:1.02rem}
-.bar span{font-size:.85rem;color:var(--ink-soft)}
-.bar .btn{background:var(--night);color:#fff}
-@media (min-width:860px){.bar{display:none}}
-
-/* ---------- lightbox ---------- */
-dialog.lb{border:0;padding:0;margin:0;width:100vw;height:100dvh;max-width:none;max-height:none;background:rgba(5,12,22,.97);color:#fff}
-dialog.lb::backdrop{background:rgba(5,12,22,.97)}
-.lb-track{display:grid;grid-auto-flow:column;grid-auto-columns:100%;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
-.lb-track::-webkit-scrollbar{display:none}
-.lb-track figure{margin:0;scroll-snap-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:64px 12px 40px;gap:12px}
-.lb-track img{max-width:100%;max-height:calc(100dvh - 140px);object-fit:contain;border-radius:8px}
-.lb-track video{max-width:100%;max-height:calc(100dvh - 140px);border-radius:8px;background:#000}
-.lb-track figcaption{color:#B8C5D2;font-size:.95rem;text-align:center}
-.lb-close{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;width:46px;height:46px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:1.4rem;cursor:pointer;z-index:2}
-.lb-arrow{position:fixed;top:50%;width:48px;height:48px;margin-top:-24px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:1.4rem;cursor:pointer;display:none;z-index:2}
-@media (hover:hover){.lb-arrow{display:block}}
-.lb-prev{left:14px}.lb-next{right:14px}
-.toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:40;background:var(--ink);color:#fff;padding:12px 18px;border-radius:14px;font-weight:600;font-size:.95rem;max-width:92vw;text-align:center}
-#book,#months,#cabins,#cats,#faq,#reviews{scroll-margin-top:72px}
-@media (max-width:420px){.brand{font-size:1rem}.brand img{width:38px;height:38px}.top .btn.small{padding:0 13px}}
-.fb-nav{display:inline-flex;align-items:center;gap:6px}
-.btn svg{flex:none}
-.follow{background:linear-gradient(180deg,var(--dusk),var(--night));padding:72px 0}
-.follow-in{display:grid;gap:24px;align-items:center}
-.follow h2{font-size:clamp(2rem,5vw,3.2rem)}
-.follow-btns{display:flex;flex-wrap:wrap;gap:10px}
-@media (min-width:860px){.follow-in{grid-template-columns:1.3fr 1fr}.follow-btns{justify-content:flex-end}}
-/* ---------- amenities dialog ---------- */
-.btn.amen-btn{background:transparent;color:var(--lantern);box-shadow:inset 0 0 0 1.5px rgba(242,180,92,.55)}
-.btn.amen-btn:hover{box-shadow:inset 0 0 0 1.5px var(--lantern)}
-dialog.am{border:0;padding:0;margin:auto;width:min(760px,100vw);max-width:100vw;max-height:100dvh;background:transparent;color:var(--ink)}
-dialog.am::backdrop{background:rgba(5,12,22,.72)}
-@media (max-width:719px){dialog.am{margin:auto 0 0;height:92dvh}}
-.am-in{background:var(--paper);display:flex;flex-direction:column;max-height:min(88dvh,820px);border-radius:24px;overflow:hidden}
-@media (max-width:719px){.am-in{height:100%;max-height:none;border-radius:24px 24px 0 0}}
-.am-head{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 6px}
-.am-head h2{font-size:2rem;color:var(--ink)}
-.am-x{width:42px;height:42px;border-radius:50%;border:1px solid var(--line-light);background:var(--paper);cursor:pointer;font-size:1.1rem;color:var(--ink)}
-.am-tabs{display:flex;gap:6px;padding:10px 20px 12px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--line-light)}
-.am-tabs::-webkit-scrollbar{display:none}
-.am-tabs button{flex:none;border:1.5px solid var(--line-light);background:var(--paper);color:var(--ink);border-radius:999px;padding:9px 16px;font-weight:700;cursor:pointer;font-size:.95rem}
-.am-tabs button[aria-selected="true"]{background:var(--night);border-color:var(--night);color:#fff}
-.am-body{overflow-y:auto;padding:18px 20px 8px;flex:1}
-.am-sub{color:var(--ink-soft);margin-bottom:16px}
-.am-groups{display:grid;gap:18px}
-@media (min-width:600px){.am-groups{grid-template-columns:1fr 1fr;gap:20px 28px}}
-.am-groups h3{font-family:var(--body);font-weight:700;font-size:1rem;margin-bottom:8px;color:var(--ink)}
-.am-groups ul{list-style:none;margin:0;padding:0;display:grid;gap:7px}
-.am-groups li{display:flex;gap:10px;align-items:baseline;font-size:.98rem}
-.am-groups li::before{content:"";flex:none;width:8px;height:7px;background:#C9892B;clip-path:polygon(50% 0,100% 100%,0 100%)}
-.am-note{margin-top:18px;padding:12px 14px;border-radius:12px;background:#FFF4E0;color:#7A4B00;font-size:.95rem}
-.am-foot{padding:14px 20px calc(16px + env(safe-area-inset-bottom));border-top:1px solid var(--line-light)}
 /* ---------- reviews ---------- */
-.reviews{background:var(--night)}
-.rev-top{display:grid;gap:22px;align-items:end;margin-bottom:22px}
-@media (min-width:860px){.rev-top{grid-template-columns:1fr auto auto;column-gap:36px}}
-.rev-top h2{font-size:clamp(2.1rem,5.5vw,3.6rem)}
-.rev-score{display:flex;align-items:center;gap:14px}
-.rev-score b{font-family:var(--display);font-weight:400;font-size:4.2rem;line-height:1;color:var(--lantern)}
-.rev-score span{display:block;color:var(--on-night-soft)}
-.rev-stars{color:var(--lantern)!important;letter-spacing:2px;font-size:1.15rem}
-.rev-bars{display:grid;gap:6px;max-width:420px;margin-bottom:26px}
-.rev-bars div{display:grid;grid-template-columns:24px 1fr 28px;gap:10px;align-items:center;font-size:.9rem;color:var(--on-night-soft)}
-.rev-bars i{display:block;height:6px;border-radius:3px;background:var(--line-dark);overflow:hidden}
-.rev-bars i em{display:block;height:100%;background:var(--lantern)}
-.rev-filter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.rev-filter button{border:1.5px solid var(--line-dark);background:transparent;color:var(--on-night);border-radius:999px;padding:9px 16px;font-weight:600;cursor:pointer}
-.rev-filter button[aria-pressed="true"]{background:var(--on-night);color:var(--night);border-color:var(--on-night)}
+.rev-top{display:grid;gap:26px;margin-bottom:40px}
+@media (min-width:960px){.rev-top{grid-template-columns:1fr auto;align-items:end}}
+.rev-top h2{font-size:clamp(2.6rem,6vw,4.4rem)}
+.scores{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.score b{display:block;font-family:var(--serif);font-weight:500;font-size:3.4rem;line-height:1;color:var(--forest)}
+.score span{font-size:.78rem;color:var(--ink-soft)}
+.score-sep{width:1px;height:48px;background:var(--line-2)}
+.car-btns{display:flex;gap:8px}
+.car-btns button{width:48px;height:48px;border-radius:50%;border:1px solid var(--line-2);background:transparent;cursor:pointer;display:grid;place-items:center;transition:background .25s,color .25s}
+.car-btns button:hover{background:var(--char);color:var(--on-char)}
+.quotes{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:6px}
+.quotes::-webkit-scrollbar{display:none}
+.quote{flex:none;width:86%;scroll-snap-align:start;margin:0;border-radius:28px;padding:30px 26px;display:flex;flex-direction:column;justify-content:space-between;gap:36px;min-height:300px}
+@media (min-width:760px){.quote{width:44%;padding:38px 36px}}
+@media (min-width:1100px){.quote{width:34%}.quote.wide{width:46%}}
+.quote blockquote{margin:0;font-family:var(--serif);font-size:1.7rem;line-height:1.22}
+.quote.wide blockquote{font-style:italic;font-size:1.95rem}
+.quote figcaption{display:flex;justify-content:space-between;gap:10px;font-size:.8rem;opacity:.75}
+.quote figcaption b{opacity:1}
+.q-char{background:var(--char);color:var(--on-char)}
+.q-forest{background:var(--forest);color:var(--on-char)}
+.q-terra{background:var(--terra);color:#fff}
+.q-paper{background:var(--paper);border:1px solid var(--line)}
+.all-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;margin:72px 0 22px;padding-top:30px;border-top:1px solid var(--line)}
+.all-head h3{font-size:2.2rem}
+.rev-filter{display:flex;flex-wrap:wrap;gap:6px}
+.rev-filter button{border:1px solid var(--line-2);background:transparent;color:var(--ink);border-radius:999px;padding:9px 16px;font-weight:600;font-size:.84rem;cursor:pointer;transition:background .2s,color .2s}
+.rev-filter button:hover{border-color:var(--ink)}
+.rev-filter button[aria-pressed="true"]{background:var(--char);color:var(--on-char);border-color:var(--char)}
 .rev-list{display:grid;gap:14px}
 @media (min-width:760px){.rev-list{grid-template-columns:1fr 1fr}}
 @media (min-width:1100px){.rev-list{grid-template-columns:1fr 1fr 1fr}}
-.rev{background:var(--dusk);border-radius:18px;padding:18px 18px 16px;display:flex;flex-direction:column;gap:10px}
+.rev{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:22px 22px 18px;display:flex;flex-direction:column;gap:12px;transition:transform .4s var(--ease),box-shadow .4s}
+.rev:hover{transform:translateY(-3px);box-shadow:0 24px 40px -30px rgba(18,20,18,.4)}
 .rev-h{display:flex;align-items:center;gap:12px}
-.rev-h .rev-av{flex:none;width:40px;height:40px;border-radius:50%;background:rgba(242,180,92,.18);color:var(--lantern);display:flex;align-items:center;justify-content:center;font-weight:700}
-.rev-h b{display:block;font-weight:700}
-.rev-h span{display:block;font-size:.85rem;color:var(--on-night-soft)}
-.rev-s{color:var(--lantern);letter-spacing:1px;font-size:.95rem}
-.rev-s .off{color:var(--line-dark)}
-.rev p{margin:0;white-space:pre-line;color:#D6DEE6;font-size:.98rem;line-height:1.55}
+.rev-h .rev-av{flex:none;width:40px;height:40px;border-radius:50%;background:var(--stone-2);color:var(--forest);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:600;font-size:1.2rem}
+.rev-h b{display:block;font-weight:600;font-size:.95rem}
+.rev-h span{display:block;font-size:.78rem;color:var(--ink-mute)}
+.rev-s{color:var(--terra);letter-spacing:2px;font-size:.9rem}
+.rev-s .off{color:var(--line-2)}
+.rev p{margin:0;white-space:pre-line;color:var(--ink);font-size:.93rem;line-height:1.65}
 .rev p.clamp{display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
-.rev .rm{align-self:flex-start;background:none;border:0;padding:0;color:var(--lantern);font-weight:700;cursor:pointer;text-decoration:underline}
-.rev details{border-top:1px solid var(--line-dark);padding-top:8px}
-.rev summary{cursor:pointer;color:var(--on-night-soft);font-size:.9rem;font-weight:600}
-.rev details p{margin-top:8px;font-size:.92rem;color:var(--on-night-soft)}
-.rev-more-wrap{margin-top:22px}
-.rev-src{margin-top:14px;color:#7C8DA0;font-size:.85rem}
-.rev-rec{display:flex;align-items:center;gap:8px;margin:12px 0 2px;font-size:.88rem;font-weight:600;color:#9DB8F2}
+.rev .rm{align-self:flex-start;background:none;border:0;padding:0;color:var(--terra);font-weight:600;font-size:.85rem;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.rev details{border-top:1px solid var(--line);padding-top:10px;margin-top:auto}
+.rev summary{cursor:pointer;color:var(--ink-soft);font-size:.82rem;font-weight:600}
+.rev details p{margin-top:8px;font-size:.86rem;color:var(--ink-soft)}
+.rev-rec{display:flex;align-items:center;gap:8px;font-size:.82rem;font-weight:600;color:#2F5BB7}
 .fbb{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#1877F2;color:#fff;font:700 14px/1 Arial,sans-serif}
-.rev-score.fb .rev-fbt{color:#9DB8F2;font-weight:700}
-.rev-src a{color:var(--on-night-soft)}
+.rev-more-wrap{margin-top:24px}
+.rev-src{margin-top:16px;color:var(--ink-mute);font-size:.8rem;max-width:60em}
+.rev-src a{color:var(--ink-soft)}
+
+/* ---------- guest guide ---------- */
+.guide{background:var(--stone-2)}
+.guide-grid{display:grid;gap:48px}
+@media (min-width:1000px){.guide-grid{grid-template-columns:.8fr 1.2fr;gap:72px}.guide-side{position:sticky;top:110px;align-self:start}}
+.guide-side h2{margin-top:18px;font-size:clamp(2.6rem,5.5vw,4rem)}
+.guide-photo{position:relative;margin-top:30px;border-radius:28px;overflow:hidden}
+.guide-photo img{width:100%;aspect-ratio:4/5;object-fit:cover}
+@media (max-width:999px){.guide-photo img{aspect-ratio:16/10}}
+.guide-photo .glass{position:absolute;left:14px;right:14px;bottom:14px;border-radius:20px;border:1px solid rgba(255,255,255,.6);padding:14px 16px;font-size:.84rem;color:var(--ink-soft)}
+.guide-photo .glass b{display:block;color:var(--ink);font-size:.9rem}
+.acc-list{border-top:1px solid var(--line-2)}
+.acc-item{border-bottom:1px solid var(--line-2)}
+.acc{display:flex;align-items:center;gap:18px;width:100%;padding:26px 0;background:none;border:0;text-align:left;cursor:pointer;color:var(--ink)}
+.acc .ico{color:var(--terra);width:20px;height:20px}
+.acc span{flex:1;font-family:var(--serif);font-size:1.75rem;font-weight:500;line-height:1.15}
+@media (min-width:760px){.acc span{font-size:2rem}}
+.acc .plus{flex:none;width:36px;height:36px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;transition:transform .45s var(--ease),background .3s,color .3s}
+.acc[aria-expanded="true"] .plus{transform:rotate(45deg);background:var(--char);color:var(--on-char);border-color:var(--char)}
+.acc-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--ease)}
+.acc-panel>div{overflow:hidden}
+.acc[aria-expanded="true"]+.acc-panel{grid-template-rows:1fr}
+.acc-body{padding:0 0 30px 38px;color:var(--ink-soft);font-size:.96rem;line-height:1.7;display:grid;gap:14px}
+@media (max-width:520px){.acc-body{padding-left:0}}
+.acc-body b{color:var(--ink)}
+.two{display:grid;gap:14px}
+@media (min-width:640px){.two{grid-template-columns:1fr 1fr;gap:18px 28px}}
+.ticks{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.ticks li{display:flex;gap:12px;align-items:flex-start}
+.ticks .ico{margin-top:4px;width:16px;height:16px;color:var(--forest)}
+
+/* ---------- cats ---------- */
+.cats{display:grid;gap:22px}
+@media (min-width:760px){.cats{grid-template-columns:repeat(3,1fr)}.cats .cat:nth-child(2){margin-top:56px}}
+.cat{margin:0}
+.cat .ph{border-radius:24px;overflow:hidden;background:var(--char-3)}
+.cat img{width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform .8s var(--ease)}
+.cat:hover img{transform:scale(1.05)}
+.cat figcaption{margin-top:16px}
+.cat b{font-family:var(--serif);font-weight:500;font-size:2.2rem;display:block;line-height:1}
+.cat span{display:block;margin-top:6px;color:var(--on-char-soft);font-size:.92rem}
+.cat-note{margin-top:40px;color:var(--on-char-mute);max-width:42em;font-size:.92rem}
+
+/* ---------- visit ---------- */
+.visit-grid{display:grid;gap:18px}
+@media (min-width:1000px){.visit-grid{grid-template-columns:1.15fr .85fr}}
+.map{position:relative;min-height:440px;border-radius:28px;overflow:hidden;background:var(--char-3);border:1px solid var(--line)}
+.map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:grayscale(.35) sepia(.12) contrast(.96)}
+.map .glass-dark{position:absolute;left:14px;right:14px;bottom:14px;border-radius:22px;border:1px solid rgba(255,255,255,.16);padding:16px 18px;color:var(--on-char);display:flex;flex-direction:column;gap:12px}
+@media (min-width:640px){.map .glass-dark{flex-direction:row;align-items:center;justify-content:space-between}}
+.map .glass-dark b{display:block;font-family:var(--serif);font-weight:500;font-size:1.55rem;line-height:1.1}
+.map .glass-dark span{font-size:.8rem;color:var(--on-char-soft)}
+.contact{background:var(--stone-2);border:1px solid var(--line);border-radius:28px;padding:28px 22px;display:flex;flex-direction:column}
+@media (min-width:760px){.contact{padding:40px}}
+.contact h2{margin-top:16px;font-size:clamp(2.4rem,5vw,3.4rem)}
+.contact .lede{margin-top:14px;font-size:.95rem}
+.c-links{display:grid;gap:10px;margin-top:28px}
+.c-link{display:flex;align-items:center;justify-content:space-between;gap:12px;border-radius:18px;padding:15px 18px;text-decoration:none;transition:background .25s,transform .25s}
+.c-link .l{display:flex;align-items:center;gap:13px}
+.c-link b{display:block;font-size:.92rem}
+.c-link small{display:block;font-size:.8rem;opacity:.7}
+.c-link.main{background:var(--char);color:var(--on-char)}
+.c-link.main:hover{background:var(--forest)}
+.c-link.main .ico:first-child{color:var(--champ)}
+.c-link.soft{background:var(--paper);border:1px solid var(--line)}
+.c-link.soft:hover{border-color:var(--line-2);transform:translateY(-1px)}
+.c-link.soft .l .ico{color:var(--forest)}
+.socials{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:auto;padding-top:28px}
+.round{width:46px;height:46px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;text-decoration:none;background:transparent;cursor:pointer;transition:background .25s,color .25s}
+.round:hover{background:var(--char);color:var(--on-char)}
+.socials span{font-size:.82rem;color:var(--ink-soft)}
+
+/* ---------- footer ---------- */
+footer{background:var(--char);color:var(--on-char-soft);padding:80px 0 calc(110px + env(safe-area-inset-bottom, 0px))}
+@media (min-width:860px){footer{padding-bottom:64px}}
+.foot{display:grid;gap:34px}
+@media (min-width:860px){.foot{grid-template-columns:1.4fr 1fr 1fr}}
+.foot-logo{width:120px;height:120px}
+.foot h2{margin-top:22px;font-size:clamp(2.2rem,5vw,3.2rem);color:var(--on-char);max-width:12ch}
+.foot a{text-decoration:none}
+.foot .flinks{display:grid;gap:11px;align-content:start;font-size:.92rem}
+.foot .flinks a:hover{color:var(--on-char)}
+.foot .flinks .t{font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;color:var(--champ);margin-bottom:4px}
+.tel{font-family:var(--serif);font-size:1.9rem;color:var(--on-char)}
+.copy{margin-top:56px;padding-top:24px;border-top:1px solid var(--char-line);color:var(--on-char-mute);font-size:.8rem;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+
+/* ---------- sticky mobile bar ---------- */
+.bar{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom, 0px));z-index:25;color:var(--ink);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 10px 10px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.7);box-shadow:0 18px 40px -20px rgba(18,20,18,.55);transform:translateY(140%);transition:transform .4s var(--ease)}
+.bar.show{transform:none}
+.bar b{display:block;font-size:.95rem}
+.bar span{font-size:.78rem;color:var(--ink-soft)}
+.bar .btn{background:var(--char);color:#fff;min-height:44px}
+@media (min-width:860px){.bar{display:none}}
+
+/* ---------- lightbox ---------- */
+dialog.lb{border:0;padding:0;margin:0;width:100vw;height:100dvh;max-width:none;max-height:none;background:rgba(14,16,14,.97);color:#fff}
+dialog.lb::backdrop{background:rgba(14,16,14,.97)}
+.lb-track{display:grid;grid-auto-flow:column;grid-auto-columns:100%;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.lb-track::-webkit-scrollbar{display:none}
+.lb-track figure{margin:0;scroll-snap-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:64px 12px 40px;gap:12px}
+.lb-track img{max-width:100%;max-height:calc(100dvh - 140px);object-fit:contain;border-radius:10px}
+.lb-track video{max-width:100%;max-height:calc(100dvh - 140px);border-radius:10px;background:#000}
+.lb-track figcaption{color:#C9C6BE;font-size:.9rem;text-align:center}
+.lb-close{position:fixed;top:calc(12px + env(safe-area-inset-top, 0px));right:12px;width:46px;height:46px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:1.3rem;cursor:pointer;z-index:2}
+.lb-arrow{position:fixed;top:50%;width:48px;height:48px;margin-top:-24px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:1.4rem;cursor:pointer;display:none;z-index:2}
+@media (hover:hover){.lb-arrow{display:block}}
+.lb-prev{left:14px}.lb-next{right:14px}
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);z-index:40;background:var(--char);color:#fff;padding:12px 18px;border-radius:16px;font-weight:600;font-size:.9rem;max-width:92vw;text-align:center}
+
+/* ---------- amenities dialog ---------- */
+dialog.am{border:0;padding:0;margin:auto;width:min(780px,100vw);max-width:100vw;max-height:100dvh;background:transparent;color:var(--ink)}
+dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+@media (max-width:719px){dialog.am{margin:auto 0 0;height:92dvh}}
+.am-in{background:var(--stone);display:flex;flex-direction:column;max-height:min(88dvh,820px);border-radius:28px;overflow:hidden}
+@media (max-width:719px){.am-in{height:100%;max-height:none;border-radius:28px 28px 0 0}}
+.am-head{display:flex;align-items:center;justify-content:space-between;padding:22px 22px 6px}
+.am-head h2{font-size:2.4rem}
+.am-x{width:44px;height:44px;border-radius:50%;border:1px solid var(--line-2);background:transparent;cursor:pointer;font-size:1rem;color:var(--ink)}
+.am-tabs{display:flex;gap:6px;padding:10px 22px 14px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--line)}
+.am-tabs::-webkit-scrollbar{display:none}
+.am-tabs button{flex:none;border:1px solid var(--line-2);background:transparent;color:var(--ink);border-radius:999px;padding:9px 16px;font-weight:600;cursor:pointer;font-size:.88rem}
+.am-tabs button[aria-selected="true"]{background:var(--char);border-color:var(--char);color:#fff}
+.am-body{overflow-y:auto;padding:20px 22px 8px;flex:1}
+.am-sub{color:var(--ink-soft);margin-bottom:18px;font-size:.92rem}
+.am-groups{display:grid;gap:20px}
+@media (min-width:600px){.am-groups{grid-template-columns:1fr 1fr;gap:22px 30px}}
+.am-groups h3{font-family:var(--sans);font-weight:700;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;color:var(--terra)}
+.am-groups ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.am-groups li{display:flex;gap:10px;align-items:baseline;font-size:.94rem}
+.am-groups li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--champ);transform:translateY(-2px)}
+.am-note{margin-top:20px;padding:12px 14px;border-radius:14px;background:#F6EADF;color:#7A4A1F;font-size:.9rem}
+.am-foot{padding:14px 22px calc(16px + env(safe-area-inset-bottom, 0px));border-top:1px solid var(--line)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rise{animation:none}.hero-frame>img{animation:none}*{transition:none !important}}
 </style>
 </head>
 <body>
 
 <header class="top" id="top">
-  <a class="brand" href="#" aria-label="Cabins by the Generals, back to top">
-    <img src="img/logo-96.png" alt="" width="44" height="44">
-    <span>Cabins by the Generals</span>
-  </a>
-  <nav aria-label="Sections">
-    <a href="#cabins">Cabins</a><a href="#" data-amen="charlie">Amenities</a><a href="#reviews">Reviews</a><a href="#book">Rates and dates</a><a href="#cats">The cats</a><a href="#faq">Questions</a><a href="https://www.facebook.com/share/164L1d4j1f/" target="_blank" rel="noopener" class="fb-nav"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>Facebook</a>
+  <div class="pill glass">
+    <a class="brand" href="#" aria-label="Cabins by the Generals, back to top">
+      <img src="img/logo-96.png" alt="" width="42" height="42">
+      <span><b>Cabins by the Generals</b><small>Sariaya · Quezon</small></span>
+    </a>
+    <nav class="links" aria-label="Sections">
+      <a href="#cabins">Cabins</a><a href="#" data-amen="charlie">Amenities</a><a href="#guide">Guest guide</a><a href="#reviews">Reviews</a><a href="#visit">Location</a>
+    </nav>
+    <div class="top-actions">
+      <a class="btn solid small" href="#book">Book your stay <i data-lucide="arrow-up-right" class="ico"></i></a>
+      <button class="menu-btn" id="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><i data-lucide="menu" class="ico"></i></button>
+    </div>
+  </div>
+  <nav class="menu glass" id="menu" aria-label="Menu" hidden>
+    <a href="#cabins">Cabins <i data-lucide="arrow-right" class="ico"></i></a>
+    <a href="#" data-amen="charlie">Amenities <i data-lucide="arrow-right" class="ico"></i></a>
+    <a href="#guide">Guest guide <i data-lucide="arrow-right" class="ico"></i></a>
+    <a href="#reviews">Reviews <i data-lucide="arrow-right" class="ico"></i></a>
+    <a href="#visit">Location &amp; contact <i data-lucide="arrow-right" class="ico"></i></a>
+    <a class="btn solid" href="#book">Book your stay</a>
   </nav>
-  <a class="btn glow small" href="#book">Check dates</a>
 </header>
 
 <main>
-<section class="hero" aria-label="Welcome" style="padding:0">
-  <div class="hero-img"><img src="img/c1-hero.jpg" alt="Cabin Charlie at dusk, its glass A-frame lit with warm lights above the private pool" fetchpriority="high"></div>
-  <div class="hero-copy">
-    <h1>Glass <span style="white-space:nowrap">A-frames</span> that glow after dark</h1>
-    <p class="lede">Private cabins with their own pool in Sariaya, Quezon. Bring your barkada or the whole family, and have the place to yourselves until noon.</p>
-    <div class="hero-actions">
-      <a class="btn glow" href="#book">Check dates</a>
-      <a class="btn ghost" href="#cabins">See the cabins</a>
-      <button class="btn amen-btn" data-amen="charlie">Amenities</button>
-      <a class="btn ghost" href="https://www.facebook.com/share/164L1d4j1f/" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>Our Facebook page</a>
-    </div>
-    <div class="facts">
-      <a class="rev-chip" href="#reviews"><b>★ 4.7</b> from 30 guest reviews</a>
-      <span><b>Private pool</b> in every booking</span>
-      <span><b>2 to 24</b> guests</span>
-      <span><b>No corkage</b> fee</span>
-      <span><b>4 PM</b> check-in, <b>12 NN</b> check-out</span>
+<section class="hero" aria-label="Welcome">
+  <div class="wrap">
+    <div class="hero-frame">
+      <img src="img/c1-hero.jpg" alt="Cabin Charlie at dusk, its glass A-frame lit with warm lights above the private pool" fetchpriority="high">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow rise">Private A-frame cabins beside the Mamala River</p>
+          <h1 class="rise d1">Your private modern <em>sanctuary</em> in Sariaya</h1>
+          <p class="lede rise d2">Your own pool, a videoke room the neighbors can't hear, and a 175-inch cinema under the coconut trees. One group per cabin, twenty unhurried hours.</p>
+          <div class="hero-actions rise d3">
+            <a class="btn light" href="#cabins">Explore cabins <i data-lucide="arrow-down-right" class="ico"></i></a>
+            <a class="btn line on-dark" href="#book">Check availability <i data-lucide="calendar-days" class="ico"></i></a>
+          </div>
+        </div>
+        <aside class="rate-card glass-dark rise d3" aria-label="Rates and stay times">
+          <div class="row"><span>Direct rate</span><a class="rev-chip" href="#reviews"><i data-lucide="star" class="ico" style="width:14px;height:14px;fill:currentColor"></i>4.7 · 30 reviews</a></div>
+          <p class="big">₱7,100 <small>a night</small></p>
+          <dl>
+            <div><dt>Check-in</dt><dd>4:00 PM</dd></div>
+            <div><dt>Check-out</dt><dd>12:00 NN</dd></div>
+            <div><dt>Guests</dt><dd>2 to 24</dd></div>
+          </dl>
+        </aside>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="cabins">
+<section class="highs" aria-label="Highlights">
   <div class="wrap">
-    <div class="sec-head">
-      <h2>Three cabins, each named after one of our cats</h2>
-      <p class="lede">Book one cabin for a small group, or two together for big celebrations.</p>
+    <div class="high-grid">
+      <div><i data-lucide="key-round" class="ico c-terra"></i><h3>Private staycation</h3><p>One group per cabin. Your pool is never shared.</p></div>
+      <div><i data-lucide="trees" class="ico c-forest"></i><h3>Tropical nature</h3><p>Coconut groves and fresh air beside the Mamala River.</p></div>
+      <div><i data-lucide="clapperboard" class="ico c-champ"></i><h3>Modern amenities</h3><p>PS5, videoke, outdoor cinema and jacuzzi tubs.</p></div>
+      <div><i data-lucide="users-round" class="ico c-terra"></i><h3>Family-friendly</h3><p>Shallow pools, board games and a full kitchen. No corkage.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="cabins" class="dark" aria-labelledby="cab-h">
+  <div class="wrap">
+    <div class="sec-head split">
+      <div><p class="eyebrow">The cabins</p><h2 id="cab-h" style="margin-top:16px">Named after the three cats who run the place</h2></div>
+      <p class="lede">Book one cabin for a small group, or two together for big celebrations. Every booking gets its own pool, kitchen and videoke.</p>
     </div>
 
     <article class="cabin" id="charlie">
@@ -425,18 +560,21 @@ dialog.am::backdrop{background:rgba(5,12,22,.72)}
         <p class="cabin-num">Cabin 1</p>
         <h3>Charlie</h3>
         <p class="who">Up to 14 guests, or 15 on a budget · named in memory of our orange boy</p>
-        <p class="blurb">A sound-insulated glass cabin made for staying up. Sing until morning without worrying about the neighbors.</p>
-        <ul class="feat">
-          <li>PS5 on a 65-inch 4K TV, plus streaming</li>
-          <li>Videoke and board games</li>
-          <li>Private pool and a jacuzzi bathtub</li>
-          <li>Full kitchen and griller</li>
-          <li>Air-conditioned loft bedroom</li>
+        <p class="blurb">The indoor entertainment suite. A sound-insulated glass cabin, so you can sing until morning without worrying about the neighbors.</p>
+        <ul class="chips">
+          <li><i data-lucide="gamepad-2" class="ico"></i>PS5 on a 65" 4K TV</li>
+          <li><i data-lucide="mic-vocal" class="ico"></i>Videoke, no quiet time</li>
+          <li><i data-lucide="bath" class="ico"></i>Jacuzzi bathtub</li>
+          <li><i data-lucide="waves" class="ico"></i>Private pool</li>
+          <li><i data-lucide="chef-hat" class="ico"></i>22 sqm kitchen</li>
+          <li><i data-lucide="snowflake" class="ico"></i>Air-conditioned loft</li>
         </ul>
         <div class="price-line">
-          <p class="from">from <b>₱8,000</b> a night</p>
-          <button class="btn ghost small" data-pick="c1">Check dates for Charlie</button>
-          <button class="btn amen-btn small" data-amen="charlie">All amenities</button>
+          <p class="from">Sun–Thu, Fri–Sat ₱10,400<b>₱8,000 a night</b></p>
+          <div class="price-btns">
+            <button class="btn light small" data-pick="c1">Check dates</button>
+            <button class="btn champ small" data-amen="charlie">All amenities</button>
+          </div>
         </div>
       </div>
     </article>
@@ -447,96 +585,58 @@ dialog.am::backdrop{background:rgba(5,12,22,.72)}
         <p class="cabin-num">Cabin 2</p>
         <h3>Charlotte</h3>
         <p class="who">Up to 14 guests, or 15 on a budget · up to 20 with Choco</p>
-        <p class="blurb">Movie night by the pool. Lanterns over the lanai, a giant screen under the stars, and the grill going.</p>
-        <ul class="feat">
-          <li>175-inch outdoor cinema</li>
-          <li>Jacuzzi pool and videoke</li>
-          <li>Griddle, dual griller and bonfire pit</li>
-          <li>Ground-floor bedroom facing the pool, plus a loft</li>
+        <p class="blurb">The fresco cinema. Lanterns over the lanai, a giant screen under the stars, and the grill going by the pool.</p>
+        <ul class="chips">
+          <li><i data-lucide="projector" class="ico"></i>175-inch outdoor cinema</li>
+          <li><i data-lucide="waves" class="ico"></i>Jacuzzi pool</li>
+          <li><i data-lucide="mic-vocal" class="ico"></i>Videoke</li>
+          <li><i data-lucide="flame" class="ico"></i>Griddle, grillers, bonfire pit</li>
+          <li><i data-lucide="bed-double" class="ico"></i>Bedroom facing the pool</li>
         </ul>
         <div class="price-line">
-          <p class="from">from <b>₱7,100</b> a night</p>
-          <button class="btn ghost small" data-pick="c2">Check dates for Charlotte</button>
-          <button class="btn amen-btn small" data-amen="charlotte">All amenities</button>
+          <p class="from">Sun–Thu, Fri–Sat ₱9,200<b>₱7,100 a night</b></p>
+          <div class="price-btns">
+            <button class="btn light small" data-pick="c2">Check dates</button>
+            <button class="btn champ small" data-amen="charlotte">All amenities</button>
+          </div>
         </div>
       </div>
     </article>
 
-    <article class="cabin" id="choco">
+    <article class="cabin choco" id="choco">
       <div class="cabin-media" data-gallery="choco"></div>
       <div>
-        <p class="cabin-num">Cabin 3</p>
+        <p class="cabin-num">Cabin 3 · add-on to Charlotte</p>
         <h3>Choco</h3>
-        <p class="who">Add-on to Charlotte for groups of up to 20</p>
+        <p class="who">Charlotte + Choco fits groups of up to 20</p>
         <p class="blurb">Extra rooms for bigger groups, so nobody has to squeeze. Book it together with Charlotte.</p>
-        <ul class="feat">
-          <li>Air-conditioned bedroom for 6 to 7, with its own CR</li>
-          <li>Loft for up to 10 (not air-conditioned)</li>
-          <li>Shares Charlotte's pool, kitchen and lanai</li>
+        <ul class="chips">
+          <li><i data-lucide="snowflake" class="ico"></i>Air-conditioned bedroom for 6 to 7</li>
+          <li><i data-lucide="shower-head" class="ico"></i>Its own CR</li>
+          <li><i data-lucide="bed" class="ico"></i>Loft for up to 10</li>
         </ul>
         <p class="note-addon">Choco is still being finished, so for now it's only available with Charlotte. More amenities are coming soon.</p>
         <div class="price-line">
-          <p class="from">Charlotte + Choco from <b>₱12,200</b> a night</p>
-          <button class="btn ghost small" data-pick="c23">Check dates</button>
-          <button class="btn amen-btn small" data-amen="choco">All amenities</button>
+          <p class="from">Charlotte + Choco, Sun–Thu<b>₱12,200 a night</b></p>
+          <div class="price-btns">
+            <button class="btn light small" data-pick="c23">Check dates</button>
+            <button class="btn champ small" data-amen="choco">All amenities</button>
+          </div>
         </div>
       </div>
     </article>
-  </div>
-</section>
 
-<section class="reviews" id="reviews" aria-labelledby="rev-h">
-  <div class="wrap">
-    <div class="rev-top">
-      <div>
-        <h2 id="rev-h">What our guests say</h2>
-        <p class="lede" style="margin-top:12px">Selected reviews from our guests on Airbnb and Facebook, word for word, newest first.</p>
-      </div>
-      <div class="rev-score" aria-label="Rated 4.7 out of 5 from 30 reviews">
-        <b>4.7</b>
-        <div><span class="rev-stars" aria-hidden="true">★★★★★</span><span>30 reviews on Airbnb</span></div>
-      </div>
-      <div class="rev-score fb" aria-label="100 percent recommend from 15 Facebook reviews">
-        <b>100%</b>
-        <div><span class="rev-fbt">recommend</span><span>15 reviews on Facebook</span></div>
-      </div>
+    <div class="retreat">
+      <div><b>Charlie + Charlotte, the whole retreat</b><span>Two pools, two kitchens, 16 guests included, up to 24. ₱14,300 Sun–Thu · ₱17,900 Fri–Sat.</span></div>
+      <button class="btn terra" data-pick="c12">Check dates <i data-lucide="arrow-right" class="ico"></i></button>
     </div>
-    <div class="rev-filter" role="group" aria-label="Show reviews for">
-      <button data-rf="all" aria-pressed="true">All</button>
-      <button data-rf="c1" aria-pressed="false">Charlie</button>
-      <button data-rf="c2" aria-pressed="false">Charlotte</button>
-      <button data-rf="c12" aria-pressed="false">Charlie + Charlotte</button>
-      <button data-rf="fb" aria-pressed="false">Facebook</button>
-    </div>
-    <div class="rev-list" id="rev-list"></div>
-    <p class="rev-more-wrap"><button class="btn ghost" id="rev-more" type="button">Show all reviews</button></p>
-    <p class="rev-src">A selection of reviews from Airbnb and Facebook, shown as written. The scores above are our overall Airbnb rating and Facebook recommendations. <a href="https://www.airbnb.com/rooms/1328036843746108479/reviews" target="_blank" rel="noopener">See all reviews on Airbnb</a> · <a href="https://www.facebook.com/people/Cabins-by-the-Generals/61566419019212/?sk=reviews" target="_blank" rel="noopener">See reviews on Facebook</a></p>
-  </div>
-  <script type="application/json" id="rev-data">{"avg": 4.7, "count": 30, "stars": {"2": 1, "5": 24, "4": 5}, "reviews": [{"n": "Rona", "s": 5, "d": "August 2026", "k": "c2", "t": "The place was awesome and we really enjoyed our stay. The water pressure is the only concern that we experienced.", "r": null}, {"n": "Leah", "s": 4, "d": "August 2026", "k": "c2", "t": "The host was very accommodating and responsive, which we really appreciated. However, there were several areas that could be improved.\nThere were quite a number of stray cats around the property, and unfortunately, their poop was scattered in some areas. The smell was also noticeable, especially while we were eating, which affected our overall experience.\nThe water pressure was very slow. The kitchen also seemed unsuitable for a large group, particularly the sink, as we had a difficult time washing dishes. It would also be helpful to have an electrical outlet in the bathroom for guests who need to use a hair blower.\nOverall, the host was kind and accommodating, but addressing these concerns would greatly improve the comfort and experience of future guests.", "r": null}, {"n": "Michael", "s": 5, "d": "August 2026", "k": "c12", "t": "Great place. Host Jay is exeptional very helpful and friendly. We are a big group and everyone had a great stay. Highly recommended. We Will definitely stay here again when in Sariaya.", "r": null}, {"n": "Ciandra", "s": 5, "d": "August 2026", "k": "c12", "t": "We had a wonderful time at Jay's place. The pool, outdoor cinema, Playstation, videoke made our stay enjoyable. The staff are very responsive and helpful. Jay is indeed a superhost, very flexible and responsive. I would recommend this place for your family bonding.", "r": null}, {"n": "Jem", "s": 4, "d": "July 2026", "k": "c1", "t": "Over all a good place to relax... minor problem cgro due to weather na din na sobrang init hndi kaya ng AC na mapalamig ung buong place esp. sa tanghali...", "r": null}, {"n": "Jeff", "s": 5, "d": "July 2026", "k": "c12", "t": "We immediately were impressed with everything, in fact we even extended our stay", "r": null}, {"n": "Bryan", "s": 2, "d": "June 2026", "k": "c1", "t": "We were looking for a place to relax and bond with family since we all live far from each other and this weekend was a rare opportunity to get together. \nFirst night was okay except we noticed the aircon was not cooling down the living room. We positioned the 3 fans to help air circulate. Caretaker lent 1 extra fan.\nAround 11am the next day, the aircon barely kept up with the heat from the sun so we decided to eat and hang out somewhere else for the rest of the day until sunset. \nIt rained on the second night which helped with the aircon but the glass door did let some of the water in. My mom almost slipped on the unexpected puddle of water by the couch.\nThere's not much to do or eat at around the area within walking distance. \nLast morning, we checked out at 9am to avoid the heat in the cabin.\nAt 10k+ a night for the place, all of us felt it wasn't worth it. Jay did offer a free stay and said the aircon problem was a first, but there's no compelling reason for us to come back.", "r": "Dear Bryan,\nThank you for choosing to spend your rare family weekend with us at Cabins by the Generals. We truly appreciate you taking the time to share your feedback.\nWe are sincerely sorry that your stay did not meet expectations, particularly regarding the air-conditioning and the maintenance of our glass doors. Please know that we take these concerns very seriously. We have already dispatched our maintenance team to conduct a comprehensive check and servicing of the air-conditioning units to ensure they perform optimally, especially during the warmer parts of the day. Furthermore, we are reinforcing the seals on our glass doors to prevent any water intrusion during rainy weather, as the safety and comfort of our guests are our top priorities.\nWhile we understand that this experience may have impacted your perception of your stay, please be assured that this is an isolated incident and not representative of the high standards we strive to maintain. We are committed to making the necessary improvements to ensure our future guests have the relaxing and comfortable getaway they deserve.\nThank you again for your honesty; it helps us become a better host for everyone. We hope you might consider giving us another chance in the future to provide the wonderful experience that our guests typically enjoy.\nWarmly,\nJay"}, {"n": "Elly Rose", "s": 5, "d": "June 2026", "k": "c1", "t": "Hosts are very responsive. The description of the cabin is really what you get in person. My parents enjoyed the no curfew kareoke because the neighbors dont hear you inside the cabin. The caretakers were very attentive on what we need, they already have spare batteries for the microphones ready. The kitchen is very clean and the utensils are complete.  The AC in the bedroom of the ground floor was very cool. The beds upstairs might need two electric fans (1 floor pan).  We appreciate that the comforters are clean and the beds are soft too (you wont get mamahay feeling before going to sleep). The cleaning materials like mop, brooms and trash bin are also provided.\nWe’re supposed to drive to the nearest beach (20 mins per maps) but my family enjoyed the jacuzzi already so we just stayed in. There are 2 extra shower rooms  as well. \nParking is spacious. Unfortunately, we weren’t able to off leash our dog because there are cats roaming in the area. We will definitely be back. God bless.", "r": "Thank you so much for the wonderful 5-star review and for choosing our cabin for your stay. We are so happy to hear your family enjoyed the karaoke and the jacuzzi!\nWe truly appreciate your feedback regarding the temperature upstairs—we are actually in the process of adding an air conditioner to the loft room to ensure our guests stay comfortable. Also, we apologize for the concern regarding the cats; we will keep this in mind as we continue to improve our hosting experience. We’d love to welcome you back again soon!❤️"}, {"n": "Hiyasmin", "s": 4, "d": "June 2026", "k": "c2", "t": "We felt at home and really enjoyed the kitchen.", "r": null}, {"n": "Bela", "s": 5, "d": "June 2026", "k": "c12", "t": "My family and I had a wonderful stay, lots to do, from the board games, karaoke, plunging at the pools and even just chilling. The hosts were very accommodating, as well as the caretakers. Would definitely recommend!", "r": null}, {"n": "Mae", "s": 5, "d": "May 2026", "k": "c1", "t": "The place was exactly as described—very nice, clean, and well-maintained. It was perfect for our family gathering. The host and caretakers were  friendly, responsive, and accommodating to all of our requests, which made our stay even more enjoyable. We truly appreciated their hospitality and attention to detail. Highly recommended, and we would gladly stay here again!", "r": null}, {"n": "Carmela", "s": 5, "d": "May 2026", "k": "c1", "t": "We had a great , wonderful, and relaxing stay at Jay's place.\nIdeal for family/ huge groups.\nEveryone enjoyed the private pool, karaoke and grill.\nHost/ Staffs are attentive , friendly, and accommodating .\nHighly recommended.", "r": null}, {"n": "Joyce Anne", "s": 5, "d": "May 2026", "k": "c1", "t": "We had a really great stay here. The villa is honestly beautiful—very spacious and perfect for families, especially if you have babies or kids. There’s plenty of room to move around, so it never felt cramped at all.\nHaving our own private pool was definitely a highlight. We spent a lot of time there and it made the whole experience feel more relaxing and special.\nThe space itself is very comfortable, cozy, and really feels like a home. The ambiance is calm and peaceful, perfect for just slowing down and enjoying time together.\nAlso appreciated how accommodating everyone was. The helpers were easy to reach and always ready to assist when needed.\nOverall, we genuinely enjoyed our stay and would definitely recommend this place, especially for families.", "r": null}, {"n": "Aristotle", "s": 5, "d": "May 2026", "k": "c1", "t": "Everything is great specially the check in and complete tools in the kitchen. The host is also very responsive with my questions. If there's one thing they can improve on, that would be the Toilet at Cabin 2. There was no heater and the layout of the shower is a little off. \nOverall, it was a great stay.", "r": null}, {"n": "Angie", "s": 5, "d": "May 2026", "k": "c1", "t": "My family had a great stay on this place. Kiddos enjoyed the pool, the board games and ps5", "r": null}, {"n": "Marvin", "s": 4, "d": "April 2026", "k": "c1", "t": "The place is peaceful and quiet. My kids enjoyed playing the PS5.", "r": null}, {"n": "Kent Gerrick", "s": 5, "d": "January 2026", "k": "c1", "t": "Nice place.", "r": null}, {"n": "Alfie Marc", "s": 5, "d": "January 2026", "k": "c1", "t": "Great place! Perfect fo getway barkada bonding", "r": "Wow, we love hearing that! Nothing beats a good barkada bonding session. Thanks for choosing us for your 'gateway' escape, and we can’t wait to host your group again soon"}, {"n": "Aubrey", "s": 5, "d": "January 2026", "k": "c1", "t": "Very responsive, clean, and well-maintained pool that my kids really enjoyed.", "r": null}, {"n": "Roj", "s": 4, "d": "December 2025", "k": "c1", "t": "The 2nd cabin that we stayed in was still incomplete. Kitchen back door cannot be locked securely. Hot shower was also not available in the 2nd cabin. The 1st one was completely furnished as shown in the pictures. \nThe place was accessible and the host was very responsive. Hopefully the 2nd cabin will complete on our next visit.", "r": null}, {"n": "Kathleen", "s": 5, "d": "December 2025", "k": "c1", "t": "Absolutely loved my stay! The home exceeded expectations- beautifully decorated, peaceful, and equipped with everything you could need. The host’s hospitality made the experience even better. Would return in a heartbeat!", "r": null}, {"n": "Charlie", "s": 5, "d": "December 2025", "k": "c1", "t": "Nice place to spend with friends. Very accommodating host. 😃", "r": null}, {"n": "Tristan", "s": 5, "d": "November 2025", "k": "c1", "t": "The place is perfect for group hangouts and reunions. Available amenities offered variety of leisure. The host is also very responsive and accommodating.", "r": null}, {"n": "Klarisse Ann", "s": 5, "d": "November 2025", "k": "c1", "t": "The place is cozy and we really enjoyes staying here", "r": null}, {"n": "Avegail", "s": 5, "d": "September 2025", "k": "c1", "t": "The host was very helpful and responsive. The house was clean and well-equipped, we enjoyed the videoke, jacuzzi and pool", "r": null}, {"n": "Christian Paul", "s": 5, "d": "September 2025", "k": "c1", "t": "Very responsive and accommodating ang owner. Will recommend this.", "r": null}, {"n": "Faye", "s": 5, "d": "June 2025", "k": "c1", "t": "Thankyou so much po sa responsive hosts! nag enjoy po ang mga kids ko 😍 clean place and peaceful nxt time po ulit! ☺️", "r": null}, {"n": "Arvi", "s": 5, "d": "May 2025", "k": "c1", "t": "First of all, Jay was a remarkable host. He provided us with helpful instructions prior to our visit and greeted us personally when we reached the place. The place is easily accessible through Sariaya Bypass.\nWe arrived earlier than check-in time but he did let us in so we could settle down and put our things inside. As we were early, the pool is still filling up with water as they always replace it with every guest to ensure it's clean and fresh.\nAs we arrived, there was a complimentary refreshment. Jay gave me a quick tour of the house and its amenities. Cooking was a breeze as they got the utensils that we needed. There were some ingredients we forgot to bring but there were stores outside and we were able to buy them without the need to go back to Sariaya market.\nThe PS5 and karaoke were spot on as my Dad is a gamer and my Mom is a singer. The grill was awesome as well (not your ordinary grill). \nOverall, it was a great stay. Though still being developed, it was almost perfect.", "r": null}, {"n": "Melissa Chrisley", "s": 5, "d": "May 2025", "k": "c1", "t": "Very reponsive and understanding host.", "r": "We're thrilled to hear that our cabin met your expectations and that you had a wonderful time with us. We look forward to welcoming you back soon! 😊❤️"}, {"n": "Andrea", "s": 5, "d": "May 2025", "k": "c1", "t": "very beautiful cabin and a lot of amenities! mag eenjoy bata pati matatanda 😁 private and it has a nice view. theres a lot of stores sa may labasan, may produce, meat, fish so no need to bring any kung magluluto. very responsive host kahit medyo gabi kami nag reach out. Thanks for letting us stay! 😁", "r": null}, {"n": "Jess Perlada", "d": "January 2025", "src": "fb", "t": "They have complete amenities to accommodate a party, whether you need to cook, party, games, karaoke. We also love that the pool water is changed daily and doesnt use chlorine. There were ample spaces, the girls were cooking in the kicthen, the kids were watching in the sala, the boys were drinking in the nipa hut nearby the pool, the place really acommodated us well. We were also impressed by their lights and sounds, superb yung TV and Party Speaker. The only downside we experienced is the limited water. We are more than 10 pax including kids, we used the water so much sa bath tub, pool and kitchen. We had to wait for them to turn it on, there were times that we waited more than 1 hr yata, so thats really inconvenient kasi may mga kailangan na magcr and magluto. Anyway if you are less than 10 pax i dont think youll have an issue, especially kung konti lang kayo. Overall I would say this is a very very good option for a party o getaway for friends and families.", "r": "Dear Ma’am Jess,\nThank you so much for taking the time to review your stay at our cabin! We're thrilled to hear that you enjoyed the huge space, TV, karoeke, pool, kitchen and your overall stay!\nRegarding the issue with the water supply, we apologize again for the inconvenience this caused during your stay. We want to assure you that we took immediate action to address the problem as soon as you reported it to us. Our maintenance team worked promptly to resolve the issue, and we've since implemented measures to prevent such incidents in the future.\nWe value your feedback and appreciate your understanding. We're committed to providing our guests with a comfortable and enjoyable stay, and we're constantly working to improve our services.\nThank you again for choosing our cabin, and we hope to have the opportunity to welcome you back in the future.\nBest regards,\nTeam CBTG"}, {"n": "Nico Zapanta Jovero", "d": "January 2025", "src": "fb", "t": "- Owner is accomodating\n- the place has great ambiance\n- have a really soft bed\n- complete cooking equipment/utensils\n- the pool is not that deep, good for children\n- bathroom is really nice, it has bath tub with jacuzzi\n- 100/10!!!", "r": "WOW! Thank you for your amazing review! We're thrilled you loved our cabin's ambiance, soft bed, and amenities! Your kind words mean everything to us. Come back soon! #cabinlove #guestreview #100outof10"}, {"n": "Thea Balancad Sarthou", "d": "January 2025", "src": "fb", "t": "Super satisfied with our stay! The place itself is so relaxing!\nThe cabin was very clean. The ambiance was great, and the overall experience exceeded our expectations. Perfect spot for small families or small group.\nThe owner is responsive and helpful, making sure we had a great stay. We’d love to come back! Thank you, Cabins by the Generals. ❤️", "r": "Your wonderful review made our day! Thank you for choosing our cabin!❤️❤️❤️"}, {"n": "Nolyvoi Detruz", "d": "January 2025", "src": "fb", "t": "Good place for bonding Ng mga tropa at pamilya.", "r": null}], "fb": {"pct": 100, "count": 15}}</script>
-</section>
-
-<section class="shared" aria-labelledby="inc">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2 id="inc">Just bring the food and the people</h2>
-      <p class="lede">Everything for cooking, swimming and staying up late is already there.</p>
-    </div>
-    <div class="amen">
-      <div><b>Your own pool</b><span>Never shared with other guests</span></div>
-      <div><b>Complete kitchen</b><span>Pots, pans, plates, utensils, free gasul and purified water</span></div>
-      <div><b>No corkage</b><span>Bring your own drinks and food</span></div>
-      <div><b>Videoke</b><span>In every cabin</span></div>
-      <div><b>Billiard pavilion</b><span>Free for all guests</span></div>
-      <div><b>Parking</b><span>Inside the property</span></div>
-    </div>
-    <p style="margin-top:22px"><button class="btn amen-btn" data-amen="all">See amenities per cabin</button></p>
   </div>
 </section>
 
 <section class="book" id="book" aria-labelledby="book-h">
   <div class="wrap">
-    <div class="sec-head">
-      <h2 id="book-h">Pick your dates</h2>
+    <div class="sec-head split">
+      <div><p class="eyebrow">Rates &amp; dates</p><h2 id="book-h" style="margin-top:16px">Pick your dates</h2></div>
       <p class="lede">Booking direct costs less than Airbnb. Tap your check-in, then your check-out. Booked nights are crossed out.</p>
     </div>
     <div class="book-grid">
@@ -548,9 +648,9 @@ dialog.am::backdrop{background:rgba(5,12,22,.72)}
           <button class="opt" data-opt="c23" aria-pressed="false"><b>Charlotte + Choco</b><span>Cabins 2 and 3 · up to 20</span></button>
         </div>
         <div class="cal-head">
-          <button class="nav" id="prev" aria-label="Previous month">‹</button>
+          <button class="nav" id="prev" aria-label="Previous month"><i data-lucide="chevron-left" class="ico"></i></button>
           <b id="range-label" aria-live="polite">Select check-in date</b>
-          <button class="nav" id="next" aria-label="Next month">›</button>
+          <button class="nav" id="next" aria-label="Next month"><i data-lucide="chevron-right" class="ico"></i></button>
         </div>
         <div class="months" id="months"></div>
         <div class="cal-foot">
@@ -573,34 +673,34 @@ dialog.am::backdrop{background:rgba(5,12,22,.72)}
         </div>
         <div class="lines" id="lines"></div>
         <p class="hint" id="hint">Choose your dates to see the total.</p>
-        <p class="hint" id="tight" hidden style="color:#7A4B00;background:#FFF4E0;border-radius:12px;padding:10px 12px">15 guests in one cabin is our budget option. It saves you from booking two cabins, but the sleeping area will be tight. For more room, choose Charlie + Charlotte or Charlotte + Choco.</p>
+        <p class="hint tight" id="tight" hidden>15 guests in one cabin is our budget option. It saves you from booking two cabins, but the sleeping area will be tight. For more room, choose Charlie + Charlotte or Charlotte + Choco.</p>
 
         <form class="form" id="req" hidden novalidate>
-          <label>Your name<input name="name" autocomplete="name" required></label>
-          <label>Mobile number<input name="phone" type="tel" inputmode="tel" autocomplete="tel" required></label>
+          <label>Your name<input name="name" id="f-name" autocomplete="name" required></label>
+          <label>Mobile number<input name="phone" id="f-phone" type="tel" inputmode="tel" autocomplete="tel" required></label>
           <label>Occasion
-            <select name="occ"><option value="">Just a getaway</option><option>Barkada staycation</option><option>Birthday</option><option>Family reunion</option><option>Couple's getaway</option><option>Team outing</option></select>
+            <select name="occ" id="f-occ"><option value="">Just a getaway</option><option>Barkada staycation</option><option>Birthday</option><option>Family reunion</option><option>Couple's getaway</option><option>Team outing</option></select>
           </label>
-          <label>Anything we should know?<textarea name="note" placeholder="Arrival time, celebration, questions"></textarea></label>
+          <label>Anything we should know?<textarea name="note" id="f-note" placeholder="Arrival time, celebration, questions"></textarea></label>
           <p class="err-msg" id="req-err" hidden>Add your name and a mobile number (like 0917 123 4567) so we can text you.</p>
           <button class="btn dark" type="submit" id="send">Send booking request</button>
           <p class="fine">No payment on the website. We'll text you to confirm your dates and send the payment details for the 30% reservation fee.</p>
         </form>
         <div class="fail" id="req-fail" hidden role="alert">
-            <p id="req-fail-msg">We couldn't send your request online right now. Text or call us and we'll book you in.</p>
-            <div class="alt">
-              <a class="btn out small" id="sms" href="sms:09274466154">Send as text</a>
-              <a class="btn out small" href="tel:09274466154">Call us</a>
-            </div>
+          <p id="req-fail-msg">We couldn't send your request online right now. Text or call us and we'll book you in.</p>
+          <div class="alt">
+            <a class="btn out small" id="sms" href="sms:09274466154">Send as text</a>
+            <a class="btn out small" href="tel:09274466154">Call us</a>
           </div>
+        </div>
 
         <div class="done" id="done" hidden role="status" tabindex="-1">
-          <p class="done-mark" aria-hidden="true">🌿</p>
+          <p class="done-mark" aria-hidden="true"><i data-lucide="leaf" class="ico"></i></p>
           <h3>Request sent</h3>
           <p class="done-ref">Reference <b id="d-ref"></b></p>
           <p id="d-sum"></p>
           <p>We'll text you at <b id="d-ph"></b> soon to confirm. Your dates are held once the reservation fee of <b id="d-fee"></b> is paid.</p>
-          <p class="fine">Questions? Call or text <a href="tel:09274466154">0927 446 6154</a>.</p>
+          <p class="fine">Questions? Call or text <a href="tel:09274466154">0927 446 6154</a>, or message us on <a href="https://m.me/61566419019212" target="_blank" rel="noopener">Messenger</a>.</p>
           <button class="btn out" type="button" id="d-new">Book other dates</button>
         </div>
       </aside>
@@ -608,59 +708,158 @@ dialog.am::backdrop{background:rgba(5,12,22,.72)}
   </div>
 </section>
 
-<section id="cats" aria-labelledby="cats-h">
+<section id="reviews" aria-labelledby="rev-h">
   <div class="wrap">
-    <div class="sec-head">
-      <h2 id="cats-h">Meet Charlie, Charlotte and Choco</h2>
+    <div class="rev-top">
+      <div><p class="eyebrow">Guest notes</p><h2 id="rev-h" style="margin-top:16px">In their words</h2></div>
+      <div class="scores">
+        <div class="score" aria-label="Rated 4.7 out of 5 from 30 reviews on Airbnb"><b>4.7</b><span>30 reviews on Airbnb</span></div>
+        <div class="score-sep" aria-hidden="true"></div>
+        <div class="score" aria-label="100 percent recommend from 15 Facebook reviews"><b>100%</b><span>recommend on Facebook</span></div>
+        <div class="car-btns">
+          <button id="q-prev" type="button" aria-label="Previous quote"><i data-lucide="arrow-left" class="ico"></i></button>
+          <button id="q-next" type="button" aria-label="Next quote"><i data-lucide="arrow-right" class="ico"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="quotes" id="quotes" aria-label="Featured guest quotes">
+      <figure class="quote wide q-char"><blockquote>“The pool, outdoor cinema, Playstation, videoke made our stay enjoyable. Jay is indeed a superhost.”</blockquote><figcaption><span><b>Ciandra</b> · Charlie + Charlotte</span><span>Aug 2026 · Airbnb</span></figcaption></figure>
+      <figure class="quote q-paper"><blockquote>“My parents enjoyed the no curfew karaoke because the neighbors don't hear you inside the cabin.”</blockquote><figcaption><span><b>Elly Rose</b> · Charlie</span><span>Jun 2026 · Airbnb</span></figcaption></figure>
+      <figure class="quote q-forest"><blockquote>“Having our own private pool was definitely a highlight. The space really feels like a home.”</blockquote><figcaption><span><b>Joyce Anne</b> · Charlie</span><span>May 2026 · Airbnb</span></figcaption></figure>
+      <figure class="quote q-paper"><blockquote>“We are a big group and everyone had a great stay. We will definitely stay here again when in Sariaya.”</blockquote><figcaption><span><b>Michael</b> · Charlie + Charlotte</span><span>Aug 2026 · Airbnb</span></figcaption></figure>
+      <figure class="quote q-terra"><blockquote>“Bathroom is really nice, it has bath tub with jacuzzi. 100/10!!!”</blockquote><figcaption><span><b>Nico Zapanta Jovero</b></span><span>Facebook</span></figcaption></figure>
+    </div>
+
+    <div class="all-head">
+      <h3>All reviews</h3>
+      <div class="rev-filter" role="group" aria-label="Show reviews for">
+        <button data-rf="all" aria-pressed="true">All</button>
+        <button data-rf="c1" aria-pressed="false">Charlie</button>
+        <button data-rf="c2" aria-pressed="false">Charlotte</button>
+        <button data-rf="c12" aria-pressed="false">Charlie + Charlotte</button>
+        <button data-rf="fb" aria-pressed="false">Facebook</button>
+      </div>
+    </div>
+    <div class="rev-list" id="rev-list"></div>
+    <p class="rev-more-wrap"><button class="btn line" id="rev-more" type="button">Show all reviews</button></p>
+    <p class="rev-src">A selection of reviews from Airbnb and Facebook, shown as written. The scores above are our overall Airbnb rating and Facebook recommendations. <a href="https://www.airbnb.com/rooms/1328036843746108479/reviews" target="_blank" rel="noopener">See all reviews on Airbnb</a> · <a href="https://www.facebook.com/people/Cabins-by-the-Generals/61566419019212/?sk=reviews" target="_blank" rel="noopener">See reviews on Facebook</a></p>
+  </div>
+  <script type="application/json" id="rev-data">{"avg": 4.7, "count": 30, "stars": {"2": 1, "5": 24, "4": 5}, "reviews": [{"n": "Rona", "s": 5, "d": "August 2026", "k": "c2", "t": "The place was awesome and we really enjoyed our stay. The water pressure is the only concern that we experienced.", "r": null}, {"n": "Leah", "s": 4, "d": "August 2026", "k": "c2", "t": "The host was very accommodating and responsive, which we really appreciated. However, there were several areas that could be improved.\nThere were quite a number of stray cats around the property, and unfortunately, their poop was scattered in some areas. The smell was also noticeable, especially while we were eating, which affected our overall experience.\nThe water pressure was very slow. The kitchen also seemed unsuitable for a large group, particularly the sink, as we had a difficult time washing dishes. It would also be helpful to have an electrical outlet in the bathroom for guests who need to use a hair blower.\nOverall, the host was kind and accommodating, but addressing these concerns would greatly improve the comfort and experience of future guests.", "r": null}, {"n": "Michael", "s": 5, "d": "August 2026", "k": "c12", "t": "Great place. Host Jay is exeptional very helpful and friendly. We are a big group and everyone had a great stay. Highly recommended. We Will definitely stay here again when in Sariaya.", "r": null}, {"n": "Ciandra", "s": 5, "d": "August 2026", "k": "c12", "t": "We had a wonderful time at Jay's place. The pool, outdoor cinema, Playstation, videoke made our stay enjoyable. The staff are very responsive and helpful. Jay is indeed a superhost, very flexible and responsive. I would recommend this place for your family bonding.", "r": null}, {"n": "Jem", "s": 4, "d": "July 2026", "k": "c1", "t": "Over all a good place to relax... minor problem cgro due to weather na din na sobrang init hndi kaya ng AC na mapalamig ung buong place esp. sa tanghali...", "r": null}, {"n": "Jeff", "s": 5, "d": "July 2026", "k": "c12", "t": "We immediately were impressed with everything, in fact we even extended our stay", "r": null}, {"n": "Bryan", "s": 2, "d": "June 2026", "k": "c1", "t": "We were looking for a place to relax and bond with family since we all live far from each other and this weekend was a rare opportunity to get together. \nFirst night was okay except we noticed the aircon was not cooling down the living room. We positioned the 3 fans to help air circulate. Caretaker lent 1 extra fan.\nAround 11am the next day, the aircon barely kept up with the heat from the sun so we decided to eat and hang out somewhere else for the rest of the day until sunset. \nIt rained on the second night which helped with the aircon but the glass door did let some of the water in. My mom almost slipped on the unexpected puddle of water by the couch.\nThere's not much to do or eat at around the area within walking distance. \nLast morning, we checked out at 9am to avoid the heat in the cabin.\nAt 10k+ a night for the place, all of us felt it wasn't worth it. Jay did offer a free stay and said the aircon problem was a first, but there's no compelling reason for us to come back.", "r": "Dear Bryan,\nThank you for choosing to spend your rare family weekend with us at Cabins by the Generals. We truly appreciate you taking the time to share your feedback.\nWe are sincerely sorry that your stay did not meet expectations, particularly regarding the air-conditioning and the maintenance of our glass doors. Please know that we take these concerns very seriously. We have already dispatched our maintenance team to conduct a comprehensive check and servicing of the air-conditioning units to ensure they perform optimally, especially during the warmer parts of the day. Furthermore, we are reinforcing the seals on our glass doors to prevent any water intrusion during rainy weather, as the safety and comfort of our guests are our top priorities.\nWhile we understand that this experience may have impacted your perception of your stay, please be assured that this is an isolated incident and not representative of the high standards we strive to maintain. We are committed to making the necessary improvements to ensure our future guests have the relaxing and comfortable getaway they deserve.\nThank you again for your honesty; it helps us become a better host for everyone. We hope you might consider giving us another chance in the future to provide the wonderful experience that our guests typically enjoy.\nWarmly,\nJay"}, {"n": "Elly Rose", "s": 5, "d": "June 2026", "k": "c1", "t": "Hosts are very responsive. The description of the cabin is really what you get in person. My parents enjoyed the no curfew kareoke because the neighbors dont hear you inside the cabin. The caretakers were very attentive on what we need, they already have spare batteries for the microphones ready. The kitchen is very clean and the utensils are complete.  The AC in the bedroom of the ground floor was very cool. The beds upstairs might need two electric fans (1 floor pan).  We appreciate that the comforters are clean and the beds are soft too (you wont get mamahay feeling before going to sleep). The cleaning materials like mop, brooms and trash bin are also provided.\nWe’re supposed to drive to the nearest beach (20 mins per maps) but my family enjoyed the jacuzzi already so we just stayed in. There are 2 extra shower rooms  as well. \nParking is spacious. Unfortunately, we weren’t able to off leash our dog because there are cats roaming in the area. We will definitely be back. God bless.", "r": "Thank you so much for the wonderful 5-star review and for choosing our cabin for your stay. We are so happy to hear your family enjoyed the karaoke and the jacuzzi!\nWe truly appreciate your feedback regarding the temperature upstairs—we are actually in the process of adding an air conditioner to the loft room to ensure our guests stay comfortable. Also, we apologize for the concern regarding the cats; we will keep this in mind as we continue to improve our hosting experience. We’d love to welcome you back again soon!❤️"}, {"n": "Hiyasmin", "s": 4, "d": "June 2026", "k": "c2", "t": "We felt at home and really enjoyed the kitchen.", "r": null}, {"n": "Bela", "s": 5, "d": "June 2026", "k": "c12", "t": "My family and I had a wonderful stay, lots to do, from the board games, karaoke, plunging at the pools and even just chilling. The hosts were very accommodating, as well as the caretakers. Would definitely recommend!", "r": null}, {"n": "Mae", "s": 5, "d": "May 2026", "k": "c1", "t": "The place was exactly as described—very nice, clean, and well-maintained. It was perfect for our family gathering. The host and caretakers were  friendly, responsive, and accommodating to all of our requests, which made our stay even more enjoyable. We truly appreciated their hospitality and attention to detail. Highly recommended, and we would gladly stay here again!", "r": null}, {"n": "Carmela", "s": 5, "d": "May 2026", "k": "c1", "t": "We had a great , wonderful, and relaxing stay at Jay's place.\nIdeal for family/ huge groups.\nEveryone enjoyed the private pool, karaoke and grill.\nHost/ Staffs are attentive , friendly, and accommodating .\nHighly recommended.", "r": null}, {"n": "Joyce Anne", "s": 5, "d": "May 2026", "k": "c1", "t": "We had a really great stay here. The villa is honestly beautiful—very spacious and perfect for families, especially if you have babies or kids. There’s plenty of room to move around, so it never felt cramped at all.\nHaving our own private pool was definitely a highlight. We spent a lot of time there and it made the whole experience feel more relaxing and special.\nThe space itself is very comfortable, cozy, and really feels like a home. The ambiance is calm and peaceful, perfect for just slowing down and enjoying time together.\nAlso appreciated how accommodating everyone was. The helpers were easy to reach and always ready to assist when needed.\nOverall, we genuinely enjoyed our stay and would definitely recommend this place, especially for families.", "r": null}, {"n": "Aristotle", "s": 5, "d": "May 2026", "k": "c1", "t": "Everything is great specially the check in and complete tools in the kitchen. The host is also very responsive with my questions. If there's one thing they can improve on, that would be the Toilet at Cabin 2. There was no heater and the layout of the shower is a little off. \nOverall, it was a great stay.", "r": null}, {"n": "Angie", "s": 5, "d": "May 2026", "k": "c1", "t": "My family had a great stay on this place. Kiddos enjoyed the pool, the board games and ps5", "r": null}, {"n": "Marvin", "s": 4, "d": "April 2026", "k": "c1", "t": "The place is peaceful and quiet. My kids enjoyed playing the PS5.", "r": null}, {"n": "Kent Gerrick", "s": 5, "d": "January 2026", "k": "c1", "t": "Nice place.", "r": null}, {"n": "Alfie Marc", "s": 5, "d": "January 2026", "k": "c1", "t": "Great place! Perfect fo getway barkada bonding", "r": "Wow, we love hearing that! Nothing beats a good barkada bonding session. Thanks for choosing us for your 'gateway' escape, and we can’t wait to host your group again soon"}, {"n": "Aubrey", "s": 5, "d": "January 2026", "k": "c1", "t": "Very responsive, clean, and well-maintained pool that my kids really enjoyed.", "r": null}, {"n": "Roj", "s": 4, "d": "December 2025", "k": "c1", "t": "The 2nd cabin that we stayed in was still incomplete. Kitchen back door cannot be locked securely. Hot shower was also not available in the 2nd cabin. The 1st one was completely furnished as shown in the pictures. \nThe place was accessible and the host was very responsive. Hopefully the 2nd cabin will complete on our next visit.", "r": null}, {"n": "Kathleen", "s": 5, "d": "December 2025", "k": "c1", "t": "Absolutely loved my stay! The home exceeded expectations- beautifully decorated, peaceful, and equipped with everything you could need. The host’s hospitality made the experience even better. Would return in a heartbeat!", "r": null}, {"n": "Charlie", "s": 5, "d": "December 2025", "k": "c1", "t": "Nice place to spend with friends. Very accommodating host. 😃", "r": null}, {"n": "Tristan", "s": 5, "d": "November 2025", "k": "c1", "t": "The place is perfect for group hangouts and reunions. Available amenities offered variety of leisure. The host is also very responsive and accommodating.", "r": null}, {"n": "Klarisse Ann", "s": 5, "d": "November 2025", "k": "c1", "t": "The place is cozy and we really enjoyes staying here", "r": null}, {"n": "Avegail", "s": 5, "d": "September 2025", "k": "c1", "t": "The host was very helpful and responsive. The house was clean and well-equipped, we enjoyed the videoke, jacuzzi and pool", "r": null}, {"n": "Christian Paul", "s": 5, "d": "September 2025", "k": "c1", "t": "Very responsive and accommodating ang owner. Will recommend this.", "r": null}, {"n": "Faye", "s": 5, "d": "June 2025", "k": "c1", "t": "Thankyou so much po sa responsive hosts! nag enjoy po ang mga kids ko 😍 clean place and peaceful nxt time po ulit! ☺️", "r": null}, {"n": "Arvi", "s": 5, "d": "May 2025", "k": "c1", "t": "First of all, Jay was a remarkable host. He provided us with helpful instructions prior to our visit and greeted us personally when we reached the place. The place is easily accessible through Sariaya Bypass.\nWe arrived earlier than check-in time but he did let us in so we could settle down and put our things inside. As we were early, the pool is still filling up with water as they always replace it with every guest to ensure it's clean and fresh.\nAs we arrived, there was a complimentary refreshment. Jay gave me a quick tour of the house and its amenities. Cooking was a breeze as they got the utensils that we needed. There were some ingredients we forgot to bring but there were stores outside and we were able to buy them without the need to go back to Sariaya market.\nThe PS5 and karaoke were spot on as my Dad is a gamer and my Mom is a singer. The grill was awesome as well (not your ordinary grill). \nOverall, it was a great stay. Though still being developed, it was almost perfect.", "r": null}, {"n": "Melissa Chrisley", "s": 5, "d": "May 2025", "k": "c1", "t": "Very reponsive and understanding host.", "r": "We're thrilled to hear that our cabin met your expectations and that you had a wonderful time with us. We look forward to welcoming you back soon! 😊❤️"}, {"n": "Andrea", "s": 5, "d": "May 2025", "k": "c1", "t": "very beautiful cabin and a lot of amenities! mag eenjoy bata pati matatanda 😁 private and it has a nice view. theres a lot of stores sa may labasan, may produce, meat, fish so no need to bring any kung magluluto. very responsive host kahit medyo gabi kami nag reach out. Thanks for letting us stay! 😁", "r": null}, {"n": "Jess Perlada", "d": "January 2025", "src": "fb", "t": "They have complete amenities to accommodate a party, whether you need to cook, party, games, karaoke. We also love that the pool water is changed daily and doesnt use chlorine. There were ample spaces, the girls were cooking in the kicthen, the kids were watching in the sala, the boys were drinking in the nipa hut nearby the pool, the place really acommodated us well. We were also impressed by their lights and sounds, superb yung TV and Party Speaker. The only downside we experienced is the limited water. We are more than 10 pax including kids, we used the water so much sa bath tub, pool and kitchen. We had to wait for them to turn it on, there were times that we waited more than 1 hr yata, so thats really inconvenient kasi may mga kailangan na magcr and magluto. Anyway if you are less than 10 pax i dont think youll have an issue, especially kung konti lang kayo. Overall I would say this is a very very good option for a party o getaway for friends and families.", "r": "Dear Ma’am Jess,\nThank you so much for taking the time to review your stay at our cabin! We're thrilled to hear that you enjoyed the huge space, TV, karoeke, pool, kitchen and your overall stay!\nRegarding the issue with the water supply, we apologize again for the inconvenience this caused during your stay. We want to assure you that we took immediate action to address the problem as soon as you reported it to us. Our maintenance team worked promptly to resolve the issue, and we've since implemented measures to prevent such incidents in the future.\nWe value your feedback and appreciate your understanding. We're committed to providing our guests with a comfortable and enjoyable stay, and we're constantly working to improve our services.\nThank you again for choosing our cabin, and we hope to have the opportunity to welcome you back in the future.\nBest regards,\nTeam CBTG"}, {"n": "Nico Zapanta Jovero", "d": "January 2025", "src": "fb", "t": "- Owner is accomodating\n- the place has great ambiance\n- have a really soft bed\n- complete cooking equipment/utensils\n- the pool is not that deep, good for children\n- bathroom is really nice, it has bath tub with jacuzzi\n- 100/10!!!", "r": "WOW! Thank you for your amazing review! We're thrilled you loved our cabin's ambiance, soft bed, and amenities! Your kind words mean everything to us. Come back soon! #cabinlove #guestreview #100outof10"}, {"n": "Thea Balancad Sarthou", "d": "January 2025", "src": "fb", "t": "Super satisfied with our stay! The place itself is so relaxing!\nThe cabin was very clean. The ambiance was great, and the overall experience exceeded our expectations. Perfect spot for small families or small group.\nThe owner is responsive and helpful, making sure we had a great stay. We’d love to come back! Thank you, Cabins by the Generals. ❤️", "r": "Your wonderful review made our day! Thank you for choosing our cabin!❤️❤️❤️"}, {"n": "Nolyvoi Detruz", "d": "January 2025", "src": "fb", "t": "Good place for bonding Ng mga tropa at pamilya.", "r": null}], "fb": {"pct": 100, "count": 15}}</script>
+</section>
+
+<section class="guide" id="guide" aria-labelledby="guide-h">
+  <div class="wrap guide-grid">
+    <div class="guide-side">
+      <p class="eyebrow">Guest guide</p>
+      <h2 id="guide-h">Everything to know before you arrive</h2>
+      <div class="guide-photo">
+        <img src="img/c1-loft.jpg" alt="The loft bedroom under Cabin Charlie's A-frame" loading="lazy">
+        <div class="glass"><b>Still have a question?</b>Message us on <a href="https://m.me/61566419019212" target="_blank" rel="noopener">Messenger</a> or Viber at 0927 446 6154.</div>
+      </div>
+    </div>
+    <div class="acc-list" id="acc">
+      <div class="acc-item">
+        <button class="acc" id="a1" aria-expanded="true" aria-controls="p1"><i data-lucide="clock-4" class="ico"></i><span>Check-in &amp; check-out</span><i class="plus" aria-hidden="true"><i data-lucide="plus" class="ico" style="color:inherit;width:16px;height:16px"></i></i></button>
+        <div class="acc-panel" id="p1" role="region" aria-labelledby="a1"><div><div class="acc-body two">
+          <p><b>Check-in 4:00 PM, check-out 12:00 NN.</b><br>Every booking is a full 20 hours. If you check in later, your check-out moves later too.</p>
+          <p><b>Send a valid ID before you arrive.</b><br>We'll send the exact pin and directions once your booking is confirmed.</p>
+        </div></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc" id="a2" aria-expanded="false" aria-controls="p2"><i data-lucide="calendar-check" class="ico"></i><span>Reserving your dates</span><i class="plus" aria-hidden="true"><i data-lucide="plus" class="ico" style="color:inherit;width:16px;height:16px"></i></i></button>
+        <div class="acc-panel" id="p2" role="region" aria-labelledby="a2"><div><div class="acc-body">
+          <p>Pick your dates above and tap <b>Send booking request</b>. We'll text you to confirm and send the payment details. A reservation fee of <b>30% of your total</b> holds your dates.</p>
+          <p>Booking direct costs less than Airbnb. Airbnb adds its own service fees, and when you book with us there's no middleman.</p>
+        </div></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc" id="a3" aria-expanded="false" aria-controls="p3"><i data-lucide="users-round" class="ico"></i><span>Guests &amp; holiday rates</span><i class="plus" aria-hidden="true"><i data-lucide="plus" class="ico" style="color:inherit;width:16px;height:16px"></i></i></button>
+        <div class="acc-panel" id="p3" role="region" aria-labelledby="a3"><div><div class="acc-body">
+          <p>Charlie and Charlotte are comfortable for up to 14 guests each. If you're a group of 15 and want to save, you can book just one cabin, but the sleeping area will be tight. Charlotte + Choco fits up to 20, and Charlie + Charlotte up to 24.</p>
+          <p>Each booking includes a set number of guests: 8 for one cabin, 12 for Charlotte + Choco, 16 for Charlie + Charlotte. Extra guests are <b>₱600 each per night</b>, or <b>₱750</b> for nights in December.</p>
+          <p><b>December 12 to January 15:</b> one cabin is ₱15,000 a night and two cabins are ₱20,000 a night. Holiday dates fill up first, so book early.</p>
+        </div></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc" id="a4" aria-expanded="false" aria-controls="p4"><i data-lucide="scroll-text" class="ico"></i><span>House rules</span><i class="plus" aria-hidden="true"><i data-lucide="plus" class="ico" style="color:inherit;width:16px;height:16px"></i></i></button>
+        <div class="acc-panel" id="p4" role="region" aria-labelledby="a4"><div><div class="acc-body">
+          <ul class="ticks">
+            <li><i data-lucide="check" class="ico"></i><span>Bring your own food and drinks. There's no corkage fee.</span></li>
+            <li><i data-lucide="check" class="ico"></i><span>No quiet time in Charlie. It's a sound-insulated glass cabin, so videoke until morning is fine.</span></li>
+            <li><i data-lucide="check" class="ico"></i><span>Our cats Charlotte and Choco live here in their own house and never go inside the cabins. If anyone in your group has allergies, let us know and we'll keep them away from your area.</span></li>
+          </ul>
+        </div></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc" id="a5" aria-expanded="false" aria-controls="p5"><i data-lucide="waves" class="ico"></i><span>Pool guidelines</span><i class="plus" aria-hidden="true"><i data-lucide="plus" class="ico" style="color:inherit;width:16px;height:16px"></i></i></button>
+        <div class="acc-panel" id="p5" role="region" aria-labelledby="a5"><div><div class="acc-body">
+          <ul class="ticks">
+            <li><i data-lucide="droplets" class="ico"></i><span>Fresh water for every booking. We drain and refill the pool before you arrive, so it may still be filling if you come early.</span></li>
+            <li><i data-lucide="baby" class="ico"></i><span>The pools are shallow and good for kids. Please keep children with an adult.</span></li>
+            <li><i data-lucide="lock" class="ico"></i><span>Each pool belongs to one cabin and is never shared with other guests.</span></li>
+          </ul>
+        </div></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc" id="a6" aria-expanded="false" aria-controls="p6"><i data-lucide="sparkles" class="ico"></i><span>Amenities in every cabin</span><i class="plus" aria-hidden="true"><i data-lucide="plus" class="ico" style="color:inherit;width:16px;height:16px"></i></i></button>
+        <div class="acc-panel" id="p6" role="region" aria-labelledby="a6"><div><div class="acc-body">
+          <ul class="ticks two">
+            <li><i data-lucide="waves" class="ico"></i><span>Private pool</span></li>
+            <li><i data-lucide="utensils" class="ico"></i><span>Complete kitchenware</span></li>
+            <li><i data-lucide="flame" class="ico"></i><span>Free gasul and griller</span></li>
+            <li><i data-lucide="glass-water" class="ico"></i><span>Free purified water</span></li>
+            <li><i data-lucide="mic-vocal" class="ico"></i><span>Videoke</span></li>
+            <li><i data-lucide="wifi" class="ico"></i><span>Free WiFi</span></li>
+            <li><i data-lucide="circle-dot" class="ico"></i><span>Billiard pavilion</span></li>
+            <li><i data-lucide="car" class="ico"></i><span>Free parking inside</span></li>
+          </ul>
+          <p><button class="btn line small" data-amen="all">See amenities per cabin</button></p>
+        </div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cats" class="dark" aria-labelledby="cats-h">
+  <div class="wrap">
+    <div class="sec-head split">
+      <div><p class="eyebrow">The namesakes</p><h2 id="cats-h" style="margin-top:16px">Meet Charlie, Charlotte and Choco</h2></div>
       <p class="lede">The cabins are named after our three cats.</p>
     </div>
     <div class="cats">
-      <figure class="cat"><img src="img/cat-charlie.jpg" alt="Charlie, an orange cat, sitting on the driveway" loading="lazy"><figcaption><b>Charlie</b><span>Our orange boy, who passed away. Cabin 1 carries his name. 🧡</span></figcaption></figure>
-      <figure class="cat"><img src="img/cat-charlotte.jpg" alt="Charlotte, a tortoiseshell cat, resting outdoors" loading="lazy"><figcaption><b>Charlotte</b><span>The quiet one with green eyes. Cabin 2 is hers.</span></figcaption></figure>
-      <figure class="cat"><img src="img/cat-choco.jpg" alt="Choco, a Siamese cat, stretched out on the deck" loading="lazy"><figcaption><b>Choco</b><span>Our Siamese, usually found stretched out on the deck. Cabin 3 is hers.</span></figcaption></figure>
+      <figure class="cat"><div class="ph"><img src="img/cat-charlie.jpg" alt="Charlie, an orange cat, sitting on the driveway" loading="lazy"></div><figcaption><b>Charlie</b><span>Our orange boy, who passed away. Cabin 1 carries his name. 🧡</span></figcaption></figure>
+      <figure class="cat"><div class="ph"><img src="img/cat-charlotte.jpg" alt="Charlotte, a tortoiseshell cat, resting outdoors" loading="lazy"></div><figcaption><b>Charlotte</b><span>The quiet one with green eyes. Cabin 2 is hers.</span></figcaption></figure>
+      <figure class="cat"><div class="ph"><img src="img/cat-choco.jpg" alt="Choco, a Siamese cat, stretched out on the deck" loading="lazy"></div><figcaption><b>Choco</b><span>Our Siamese, usually found stretched out on the deck. Cabin 3 is hers.</span></figcaption></figure>
     </div>
     <p class="cat-note">Charlotte and Choco live on the property in their own little house. They may say hi outside, but they never go inside the cabins.</p>
   </div>
 </section>
 
-<section class="shared" aria-labelledby="place-h">
-  <div class="wrap place">
-    <img src="img/property-moon.jpg" alt="Two of the A-frame cabins lit at night under a full moon" loading="lazy">
-    <div>
-      <h2 id="place-h" style="font-size:clamp(2.1rem,5.5vw,3.4rem)">In Sariaya, Quezon</h2>
-      <p class="lede" style="margin-top:14px">A quiet, private property in Sariaya. We'll send the exact pin and directions when you book.</p>
-      <div class="times">
-        <div><b>4:00 PM</b><span>Check-in</span></div>
-        <div><b>12:00 NN</b><span>Check-out</span></div>
+<section id="visit" aria-labelledby="visit-h">
+  <div class="wrap visit-grid">
+    <div class="map">
+      <iframe src="https://www.google.com/maps?q=Cabins+by+the+Generals+Sariaya+Quezon&amp;z=13&amp;output=embed" title="Map of Cabins by the Generals in Sariaya, Quezon" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="glass-dark">
+        <div><b>Brgy. Tumbaga 1, Sariaya, Quezon</b><span>Off the Sariaya Bypass · we send the exact pin after you book</span></div>
+        <a class="btn light small" href="https://www.google.com/maps/search/?api=1&amp;query=Cabins+by+the+Generals+Sariaya+Quezon" target="_blank" rel="noopener">Open in Google Maps <i data-lucide="arrow-up-right" class="ico"></i></a>
       </div>
-      <p style="margin-top:22px"><a class="btn ghost" href="https://www.google.com/maps/search/?api=1&amp;query=Cabins+by+the+Generals+Sariaya+Quezon" target="_blank" rel="noopener">Open in Google Maps</a></p>
     </div>
-  </div>
-</section>
-
-<section id="faq" aria-labelledby="faq-h">
-  <div class="wrap">
-    <div class="sec-head"><h2 id="faq-h">Good to know</h2></div>
-    <div class="faq">
-      <details><summary>How do I reserve my dates?</summary><p>Pick your dates above and tap Send booking request. We'll text you to confirm and send the payment details. A reservation fee of 30% of your total holds your dates.</p></details>
-      <details><summary>Why is booking direct cheaper than Airbnb?</summary><p>Airbnb adds its own service fees. When you book with us directly, there's no middleman, so we pass the savings to you.</p></details>
-      <details><summary>How many guests can we bring?</summary><p>Charlie and Charlotte are comfortable for up to 14 guests each. If you're a group of 15 and want to save, you can book just one cabin, but the sleeping area will be tight. Charlotte + Choco fits up to 20, and Charlie + Charlotte up to 24. Each booking includes a set number of guests (8 for one cabin, 12 for Charlotte + Choco, 16 for Charlie + Charlotte). Extra guests are ₱600 each per night, or ₱750 for nights in December.</p></details>
-      <details><summary>Are holiday rates different?</summary><p>Yes. From December 12 to January 15, one cabin is ₱15,000 a night and two cabins are ₱20,000 a night. Holiday dates fill up first, so book early.</p></details>
-      <details><summary>Can we bring our own food and drinks?</summary><p>Yes. There's no corkage fee, and every cabin has complete kitchenware, free gasul and purified water.</p></details>
-      <details><summary>Is there a quiet time?</summary><p>Not in Charlie. It's a sound-insulated glass cabin, so videoke until morning is fine.</p></details>
-      <details><summary>Are there pets on the property?</summary><p>Our cats Charlotte and Choco live here in their own house. They don't go inside the cabins. If anyone in your group has allergies, let us know and we'll keep them away from your area.</p></details>
-    </div>
-  </div>
-</section>
-<section class="follow" aria-labelledby="follow-h">
-  <div class="wrap follow-in">
-    <div>
-      <h2 id="follow-h">Follow us on Facebook</h2>
-      <p class="lede" style="margin-top:12px">See new photos, guest moments, promos and holiday openings first. You can also message us there anytime.</p>
-    </div>
-    <div class="follow-btns">
-      <a class="btn glow" href="https://www.facebook.com/share/164L1d4j1f/" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>Visit our Facebook page</a>
-      <button class="btn ghost" id="share" type="button">Share this website</button>
+    <div class="contact">
+      <p class="eyebrow">Book direct</p>
+      <h2 id="visit-h">Save the Airbnb fees</h2>
+      <p class="lede">Pick your dates on our calendar, or message us with your dates and group size. 30% holds the booking.</p>
+      <div class="c-links">
+        <a class="c-link main" href="#book"><span class="l"><i data-lucide="calendar-days" class="ico"></i><span><b>Check dates and book</b><small>See open nights and your total</small></span></span><i data-lucide="arrow-right" class="ico"></i></a>
+        <a class="c-link soft" href="https://m.me/61566419019212" target="_blank" rel="noopener"><span class="l"><i data-lucide="message-circle" class="ico"></i><span><b>Message us on Messenger</b><small>Cabins by the Generals</small></span></span><i data-lucide="arrow-up-right" class="ico"></i></a>
+        <a class="c-link soft" href="tel:09274466154"><span class="l"><i data-lucide="phone" class="ico"></i><span><b>Call, text or Viber</b><small>0927 446 6154</small></span></span><i data-lucide="arrow-up-right" class="ico"></i></a>
+      </div>
+      <div class="socials">
+        <a class="round" href="https://www.facebook.com/people/Cabins-by-the-Generals/61566419019212/" target="_blank" rel="noopener" aria-label="Our Facebook page"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg></a>
+        <a class="round" href="https://m.me/61566419019212" target="_blank" rel="noopener" aria-label="Messenger"><i data-lucide="send" class="ico"></i></a>
+        <button class="round" id="share" type="button" aria-label="Share this website"><i data-lucide="share-2" class="ico"></i></button>
+        <span>Follow us for promos and holiday openings</span>
+      </div>
     </div>
   </div>
 </section>
@@ -669,25 +868,28 @@ dialog.am::backdrop{background:rgba(5,12,22,.72)}
 <footer>
   <div class="wrap">
     <div class="foot">
-      <div><img class="foot-logo" src="img/logo-320.png" alt="Cabins by the Generals logo: Private. Stylish. Yours. Est. 2025" width="160" height="160" loading="lazy"><h2 style="margin-top:22px">See you at the cabins 🌿</h2></div>
-      <div class="links">
+      <div><img class="foot-logo" src="img/logo-320.png" alt="Cabins by the Generals logo: Private. Stylish. Yours. Est. 2025" width="120" height="120" loading="lazy"><h2>See you at the cabins</h2></div>
+      <div class="flinks">
+        <span class="t">Contact</span>
         <a class="tel" href="tel:09274466154">0927 446 6154</a>
-        <a href="https://www.facebook.com/share/164L1d4j1f/" target="_blank" rel="noopener">Facebook: Cabins by the Generals</a>
-        <a href="sms:09274466154">Send a text</a>
+        <a href="https://m.me/61566419019212" target="_blank" rel="noopener">Messenger</a>
+        <a href="https://www.facebook.com/people/Cabins-by-the-Generals/61566419019212/" target="_blank" rel="noopener">Facebook: Cabins by the Generals</a>
       </div>
-      <div class="links">
+      <div class="flinks">
+        <span class="t">Explore</span>
         <a href="#cabins">The cabins</a>
         <a href="#book">Rates and dates</a>
+        <a href="#guide">Guest guide</a>
         <a href="#reviews">Guest reviews</a>
-        <a href="index.html">Guest guide: Ikot sa Sariaya</a>
+        <a href="index.html">Ikot sa Sariaya: places nearby</a>
         <a href="https://www.airbnb.com/rooms/1668741995292624618" target="_blank" rel="noopener">Find us on Airbnb</a>
       </div>
     </div>
-    <p class="copy">© <span id="yr">2026</span> Cabins by the Generals, Sariaya, Quezon</p>
+    <p class="copy"><span>© <span id="yr">2026</span> Cabins by the Generals, Sariaya, Quezon</span><span>Private. Stylish. Yours.</span></p>
   </div>
 </footer>
 
-<div class="bar" id="bar" aria-hidden="true">
+<div class="bar glass" id="bar" aria-hidden="true">
   <div><b id="bar-b">From ₱7,100 a night</b><span id="bar-s">Private pool, Sariaya</span></div>
   <a class="btn" href="#book" id="bar-btn" tabindex="-1">Check dates</a>
 </div>
@@ -754,6 +956,7 @@ dialog.am::backdrop{background:rgba(5,12,22,.72)}
 </dialog>
 <div class="toast" id="toast" hidden role="status"></div>
 
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 <script>
 (function () {
   "use strict";
@@ -1204,6 +1407,31 @@ dialog.am::backdrop{background:rgba(5,12,22,.72)}
     if (navigator.share) { navigator.share(data).catch(function () {}); return; }
     try { navigator.clipboard.writeText(data.url).then(function () { toast("Website link copied"); }); } catch (e) { window.prompt("Copy this link:", data.url); }
   };
+
+  /* ---------- mobile menu ---------- */
+  var mb = $("menu-btn"), menu = $("menu");
+  function menuSet(open) { menu.hidden = !open; mb.setAttribute("aria-expanded", open ? "true" : "false"); mb.setAttribute("aria-label", open ? "Close menu" : "Open menu"); }
+  mb.onclick = function () { menuSet(menu.hidden); };
+  menu.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", function () { menuSet(false); }); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !menu.hidden) menuSet(false); });
+
+  /* ---------- guest guide accordion ---------- */
+  var accs = document.querySelectorAll(".acc");
+  accs.forEach(function (b) {
+    b.onclick = function () {
+      var open = b.getAttribute("aria-expanded") === "true";
+      accs.forEach(function (x) { x.setAttribute("aria-expanded", "false"); });
+      if (!open) b.setAttribute("aria-expanded", "true");
+    };
+  });
+
+  /* ---------- featured quotes ---------- */
+  var qs = $("quotes");
+  function qStep(d) { var c = qs.children[0]; qs.scrollBy({ left: d * (c.getBoundingClientRect().width + 16), behavior: calm ? "auto" : "smooth" }); }
+  $("q-prev").onclick = function () { qStep(-1); };
+  $("q-next").onclick = function () { qStep(1); };
+
+  if (window.lucide) lucide.createIcons();
   feed(); render(); load();
   setInterval(function () { if (!document.hidden) load(); }, 5 * 60 * 1000);
 })();
