@@ -7,7 +7,7 @@
 <meta name="description" content="Every photo and video of Cabin Charlie at Cabins by the Generals, a private A-frame pool cabin in Sariaya, Quezon.">
 <meta name="theme-color" content="#121412">
 <meta property="og:title" content="Cabin Charlie · Cabins by the Generals">
-<meta property="og:image" content="https://kyriljamie.github.io/cbtg-guide/gallery/charlie/share.jpg">
+<meta property="og:image" content="https://kyriljamie.github.io/cbtg-guide/gallery/charlie/share-full.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="628">
 <meta name="twitter:card" content="summary_large_image">
@@ -43,6 +43,10 @@ h1,h2{font-family:var(--display);letter-spacing:0;line-height:1;margin:0;text-wr
 
 .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
 .hero img{display:block;width:100%;height:clamp(500px,70vw,640px);object-fit:cover;object-position:center 60%}
+.hero .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(30px) brightness(.55);transform:scale(1.15)}
+.hero img.hero-full{position:relative;height:auto;max-height:min(78vh,720px);object-fit:contain;margin:0 auto}
+.hero .shade{display:none}
+.hero .cap{position:relative !important;background:linear-gradient(180deg,rgba(18,20,18,.55),var(--night))}
 .hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,20,18,.15) 0%,rgba(18,20,18,.35) 40%,rgba(18,20,18,.94) 100%)}
 .hero .cap{position:absolute;left:0;right:0;bottom:0}
 .hero .cap .wrap{padding-block:28px;display:grid;gap:10px}
@@ -97,7 +101,8 @@ footer .cta{font-family:var(--display);font-size:clamp(30px,6vw,44px);font-weigh
 <body>
 <div class="bar"><div class="wrap"><a href="../website.html#charlie"><img src="../img/logo-96.png" alt="">&larr; All cabins</a><a class="cta-btn" href="../website.html#book">Check dates</a></div></div>
 <header class="hero">
-  <img src="charlie/cover-dusk.jpg" alt="Cabin Charlie's glass A-frame at dusk, its lights glowing above the private pool" style="object-position:center 12%">
+  <img class="hero-bg" src="charlie/cover-bright.jpg" alt="" aria-hidden="true">
+  <img class="hero-full" src="charlie/cover-bright.jpg" alt="Cabin Charlie's glass A-frame at dusk, its lights glowing above the private pool">
   <div class="shade"></div>
   <div class="cap"><div class="wrap">
     <div class="eyebrow">Cabins by the Generals · Sariaya, Quezon</div>
