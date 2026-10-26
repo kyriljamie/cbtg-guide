@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#2F5D3A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CBTG Photos">
+<title>CBTG Cleaning Photos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#F5F2EA; --surface:#FFFDF8; --fg:#1E2A21; --muted:#5E6A5F; --line:#DCD6C6;
+  --forest:#2F5D3A; --forest-ink:#FFFFFF; --gold:#9A7428; --gold-soft:#F1E6CB; --chip:#E8EFE6;
+  --ok:#2E6B3F; --ok-soft:#DDEFE1; --bad:#B3261E; --bad-soft:#F7E1DE;
+  --display:'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --body:'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111511; --surface:#1A201B; --fg:#ECE7DA; --muted:#A6AD9F; --line:#2E362F;
+  --forest:#8FC09A; --forest-ink:#10170F; --gold:#D8B566; --gold-soft:#2C2719; --chip:#223024;
+  --ok:#8FC09A; --ok-soft:#1E2D21; --bad:#F2A49B; --bad-soft:#3A1F1C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111511; --surface:#1A201B; --fg:#ECE7DA; --muted:#A6AD9F; --line:#2E362F;
+  --forest:#8FC09A; --forest-ink:#10170F; --gold:#D8B566; --gold-soft:#2C2719; --chip:#223024;
+  --ok:#8FC09A; --ok-soft:#1E2D21; --bad:#F2A49B; --bad-soft:#3A1F1C; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:720px;margin:0 auto;padding:20px 16px calc(40px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:16px;min-height:100dvh}
+h1,h2{font-family:var(--display);font-weight:400;margin:0;line-height:1.1}
+h1{font-size:2rem}
+h2{font-size:1.3rem}
+p{margin:0}
+.eyebrow{font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.link{background:none;border:0;color:var(--forest);font:inherit;font-weight:700;padding:8px 0;cursor:pointer;min-height:44px}
+.card{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px}
+button.btn{font:inherit;font-weight:800;font-size:1.05rem;border-radius:14px;border:0;min-height:56px;padding:0 18px;width:100%;cursor:pointer}
+.btn.primary{background:var(--forest);color:var(--forest-ink)}
+.btn.secondary{background:var(--surface);color:var(--forest);border:1.5px solid var(--forest)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.pin{font:inherit;font-size:2rem;letter-spacing:.5em;text-align:center;width:100%;min-height:64px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);color:var(--fg)}
+.pin:focus{outline:2px solid var(--gold);outline-offset:2px}
+.error{background:var(--bad-soft);color:var(--bad);border-radius:12px;padding:12px 14px;font-weight:700}
+.backbtn{flex:none;font:inherit;font-weight:800;font-size:1rem;color:var(--forest);background:var(--surface);border:2px solid var(--forest);border-radius:999px;min-height:44px;padding:0 16px;cursor:pointer}
+.alert{display:flex;gap:12px;align-items:center;background:var(--forest);color:var(--forest-ink);border:0;border-radius:16px;padding:14px;text-align:left;font:inherit;cursor:pointer;width:100%}
+.alert .k{font-size:.72rem;font-weight:800;letter-spacing:.12em;opacity:.85}
+.alert b{display:block;font-size:1.05rem}
+.alert .go{margin-left:auto;font-size:1.4rem}
+.recent{display:flex;flex-direction:column;gap:0}
+.recent li{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.recent li:first-child{border-top:0}
+.recent ul{list-style:none;margin:0;padding:0}
+.fsec{display:flex;flex-direction:column;gap:8px}
+.fsec h2{font-family:var(--body);font-weight:800;font-size:1rem}
+.folders{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.folder{display:flex;flex-direction:column;gap:2px;text-align:left;font:inherit;color:inherit;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:12px;cursor:pointer;min-height:96px}
+.folder.new{border:2px solid var(--forest)}
+.folder svg{margin-bottom:4px}
+.folder b{font-size:1rem}
+.folder .new-dot{font-size:.7rem;font-weight:800;color:var(--forest);letter-spacing:.08em}
+.day{background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.day .dh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.day .rd{font-size:.8rem;font-weight:700;color:var(--ok)}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.thumb{position:relative;border:0;padding:0;border-radius:10px;overflow:hidden;aspect-ratio:3/4;background:var(--chip);cursor:pointer;font:inherit;color:inherit}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb .lb{position:absolute;left:4px;bottom:4px;right:4px;font-size:.68rem;font-weight:800;background:var(--surface);color:var(--fg);border-radius:6px;padding:2px 5px;line-height:1.3;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.thumb .ld{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--muted)}
+.viewer{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:10;display:flex;flex-direction:column;gap:10px;padding:14px 12px calc(14px + env(safe-area-inset-bottom))}
+.viewer img{flex:1;min-height:0;width:100%;object-fit:contain}
+.viewer .vt{color:#fff;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.viewer .vt b{display:block}
+.viewer .vt span{font-size:.85rem;opacity:.8}
+.viewer .vb{display:flex;gap:10px}
+.viewer .vb a,.viewer .vb button{flex:1;display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:14px;font:inherit;font-weight:800;text-decoration:none;cursor:pointer}
+.viewer .vb a{background:#fff;color:#1E2A21;border:0}
+.viewer .vb button{background:transparent;color:#fff;border:1.5px solid #fff}
+.empty{color:var(--muted);text-align:center;padding:20px 0}
+</style>
+</head>
+<body>
+<main class="wrap" id="app" aria-live="polite"></main>
+<script>
+// CBTG owner photo folders (Jay and Emely). Talks only to the CBTG Supabase functions
+// owner_login / owner_month / owner_photo, which check the owner PIN on the server.
+const API = 'https://fnebydfckdqgigtfhjfk.supabase.co/rest/v1/rpc/';
+const KEY = 'sb_publishable_PLLPO77LyLTlHHQr1yF23Q_Y27vUAO1';
+const STORE = 'cbtg-owner-v1';
+const FOLDER_NAMES = { 'Cabin 1': 'Cabin Charlie', 'Cabin 2': 'Cabin Charlotte', 'Shared': 'Outdoor CR (shared)' };
+const FOLDER_ORDER = ['Cabin 1', 'Cabin 2', 'Shared'];
+const SLOT_NAMES = { bed_gf: 'Ground-floor bedroom', bed_loft: 'Loft bedroom', cr: 'CR', living: 'Living area', kitchen: 'Kitchen', pool: 'Pool', outdoor_cr: 'Outdoor CR' };
+const state = { pin: null, me: null, data: null, msg: null, busy: false, folder: null, month: null, days: null, imgs: {}, view: null, seen: null };
+const app = document.getElementById('app');
+
+function load() { try { const s = JSON.parse(localStorage.getItem(STORE) || '{}'); state.pin = s.pin || null; state.seen = s.seen || null; } catch (e) { /* storage blocked */ } }
+function save() { try { localStorage.setItem(STORE, JSON.stringify({ pin: state.pin, seen: state.seen })); } catch (e) { /* ignore */ } }
+async function rpc(fn, body) {
+  const res = await fetch(API + fn, { method: 'POST', headers: { apikey: KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if (!res.ok) throw new Error('No connection to CBTG (' + res.status + '). Check your data / Wi-Fi and try again.');
+  return res.json();
+}
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fname = (f) => FOLDER_NAMES[f] || f;
+const timeText = (iso) => new Date(iso).toLocaleTimeString('en-PH', { hour: 'numeric', minute: '2-digit' });
+const whenText = (iso) => new Date(iso).toLocaleString('en-PH', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+const monthText = (m) => new Date(m + '-01T00:00:00').toLocaleDateString('en-PH', { month: 'long', year: 'numeric' });
+const dayText = (d) => new Date(d + 'T00:00:00').toLocaleDateString('en-PH', { weekday: 'short', month: 'short', day: 'numeric' });
+
+async function login(pin) {
+  state.busy = true; state.msg = null; render();
+  try {
+    const r = await rpc('owner_login', { p_pin: pin });
+    if (r.error) { state.msg = r.error; state.pin = null; save(); }
+    else { state.pin = pin; state.me = r.name; state.data = r; if (!state.seen) state.seen = new Date().toISOString(); save(); }
+  } catch (e) { state.msg = e.message; }
+  state.busy = false; render();
+}
+
+async function openFolder(folder, month) {
+  state.folder = folder; state.month = month; state.days = null; state.msg = null; render(); window.scrollTo(0, 0);
+  try {
+    const r = await rpc('owner_month', { p_pin: state.pin, p_folder: folder, p_month: month });
+    if (r.error) state.msg = r.error; else state.days = r.days || [];
+  } catch (e) { state.msg = e.message; }
+  render();
+  loadThumbs();
+}
+
+// Photos load a few at a time so a long month doesn't stall a slow connection.
+async function loadThumbs() {
+  const ids = (state.days || []).flatMap((d) => (d.photos || []).map((p) => p.id)).filter((id) => !state.imgs[id]);
+  const work = async () => {
+    while (ids.length) {
+      const id = ids.shift();
+      if (!state.folder) return;
+      try {
+        const r = await rpc('owner_photo', { p_pin: state.pin, p_id: id });
+        if (r.data) {
+          state.imgs[id] = 'data:image/jpeg;base64,' + r.data;
+          const el = document.querySelector('.thumb[data-id="' + id + '"]');
+          if (el) el.innerHTML = '<img src="' + state.imgs[id] + '" alt="">' + el.querySelector('.lb').outerHTML;
+        }
+      } catch (e) { /* leave the placeholder; tapping retries */ }
+    }
+  };
+  await Promise.all([work(), work(), work()]);
+}
+
+function render() {
+  if (!state.me) return renderLogin();
+  if (state.view) return renderViewer();
+  if (state.folder) return renderMonth();
+  return renderFolders();
+}
+
+function renderLogin() {
+  app.innerHTML = `
+    <div class="top"><div><p class="eyebrow">Cabins by the Generals · Owner</p><h1>Cleaning Photos</h1></div></div>
+    <p class="muted">For Jay and Emely only. Enter your owner PIN.</p>
+    ${state.msg ? '<p class="error" role="alert">' + esc(state.msg) + '</p>' : ''}
+    <form id="f" class="card" style="display:flex;flex-direction:column;gap:12px">
+      <label for="pin" class="small muted">Owner PIN</label>
+      <input id="pin" class="pin" type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="current-password" maxlength="8" required>
+      <button class="btn primary" ${state.busy ? 'disabled' : ''}>${state.busy ? 'Checking…' : 'Open folders'}</button>
+    </form>
+    <p class="small muted">Tip: tap your browser's menu → “Add to Home screen” to open this like an app.</p>`;
+  const f = document.getElementById('f'); const pin = document.getElementById('pin');
+  if (!state.busy) pin.focus();
+  f.onsubmit = (e) => { e.preventDefault(); if (pin.value.trim()) login(pin.value.trim()); };
+}
+
+const folderIcon = '<svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="var(--gold-soft)" stroke="var(--gold)" stroke-width="1.6" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>';
+
+function renderFolders() {
+  const d = state.data;
+  const folders = d.folders || [];
+  const recent = d.recent || [];
+  const fresh = recent.filter((r) => state.seen && r.at > state.seen);
+  const top = fresh[0] || null;
+  const groups = FOLDER_ORDER.concat(folders.map((f) => f.folder).filter((f) => !FOLDER_ORDER.includes(f)))
+    .filter((v, i, a) => a.indexOf(v) === i);
+  app.innerHTML = `
+    <div class="top">
+      <div><p class="eyebrow">Hi, ${esc(state.me)}</p><h1>Cleaning Photos</h1></div>
+      <button class="link" id="out">Log out</button>
+    </div>
+    ${state.msg ? '<p class="error" role="alert">' + esc(state.msg) + '</p>' : ''}
+    ${top ? `<button class="alert" id="newgo"><div><span class="k">NEW · ${esc(whenText(top.at))}</span><b>${esc(fname(top.cabin))} is Ready</b><span class="small">${esc(top.staff)} uploaded the photos${fresh.length > 1 ? ' · ' + (fresh.length - 1) + ' more new' : ''}</span></div><span class="go" aria-hidden="true">›</span></button>` : ''}
+    ${groups.map((g) => {
+      const mine = folders.filter((f) => f.folder === g);
+      return `<section class="fsec" aria-label="${esc(fname(g))}"><h2>${esc(fname(g))}</h2>
+        ${mine.length ? '<div class="folders">' + mine.map((f) => {
+          const isNew = state.seen && f.last > state.seen;
+          return `<button class="folder${isNew ? ' new' : ''}" data-f="${esc(f.folder)}" data-m="${esc(f.month)}">${folderIcon}<b>${esc(monthText(f.month))}</b><span class="small muted">${f.days} day${f.days === 1 ? '' : 's'} · ${f.photos} photo${f.photos === 1 ? '' : 's'}</span>${isNew ? '<span class="new-dot">NEW</span>' : ''}</button>`;
+        }).join('') + '</div>' : '<p class="small muted">No photos yet.</p>'}
+      </section>`;
+    }).join('')}
+    ${recent.length ? `<section class="card recent" aria-label="Latest Ready"><h2 style="font-size:1.1rem;margin-bottom:6px">Latest Ready</h2><ul>${recent.slice(0, 6).map((r) =>
+      `<li><span><b>${esc(fname(r.cabin))}</b><br><span class="small muted">${esc(r.staff)}${r.note ? ' · ' + esc(r.note) : ''}</span></span><span class="small muted" style="text-align:right">${esc(whenText(r.at))}</span></li>`).join('')}</ul></section>` : ''}
+    <button class="btn secondary" id="ref">Refresh</button>
+    <button class="btn secondary" id="seen">Mark all as seen</button>`;
+  document.getElementById('out').onclick = () => { state.pin = null; state.me = null; state.data = null; state.imgs = {}; save(); render(); };
+  document.getElementById('ref').onclick = () => login(state.pin);
+  document.getElementById('seen').onclick = () => { state.seen = new Date().toISOString(); save(); render(); };
+  const ng = document.getElementById('newgo');
+  if (ng && top) ng.onclick = () => {
+    const m = new Date(top.at).toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' }).slice(0, 7);
+    openFolder(top.cabin, m);
+  };
+  app.querySelectorAll('.folder').forEach((b) => (b.onclick = () => openFolder(b.dataset.f, b.dataset.m)));
+}
+
+function renderMonth() {
+  const days = state.days;
+  app.innerHTML = `
+    <div class="top">
+      <div><p class="eyebrow">${esc(fname(state.folder))}</p><h1>${esc(monthText(state.month))}</h1></div>
+      <button class="backbtn" id="back">‹ Folders</button>
+    </div>
+    ${state.msg ? '<p class="error" role="alert">' + esc(state.msg) + '</p>' : ''}
+    ${days === null ? '<p class="empty">Loading…</p>' : !days.length ? '<p class="empty">No photos in this month.</p>' : '<p class="small muted">Newest first · tap a photo to view it full size or save it.</p>' + days.map((d) => {
+      const ready = (d.ready || []);
+      return `<section class="day" aria-label="${esc(dayText(d.date))}">
+        <div class="dh"><b>${esc(dayText(d.date))}</b>${ready.length ? '<span class="rd">✓ Ready ' + ready.map((r) => esc(timeText(r.at)) + ' · ' + esc(r.staff)).join(', ') + '</span>' : ''}</div>
+        <div class="thumbs">${(d.photos || []).map((p) => `<button class="thumb" data-id="${p.id}" aria-label="${esc(SLOT_NAMES[p.slot] || p.slot)} photo by ${esc(p.staff)}">${state.imgs[p.id] ? '<img src="' + state.imgs[p.id] + '" alt="">' : '<span class="ld">Loading…</span>'}<span class="lb">${esc(SLOT_NAMES[p.slot] || p.slot)}</span></button>`).join('')}</div>
+        ${ready.filter((r) => r.note).map((r) => '<p class="small muted">Note from ' + esc(r.staff) + ': ' + esc(r.note) + '</p>').join('')}
+      </section>`;
+    }).join('')}`;
+  document.getElementById('back').onclick = () => { state.folder = null; state.days = null; state.msg = null; render(); window.scrollTo(0, 0); };
+  app.querySelectorAll('.thumb').forEach((b) => (b.onclick = () => {
+    const id = Number(b.dataset.id);
+    const p = (state.days || []).flatMap((d) => d.photos || []).find((x) => x.id === id);
+    if (!p) return;
+    state.view = p; render();
+    if (!state.imgs[id]) rpc('owner_photo', { p_pin: state.pin, p_id: id }).then((r) => { if (r.data) { state.imgs[id] = 'data:image/jpeg;base64,' + r.data; if (state.view && state.view.id === id) render(); } }).catch(() => {});
+  }));
+}
+
+function renderViewer() {
+  const p = state.view;
+  const src = state.imgs[p.id];
+  const name = (fname(state.folder) + ' ' + (SLOT_NAMES[p.slot] || p.slot) + ' ' + new Date(p.at).toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' })).replace(/[^A-Za-z0-9-]+/g, '-') + '.jpg';
+  app.innerHTML = `<div class="viewer" role="dialog" aria-label="Photo">
+    <div class="vt"><div><b>${esc(SLOT_NAMES[p.slot] || p.slot)} · ${esc(fname(state.folder))}</b><span>${esc(whenText(p.at))} · ${esc(p.staff)}</span></div></div>
+    ${src ? '<img src="' + src + '" alt="' + esc(SLOT_NAMES[p.slot] || p.slot) + '">' : '<p style="color:#fff;flex:1;display:flex;align-items:center;justify-content:center">Loading…</p>'}
+    <div class="vb">${src ? '<a href="' + src + '" download="' + esc(name) + '">Save photo</a>' : ''}<button id="close">Close</button></div>
+  </div>`;
+  document.getElementById('close').onclick = () => { state.view = null; render(); };
+}
+
+load();
+if (state.pin) login(state.pin); else render();
+</script>
+</body>
+</html>
