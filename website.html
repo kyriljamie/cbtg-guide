@@ -294,6 +294,10 @@ section{padding:96px 0}
 .done h3{font-size:2.4rem;color:var(--ink)}
 .done-ref b{font-size:1.2rem;letter-spacing:.08em;background:var(--stone-2);border-radius:8px;padding:2px 10px}
 .done a{color:var(--ink)}
+.card-pay{display:flex;align-items:center;gap:12px;margin-top:14px;padding:13px 14px;border:1px solid var(--line);border-radius:16px;text-decoration:none;color:var(--ink-soft);font-size:.84rem;line-height:1.45;transition:border-color .2s}
+.card-pay:hover{border-color:var(--ink)}
+.card-pay b{display:block;color:var(--ink);font-size:.9rem}
+.card-pay .ico{color:var(--forest)}
 .err-msg{color:#9A3B1D;font-size:.85rem;font-weight:600;text-transform:none;letter-spacing:0}
 
 /* ---------- reviews ---------- */
@@ -694,6 +698,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
           <button class="btn dark" type="submit" id="send">Send booking request</button>
           <p class="fine">No payment on the website. We'll text you to confirm your dates and send the payment details for the 30% reservation fee.</p>
         </form>
+        <a class="card-pay" id="abnb" href="https://www.airbnb.com/rooms/1668742538884638684" target="_blank" rel="noopener"><i data-lucide="credit-card" class="ico"></i><span><b>Prefer to pay by credit card?</b>Book your pick on Airbnb instead. Airbnb's rates and fees apply.</span><i data-lucide="arrow-up-right" class="ico"></i></a>
         <div class="fail" id="req-fail" hidden role="alert">
           <p id="req-fail-msg">We couldn't send your request online right now. Text or call us and we'll book you in.</p>
           <div class="alt">
@@ -779,6 +784,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
         <div class="acc-panel" id="p2" role="region" aria-labelledby="a2"><div><div class="acc-body">
           <p>Pick your dates above and tap <b>Send booking request</b>. We'll text you to confirm and send the payment details. A reservation fee of <b>30% of your total</b> holds your dates.</p>
           <p>Booking here gets you our best direct rate, with no booking-platform service fees added.</p>
+          <p><b>Want to pay by credit card?</b> You can also book us on Airbnb: <a href="https://www.airbnb.com/rooms/1328036843746108479" target="_blank" rel="noopener">Charlie</a> · <a href="https://www.airbnb.com/rooms/1668742538884638684" target="_blank" rel="noopener">Charlotte</a> · <a href="https://www.airbnb.com/rooms/1668741995292624618" target="_blank" rel="noopener">Charlie + Charlotte</a> · <a href="https://www.airbnb.com/rooms/1784785119302977307" target="_blank" rel="noopener">Charlotte + Choco</a>. Airbnb's rates and fees apply.</p>
         </div></div></div>
       </div>
       <div class="acc-item">
@@ -859,6 +865,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
       <div class="c-links">
         <a class="c-link main" href="#book"><span class="l"><i data-lucide="calendar-days" class="ico"></i><span><b>Check dates and book</b><small>See open nights and your total</small></span></span><i data-lucide="arrow-right" class="ico"></i></a>
         <a class="c-link soft" href="https://m.me/61566419019212" target="_blank" rel="noopener"><span class="l"><i data-lucide="message-circle" class="ico"></i><span><b>Message us on Messenger</b><small>Cabins by the Generals</small></span></span><i data-lucide="arrow-up-right" class="ico"></i></a>
+        <a class="c-link soft" href="https://www.airbnb.com/rooms/1668741995292624618" target="_blank" rel="noopener"><span class="l"><i data-lucide="credit-card" class="ico"></i><span><b>Pay by credit card</b><small>Book us on Airbnb</small></span></span><i data-lucide="arrow-up-right" class="ico"></i></a>
         <a class="c-link soft" href="tel:09274466154"><span class="l"><i data-lucide="phone" class="ico"></i><span><b>Call, text or Viber</b><small>0927 446 6154</small></span></span><i data-lucide="arrow-up-right" class="ico"></i></a>
       </div>
       <div class="socials">
@@ -1085,6 +1092,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
     c12: { name: "Charlie + Charlotte (Cabins 1 and 2)", short: "Charlie + Charlotte", cabins: ["Cabin 1", "Cabin 2"], wk: 14300, we: 17900, hol: 20000, base: 16, max: 24 },
     c23: { name: "Charlotte + Choco (Cabins 2 and 3)", short: "Charlotte + Choco", cabins: ["Cabin 2", "Cabin 3"], wk: 12200, we: 15200, hol: 20000, base: 12, max: 20 }
   };
+  var ABNB = { c1: "1328036843746108479", c2: "1668742538884638684", c12: "1668741995292624618", c23: "1784785119302977307" };
   var HOL = {"2026-11-01":"All Saints' Day","2026-11-02":"All Souls' Day","2026-11-30":"Bonifacio Day","2026-12-08":"Immaculate Conception","2026-12-24":"Christmas Eve","2026-12-25":"Christmas Day","2026-12-30":"Rizal Day","2026-12-31":"Last Day of the Year","2027-01-01":"New Year's Day","2027-02-06":"Chinese New Year","2027-03-25":"Maundy Thursday","2027-03-26":"Good Friday","2027-03-27":"Black Saturday","2027-04-09":"Araw ng Kagitingan","2027-05-01":"Labor Day","2027-06-12":"Independence Day","2027-08-21":"Ninoy Aquino Day","2027-08-30":"National Heroes Day","2027-11-01":"All Saints' Day","2027-11-02":"All Souls' Day","2027-11-30":"Bonifacio Day","2027-12-08":"Immaculate Conception","2027-12-24":"Christmas Eve","2027-12-25":"Christmas Day","2027-12-30":"Rizal Day","2027-12-31":"Last Day of the Year"};
   function peso(n) { return "₱" + n.toLocaleString("en-PH"); }
   function iso(d) { var m = d.getMonth() + 1, x = d.getDate(); return d.getFullYear() + "-" + (m < 10 ? "0" : "") + m + "-" + (x < 10 ? "0" : "") + x; }
@@ -1167,6 +1175,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
   function drawSummary() {
     if (!$("done").hidden) return;
     var o = OPT[opt];
+    $("abnb").href = "https://www.airbnb.com/rooms/" + ABNB[opt];
     document.querySelectorAll(".opt").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-opt") === opt ? "true" : "false"); });
     if (guests > o.max) guests = o.max;
     $("g-n").textContent = guests;
@@ -1292,13 +1301,13 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
     $("d-sum").textContent = o.short + " · " + nice(ci) + " to " + nice(co) + " · " + n + (n > 1 ? " nights" : " night") + " · " + guests + " guests · " + peso(+j.total);
     $("d-ph").textContent = form.phone.value.trim();
     $("d-fee").textContent = peso(+j.fee);
-    form.hidden = true; $("lines").hidden = true; $("hint").hidden = true; $("tight").hidden = true; $("done").hidden = false;
+    form.hidden = true; $("lines").hidden = true; $("hint").hidden = true; $("tight").hidden = true; $("abnb").hidden = true; $("done").hidden = false;
     document.querySelector(".summary .dates").hidden = true; document.querySelector(".summary .guests").hidden = true;
     $("done").focus({ preventScroll: true });
     $("done").scrollIntoView({ behavior: "smooth", block: "center" });
   }
   $("d-new").onclick = function () {
-    $("done").hidden = true; $("lines").hidden = false;
+    $("done").hidden = true; $("lines").hidden = false; $("abnb").hidden = false;
     document.querySelector(".summary .dates").hidden = false; document.querySelector(".summary .guests").hidden = false;
     form.note.value = ""; $("req-fail").hidden = true; ci = co = null; render();
     $("months").scrollIntoView({ behavior: "smooth", block: "center" });
