@@ -123,6 +123,26 @@ textarea{font:inherit;width:100%;min-height:72px;border-radius:12px;border:1px s
 .verse .tl{font-style:italic;margin:0 0 10px}
 .verse .enc{margin:0;font-weight:600}
 .verse .q{margin:10px 0 0;padding-top:10px;border-top:1px solid var(--line);font-size:.92rem}
+.photos{border:2px solid var(--forest);background:var(--surface);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:12px}
+.photos.ok{border-color:var(--ok)}
+.photos .ph-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.photos h2{font-size:1.25rem}
+.ph-badge{font-size:.72rem;font-weight:800;letter-spacing:.06em;border-radius:999px;padding:4px 10px;background:var(--warn-soft);color:var(--warn);white-space:nowrap}
+.photos.ok .ph-badge{background:var(--ok-soft);color:var(--ok)}
+.ph-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ph{display:flex;flex-direction:column;gap:4px;min-width:0}
+.ph label{position:relative;display:flex;align-items:center;justify-content:center;height:84px;border-radius:12px;cursor:pointer;overflow:hidden;background:var(--chip)}
+.ph label.need{border:2px dashed var(--gold);background:var(--bg)}
+.ph label:focus-within{outline:2px solid var(--gold);outline-offset:2px}
+.ph label img{width:100%;height:100%;object-fit:cover}
+.ph input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
+.ph .chk{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;background:var(--ok);color:#fff;font-size:.8rem;font-weight:800;display:flex;align-items:center;justify-content:center}
+.ph .cam{font-size:1.6rem;line-height:1}
+.ph b{font-size:.8rem;line-height:1.25}
+.ph span.st{font-size:.75rem;font-weight:700}
+.ph span.st.done{color:var(--ok)}
+.ph span.st.need{color:var(--warn)}
+.ph span.st.busy{color:var(--muted)}
 .hide{display:none!important}
 </style>
 </head>
@@ -135,7 +155,7 @@ const API = 'https://fnebydfckdqgigtfhjfk.supabase.co/rest/v1/rpc/';
 const KEY = 'sb_publishable_PLLPO77LyLTlHHQr1yF23Q_Y27vUAO1';
 const STORE = 'cbtg-staff-v1';
 
-const state = { verse: null, pin: null, me: null, data: null, cabin: null, ticks: {}, note: '', msg: null, busy: false, done: null, who: false, whoDate: null, stock: false, counts: {}, stockNote: '' };
+const state = { verse: null, pin: null, me: null, data: null, cabin: null, ticks: {}, note: '', msg: null, busy: false, done: null, who: false, whoDate: null, stock: false, counts: {}, stockNote: '', preview: {}, uploading: null };
 const app = document.getElementById('app');
 
 function load() {
@@ -504,12 +524,87 @@ function renderWho() {
   if (on && strip.scrollLeft === 0) on.scrollIntoView({ block: 'nearest', inline: 'center' });
 }
 
+
+// ---------- required cleaning photos ----------
+// The server says which photos each cabin needs (photoSlots) and which are already in
+// (photos). Ready stays locked until every one is uploaded; the server checks it too.
+const slotsFor = (c) => ((state.data && state.data.photoSlots) || {})[c] || [];
+const photosFor = (c) => ((state.data && state.data.photos) || {})[c] || {};
+const missingPhotos = (c) => slotsFor(c).filter((s) => !photosFor(c)[s.id]);
+
+function shrinkPhoto(file) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const max = 1280;
+      const k = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+      const cv = document.createElement('canvas');
+      cv.width = Math.round(img.naturalWidth * k); cv.height = Math.round(img.naturalHeight * k);
+      cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
+      URL.revokeObjectURL(url);
+      let q = 0.7, data = cv.toDataURL('image/jpeg', q);
+      while (data.length > 800000 && q > 0.35) { q -= 0.1; data = cv.toDataURL('image/jpeg', q); }
+      resolve(data);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Could not read that photo. Try taking it again.')); };
+    img.src = url;
+  });
+}
+
+async function uploadPhoto(c, slot, file) {
+  state.uploading = slot.id; state.msg = null;
+  const y = window.scrollY; renderChecklist(); window.scrollTo(0, y);
+  try {
+    const dataUrl = await shrinkPhoto(file);
+    const r = await rpc('staff_photo', { p_pin: state.pin, p_cabin: c, p_slot: slot.id, p_data: dataUrl.split(',')[1] });
+    if (r.error) throw new Error(r.error);
+    const info = { at: r.at, staff: r.name };
+    const all = state.data.photos || (state.data.photos = {});
+    // The shared Outdoor CR counts for every cabin that needs it.
+    const cabins = slot.shared ? Object.keys(state.data.photoSlots || {}).filter((x) => slotsFor(x).some((s) => s.id === slot.id)) : [c];
+    cabins.forEach((x) => { (all[x] || (all[x] = {}))[slot.id] = info; state.preview[x + '|' + slot.id] = dataUrl; });
+  } catch (e) { state.msg = { kind: 'error', text: e.message }; }
+  state.uploading = null;
+  const y2 = window.scrollY; renderChecklist(); window.scrollTo(0, y2);
+}
+
+function photosHtml(c) {
+  const slots = slotsFor(c);
+  if (!slots.length) return '';
+  const have = photosFor(c);
+  const done = slots.filter((s) => have[s.id]).length;
+  const ok = done === slots.length;
+  return `<section class="photos${ok ? ' ok' : ''}" aria-label="Required photos">
+    <div class="ph-head"><h2>Photos</h2><span class="ph-badge">${ok ? '✓ ' : 'REQUIRED · '}${done} OF ${slots.length}</span></div>
+    <p class="small muted">Tap a box to take the photo. Tap again to retake.</p>
+    <div class="ph-grid">${slots.map((s) => {
+      const p = have[s.id];
+      const pv = state.preview[c + '|' + s.id];
+      const busy = state.uploading === s.id;
+      const inner = busy ? '<span class="cam" aria-hidden="true">⏳</span>'
+        : pv ? '<img src="' + pv + '" alt=""><span class="chk" aria-hidden="true">✓</span>'
+        : p ? '<span class="cam" aria-hidden="true">🖼️</span><span class="chk" aria-hidden="true">✓</span>'
+        : '<span class="cam" aria-hidden="true">📷</span>';
+      const st = busy ? '<span class="st busy">Uploading…</span>' : p ? '<span class="st done">' + esc(timeText(p.at)) + (p.staff && p.staff !== state.me ? ' · ' + esc(p.staff) : '') + '</span>' : '<span class="st need">Not yet</span>';
+      return `<div class="ph"><label class="${p ? '' : 'need'}">${inner}<input type="file" accept="image/*" capture="environment" data-slot="${esc(s.id)}" aria-label="${p ? 'Retake' : 'Take'} photo: ${esc(s.label)}" ${state.uploading ? 'disabled' : ''}></label><b>${esc(s.label)}</b>${st}</div>`;
+    }).join('')}</div>
+    ${slots.some((s) => s.shared) ? '<p class="small muted">The Outdoor CR is shared by the cabins — one photo a day covers all of them.</p>' : ''}
+  </section>`;
+}
+
 function renderChecklist() {
   const c = state.cabin;
   const list = state.data.checklist || [];
   const t = state.ticks[c] || (state.ticks[c] = {});
   const n = list.filter((_, i) => t[i]).length;
   const all = list.length > 0 && n === list.length;
+  const miss = missingPhotos(c).length;
+  const canReady = all && miss === 0 && !state.uploading;
+  const readyText = !list.length ? 'No checklist yet — ask the owner'
+    : !all ? 'Ready (tick all ' + list.length + ' first)'
+    : miss ? '🔒 Ready · ' + miss + ' more photo' + (miss === 1 ? '' : 's')
+    : '✓ Ready — my part is done';
   app.innerHTML = `
     <div class="top">
       <div><p class="eyebrow">${esc(state.me)}'s checklist</p><h1>${esc(c)}</h1></div>
@@ -523,11 +618,13 @@ function renderChecklist() {
     <div class="list">
       ${list.map((item, i) => `<label class="item ${t[i] ? 'done' : ''}"><input type="checkbox" data-i="${i}" ${t[i] ? 'checked' : ''}><span>${esc(item)}</span></label>`).join('')}
     </div>
+    ${photosHtml(c)}
     <label for="note" class="small muted">Note for the owner (optional) — e.g. something broken, supplies running low</label>
     <textarea id="note" placeholder="Optional">${esc(state.note)}</textarea>
     <div class="sticky">
       <button class="btn secondary" id="start" ${state.busy ? 'disabled' : ''}>I'm starting to clean</button>
-      <button class="btn primary" id="ready" ${!all || state.busy ? 'disabled' : ''}>${all ? '✓ Ready — my part is done' : list.length ? 'Ready (tick all ' + list.length + ' first)' : 'No checklist yet — ask the owner'}</button>
+      <button class="btn primary" id="ready" ${!canReady || state.busy ? 'disabled' : ''}>${readyText}</button>
+      ${all && miss ? '<p class="small muted" style="text-align:center">Ready unlocks once all the photos are in.</p>' : ''}
     </div>`;
   document.getElementById('back').onclick = goBack;
   document.getElementById('note').oninput = (e) => { state.note = e.target.value; };
@@ -537,6 +634,11 @@ function renderChecklist() {
   }));
   document.getElementById('start').onclick = () => mark('cleaning');
   document.getElementById('ready').onclick = () => mark('ready');
+  app.querySelectorAll('.ph input[type=file]').forEach((inp) => (inp.onchange = () => {
+    const f = inp.files && inp.files[0];
+    const slot = slotsFor(c).find((s) => s.id === inp.dataset.slot);
+    if (f && slot) uploadPhoto(c, slot, f);
+  }));
 }
 
 function renderDone() {
