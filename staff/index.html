@@ -116,6 +116,13 @@ button.btn{font:inherit;font-weight:800;font-size:1.05rem;border-radius:14px;bor
 textarea{font:inherit;width:100%;min-height:72px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:12px}
 .sticky{position:sticky;bottom:0;padding:12px 0 calc(12px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 75%,transparent);display:flex;flex-direction:column;gap:8px}
 .big-check{font-size:3.5rem;line-height:1}
+.verse{border-color:var(--gold);background:var(--gold-soft)}
+.verse h2{font-size:1.15rem;margin-bottom:8px}
+.verse .en{font-weight:700;margin:0}
+.verse .ref{font-weight:800;color:var(--gold);font-size:.9rem;margin:2px 0 8px}
+.verse .tl{font-style:italic;margin:0 0 10px}
+.verse .enc{margin:0;font-weight:600}
+.verse .q{margin:10px 0 0;padding-top:10px;border-top:1px solid var(--line);font-size:.92rem}
 .hide{display:none!important}
 </style>
 </head>
@@ -128,7 +135,7 @@ const API = 'https://fnebydfckdqgigtfhjfk.supabase.co/rest/v1/rpc/';
 const KEY = 'sb_publishable_PLLPO77LyLTlHHQr1yF23Q_Y27vUAO1';
 const STORE = 'cbtg-staff-v1';
 
-const state = { pin: null, me: null, data: null, cabin: null, ticks: {}, note: '', msg: null, busy: false, done: null, who: false, whoDate: null, stock: false, counts: {}, stockNote: '' };
+const state = { verse: null, pin: null, me: null, data: null, cabin: null, ticks: {}, note: '', msg: null, busy: false, done: null, who: false, whoDate: null, stock: false, counts: {}, stockNote: '' };
 const app = document.getElementById('app');
 
 function load() {
@@ -261,6 +268,53 @@ function ocularHtml(list, title) {
 }
 const visitsOn = (d, iso) => (d.ocular || []).filter((v) => v.date === iso).sort((a, b) => String(a.time).localeCompare(String(b.time)));
 
+// ---------- verse for today ----------
+// The morning task writes staff/verse.json each day (same verse as the group chat
+// message). If it's missing or not today's, a verse from the list below is shown instead.
+const VERSES = [
+  ['Carry each other\'s burdens.', 'Galatians 6:2', 'Magtulungan kayo sa pagdadala ng inyong mga pasanin.'],
+  ['Dear friends, let us love one another, for love comes from God.', '1 John 4:7', 'Mga minamahal, magmahalan tayo, sapagkat ang pag-ibig ay mula sa Diyos.'],
+  ['How good and pleasant it is when God\'s people live together in unity!', 'Psalm 133:1', 'Napakabuti at napakaligaya kapag ang magkakapatid ay namumuhay nang may pagkakaisa!'],
+  ['Whatever you do, work at it with all your heart, as working for the Lord.', 'Colossians 3:23', 'Anuman ang inyong gawin, gawin ninyo nang buong puso, na parang para sa Panginoon.'],
+  ['I can do all this through him who gives me strength.', 'Philippians 4:13', 'Magagawa ko ang lahat ng bagay sa tulong ng nagbibigay sa akin ng lakas.'],
+  ['This is the day the Lord has made; let us rejoice and be glad in it.', 'Psalm 118:24', 'Ito ang araw na ginawa ng Panginoon; tayo\'y magalak at magsaya.'],
+  ['Be kind and compassionate to one another.', 'Ephesians 4:32', 'Maging mabait at mahabagin kayo sa isa\'t isa.'],
+  ['Be devoted to one another in love.', 'Romans 12:10', 'Magmahalan kayo bilang magkakapatid.'],
+  ['Two are better than one, because they have a good return for their labor.', 'Ecclesiastes 4:9', 'Mas mabuti ang dalawa kaysa sa isa, sapagkat mas malaki ang bunga ng kanilang pagpapagal.'],
+  ['Come to me, all you who are weary and burdened, and I will give you rest.', 'Matthew 11:28', 'Lumapit kayo sa akin, kayong lahat na napapagal at nabibigatan, at bibigyan ko kayo ng kapahingahan.'],
+  ['Those who hope in the Lord will renew their strength.', 'Isaiah 40:31', 'Ang mga umaasa sa Panginoon ay muling lalakas.'],
+  ['Do everything in love.', '1 Corinthians 16:14', 'Gawin ninyo ang lahat nang may pag-ibig.'],
+  ['A friend loves at all times.', 'Proverbs 17:17', 'Ang tunay na kaibigan ay nagmamahal sa lahat ng panahon.'],
+  ['Give thanks in all circumstances.', '1 Thessalonians 5:18', 'Magpasalamat kayo sa lahat ng pagkakataon.'],
+];
+function fallbackVerse(iso) {
+  const d = new Date(iso + 'T00:00:00');
+  const day = Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 86400000);
+  const v = VERSES[day % VERSES.length];
+  return { date: iso, en: v[0], ref: v[1], tl: v[2], note: 'Iisang pamilya tayo sa CBTG — salamat sa pagmamahal at pagtutulungan ninyo araw-araw! 💚' };
+}
+async function loadVerse() {
+  const today = todayIso();
+  if (state.verse && state.verse.date === today) return;
+  let v = null;
+  try {
+    const res = await fetch('verse.json?d=' + today, { cache: 'no-store' });
+    if (res.ok) { const j = await res.json(); if (j && j.date === today && j.en) v = j; }
+  } catch (e) { /* offline: use the built-in list */ }
+  state.verse = v || fallbackVerse(today);
+  const box = document.getElementById('verse');
+  if (box) box.outerHTML = verseHtml();
+}
+function verseHtml() {
+  const v = state.verse;
+  if (!v) return '<div id="verse"></div>';
+  return `<section class="card verse" id="verse" aria-label="Verse for today"><h2>🌿 Verse for today</h2>
+    <p class="en">“${esc(v.en)}”</p><p class="ref">— ${esc(v.ref)}</p>
+    ${v.tl ? '<p class="tl">“' + esc(v.tl) + '”</p>' : ''}
+    ${v.note ? '<p class="enc">💚 ' + esc(v.note) + '</p>' : ''}
+    ${v.quote ? '<p class="q">✨ “' + esc(v.quote) + '” — ' + esc(v.by || '') + '</p>' : ''}
+  </section>`;
+}
 function renderCabins() {
   const d = state.data;
   const today = todayIso();
@@ -303,7 +357,9 @@ function renderCabins() {
         </button>`;
       }).join('')}
     </div>
-    <button class="btn secondary" id="ref">Refresh</button>`;
+    <button class="btn secondary" id="ref">Refresh</button>
+    ${verseHtml()}`;
+  loadVerse();
   document.getElementById('out').onclick = () => { state.pin = null; state.me = null; state.data = null; state.who = false; state.stock = false; save(); state.msg = null; render(); };
   document.getElementById('ref').onclick = () => refresh();
   const sb = document.getElementById('stockgo');
