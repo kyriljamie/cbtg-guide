@@ -4,172 +4,292 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<meta name="theme-color" content="#2F5D3A">
+<meta name="theme-color" content="#1A3021">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="CBTG Staff">
 <title>CBTG Staff</title>
+<link rel="icon" href="../img/favicon-48.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap">
 <style>
 :root{
-  --bg:#F5F2EA; --surface:#FFFDF8; --fg:#1E2A21; --muted:#5E6A5F; --line:#DCD6C6;
-  --forest:#2F5D3A; --forest-ink:#FFFFFF; --gold:#9A7428; --gold-soft:#F1E6CB; --chip:#E8EFE6;
-  --ok:#2E6B3F; --ok-soft:#DDEFE1; --warn:#8A5A00; --warn-soft:#FBEFD5; --bad:#B3261E; --bad-soft:#F7E1DE;
-  --display:'DM Serif Display', Georgia, 'Times New Roman', serif;
-  --body:'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --bg:#F4EFE4; --surface:#FFFDF7; --fg:#1B261E; --muted:#5D675F; --line:#E4DDCD;
+  --night:#1A3021; --night-2:#24402C; --night-line:rgba(255,255,255,.16); --on-night:#F6F1E6; --on-night-muted:rgba(246,241,230,.72);
+  --forest:#2F5D3A; --forest-ink:#FFFFFF; --sage:#E2EBDF;
+  --gold:#D8B978; --brown:#8A6326; --brown-soft:#F1E6CF;
+  --ok:#2E6B3F; --ok-soft:#DDEADF; --warn:#8A4B0F; --warn-soft:#FBE7C7; --orange:#C97B2A;
+  --bad:#B3261E; --bad-soft:#F7E1DE; --blue:#2A6FB8; --blue-soft:#E3EDF8;
+  --display:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --body:'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --shadow:0 1px 2px rgba(27,38,30,.05), 0 6px 18px rgba(27,38,30,.06);
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#111511; --surface:#1A201B; --fg:#ECE7DA; --muted:#A6AD9F; --line:#2E362F;
-  --forest:#8FC09A; --forest-ink:#10170F; --gold:#D8B566; --gold-soft:#2C2719; --chip:#223024;
-  --ok:#8FC09A; --ok-soft:#1E2D21; --warn:#D8B566; --warn-soft:#2C2719; --bad:#F2A49B; --bad-soft:#3A1F1C; color-scheme:dark}}
+  --bg:#0F1511; --surface:#18201A; --fg:#ECE7DA; --muted:#A3AB9E; --line:#2B352D;
+  --night:#0A110C; --night-2:#16241A; --forest:#7DB68A; --forest-ink:#0D150F; --sage:#203126;
+  --brown:#D6B06A; --brown-soft:#2C2618; --ok:#8FC09A; --ok-soft:#1D2D21; --warn:#E9B66B; --warn-soft:#33270F; --orange:#E09A4F;
+  --bad:#F2A49B; --bad-soft:#3A1F1C; --blue:#8DB8E8; --blue-soft:#18263A; --shadow:none; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#111511; --surface:#1A201B; --fg:#ECE7DA; --muted:#A6AD9F; --line:#2E362F;
-  --forest:#8FC09A; --forest-ink:#10170F; --gold:#D8B566; --gold-soft:#2C2719; --chip:#223024;
-  --ok:#8FC09A; --ok-soft:#1E2D21; --warn:#D8B566; --warn-soft:#2C2719; --bad:#F2A49B; --bad-soft:#3A1F1C; color-scheme:dark}
+  --bg:#0F1511; --surface:#18201A; --fg:#ECE7DA; --muted:#A3AB9E; --line:#2B352D;
+  --night:#0A110C; --night-2:#16241A; --forest:#7DB68A; --forest-ink:#0D150F; --sage:#203126;
+  --brown:#D6B06A; --brown-soft:#2C2618; --ok:#8FC09A; --ok-soft:#1D2D21; --warn:#E9B66B; --warn-soft:#33270F; --orange:#E09A4F;
+  --bad:#F2A49B; --bad-soft:#3A1F1C; --blue:#8DB8E8; --blue-soft:#18263A; --shadow:none; color-scheme:dark}
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-tap-highlight-color:transparent}
-.wrap{max-width:560px;margin:0 auto;padding:20px 16px calc(40px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:18px;min-height:100dvh}
-h1,h2{font-family:var(--display);font-weight:400;margin:0;line-height:1.1}
-h1{font-size:2rem}
-h2{font-size:1.5rem}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
 p{margin:0}
-.eyebrow{font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+h1,h2,h3{font-family:var(--display);font-weight:500;margin:0;line-height:1.08;letter-spacing:-.005em}
+.app{max-width:560px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column}
+.small{font-size:.86rem}
 .muted{color:var(--muted)}
-.small{font-size:.85rem}
-.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.link{background:none;border:0;color:var(--forest);font:inherit;font-weight:700;padding:8px 0;cursor:pointer;min-height:44px}
-.card{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px}
-button.btn{font:inherit;font-weight:800;font-size:1.05rem;border-radius:14px;border:0;min-height:56px;padding:0 18px;width:100%;cursor:pointer}
-.btn.primary{background:var(--forest);color:var(--forest-ink)}
-.btn.secondary{background:var(--surface);color:var(--forest);border:1.5px solid var(--forest)}
-.btn:disabled{opacity:.4;cursor:not-allowed}
-.pin{font:inherit;font-size:2rem;letter-spacing:.5em;text-align:center;width:100%;min-height:64px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);color:var(--fg)}
-.pin:focus{outline:2px solid var(--gold);outline-offset:2px}
-.error{background:var(--bad-soft);color:var(--bad);border-radius:12px;padding:12px 14px;font-weight:700}
-.notice{background:var(--ok-soft);color:var(--ok);border-radius:12px;padding:12px 14px;font-weight:700}
-.cabins{display:flex;flex-direction:column;gap:12px}
-.cabin{display:flex;align-items:center;gap:12px;text-align:left;width:100%;font:inherit;color:inherit;background:var(--surface);border:2px solid var(--line);border-left-width:6px;border-radius:16px;padding:16px;cursor:pointer;min-height:76px}
-.cabin .name{font-weight:800;font-size:1.15rem}
-.cabin .meta{font-size:.85rem;color:var(--muted)}
-.cabin .go{margin-left:auto;font-size:1.4rem;color:var(--muted)}
-.tag{display:inline-block;font-size:.78rem;font-weight:800;border-radius:999px;padding:3px 10px;margin-top:4px}
-.tag.ready{background:var(--ok-soft);color:var(--ok)}
-.tag.cleaning{background:var(--warn-soft);color:var(--warn)}
-.tag.none{background:var(--chip);color:var(--muted)}
-.arrive{color:var(--bad);font-weight:800}
-.next h2{font-size:1.2rem;margin-bottom:8px}
-.next ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
-.next li{display:flex;gap:12px;align-items:baseline;padding:10px 0;border-top:1px solid var(--line)}
-.next li:first-child{border-top:0;padding-top:2px}
-.next .d{font-weight:800;min-width:92px}
-.next .d.today{color:var(--bad)}
-.next .w{flex:1;min-width:0}
-.whobtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;border-radius:14px;border:1.5px solid var(--forest);background:var(--surface);color:var(--forest);font:inherit;font-weight:800;font-size:1.05rem;cursor:pointer}
-.ocular{border-color:#2A78D6;background:color-mix(in srgb,#2A78D6 8%,var(--surface))}
-.ocular h2{font-size:1.2rem;margin-bottom:6px}
-.ocular ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
-.ocular li{padding:10px 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
-.ocular li:first-child{border-top:0;padding-top:2px}
-.ocular .t{font-weight:800;color:#2A78D6}
-.ocular a{color:var(--forest);font-weight:800}
-.backbtn{flex:none;font:inherit;font-weight:800;font-size:1rem;color:var(--forest);background:var(--surface);border:2px solid var(--forest);border-radius:999px;min-height:44px;padding:0 16px;cursor:pointer}
-.whobtn small{font-weight:600;color:var(--muted);font-size:.8rem}
-.days{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;margin:0 -2px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
-.days button{flex:none;scroll-snap-align:start;min-width:64px;min-height:60px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 10px;position:relative}
-.days button b{font-size:1.15rem;line-height:1.1}
-.days button span{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
-.days button.on{background:var(--forest);border-color:var(--forest);color:var(--forest-ink)}
-.days button.on span{color:var(--forest-ink)}
-.days button i{position:absolute;top:4px;right:5px;width:6px;height:6px;border-radius:50%;background:var(--gold)}
-.days button.on i{background:var(--forest-ink)}
-.sum{font-weight:700}
-.wcab{background:var(--surface);border:2px solid var(--line);border-left:6px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
-.wcab .cn{font-weight:800;font-size:1.1rem}
-.ev{display:flex;flex-direction:column;gap:2px;padding-top:10px;border-top:1px solid var(--line)}
-.ev:first-of-type{border-top:0;padding-top:0}
-.ev .k{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
-.ev .k.in{color:var(--ok)}
-.ev .k.out{color:var(--bad)}
-.ev .k.stay{color:var(--warn)}
-.ev .g{font-weight:700;font-size:1.05rem}
-.free{color:var(--muted)}
-.stockbox{border:2.5px solid var(--warn);background:var(--warn-soft);color:var(--warn);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
-.stockbox.ok{border-color:var(--line);background:var(--surface);color:var(--fg)}
-.stockbox b{font-size:1.05rem}
-.low{color:var(--bad);font-weight:800}
-.sitem{background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:10px}
-.sitem.done{border-color:var(--ok)}
-.sitem .nm{flex:1;min-width:0}
-.sitem .nm b{display:block}
-.step{width:46px;height:46px;border-radius:12px;border:2px solid var(--forest);background:var(--surface);color:var(--forest);font:inherit;font-size:1.4rem;font-weight:800;cursor:pointer;flex:none}
-.qty{width:64px;height:46px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--fg);font:inherit;font-size:1.2rem;font-weight:800;text-align:center;flex:none}
-.qty:focus{outline:2px solid var(--gold);outline-offset:1px}
-.progress{height:10px;border-radius:5px;background:var(--chip);overflow:hidden}
-.progress > div{height:100%;background:var(--forest);width:0;transition:width .2s}
-.list{display:flex;flex-direction:column;gap:8px}
-.item{display:flex;align-items:center;gap:14px;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:14px;min-height:60px;cursor:pointer;user-select:none}
-.item input{width:28px;height:28px;accent-color:var(--forest);flex:none;margin:0}
-.item.done{background:var(--ok-soft);border-color:transparent}
-.item.done span{text-decoration:line-through;color:var(--muted)}
-textarea{font:inherit;width:100%;min-height:72px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:12px}
-.sticky{position:sticky;bottom:0;padding:12px 0 calc(12px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 75%,transparent);display:flex;flex-direction:column;gap:8px}
-.big-check{font-size:3.5rem;line-height:1}
-.verse{border-color:var(--gold);background:var(--gold-soft)}
-.verse h2{font-size:1.15rem;margin-bottom:8px}
-.verse .en{font-weight:700;margin:0}
-.verse .ref{font-weight:800;color:var(--gold);font-size:.9rem;margin:2px 0 8px}
-.verse .tl{font-style:italic;margin:0 0 10px}
-.verse .enc{margin:0;font-weight:600}
-.verse .q{margin:10px 0 0;padding-top:10px;border-top:1px solid var(--line);font-size:.92rem}
-.photos{border:2px solid var(--forest);background:var(--surface);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:12px}
-.photos.ok{border-color:var(--ok)}
-.photos .ph-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.photos h2{font-size:1.25rem}
-.ph-badge{font-size:.72rem;font-weight:800;letter-spacing:.06em;border-radius:999px;padding:4px 10px;background:var(--warn-soft);color:var(--warn);white-space:nowrap}
-.photos.ok .ph-badge{background:var(--ok-soft);color:var(--ok)}
-.ph-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.ph{display:flex;flex-direction:column;gap:4px;min-width:0}
-.ph label{position:relative;display:flex;align-items:center;justify-content:center;height:84px;border-radius:12px;cursor:pointer;overflow:hidden;background:var(--chip)}
-.ph label.need{border:2px dashed var(--gold);background:var(--bg)}
-.ph label:focus-within{outline:2px solid var(--gold);outline-offset:2px}
-.ph label img{width:100%;height:100%;object-fit:cover}
-.ph input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
-.ph .chk{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;background:var(--ok);color:#fff;font-size:.8rem;font-weight:800;display:flex;align-items:center;justify-content:center}
-.ph .cam{font-size:1.6rem;line-height:1}
-.ph b{font-size:.8rem;line-height:1.25}
-.ph span.st{font-size:.75rem;font-weight:700}
-.ph span.st.done{color:var(--ok)}
-.ph span.st.need{color:var(--warn)}
-.ph span.st.busy{color:var(--muted)}
-.ph .gal{position:relative;align-self:flex-start;height:auto;background:none;justify-content:center;font-size:.75rem;font-weight:800;color:var(--forest);border:1.5px solid var(--forest);border-radius:999px;padding:6px 12px;min-height:32px;display:inline-flex;align-items:center;cursor:pointer;overflow:hidden}
-.ph .gal input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
-.ph span.st.bad{color:var(--bad);font-size:.72rem;line-height:1.3}
 .hide{display:none!important}
+
+/* ---------- dark header band ---------- */
+.hero{background:var(--night);color:var(--on-night);border-radius:0 0 30px 30px;padding:calc(18px + env(safe-area-inset-top)) 20px 34px;position:relative}
+.hero.tall{padding-bottom:64px}
+.hero-row{display:flex;align-items:center;gap:12px;min-height:48px}
+.hero .eyebrow{color:var(--gold)}
+.hero h1{font-size:2.6rem;margin-top:14px;color:var(--on-night)}
+.eyebrow{font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--brown)}
+.logo{width:44px;height:44px;border-radius:50%;flex:none;display:block;box-shadow:0 0 0 1px rgba(216,185,120,.35)}
+.brand{font-family:var(--display);font-size:1.6rem;letter-spacing:.14em;color:var(--on-night);font-weight:500}
+.back{width:48px;height:48px;border-radius:50%;border:1px solid var(--night-line);background:rgba(255,255,255,.06);color:var(--on-night);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none}
+.back svg{width:22px;height:22px}
+.grow{flex:1;min-width:0}
+.avatar{width:48px;height:48px;border-radius:50%;background:var(--gold);color:#1B261E;font-weight:600;font-size:1.1rem;border:0;cursor:pointer;flex:none}
+.hverse{margin-top:14px;font-family:var(--display);font-style:italic;font-size:1.22rem;line-height:1.38;color:var(--on-night)}
+.hverse .ref{font-style:normal;color:var(--gold);font-size:1.02rem;white-space:nowrap}
+.vmore{background:none;border:0;padding:8px 0 0;color:var(--on-night-muted);font-size:.82rem;font-weight:500;cursor:pointer;min-height:36px}
+.vbody{margin-top:8px;padding-top:10px;border-top:1px solid var(--night-line);display:flex;flex-direction:column;gap:8px;font-size:.92rem;color:var(--on-night-muted)}
+.vbody .tl{font-style:italic;color:var(--on-night)}
+.menu-pop{position:absolute;right:20px;top:calc(72px + env(safe-area-inset-top));background:var(--surface);color:var(--fg);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:6px;z-index:5;min-width:160px}
+.menu-pop button{display:block;width:100%;text-align:left;background:none;border:0;padding:12px 14px;border-radius:10px;cursor:pointer;font-weight:500}
+.menu-pop button:hover{background:var(--sage)}
+
+/* ---------- body ---------- */
+.body{padding:20px 20px calc(28px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:16px;flex:1}
+.lift{margin-top:-40px;position:relative;z-index:1}
+.card{background:var(--surface);border-radius:24px;padding:20px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.section{font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:6px 0 -4px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.86rem;font-weight:600;border-radius:999px;padding:5px 14px;white-space:nowrap}
+.chip.cleaning{background:var(--warn-soft);color:var(--warn)}
+.chip.clean{background:var(--ok-soft);color:var(--ok)}
+.chip.ready{background:var(--night);color:#F6F1E6}
+.chip.none{background:var(--sage);color:var(--muted)}
+.chip.due{background:var(--warn-soft);color:var(--warn)}
+.chip.bad{background:var(--bad-soft);color:var(--bad)}
+.error{background:var(--bad-soft);color:var(--bad);border-radius:14px;padding:12px 14px;font-weight:600}
+.notice{background:var(--ok-soft);color:var(--ok);border-radius:14px;padding:12px 14px;font-weight:600}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:600;font-size:1.05rem;border-radius:18px;border:0;min-height:58px;padding:0 20px;width:100%;cursor:pointer;text-decoration:none}
+.btn svg{width:22px;height:22px;flex:none}
+.btn.primary{background:var(--forest);color:var(--forest-ink)}
+.btn.outline{background:var(--surface);color:var(--fg);border:1.5px solid var(--line)}
+.btn.brown{background:var(--surface);color:var(--brown);border:1.5px solid color-mix(in srgb,var(--brown) 70%,transparent)}
+.btn:disabled{background:#9DA89E;color:#1B261E;opacity:.85;cursor:not-allowed}
+.btn.outline:disabled,.btn.brown:disabled{background:var(--surface);opacity:.45}
+.sticky{position:sticky;bottom:0;margin:4px -20px calc(-28px - env(safe-area-inset-bottom));padding:14px 20px calc(16px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 78%,transparent);display:flex;flex-direction:column;gap:8px;z-index:2}
+.row2{display:flex;gap:12px}
+.row2 > .btn:first-child{flex:0 0 38%}
+
+/* ---------- login ---------- */
+.login{background:var(--night);color:var(--on-night);min-height:100dvh;display:flex;flex-direction:column;align-items:center;padding:calc(48px + env(safe-area-inset-top)) 24px calc(28px + env(safe-area-inset-bottom));text-align:center}
+.login .logo{width:132px;height:132px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.login .eyebrow{color:var(--gold);margin-top:22px;font-size:.82rem;letter-spacing:.2em}
+.login .prompt{margin-top:40px;font-size:1.1rem;color:var(--on-night)}
+.dots{display:flex;gap:18px;justify-content:center;margin:20px 0 6px;min-height:20px}
+.dots i{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--gold);display:block}
+.dots i.on{background:var(--gold)}
+.dots.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.lmsg{min-height:44px;font-size:.92rem;color:#F2B8B0;display:flex;align-items:center;justify-content:center}
+.lmsg.busy{color:var(--on-night-muted)}
+.pad{display:grid;grid-template-columns:repeat(3,76px);gap:16px 26px;justify-content:center;margin-top:4px}
+.key{width:76px;height:76px;border-radius:50%;border:1px solid var(--night-line);background:var(--night-2);color:var(--on-night);font-family:var(--display);font-size:2.1rem;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.key:active{background:#33573D}
+.key.plain{background:none;border-color:transparent}
+.key svg{width:30px;height:30px}
+.key.go{background:var(--gold);color:#1B261E;border-color:var(--gold)}
+.key:disabled{opacity:.25;cursor:default}
+.lfoot{margin-top:auto;padding-top:28px;display:flex;align-items:center;gap:10px;color:var(--on-night-muted);font-size:.95rem}
+.lfoot svg{width:18px;height:18px}
+
+/* ---------- home ---------- */
+.prog{display:flex;align-items:center;gap:22px}
+.ring{position:relative;width:132px;height:132px;flex:none}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .num b{font-family:var(--display);font-size:2.6rem;font-weight:500;line-height:1}
+.ring .num span{font-size:.82rem;color:var(--muted)}
+.bars{flex:1;min-width:0;display:flex;flex-direction:column;gap:14px}
+.bar-top{display:flex;justify-content:space-between;gap:8px;font-size:.95rem}
+.bar-top b{font-weight:600}
+.bar-top span{color:var(--muted)}
+.track{height:9px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:6px}
+.track > div{height:100%;border-radius:9px;background:var(--forest);transition:width .3s}
+.track > div.part{background:var(--orange)}
+.cheer{margin-top:18px;background:var(--ok-soft);color:var(--ok);border-radius:16px;padding:12px 16px;display:flex;gap:12px;align-items:center;font-weight:500}
+.cheer svg{width:20px;height:20px;flex:none}
+.tile{display:flex;flex-direction:column;align-items:flex-start;text-align:left;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:20px;box-shadow:var(--shadow);cursor:pointer;gap:4px;min-height:150px}
+.tile .ic{width:58px;height:58px;border-radius:16px;background:var(--sage);color:var(--forest);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.tile .ic svg{width:26px;height:26px}
+.tile h3{font-size:1.8rem}
+.tile p{color:var(--muted);font-size:.95rem}
+.tile .head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;width:100%}
+.tile .chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;padding-top:8px}
+.tiles2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tiles2 .tile h3{font-size:1.5rem;white-space:nowrap}
+.alert{border-radius:20px;padding:14px 16px;background:var(--bad-soft);color:var(--bad);font-weight:600;display:flex;gap:10px;align-items:flex-start}
+.ocular{border-radius:22px;padding:16px 18px;background:var(--blue-soft);border:1px solid color-mix(in srgb,var(--blue) 30%,transparent)}
+.ocular h2{font-size:1.4rem;margin-bottom:6px;color:var(--fg)}
+.ocular ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.ocular li{padding:10px 0;border-top:1px solid color-mix(in srgb,var(--blue) 20%,transparent);display:flex;flex-direction:column;gap:2px}
+.ocular li:first-child{border-top:0;padding-top:2px}
+.ocular .t{font-weight:600;color:var(--blue)}
+.ocular a{color:var(--forest);font-weight:600}
+
+/* ---------- cabin status ---------- */
+.cabin{display:flex;flex-direction:column;gap:14px}
+.cabin-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.cabin h2{font-size:2.2rem}
+.who{display:flex;gap:10px 22px;align-items:flex-end}
+.who .k{display:block;font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.who .v{font-size:1.1rem;font-weight:500;white-space:nowrap}
+.who .tasks{margin-left:auto;color:var(--muted);font-size:1rem;text-align:right;white-space:nowrap}
+.arrive{font-size:.92rem;color:var(--muted)}
+.arrive.today{color:var(--bad);font-weight:600}
+
+/* ---------- checklist ---------- */
+.ptop{display:flex;justify-content:space-between;align-items:baseline;gap:10px;color:var(--muted)}
+.ptop b{color:var(--fg);font-weight:600}
+.startbtn{background:var(--brown-soft);color:var(--brown);border:0;border-radius:999px;padding:6px 14px;font-weight:600;font-size:.86rem;cursor:pointer;min-height:36px}
+.tasks{padding:4px 20px}
+.task{display:flex;align-items:center;gap:18px;padding:16px 0;border-top:1px solid var(--line);cursor:pointer;user-select:none;min-height:64px}
+.task:first-child{border-top:0}
+.task input{position:absolute;opacity:0;width:1px;height:1px}
+.task .box{width:42px;height:42px;border-radius:50%;border:2px solid #869287;flex:none;display:flex;align-items:center;justify-content:center;color:#fff}
+.task .box svg{width:20px;height:20px;opacity:0}
+.task input:checked + .box{background:var(--forest);border-color:var(--forest)}
+.task input:checked + .box svg{opacity:1}
+.task input:focus-visible + .box{outline:2px solid var(--gold);outline-offset:2px}
+.task .txt{font-size:1.05rem}
+.task input:checked ~ .txt{text-decoration:line-through;color:var(--muted)}
+textarea{font:inherit;width:100%;min-height:80px;border-radius:18px;border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:14px 16px}
+textarea:focus,input:focus{outline:2px solid var(--gold);outline-offset:1px}
+label.lbl{font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- photos ---------- */
+.phead{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.phead b{font-size:1.15rem;font-weight:600}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ptile{position:relative;height:150px;border-radius:22px;overflow:hidden}
+.ptile.need{border:2px dashed color-mix(in srgb,var(--brown) 75%,transparent);background:var(--surface)}
+.ptile.have{background:#C8D9C9}
+.ptile .cam{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;text-align:center;padding:10px}
+.ptile.need .cam svg{width:30px;height:30px;color:var(--brown)}
+.ptile.need .cam b{color:var(--brown);font-weight:600;font-size:1.05rem;line-height:1.2}
+.ptile.need .cam span{color:var(--muted);font-size:.86rem}
+.ptile input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
+.ptile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ptile.have .cam{justify-content:flex-end;align-items:flex-start;text-align:left;padding:14px 16px;background:linear-gradient(to top,rgba(200,217,201,.96) 38%,rgba(200,217,201,0) 80%)}
+.ptile.have.withimg .cam{background:linear-gradient(to top,rgba(10,20,12,.75),rgba(10,20,12,0) 65%)}
+.ptile.have .cam b{font-weight:600;color:#1B261E;font-size:1.02rem}
+.ptile.have .cam span{color:#3D4A40;font-size:.86rem}
+.ptile.have.withimg .cam b,.ptile.have.withimg .cam span{color:#fff}
+.ptile .tick{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;background:var(--forest);color:#fff;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.ptile .tick svg{width:18px;height:18px}
+.ptile .gal{position:absolute;left:10px;top:10px;z-index:2;font-size:.74rem;font-weight:600;color:var(--brown);background:var(--brown-soft);border-radius:999px;padding:5px 10px;cursor:pointer;overflow:hidden}
+.ptile .gal input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.ptile .err{position:absolute;left:8px;right:8px;bottom:8px;z-index:2;font-size:.74rem;line-height:1.3;color:var(--bad);background:var(--bad-soft);border-radius:10px;padding:6px 8px}
+.ptile.busy .cam{background:rgba(255,253,247,.86)}
+
+/* ---------- supplies ---------- */
+.sitem{display:flex;align-items:center;gap:12px;padding:16px 16px 16px 20px}
+.sitem .nm{flex:1;min-width:0}
+.sitem .nm b{display:block;font-size:1.1rem;font-weight:500}
+.sitem .nm span{color:var(--muted);font-size:.92rem}
+.sitem .nm span strong{color:var(--fg);font-weight:600}
+.lowchip{display:inline-block;margin-top:6px;background:var(--warn-soft);color:var(--warn);font-weight:600;font-size:.82rem;border-radius:999px;padding:3px 12px}
+.step{width:48px;height:48px;border-radius:50%;flex:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.step svg{width:20px;height:20px}
+.step.minus{border:1.5px solid var(--forest);background:var(--surface);color:var(--forest)}
+.step.plus{border:0;background:var(--forest);color:var(--forest-ink)}
+.qty{width:54px;height:48px;border:0;background:none;color:var(--fg);font-family:var(--display);font-size:2rem;font-weight:500;text-align:center;flex:none;padding:0;-moz-appearance:textfield}
+.qty::-webkit-outer-spin-button,.qty::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.qty::placeholder{color:#B8B09E}
+.ptrack{height:9px;border-radius:9px;background:var(--line);overflow:hidden}
+.ptrack > div{height:100%;background:var(--forest);border-radius:9px;transition:width .2s}
+
+/* ---------- who's coming ---------- */
+.days{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;margin:0 -2px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.days button{flex:none;scroll-snap-align:start;min-width:64px;min-height:64px;border-radius:16px;border:1px solid var(--line);background:var(--surface);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:6px 10px;position:relative}
+.days button b{font-family:var(--display);font-size:1.5rem;font-weight:500;line-height:1}
+.days button span{font-size:.7rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.days button.on{background:var(--night);border-color:var(--night);color:#F6F1E6}
+.days button.on span{color:var(--gold)}
+.days button i{position:absolute;top:6px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--orange)}
+.ev{display:flex;flex-direction:column;gap:2px;padding-top:12px;margin-top:12px;border-top:1px solid var(--line)}
+.ev .k{font-size:.74rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em}
+.ev .k.in{color:var(--ok)} .ev .k.out{color:var(--bad)} .ev .k.stay{color:var(--warn)}
+.ev .g{font-weight:600;font-size:1.05rem}
+.nlist{list-style:none;margin:0;padding:0}
+.nlist li{display:flex;gap:14px;padding:12px 0;border-top:1px solid var(--line)}
+.nlist li:first-child{border-top:0}
+.nlist .d{font-weight:600;min-width:96px}
+.nlist .d.today{color:var(--bad)}
+
+/* ---------- done ---------- */
+.donecard{text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;padding:30px 20px}
+.donecard .big{width:72px;height:72px;border-radius:50%;background:var(--forest);color:#fff;display:flex;align-items:center;justify-content:center}
+.donecard .big svg{width:36px;height:36px}
+.donecard h2{font-size:2rem}
 </style>
 </head>
 <body>
-<main class="wrap" id="app" aria-live="polite"></main>
+<main class="app" id="app" aria-live="polite"></main>
 <script>
-// CBTG staff cleaning checklist. Talks only to the CBTG Supabase functions
-// (staff_login / staff_mark), which check the PIN and the checklist on the server.
+// CBTG staff portal. Talks only to the CBTG Supabase functions (staff_login / staff_mark /
+// staff_stock / staff_photo), which check the PIN, checklist and photos on the server.
 const API = 'https://fnebydfckdqgigtfhjfk.supabase.co/rest/v1/rpc/';
 const KEY = 'sb_publishable_PLLPO77LyLTlHHQr1yF23Q_Y27vUAO1';
 const STORE = 'cbtg-staff-v1';
+const LOGO = '../img/logo-320.png';
 
-const state = { verse: null, pin: null, me: null, data: null, cabin: null, ticks: {}, note: '', msg: null, busy: false, done: null, who: false, whoDate: null, stock: false, counts: {}, stockNote: '', preview: {}, uploading: null, photoErr: {} };
+const state = { verse: null, verseOpen: false, pin: null, entry: '', me: null, data: null, view: null, cabin: null, ticks: {}, note: '', msg: null, busy: false, done: null, whoDate: null, counts: {}, stockNote: '', preview: {}, uploading: null, photoErr: {}, menu: false };
 const app = document.getElementById('app');
+
+// ---------- icons (Lucide, inline) ----------
+const IC = {
+  back: '<path d="m15 18-6-6 6-6"/>',
+  chev: '<path d="m9 18 6-6-6-6"/>',
+  home: '<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  box: '<path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><path d="m3.3 7 7.703 4.734a2 2 0 0 0 1.994 0L20.7 7"/>',
+  cal: '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>',
+  cam: '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>',
+  minus: '<path d="M5 12h14"/>',
+  plus: '<path d="M5 12h14"/><path d="M12 5v14"/>',
+  del: '<path d="M10 5a2 2 0 0 0-1.344.519l-6.328 5.74a1 1 0 0 0 0 1.481l6.328 5.741A2 2 0 0 0 10 19h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z"/><path d="m12 9 6 6"/><path d="m18 9-6 6"/>',
+  lock: '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  eye: '<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/>',
+  arrow: '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+  refresh: '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
+};
+const icon = (n, sw) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (sw || 2) + '" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + IC[n] + '</svg>';
 
 function load() {
   try {
     const s = JSON.parse(localStorage.getItem(STORE) || '{}'); state.pin = s.pin || null; state.ticks = s.ticks || {};
-    // Opening the camera can make the phone reload this page. Come back to the same cabin.
-    if (s.cabin && s.cabinAt && Date.now() - s.cabinAt < 3 * 3600 * 1000) state.cabin = s.cabin;
+    // Opening the camera can make the phone reload this page. Come back to the same screen.
+    if (s.cabin && s.cabinAt && Date.now() - s.cabinAt < 3 * 3600 * 1000) { state.cabin = s.cabin; state.view = s.view === 'photos' ? 'photos' : 'cabin'; }
   } catch (e) { /* storage blocked */ }
 }
 function save() {
-  try { localStorage.setItem(STORE, JSON.stringify({ pin: state.pin, ticks: state.ticks, cabin: state.cabin, cabinAt: state.cabin ? Date.now() : 0 })); } catch (e) { /* ignore */ }
+  const keep = (state.view === 'cabin' || state.view === 'photos') && state.cabin;
+  try { localStorage.setItem(STORE, JSON.stringify({ pin: state.pin, ticks: state.ticks, cabin: keep ? state.cabin : null, view: keep ? state.view : null, cabinAt: keep ? Date.now() : 0 })); } catch (e) { /* ignore */ }
 }
 async function rpc(fn, body) {
   const res = await fetch(API + fn, { method: 'POST', headers: { apikey: KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
@@ -177,20 +297,21 @@ async function rpc(fn, body) {
   return res.json();
 }
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const timeText = (iso) => {
-  const d = new Date(iso);
-  return d.toLocaleString('en-PH', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
-};
-const todayIso = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
-const COLORS = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#008300'];
+const timeText = (iso) => new Date(iso).toLocaleString('en-PH', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+const clock = (iso) => new Date(iso).toLocaleTimeString('en-PH', { hour: 'numeric', minute: '2-digit' });
+const isTodayIso = (iso) => { const d = new Date(iso); return localIso(d) === todayIso(); };
+const localIso = (d) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const todayIso = () => localIso(new Date());
+const cabinTitle = (c) => (/^cabin/i.test(c) ? c : 'Cabin ' + c);
+const firstName = (s) => String(s || '').trim().split(/\s+/)[0];
 
 async function login(pin) {
   state.busy = true; state.msg = null; render();
   try {
     const r = await rpc('staff_login', { p_pin: pin });
-    if (r.error) { state.msg = { kind: 'error', text: r.error }; state.pin = null; save(); }
+    if (r.error) { state.msg = { kind: 'error', text: r.error }; state.pin = null; state.entry = ''; save(); }
     else { state.pin = pin; state.me = r.name; state.data = r; save(); }
-  } catch (e) { state.msg = { kind: 'error', text: e.message }; }
+  } catch (e) { state.msg = { kind: 'error', text: e.message }; if (!state.me) state.entry = ''; }
   state.busy = false; render();
 }
 async function refresh() { if (state.pin) await login(state.pin); }
@@ -204,13 +325,16 @@ async function mark(status) {
     if (r.error) { state.msg = { kind: 'error', text: r.error }; }
     else if (status === 'ready') {
       delete state.ticks[cabin]; state.note = '';
-      state.cabin = null; save();
+      state.cabin = null; state.view = null; save();
       await refresh();
       const parts = ((state.data && state.data.parts) || {})[cabin] || {};
       const waiting = ((state.data && state.data.team) || []).filter((n) => n !== r.name && !(parts[n] && parts[n].status === 'ready'));
       state.done = { cabin, at: r.at, name: r.name, waiting };
+      // The done screen is one step deep: drop any extra steps (e.g. came via Photos).
+      const have = (history.state && history.state.cbtgDepth) || 0;
+      if (have > 1) history.go(-(have - 1));
     } else {
-      state.msg = { kind: 'ok', text: cabin + ' marked Cleaning · ' + timeText(r.at) };
+      state.msg = { kind: 'ok', text: 'Started cleaning ' + cabinTitle(cabin) + ' · ' + clock(r.at) };
       await refresh();
     }
   } catch (e) { state.msg = { kind: 'error', text: e.message }; }
@@ -223,74 +347,103 @@ function msgHtml() {
   return '<p class="' + (state.msg.kind === 'error' ? 'error' : 'notice') + '" role="status">' + esc(state.msg.text) + '</p>';
 }
 
-// Back navigation: every inner screen (checklist, Who's coming, supplies, done) adds one
-// history step, so the phone's Back button / swipe returns to the cabins list instead of
-// leaving the page. The on-screen "‹ Back" buttons do the same.
-const inSub = () => !!(state.me && (state.done || state.who || state.stock || state.cabin));
-function goHome() { state.done = null; state.who = false; state.stock = false; state.cabin = null; state.msg = null; save(); render(); window.scrollTo(0, 0); }
-function goBack() { if (history.state && history.state.cbtgSub) history.back(); else goHome(); }
-window.addEventListener('popstate', () => { if (inSub()) goHome(); });
+// ---------- navigation ----------
+// Every inner screen adds one history step, so the phone's Back button / swipe returns to
+// Home instead of leaving the page: Photos → tasks → Cabin Status → Home.
+const depth = () => (!state.me ? 0 : state.done ? 1 : state.view === 'photos' ? 3 : state.view === 'cabin' ? 2 : state.view ? 1 : 0);
+function syncHistory() {
+  const want = depth();
+  const have = (history.state && history.state.cbtgDepth) || 0;
+  if (want > have) for (let i = have + 1; i <= want; i++) history.pushState({ cbtgDepth: i }, '');
+}
+function go(view, extra) { Object.assign(state, { view, msg: null, menu: false }, extra || {}); save(); render(); window.scrollTo(0, 0); }
+function goHome() { state.done = null; state.view = null; state.cabin = null; state.msg = null; save(); render(); window.scrollTo(0, 0); }
+function goBack() { if (history.state && history.state.cbtgDepth) history.back(); else popView(); }
+function popView() {
+  if (state.done) { state.done = null; }
+  else if (state.view === 'photos') { state.view = 'cabin'; }
+  else if (state.view === 'cabin') { state.view = 'status'; state.cabin = null; }
+  else { state.view = null; state.cabin = null; }
+  state.msg = null; save(); render(); window.scrollTo(0, 0);
+}
+window.addEventListener('popstate', (e) => {
+  const at = (e.state && e.state.cbtgDepth) || 0;
+  let guard = 5;
+  while (depth() > at && guard--) popView();
+});
 
 function render() {
-  const marked = !!(history.state && history.state.cbtgSub);
-  if (inSub() && !marked) history.pushState({ cbtgSub: 1 }, '');
-  else if (!inSub() && marked) history.back(); // back on the main list by a button: drop the extra step
   if (!state.me) return renderLogin();
+  syncHistory();
   if (state.done) return renderDone();
-  if (state.who) return addBottomBack(renderWho());
-  if (state.stock) return addBottomBack(renderStock());
-  if (state.cabin) return addBottomBack(renderChecklist());
-  return renderCabins();
-}
-function addBottomBack() {
-  const b = document.createElement('button');
-  b.className = 'btn secondary'; b.type = 'button'; b.textContent = '‹ Back to cabins';
-  b.onclick = goBack;
-  app.appendChild(b);
+  if (state.view === 'status') return renderStatus();
+  if (state.view === 'cabin' && state.cabin) return renderChecklist();
+  if (state.view === 'photos' && state.cabin) return renderPhotos();
+  if (state.view === 'stock') return renderStock();
+  if (state.view === 'who') return renderWho();
+  return renderHome();
 }
 
+// Dark header used by every inner screen.
+function hero(eyebrow, title, right) {
+  return `<header class="hero"><div class="hero-row">
+      <button class="back" id="back" aria-label="Back">${icon('back')}</button>
+      <p class="eyebrow grow">${eyebrow}</p>${right || ''}
+      <img class="logo" src="${LOGO}" alt="CBTG" width="44" height="44">
+    </div><h1>${title}</h1></header>`;
+}
+function wireBack() { const b = document.getElementById('back'); if (b) b.onclick = goBack; }
+
+// ---------- login: PIN keypad ----------
 function renderLogin() {
-  app.innerHTML = `
-    <div class="top"><div><p class="eyebrow">Cabins by the Generals</p><h1>Staff</h1></div></div>
-    <p class="muted">Enter your PIN to mark cabins as cleaned and ready.</p>
-    ${msgHtml()}
-    <form id="f" class="card" style="display:flex;flex-direction:column;gap:12px">
-      <label for="pin" class="small muted">Your PIN</label>
-      <input id="pin" class="pin" type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" maxlength="6" required>
-      <button class="btn primary" ${state.busy ? 'disabled' : ''}>${state.busy ? 'Checking…' : 'Log in'}</button>
-    </form>
-    <p class="small muted">Tip: tap your browser's menu → “Add to Home screen” to open this like an app.</p>`;
-  const f = document.getElementById('f');
-  const pin = document.getElementById('pin');
-  if (!state.busy) pin.focus();
-  f.onsubmit = (e) => { e.preventDefault(); if (pin.value.trim()) login(pin.value.trim()); };
+  const n = state.entry.length;
+  const slots = Math.max(4, n);
+  const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'go', '0', 'del'];
+  app.innerHTML = `<section class="login">
+    <img class="logo" src="${LOGO}" alt="Cabins by the Generals" width="132" height="132">
+    <p class="eyebrow">Staff Portal</p>
+    <p class="prompt">Enter your PIN to continue</p>
+    <div class="dots${state.msg && state.msg.kind === 'error' && !state.busy ? ' shake' : ''}" aria-label="${n} digits entered">${Array.from({ length: slots }, (_, i) => '<i class="' + (i < n ? 'on' : '') + '"></i>').join('')}</div>
+    <p class="lmsg${state.busy ? ' busy' : ''}" role="status">${state.busy ? 'Checking…' : state.msg ? esc(state.msg.text) : ''}</p>
+    <div class="pad">${keys.map((k) => k === 'del'
+      ? `<button class="key plain" data-k="del" aria-label="Delete">${icon('del', 1.8)}</button>`
+      : k === 'go'
+        ? `<button class="key ${n >= 4 ? 'go' : 'plain'}" data-k="go" aria-label="Log in" ${n >= 4 && !state.busy ? '' : 'disabled'}>${n >= 4 ? icon('arrow') : ''}</button>`
+        : `<button class="key" data-k="${k}" ${state.busy ? 'disabled' : ''}>${k}</button>`).join('')}</div>
+    <p class="lfoot">${icon('lock')} Stays logged in on this phone</p>
+  </section>`;
+  app.querySelectorAll('.key').forEach((b) => (b.onclick = () => press(b.dataset.k)));
 }
+function press(k) {
+  if (state.busy) return;
+  if (k === 'del') state.entry = state.entry.slice(0, -1);
+  else if (k === 'go') { if (state.entry.length >= 4) return login(state.entry); }
+  else if (state.entry.length < 6) state.entry += k;
+  state.msg = null; renderLogin();
+}
+document.addEventListener('keydown', (e) => {
+  if (state.me) return;
+  if (/^[0-9]$/.test(e.key)) press(e.key);
+  else if (e.key === 'Backspace') press('del');
+  else if (e.key === 'Enter') press('go');
+});
 
+// ---------- schedule helpers ----------
 // New app versions send every stay for the next 30 days (marked s:1), with the
 // next 3 arrivals flagged; older versions sent just the next 3.
 const isSchedule = (list) => list.some((b) => b && b.s);
 const nextOf = (list) => (isSchedule(list) ? list.filter((b) => b.next) : list);
-const addDaysIso = (iso, n) => { const d = new Date(iso + 'T00:00:00'); d.setDate(d.getDate() + n); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+const addDaysIso = (iso, n) => { const d = new Date(iso + 'T00:00:00'); d.setDate(d.getDate() + n); return localIso(d); };
 const paxText = (g) => (g ? g + '&nbsp;guest' + (g === 1 ? '' : 's') : '');
-
-function nextHtml(list, today) {
-  list = nextOf(list);
-  if (!list.length) return '';
-  const day = (iso) => new Date(iso + 'T00:00:00').toLocaleDateString('en-PH', { weekday: 'short', month: 'short', day: 'numeric' });
-  return `<section class="card next" aria-label="Next bookings"><h2>Next bookings</h2><ol>${list.map((b) => {
-    const isToday = b.checkIn === today;
-    const g = Number(b.guests) || 0;
-    return `<li><span class="d${isToday ? ' today' : ''}">${isToday ? 'TODAY' : esc(day(b.checkIn))}</span><span class="w">${b.guest ? '<b>' + esc(b.guest) + '</b> · ' : ''}${esc((b.cabins || []).join(' + '))}<br><span class="small muted">${b.nights} night${b.nights === 1 ? '' : 's'} · out ${esc(day(b.checkOut))}${g ? ' · ' + g + '&nbsp;guest' + (g === 1 ? '' : 's') : ''}</span></span></li>`;
-  }).join('')}</ol></section>`;
-}
+const dayText = (iso) => new Date(iso + 'T00:00:00').toLocaleDateString('en-PH', { weekday: 'short', month: 'short', day: 'numeric' });
 
 // Ocular visits (people coming to see the place before booking). Sent by app 1.21.2+.
 const time12 = (t) => { const m = /^(\d{1,2}):(\d{2})$/.exec(t || ''); if (!m) return esc(t); const h = +m[1]; return (h % 12 || 12) + ':' + m[2] + ' ' + (h < 12 ? 'AM' : 'PM'); };
 function ocularHtml(list, title) {
   if (!list.length) return '';
-  return `<section class="card ocular" aria-label="${esc(title)}"><h2>👀 ${esc(title)}</h2><ul>${list.map((v) => {
+  return `<section class="ocular" aria-label="${esc(title)}"><h2>${esc(title)}</h2><ul>${list.map((v) => {
     const tel = String(v.phone || '').replace(/[^\d+]/g, '');
-    return `<li><span class="t">${time12(v.time)}</span><span><b>${esc(v.name)}</b>${tel ? ' · <a href="tel:' + esc(tel) + '">📞 ' + esc(v.phone) + '</a>' : ''}</span>
+    return `<li><span class="t">${time12(v.time)}</span><span><b>${esc(v.name)}</b>${tel ? ' · <a href="tel:' + esc(tel) + '">' + esc(v.phone) + '</a>' : ''}</span>
       <span class="small muted">Show: ${esc((v.cabins || []).length ? v.cabins.join(', ') : 'all cabins')}${v.note ? ' · ' + esc(v.note) : ''}</span></li>`;
   }).join('')}</ul><p class="small muted" style="margin-top:6px">Please have these cabins clean and open before they arrive.</p></section>`;
 }
@@ -331,70 +484,156 @@ async function loadVerse() {
   } catch (e) { /* offline: use the built-in list */ }
   state.verse = v || fallbackVerse(today);
   const box = document.getElementById('verse');
-  if (box) box.outerHTML = verseHtml();
+  if (box) { box.outerHTML = verseHtml(); wireVerse(); }
 }
 function verseHtml() {
   const v = state.verse;
   if (!v) return '<div id="verse"></div>';
-  return `<section class="card verse" id="verse" aria-label="Verse for today"><h2>🌿 Verse for today</h2>
-    <p class="en">“${esc(v.en)}”</p><p class="ref">— ${esc(v.ref)}</p>
-    ${v.tl ? '<p class="tl">“' + esc(v.tl) + '”</p>' : ''}
-    ${v.note ? '<p class="enc">💚 ' + esc(v.note) + '</p>' : ''}
-    ${v.quote ? '<p class="q">✨ “' + esc(v.quote) + '” — ' + esc(v.by || '') + '</p>' : ''}
-  </section>`;
+  const more = v.tl || v.note || v.quote;
+  return `<div id="verse"><p class="hverse">“${esc(v.en)}” <span class="ref">${esc(v.ref)}</span></p>
+    ${more ? `<button class="vmore" id="vmore" aria-expanded="${state.verseOpen}">${state.verseOpen ? 'Itago ‹' : 'Basahin sa Tagalog ›'}</button>` : ''}
+    ${more && state.verseOpen ? `<div class="vbody">${v.tl ? '<p class="tl">“' + esc(v.tl) + '”</p>' : ''}${v.note ? '<p>' + esc(v.note) + '</p>' : ''}${v.quote ? '<p>“' + esc(v.quote) + '” — ' + esc(v.by || '') + '</p>' : ''}</div>` : ''}</div>`;
 }
-function renderCabins() {
+function wireVerse() { const b = document.getElementById('vmore'); if (b) b.onclick = () => { state.verseOpen = !state.verseOpen; const box = document.getElementById('verse'); box.outerHTML = verseHtml(); wireVerse(); }; }
+
+// ---------- cabin status helpers ----------
+// Each cleaner has their own part per cabin (status cleaning / ready + time).
+function cabinState(c) {
+  const d = state.data;
+  const parts = (d.parts || {})[c] || {};
+  const team = d.team || [];
+  const total = (d.checklist || []).length;
+  const mine = parts[state.me];
+  const allReady = team.length > 0 && team.every((n) => parts[n] && parts[n].status === 'ready');
+  const anyCleaning = team.some((n) => parts[n] && parts[n].status === 'cleaning');
+  const anyReady = team.some((n) => parts[n] && parts[n].status === 'ready');
+  const ticked = Object.values(state.ticks[c] || {}).filter(Boolean).length;
+  const status = allReady ? 'ready' : anyCleaning ? 'cleaning' : anyReady ? 'clean' : 'none';
+  // Tasks: a Ready cabin counts as all done; otherwise what I've ticked on this phone.
+  const done = allReady || (mine && mine.status === 'ready' && !ticked) ? total : Math.min(ticked, total);
+  const times = team.map((n) => parts[n]).filter(Boolean);
+  const started = times.filter((p) => p.status === 'cleaning').map((p) => p.at).sort()[0] || null;
+  const finished = allReady ? times.map((p) => p.at).sort().slice(-1)[0] : null;
+  return { parts, team, total, done, status, started, finished, mine };
+}
+const STATUS_LABEL = { ready: 'Ready', cleaning: 'Cleaning', clean: 'Part done', none: 'Not started' };
+
+// ---------- home ----------
+function renderHome() {
   const d = state.data;
   const today = todayIso();
   const cabins = d.cabins || [];
+  const sts = cabins.map((c) => ({ c, ...cabinState(c) }));
+  const total = sts.reduce((a, s) => a + s.total, 0);
+  const done = sts.reduce((a, s) => a + s.done, 0);
+  const pct = total ? Math.round((done / total) * 100) : 0;
+  const R = 54, C = 2 * Math.PI * R;
+  const left = total - done;
+  const counts = ['cleaning', 'clean', 'none'].map((k) => [k, sts.filter((s) => s.status === k).length]).filter(([, n]) => n);
+  const arrivals = cabins.filter((c) => (d.arrivals || {})[c] === today);
+  const items = d.stock || [];
+  const last = d.stockLast;
+  const low = last ? lowList(d, last.counts || {}) : [];
+  const ups = d.upcoming || [];
+  const nxt = nextOf(ups).filter((b) => b.checkIn >= today).sort((a, b) => a.checkIn.localeCompare(b.checkIn))[0];
+  const nameDate = new Date().toLocaleDateString('en-PH', { weekday: 'long', month: 'long', day: 'numeric' });
+
   app.innerHTML = `
-    <div class="top">
-      <div><p class="eyebrow">Hi, ${esc(state.me)}</p><h1>Cabins</h1></div>
-      <button class="link" id="out">Log out</button>
-    </div>
-    ${msgHtml()}
-    ${isSchedule(d.upcoming || []) ? '<button class="whobtn" id="who">📅 Who\'s coming <small>guests per cabin, by day</small></button>' : ''}
-    ${ocularHtml(visitsOn(d, today), visitsOn(d, today).length === 1 ? 'Ocular visit today' : 'Ocular visits today')}
-    ${ocularHtml(visitsOn(d, addDaysIso(today, 1)), 'Ocular visit tomorrow')}
-    ${stockBoxHtml(d)}
-    ${nextHtml(d.upcoming || [], today)}
-    <div class="cabins">
-      ${cabins.map((c, i) => {
-        const parts = (d.parts || {})[c] || {};
-        const team = d.team || [];
+    <header class="hero tall">
+      <div class="hero-row">
+        <img class="logo" src="${LOGO}" alt="" width="44" height="44">
+        <span class="brand grow">CBTG</span>
+        <button class="avatar" id="me" aria-label="Account" aria-expanded="${state.menu}">${esc((state.me || '?').charAt(0).toUpperCase())}</button>
+      </div>
+      ${state.menu ? '<div class="menu-pop" role="menu"><button id="ref" role="menuitem">Refresh</button><button id="out" role="menuitem">Log out</button></div>' : ''}
+      <p class="eyebrow" style="margin-top:24px">${esc(nameDate)}</p>
+      <h1 style="margin-top:6px">Welcome, ${esc(firstName(state.me))}</h1>
+      ${verseHtml()}
+    </header>
+    <div class="body lift">
+      ${cabins.length ? `<section class="card" aria-label="Today's progress">
+        <p class="eyebrow">Today's progress</p>
+        <div class="prog" style="margin-top:16px">
+          <div class="ring" role="img" aria-label="${pct}% done">
+            <svg viewBox="0 0 132 132"><circle cx="66" cy="66" r="${R}" fill="none" stroke="var(--line)" stroke-width="13"/>
+              <circle cx="66" cy="66" r="${R}" fill="none" stroke="var(--forest)" stroke-width="13" stroke-linecap="round" stroke-dasharray="${(C * pct / 100).toFixed(1)} ${C.toFixed(1)}"/></svg>
+            <div class="num"><b>${pct}%</b><span>done today</span></div>
+          </div>
+          <div class="bars">${sts.map((s) => `<div><div class="bar-top"><b>${esc(s.c.replace(/^cabin\s+/i, ''))}</b><span>${s.done} of ${s.total}</span></div>
+            <div class="track"><div class="${s.done < s.total ? 'part' : ''}" style="width:${s.total ? (s.done / s.total) * 100 : 0}%"></div></div></div>`).join('')}</div>
+        </div>
+        <div class="cheer">${icon('check')}<span>${total === 0 ? 'No checklist yet — ask the owner.' : left === 0 ? 'All ' + total + ' tasks done · every cabin is ready!' : done + ' of ' + total + ' tasks done · ' + left + ' to go' + (pct >= 75 ? ', almost there!' : '. Kaya natin ’to!')}</span></div>
+      </section>` : ''}
+      ${msgHtml()}
+      ${arrivals.length ? `<p class="alert">Guests arrive TODAY 4:00 PM — ${esc(arrivals.map(cabinTitle).join(', '))}</p>` : ''}
+      ${ocularHtml(visitsOn(d, today), visitsOn(d, today).length === 1 ? 'Ocular visit today' : 'Ocular visits today')}
+      ${ocularHtml(visitsOn(d, addDaysIso(today, 1)), 'Ocular visit tomorrow')}
+      <p class="section">Main menu</p>
+      <button class="tile" id="go-status">
+        <div class="head"><span class="ic">${icon('home', 1.8)}</span><span class="chips">${counts.map(([k, n]) => '<span class="chip ' + k + '">' + n + ' ' + STATUS_LABEL[k] + '</span>').join('') || (cabins.length ? '<span class="chip clean">All ready</span>' : '')}</span></div>
+        <h3>Cabin Status</h3><p>${esc(cabins.map((c) => c.replace(/^cabin\s+/i, '')).join(' · ')) || 'No cabins yet'}</p>
+      </button>
+      <div class="tiles2">
+        ${items.length ? `<button class="tile" id="go-stock">
+          <div class="head"><span class="ic">${icon('box', 1.8)}</span>${d.stockDue ? '<span class="chips"><span class="chip due">Due</span></span>' : ''}</div>
+          <h3>Supplies</h3><p>${d.stockDue ? 'Count due' + (low.length ? ' · ' + low.length + ' low' : '') : low.length ? low.length + ' item' + (low.length === 1 ? '' : 's') + ' low' : last ? 'Nothing low' : 'Not counted yet'}</p>
+        </button>` : ''}
+        <button class="tile" id="go-who">
+          <div class="head"><span class="ic">${icon('cal', 1.8)}</span></div>
+          <h3>Next Booking</h3><p>${nxt ? (nxt.checkIn === today ? 'Today' : esc(dayText(nxt.checkIn))) + ' · ' + esc((nxt.cabins || []).map((c) => c.replace(/^cabin\s+/i, '')).join(' + ')) : 'Who’s coming'}</p>
+        </button>
+      </div>
+    </div>`;
+  loadVerse(); wireVerse();
+  document.getElementById('me').onclick = () => { state.menu = !state.menu; renderHome(); };
+  const out = document.getElementById('out');
+  if (out) out.onclick = () => { state.pin = null; state.me = null; state.data = null; state.entry = ''; state.view = null; state.menu = false; save(); state.msg = null; render(); };
+  const ref = document.getElementById('ref');
+  if (ref) ref.onclick = () => { state.menu = false; refresh(); };
+  document.getElementById('go-status').onclick = () => go('status');
+  const st = document.getElementById('go-stock');
+  if (st) st.onclick = () => openStock();
+  document.getElementById('go-who').onclick = () => go('who', { whoDate: state.whoDate || today });
+}
+
+// ---------- cabin status ----------
+function renderStatus() {
+  const d = state.data;
+  const today = todayIso();
+  const cabins = d.cabins || [];
+  app.innerHTML = `${hero('Today · ' + esc(new Date().toLocaleDateString('en-PH', { month: 'short', day: 'numeric' })), 'Cabin Status')}
+    <div class="body">
+      ${msgHtml()}
+      ${cabins.map((c) => {
+        const s = cabinState(c);
         const arr = (d.arrivals || {})[c];
         const ng = Number((d.arrivalGuests || {})[c]) || 0;
-        const gTxt = ng ? ' · ' + ng + '&nbsp;guest' + (ng === 1 ? '' : 's') : '';
-        const ticked = Object.values(state.ticks[c] || {}).filter(Boolean).length;
-        const allDone = team.length > 0 && team.every((n) => parts[n] && parts[n].status === 'ready');
-        const tag = allDone
-          ? '<span class="tag ready">✓ Ready — everyone done</span>'
-          : team.map((n) => {
-              const p = parts[n];
-              const st = p ? p.status : 'none';
-              const label = p ? (p.status === 'ready' ? '✓ ' + esc(n) + ' done ' + timeText(p.at) : esc(n) + ' cleaning') : esc(n) + ' not yet';
-              return '<span class="tag ' + st + '">' + label + '</span>';
-            }).join(' ');
-        return `<button class="cabin" data-c="${esc(c)}" style="border-left-color:${COLORS[i % COLORS.length]}">
-          <div>
-            <div class="name">${esc(c)}</div>
-            <div class="meta">${arr === today ? '<span class="arrive">Guests arrive TODAY 4:00 PM' + gTxt + '</span>' : arr ? 'Next guests ' + new Date(arr + 'T00:00:00').toLocaleDateString('en-PH', { weekday: 'short', month: 'short', day: 'numeric' }) + gTxt : 'No guests coming yet'}${ticked ? ' · ' + ticked + ' ticked' : ''}</div>
-            ${tag}
+        const people = s.team.length > 1 ? s.team.map((n) => { const p = s.parts[n]; return esc(n) + ': ' + (p ? (p.status === 'ready' ? 'done ' + clock(p.at) : 'cleaning since ' + clock(p.at)) : 'not yet'); }).join(' · ') : '';
+        return `<section class="card cabin">
+          <div class="cabin-top"><h2>${esc(cabinTitle(c))}</h2><span class="chip ${s.status}">${STATUS_LABEL[s.status]}</span></div>
+          <div class="who">
+            ${s.started || s.status !== 'ready' ? '<div><span class="k">Started</span><span class="v">' + (s.started ? esc(clock(s.started)) : '—') + '</span></div>' : ''}
+            <div><span class="k">Finished</span><span class="v">${s.finished ? esc(clock(s.finished)) : '—'}</span></div>
+            <span class="tasks">${s.status === 'ready' ? 'Ready for guests' : s.done + ' of ' + s.total + ' tasks'}</span>
           </div>
-          <span class="go" aria-hidden="true">›</span>
-        </button>`;
+          ${people ? '<p class="small muted">' + people + '</p>' : ''}
+          <p class="arrive${arr === today ? ' today' : ''}">${arr === today ? 'Guests arrive TODAY 4:00 PM' : arr ? 'Next guests ' + esc(dayText(arr)) : 'No guests coming yet'}${ng ? ' · ' + paxText(ng) : ''}</p>
+          <div class="row2">
+            <button class="btn brown" data-photos="${esc(c)}">${icon('cam', 1.8)} Photos</button>
+            <button class="btn outline" data-c="${esc(c)}" style="justify-content:space-between">View tasks ${icon('chev')}</button>
+          </div>
+        </section>`;
       }).join('')}
-    </div>
-    <button class="btn secondary" id="ref">Refresh</button>
-    ${verseHtml()}`;
-  loadVerse();
-  document.getElementById('out').onclick = () => { state.pin = null; state.me = null; state.data = null; state.who = false; state.stock = false; save(); state.msg = null; render(); };
+      <button class="btn outline" id="ref">${icon('refresh', 1.8)} Refresh</button>
+    </div>`;
+  wireBack();
   document.getElementById('ref').onclick = () => refresh();
-  const sb = document.getElementById('stockgo');
-  if (sb) sb.onclick = () => openStock();
-  const who = document.getElementById('who');
-  if (who) who.onclick = () => { state.who = true; state.whoDate = state.whoDate || today; state.msg = null; render(); window.scrollTo(0, 0); };
-  app.querySelectorAll('.cabin').forEach((b) => (b.onclick = () => { state.cabin = b.dataset.c; state.msg = null; save(); render(); window.scrollTo(0, 0); }));
+  app.querySelectorAll('[data-c]').forEach((b) => (b.onclick = () => go('cabin', { cabin: b.dataset.c })));
+  app.querySelectorAll('[data-photos]').forEach((b) => (b.onclick = () => {
+    state.cabin = b.dataset.photos;
+    // Two steps deep, so Back from Photos lands on the tasks.
+    go('cabin'); go('photos');
+  }));
 }
 
 // ---------- supply count (stock check) ----------
@@ -402,57 +641,47 @@ function lowList(d, counts) {
   return (d.stock || []).filter((i) => typeof counts[i.id] === 'number' && counts[i.id] <= (i.lowAt || 0))
     .map((i) => esc(i.name) + ' ' + counts[i.id] + (i.unit ? ' ' + esc(i.unit) : ''));
 }
-function stockBoxHtml(d) {
-  const items = d.stock || [];
-  if (!items.length) return '';
-  const last = d.stockLast;
-  const lastTxt = last ? 'Last counted ' + timeText(last.at) + ' by ' + esc(last.staff) : 'Not counted yet';
-  const low = last ? lowList(d, last.counts || {}) : [];
-  return `<div class="stockbox${d.stockDue ? '' : ' ok'}" role="status">
-    <b>${d.stockDue ? '📦 Stock check due' : '📦 Supplies'}</b>
-    <span class="small">${lastTxt}${low.length ? ' · <span class="low">Low: ' + low.join(', ') + '</span>' : last ? ' · nothing low' : ''}</span>
-    ${d.stockDue ? '<span class="small">After you finish cleaning, count the supplies so the owner knows what to buy.</span>' : ''}
-    <button class="btn ${d.stockDue ? 'primary' : 'secondary'}" id="stockgo">${d.stockDue ? 'Count the supplies' : 'Count again'}</button>
-  </div>`;
-}
-function openStock() { state.stock = true; state.counts = {}; state.stockNote = ''; state.msg = null; render(); window.scrollTo(0, 0); }
+function openStock() { go('stock', { counts: {}, stockNote: '' }); }
 
 function renderStock() {
   const d = state.data;
   const items = d.stock || [];
   const filled = items.filter((i) => state.counts[i.id] !== undefined && state.counts[i.id] !== '').length;
   const all = items.length > 0 && filled === items.length;
-  app.innerHTML = `
-    <div class="top">
-      <div><p class="eyebrow">${esc(state.me)} · supply count</p><h1>Stock check</h1></div>
-      <button class="backbtn" id="back" aria-label="Back to cabins">‹ Back</button>
-    </div>
-    ${msgHtml()}
-    <p class="small muted">Count what's in the supply room now. Type the number or use − / +. "About" is the app's estimate — if yours is very different, count again.</p>
-    <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${items.length}" aria-valuenow="${filled}"><div style="width:${items.length ? (filled / items.length) * 100 : 0}%"></div></div>
-    <p class="small muted">${filled} of ${items.length} counted</p>
-    <div class="list">${items.map((i) => {
-      const v = state.counts[i.id];
-      const has = v !== undefined && v !== '';
-      const isLow = has && Number(v) <= (i.lowAt || 0);
-      return `<div class="sitem${has ? ' done' : ''}">
-        <div class="nm"><b>${esc(i.name)}</b><span class="small muted">${i.unit ? esc(i.unit) + ' · ' : ''}${i.expected !== null && i.expected !== undefined ? 'about ' + i.expected + ' left' : 'first count'}${isLow ? ' · <span class="low">LOW</span>' : ''}</span></div>
-        <button class="step" data-id="${esc(i.id)}" data-d="-1" aria-label="One less ${esc(i.name)}">−</button>
-        <input class="qty" data-id="${esc(i.id)}" type="number" inputmode="numeric" min="0" step="1" value="${has ? esc(v) : ''}" placeholder="?" aria-label="${esc(i.name)} count">
-        <button class="step" data-id="${esc(i.id)}" data-d="1" aria-label="One more ${esc(i.name)}">+</button>
-      </div>`;
-    }).join('')}</div>
-    <label for="snote" class="small muted">Note for the owner (optional) — e.g. what to buy</label>
-    <textarea id="snote" placeholder="Optional">${esc(state.stockNote)}</textarea>
-    <div class="sticky">
-      <button class="btn primary" id="ssend" ${!all || state.busy ? 'disabled' : ''}>${state.busy ? 'Sending…' : all ? 'Submit count' : 'Count every item first (' + (items.length - filled) + ' left)'}</button>
+  const last = d.stockLast;
+  app.innerHTML = `${hero('Stock room', 'Supplies')}
+    <div class="body">
+      ${msgHtml()}
+      <p class="small muted">Count what's in the supply room now. Type the number or use − / +. ${last ? 'Last counted ' + esc(timeText(last.at)) + ' by ' + esc(last.staff) + '.' : ''}</p>
+      <div><div class="ptrack" role="progressbar" aria-valuemin="0" aria-valuemax="${items.length}" aria-valuenow="${filled}"><div style="width:${items.length ? (filled / items.length) * 100 : 0}%"></div></div>
+        <p class="small muted" style="margin-top:6px">${filled} of ${items.length} counted</p></div>
+      ${items.map((i) => {
+        const v = state.counts[i.id];
+        const has = v !== undefined && v !== '';
+        const lastN = last && last.counts && typeof last.counts[i.id] === 'number' ? last.counts[i.id] : null;
+        const shown = has ? Number(v) : (i.expected !== null && i.expected !== undefined ? i.expected : lastN);
+        const isLow = shown !== null && shown !== undefined && Number(shown) <= (i.lowAt || 0);
+        const unit = i.unit ? ' ' + esc(i.unit) : '';
+        return `<div class="card sitem">
+          <div class="nm"><b>${esc(i.name)}</b><span>${has ? 'Counted: <strong>' + esc(v) + unit + '</strong>' : shown !== null && shown !== undefined ? 'Balance: <strong>' + shown + unit + '</strong>' : 'First count'}</span>${isLow ? '<br><span class="lowchip">Low stock</span>' : ''}</div>
+          <button class="step minus" data-id="${esc(i.id)}" data-d="-1" aria-label="One less ${esc(i.name)}">${icon('minus')}</button>
+          <input class="qty" data-id="${esc(i.id)}" type="number" inputmode="numeric" min="0" step="1" value="${has ? esc(v) : ''}" placeholder="${shown !== null && shown !== undefined ? shown : '?'}" aria-label="${esc(i.name)} count">
+          <button class="step plus" data-id="${esc(i.id)}" data-d="1" aria-label="One more ${esc(i.name)}">${icon('plus')}</button>
+        </div>`;
+      }).join('')}
+      <label for="snote" class="lbl">Note for the owner (optional)</label>
+      <textarea id="snote" placeholder="e.g. what to buy">${esc(state.stockNote)}</textarea>
+      <div class="sticky">
+        <button class="btn primary" id="ssend" ${!all || state.busy ? 'disabled' : ''}>${state.busy ? 'Sending…' : all ? 'Submit count' : 'Count every item (' + (items.length - filled) + ' left)'}</button>
+      </div>
     </div>`;
-  document.getElementById('back').onclick = goBack;
+  wireBack();
   document.getElementById('snote').oninput = (e) => { state.stockNote = e.target.value; };
   const keep = (fn) => { const y = window.scrollY; fn(); renderStock(); window.scrollTo(0, y); };
   app.querySelectorAll('.step').forEach((b) => (b.onclick = () => keep(() => {
     const id = b.dataset.id; const cur = state.counts[id];
-    const base = cur === undefined || cur === '' ? (items.find((i) => i.id === id) || {}).expected || 0 : Number(cur);
+    const inp = app.querySelector('.qty[data-id="' + CSS.escape(id) + '"]');
+    const base = cur === undefined || cur === '' ? Number(inp && inp.placeholder !== '?' ? inp.placeholder : 0) || 0 : Number(cur);
     state.counts[id] = String(Math.max(0, base + Number(b.dataset.d)));
   })));
   app.querySelectorAll('.qty').forEach((inp) => {
@@ -470,18 +699,32 @@ async function sendStock() {
     if (r.error) state.msg = { kind: 'error', text: r.error };
     else {
       const low = lowList(state.data, counts);
-      state.stock = false; state.counts = {}; state.stockNote = '';
+      state.counts = {}; state.stockNote = '';
       await refresh();
+      state.view = null;
+      if (history.state && history.state.cbtgDepth) history.back();
       state.msg = { kind: 'ok', text: 'Supply count sent · ' + timeText(r.at) + (low.length ? '. Low: ' + low.join(', ').replace(/<[^>]+>/g, '') : '. Nothing low.') };
     }
   } catch (e) { state.msg = { kind: 'error', text: e.message }; }
   state.busy = false; render();
 }
 
+// ---------- who's coming ----------
 function renderWho() {
   const d = state.data;
   const today = todayIso();
-  const stays = (d.upcoming || []).filter((b) => b && b.s);
+  const ups = d.upcoming || [];
+  if (!isSchedule(ups)) {
+    // Older app versions only send the next 3 bookings.
+    const list = nextOf(ups);
+    app.innerHTML = `${hero('Who’s coming', 'Next bookings')}
+      <div class="body"><section class="card">${list.length ? '<ol class="nlist">' + list.map((b) => {
+        const g = Number(b.guests) || 0;
+        return '<li><span class="d' + (b.checkIn === today ? ' today' : '') + '">' + (b.checkIn === today ? 'TODAY' : esc(dayText(b.checkIn))) + '</span><span>' + (b.guest ? '<b>' + esc(b.guest) + '</b> · ' : '') + esc((b.cabins || []).join(' + ')) + '<br><span class="small muted">' + b.nights + ' night' + (b.nights === 1 ? '' : 's') + ' · out ' + esc(dayText(b.checkOut)) + (g ? ' · ' + paxText(g) : '') + '</span></span></li>';
+      }).join('') + '</ol>' : '<p class="muted">No bookings yet.</p>'}</section></div>`;
+    return wireBack();
+  }
+  const stays = ups.filter((b) => b && b.s);
   const cabins = d.cabins || [];
   if (!state.whoDate || state.whoDate < today) state.whoDate = today;
   const sel = state.whoDate;
@@ -495,7 +738,7 @@ function renderWho() {
       (busy(iso) ? '<i aria-hidden="true"></i>' : '') + '<span>' + top + '</span><b>' + dt.getDate() + '</b><span>' + dt.toLocaleDateString('en-PH', { month: 'short' }) + '</span></button>';
   };
   let ins = 0, outs = 0, pax = 0;
-  const cards = cabins.map((c, i) => {
+  const cards = cabins.map((c) => {
     const mine = stays.filter((b) => (b.cabins || []).includes(c));
     const out = mine.filter((b) => b.checkOut === sel);
     const stay = mine.filter((b) => b.checkIn <= sel && sel < b.checkOut);
@@ -505,33 +748,31 @@ function renderWho() {
     out.forEach((b) => { outs++; evs.push('<div class="ev"><span class="k out">Check-out 12:00 NN</span>' + who(b) + '</div>'); });
     stay.forEach((b) => {
       const n = Math.round((new Date(sel + 'T00:00:00') - new Date(b.checkIn + 'T00:00:00')) / 86400000) + 1;
-      if (b.checkIn === sel) { ins++; pax += Number(b.guests) || 0; evs.push('<div class="ev"><span class="k in">Check-in 4:00 PM</span>' + who(b) + '<span class="small muted">' + b.nights + ' night' + (b.nights === 1 ? '' : 's') + ' · out ' + esc(new Date(b.checkOut + 'T00:00:00').toLocaleDateString('en-PH', { weekday: 'short', month: 'short', day: 'numeric' })) + '</span></div>'); }
+      if (b.checkIn === sel) { ins++; pax += Number(b.guests) || 0; evs.push('<div class="ev"><span class="k in">Check-in 4:00 PM</span>' + who(b) + '<span class="small muted">' + b.nights + ' night' + (b.nights === 1 ? '' : 's') + ' · out ' + esc(dayText(b.checkOut)) + '</span></div>'); }
       else { pax += Number(b.guests) || 0; evs.push('<div class="ev"><span class="k stay">Staying · night ' + n + ' of ' + b.nights + '</span>' + who(b) + '</div>'); }
     });
-    return '<div class="wcab" style="border-left-color:' + COLORS[i % COLORS.length] + '"><div class="cn">' + esc(c) + '</div>' +
-      (evs.length ? evs.join('') : '<div class="free">No guests — free tonight</div>') + '</div>';
+    return '<section class="card"><h2 style="font-size:1.8rem">' + esc(cabinTitle(c)) + '</h2>' +
+      (evs.length ? evs.join('') : '<p class="muted" style="margin-top:6px">No guests — free tonight</p>') + '</section>';
   }).join('');
   const label = new Date(sel + 'T00:00:00').toLocaleDateString('en-PH', { weekday: 'long', month: 'long', day: 'numeric' });
   const sum = [ins ? ins + ' check-in' + (ins === 1 ? '' : 's') : '', outs ? outs + ' check-out' + (outs === 1 ? '' : 's') : '', pax ? pax + ' guests tonight' : ''].filter(Boolean).join(' · ') || 'No guests';
-  app.innerHTML = `
-    <div class="top">
-      <div><p class="eyebrow">Who's coming</p><h1>${sel === today ? 'Today' : sel === addDaysIso(today, 1) ? 'Tomorrow' : esc(new Date(sel + 'T00:00:00').toLocaleDateString('en-PH', { weekday: 'short', month: 'short', day: 'numeric' }))}</h1></div>
-      <button class="backbtn" id="back" aria-label="Back to cabins">‹ Back</button>
-    </div>
-    <div class="days" id="days" role="group" aria-label="Pick a day">${days.map(chip).join('')}</div>
-    <p class="sum">${esc(label)}<br><span class="small muted" style="font-weight:600">${sum}${visitsOn(d, sel).length ? ' · ' + visitsOn(d, sel).length + ' ocular visit' + (visitsOn(d, sel).length === 1 ? '' : 's') : ''}</span></p>
-    ${ocularHtml(visitsOn(d, sel), 'Ocular visits')}
-    <div class="cabins">${cards}</div>
-    <p class="small muted">A dot on a day means guests check in or out, or someone comes to see the place. Check-in 4:00 PM · Check-out 12:00 NN.</p>
-    <button class="btn secondary" id="ref">Refresh</button>`;
-  document.getElementById('back').onclick = goBack;
+  const nv = visitsOn(d, sel).length;
+  app.innerHTML = `${hero('Who’s coming', sel === today ? 'Today' : sel === addDaysIso(today, 1) ? 'Tomorrow' : esc(dayText(sel)))}
+    <div class="body">
+      <div class="days" id="days" role="group" aria-label="Pick a day">${days.map(chip).join('')}</div>
+      <p><b>${esc(label)}</b><br><span class="small muted">${sum}${nv ? ' · ' + nv + ' ocular visit' + (nv === 1 ? '' : 's') : ''}</span></p>
+      ${ocularHtml(visitsOn(d, sel), 'Ocular visits')}
+      ${cards}
+      <p class="small muted">A dot on a day means guests check in or out, or someone comes to see the place. Check-in 4:00 PM · Check-out 12:00 NN.</p>
+      <button class="btn outline" id="ref">${icon('refresh', 1.8)} Refresh</button>
+    </div>`;
+  wireBack();
   document.getElementById('ref').onclick = () => refresh();
   const strip = document.getElementById('days');
   strip.querySelectorAll('button').forEach((b) => (b.onclick = () => { const x = strip.scrollLeft; state.whoDate = b.dataset.day; render(); document.getElementById('days').scrollLeft = x; }));
   const on = strip.querySelector('.on');
   if (on && strip.scrollLeft === 0) on.scrollIntoView({ block: 'nearest', inline: 'center' });
 }
-
 
 // ---------- required cleaning photos ----------
 // The server says which photos each cabin needs (photoSlots) and which are already in
@@ -596,7 +837,7 @@ async function sendPhoto(body) {
 
 async function uploadPhoto(c, slot, file) {
   state.uploading = slot.id; state.msg = null; delete state.photoErr[c + '|' + slot.id];
-  const y = window.scrollY; renderChecklist(); window.scrollTo(0, y);
+  const y = window.scrollY; render(); window.scrollTo(0, y);
   try {
     const dataUrl = await shrinkPhoto(file);
     const r = await sendPhoto({ p_pin: state.pin, p_cabin: c, p_slot: slot.id, p_data: dataUrl.split(',')[1] });
@@ -608,34 +849,53 @@ async function uploadPhoto(c, slot, file) {
     cabins.forEach((x) => { (all[x] || (all[x] = {}))[slot.id] = info; state.preview[x + '|' + slot.id] = dataUrl; });
   } catch (e) { state.photoErr[c + '|' + slot.id] = e.message || 'Upload failed. Try again.'; }
   state.uploading = null;
-  const y2 = window.scrollY; renderChecklist(); window.scrollTo(0, y2);
+  const y2 = window.scrollY; render(); window.scrollTo(0, y2);
 }
 
-function photosHtml(c) {
+function renderPhotos() {
+  const c = state.cabin;
   const slots = slotsFor(c);
-  if (!slots.length) return '';
   const have = photosFor(c);
   const done = slots.filter((s) => have[s.id]).length;
-  const ok = done === slots.length;
-  return `<section class="photos${ok ? ' ok' : ''}" aria-label="Required photos">
-    <div class="ph-head"><h2>Photos</h2><span class="ph-badge">${ok ? '✓ ' : 'REQUIRED · '}${done} OF ${slots.length}</span></div>
-    <p class="small muted">Tap a box to take the photo. If the camera doesn't work, tap <b>Gallery</b> under the box and pick the photo. Tap again to retake.</p>
-    <div class="ph-grid">${slots.map((s) => {
-      const p = have[s.id];
-      const pv = state.preview[c + '|' + s.id];
-      const busy = state.uploading === s.id;
-      const inner = busy ? '<span class="cam" aria-hidden="true">⏳</span>'
-        : pv ? '<img src="' + pv + '" alt=""><span class="chk" aria-hidden="true">✓</span>'
-        : p ? '<span class="cam" aria-hidden="true">🖼️</span><span class="chk" aria-hidden="true">✓</span>'
-        : '<span class="cam" aria-hidden="true">📷</span>';
-      const err = state.photoErr[c + '|' + s.id];
-      const st = busy ? '<span class="st busy">Uploading…</span>' : err ? '<span class="st bad" role="alert">⚠ ' + esc(err) + '</span>' : p ? '<span class="st done">' + esc(timeText(p.at)) + (p.staff && p.staff !== state.me ? ' · ' + esc(p.staff) : '') + '</span>' : '<span class="st need">Not yet</span>';
-      return `<div class="ph"><label class="${p ? '' : 'need'}">${inner}<input type="file" accept="image/*" capture="environment" data-slot="${esc(s.id)}" aria-label="${p ? 'Retake' : 'Take'} photo: ${esc(s.label)}" ${state.uploading ? 'disabled' : ''}></label><b>${esc(s.label)}</b>${st}<label class="gal">Gallery<input type="file" accept="image/*" data-slot="${esc(s.id)}" aria-label="Pick from gallery: ${esc(s.label)}" ${state.uploading ? 'disabled' : ''}></label></div>`;
-    }).join('')}</div>
-    ${slots.some((s) => s.shared) ? '<p class="small muted">The Outdoor CR is shared by the cabins — one photo a day covers all of them.</p>' : ''}
-  </section>`;
+  const left = slots.length - done;
+  app.innerHTML = `${hero('Photo checklist', esc(cabinTitle(c)))}
+    <div class="body">
+      ${msgHtml()}
+      ${slots.length ? `<div class="phead"><b>${done} of ${slots.length} areas uploaded</b><span class="muted small">All required</span></div>
+      <div class="pgrid">${slots.map((s) => {
+        const p = have[s.id];
+        const pv = state.preview[c + '|' + s.id];
+        const busy = state.uploading === s.id;
+        const err = state.photoErr[c + '|' + s.id];
+        const dis = state.uploading ? 'disabled' : '';
+        const cls = 'ptile ' + (p ? 'have' : 'need') + (pv && p ? ' withimg' : '') + (busy ? ' busy' : '');
+        const inner = busy ? '<b>Uploading…</b><span>' + esc(s.label) + '</span>'
+          : p ? '<b>' + esc(s.label) + '</b><span>Uploaded ' + esc(clock(p.at)) + (p.staff && p.staff !== state.me ? ' · ' + esc(p.staff) : '') + '</span>'
+          : icon('cam', 1.8) + '<b>' + esc(s.label) + '</b><span>Tap to add photo</span>';
+        return `<div class="${cls}">
+          ${pv && p ? '<img src="' + pv + '" alt="">' : ''}
+          <label class="cam">${inner}<input type="file" accept="image/*" capture="environment" data-slot="${esc(s.id)}" aria-label="${p ? 'Retake' : 'Take'} photo: ${esc(s.label)}" ${dis}></label>
+          ${p ? '<span class="tick">' + icon('check', 2.5) + '</span>' : ''}
+          ${!busy ? '<label class="gal">Gallery<input type="file" accept="image/*" data-slot="' + esc(s.id) + '" aria-label="Pick from gallery: ' + esc(s.label) + '" ' + dis + '></label>' : ''}
+          ${err ? '<span class="err" role="alert">' + esc(err) + '</span>' : ''}
+        </div>`;
+      }).join('')}</div>
+      <p class="small muted">Tap a box to take the photo, or tap <b>Gallery</b> to pick one. Tap a done box to retake.${slots.some((s) => s.shared) ? ' The Outdoor CR is shared — one photo a day covers every cabin.' : ''}</p>`
+      : '<p class="muted">No photos needed for this cabin.</p>'}
+      <div class="sticky">
+        <button class="btn primary" id="pdone" ${left && slots.length ? 'disabled' : ''}>${!slots.length || !left ? 'Done — back to tasks' : 'Submit photos (' + left + ' left)'}</button>
+      </div>
+    </div>`;
+  wireBack();
+  document.getElementById('pdone').onclick = goBack;
+  app.querySelectorAll('.ptile input[type=file]').forEach((inp) => (inp.onchange = () => {
+    const f = inp.files && inp.files[0];
+    const slot = slotsFor(c).find((s) => s.id === inp.dataset.slot);
+    if (f && slot) uploadPhoto(c, slot, f);
+  }));
 }
 
+// ---------- cleaning checklist ----------
 function renderChecklist() {
   const c = state.cabin;
   const list = state.data.checklist || [];
@@ -643,61 +903,68 @@ function renderChecklist() {
   const n = list.filter((_, i) => t[i]).length;
   const all = list.length > 0 && n === list.length;
   const miss = missingPhotos(c).length;
+  const s = cabinState(c);
   const canReady = all && miss === 0 && !state.uploading;
-  const readyText = !list.length ? 'No checklist yet — ask the owner'
-    : !all ? 'Ready (tick all ' + list.length + ' first)'
-    : miss ? '🔒 Ready · ' + miss + ' more photo' + (miss === 1 ? '' : 's')
-    : '✓ Ready — my part is done';
-  app.innerHTML = `
-    <div class="top">
-      <div><p class="eyebrow">${esc(state.me)}'s checklist</p><h1>${esc(c)}</h1></div>
-      <button class="backbtn" id="back" aria-label="Back to cabins">‹ Back</button>
-    </div>
-    ${msgHtml()}
-    <div>
-      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${list.length}" aria-valuenow="${n}"><div style="width:${list.length ? (n / list.length) * 100 : 0}%"></div></div>
-      <p class="small muted" style="margin-top:6px">${n} of ${list.length} done${all ? ' — you can mark it Ready' : ''}</p>
-    </div>
-    <div class="list">
-      ${list.map((item, i) => `<label class="item ${t[i] ? 'done' : ''}"><input type="checkbox" data-i="${i}" ${t[i] ? 'checked' : ''}><span>${esc(item)}</span></label>`).join('')}
-    </div>
-    ${photosHtml(c)}
-    <label for="note" class="small muted">Note for the owner (optional) — e.g. something broken, supplies running low</label>
-    <textarea id="note" placeholder="Optional">${esc(state.note)}</textarea>
-    <div class="sticky">
-      <button class="btn secondary" id="start" ${state.busy ? 'disabled' : ''}>I'm starting to clean</button>
-      <button class="btn primary" id="ready" ${!canReady || state.busy ? 'disabled' : ''}>${readyText}</button>
-      ${all && miss ? '<p class="small muted" style="text-align:center">Ready unlocks once all the photos are in.</p>' : ''}
+  const mineCleaning = s.mine && s.mine.status === 'cleaning';
+  const readyText = state.busy ? 'Saving…' : !list.length ? 'No checklist yet'
+    : !all ? 'Mark cabin as clean'
+    : miss ? miss + ' photo' + (miss === 1 ? '' : 's') + ' to go'
+    : 'Mark cabin as clean';
+  app.innerHTML = `${hero('Assigned to ' + esc(firstName(state.me)), esc(cabinTitle(c)), '<span class="chip ' + s.status + '">' + STATUS_LABEL[s.status] + '</span>')}
+    <div class="body">
+      ${msgHtml()}
+      <div>
+        <div class="ptop"><span>${mineCleaning ? 'Started ' + esc(clock(s.mine.at)) : '<button class="startbtn" id="start" ' + (state.busy ? 'disabled' : '') + '>I’m starting to clean</button>'}</span><b>${n} of ${list.length} done</b></div>
+        <div class="ptrack" style="margin-top:10px" role="progressbar" aria-valuemin="0" aria-valuemax="${list.length}" aria-valuenow="${n}"><div style="width:${list.length ? (n / list.length) * 100 : 0}%"></div></div>
+      </div>
+      ${list.length ? `<section class="card tasks">${list.map((item, i) => `<label class="task"><input type="checkbox" data-i="${i}" ${t[i] ? 'checked' : ''}><span class="box">${icon('check', 2.5)}</span><span class="txt">${esc(item)}</span></label>`).join('')}</section>` : '<p class="muted">No checklist yet — ask the owner.</p>'}
+      <label for="note" class="lbl">Note for the owner (optional)</label>
+      <textarea id="note" placeholder="e.g. something broken, supplies running low">${esc(state.note)}</textarea>
+      <div class="sticky">
+        ${all && miss ? '<p class="small muted" style="text-align:center">Take the photos to finish — tap Photos.</p>' : ''}
+        <div class="row2">
+          <button class="btn brown" id="photos" ${slotsFor(c).length ? '' : 'disabled'}>${icon('cam', 1.8)} Photos</button>
+          <button class="btn primary" id="ready" ${!canReady || state.busy ? 'disabled' : ''}>${readyText}</button>
+        </div>
+      </div>
     </div>`;
-  document.getElementById('back').onclick = goBack;
+  wireBack();
   document.getElementById('note').oninput = (e) => { state.note = e.target.value; };
-  app.querySelectorAll('input[type=checkbox]').forEach((cb) => (cb.onchange = () => {
+  app.querySelectorAll('.task input').forEach((cb) => (cb.onchange = () => {
     t[cb.dataset.i] = cb.checked; save();
     const y = window.scrollY; renderChecklist(); window.scrollTo(0, y);
   }));
-  document.getElementById('start').onclick = () => mark('cleaning');
+  const st = document.getElementById('start');
+  if (st) st.onclick = () => mark('cleaning');
   document.getElementById('ready').onclick = () => mark('ready');
-  app.querySelectorAll('.ph input[type=file]').forEach((inp) => (inp.onchange = () => {
-    const f = inp.files && inp.files[0];
-    const slot = slotsFor(c).find((s) => s.id === inp.dataset.slot);
-    if (f && slot) uploadPhoto(c, slot, f);
-  }));
+  document.getElementById('photos').onclick = () => go('photos');
 }
 
 function renderDone() {
   const d = state.done;
-  app.innerHTML = `
-    <div class="card" style="text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center;padding:28px 16px">
-      <div class="big-check" aria-hidden="true">✅</div>
-      <h2>${d.waiting && d.waiting.length ? 'Your part of ' + esc(d.cabin) + ' is done' : esc(d.cabin) + ' is Ready'}</h2>
-      <p class="muted">Recorded for ${esc(d.name)} · ${timeText(d.at)}</p>
-      <p class="small muted">${d.waiting && d.waiting.length ? esc(d.cabin) + ' becomes fully Ready when ' + esc(d.waiting.join(' and ')) + ' finish' + (d.waiting.length === 1 ? 'es' : '') + ' too.' : 'Everyone is done — ' + esc(d.cabin) + ' is fully Ready.'} The owner's CBTG app will show it shortly. Thank you!</p>
-    </div>
-    ${(state.data && (state.data.stock || []).length) ? '<button class="btn primary" id="cnt">📦 Count the supplies now</button>' : ''}
-    <button class="btn ${(state.data && (state.data.stock || []).length) ? 'secondary' : 'primary'}" id="ok">Back to cabins</button>`;
-  document.getElementById('ok').onclick = goBack;
+  const hasStock = state.data && (state.data.stock || []).length;
+  app.innerHTML = `<header class="hero"><div class="hero-row"><img class="logo" src="${LOGO}" alt="" width="44" height="44"><span class="brand grow">CBTG</span></div>
+      <h1>${d.waiting && d.waiting.length ? 'Your part is done' : 'Cabin ready'}</h1></header>
+    <div class="body">
+      <section class="card donecard">
+        <span class="big">${icon('check', 2.5)}</span>
+        <h2>${d.waiting && d.waiting.length ? 'Your part of ' + esc(cabinTitle(d.cabin)) + ' is done' : esc(cabinTitle(d.cabin)) + ' is Ready'}</h2>
+        <p class="muted">Recorded for ${esc(d.name)} · ${timeText(d.at)}</p>
+        <p class="small muted">${d.waiting && d.waiting.length ? esc(cabinTitle(d.cabin)) + ' becomes fully Ready when ' + esc(d.waiting.join(' and ')) + ' finish' + (d.waiting.length === 1 ? 'es' : '') + ' too.' : 'Everyone is done — ' + esc(cabinTitle(d.cabin)) + ' is fully Ready.'} The owner's CBTG app will show it shortly. Salamat!</p>
+      </section>
+      ${hasStock ? '<button class="btn primary" id="cnt">' + icon('box', 1.8) + ' Count the supplies now</button>' : ''}
+      <button class="btn ${hasStock ? 'outline' : 'primary'}" id="ok">Back to Home</button>
+    </div>`;
+  document.getElementById('ok').onclick = () => { state.done = null; goHomeHist(); };
   const cnt = document.getElementById('cnt');
-  if (cnt) cnt.onclick = () => { state.done = null; openStock(); };
+  if (cnt) cnt.onclick = () => { state.done = null; state.view = 'stock'; state.counts = {}; state.stockNote = ''; render(); window.scrollTo(0, 0); };
+}
+// Leave every inner screen at once (after Ready).
+function goHomeHist() {
+  const at = (history.state && history.state.cbtgDepth) || 0;
+  state.view = null; state.cabin = null; state.msg = null; save();
+  if (at > 0) history.go(-at); else render();
+  render(); window.scrollTo(0, 0);
 }
 
 load();
