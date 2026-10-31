@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="CBTG Photos">
-<title>CBTG Cleaning Photos</title>
+<title>CBTG Owner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap">
 <style>
@@ -83,20 +83,36 @@ button.btn{font:inherit;font-weight:800;font-size:1.05rem;border-radius:14px;bor
 .viewer .vb a{background:#fff;color:#1E2A21;border:0}
 .viewer .vb button{background:transparent;color:#fff;border:1.5px solid #fff}
 .empty{color:var(--muted);text-align:center;padding:20px 0}
+.pgo{display:flex;align-items:center;gap:12px;width:100%;text-align:left;font:inherit;color:inherit;background:var(--surface);border:2px solid var(--gold);border-radius:16px;padding:14px;cursor:pointer}
+.pgo b{display:block;font-size:1.05rem}
+.pgo .go{margin-left:auto;font-size:1.4rem;color:var(--gold)}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.field input,.field select,.field textarea{font:inherit;width:100%;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);color:var(--fg);padding:12px 14px;min-height:52px}
+.field textarea{min-height:120px;border-style:dashed;border-color:var(--gold)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pcard{background:var(--surface);border:1.5px solid var(--line);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.pcard .q{font-family:var(--display);font-size:1.15rem;line-height:1.4;white-space:pre-line}
+.pcard .by{display:flex;align-items:center;gap:10px}
+.pcard .ini{width:40px;height:40px;border-radius:50%;background:var(--forest);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;flex:none;font-size:.9rem}
+.pcard .by .nm{flex:1;min-width:0}
+.pcard .by b{display:block}
+.pcard .rm{flex:none;font:inherit;font-weight:700;font-size:.85rem;color:var(--bad);background:none;border:1.5px solid var(--bad);border-radius:999px;padding:6px 12px;cursor:pointer;min-height:36px}
+.notice{background:var(--ok-soft);color:var(--ok);border-radius:12px;padding:12px 14px;font-weight:700}
 </style>
 </head>
 <body>
 <main class="wrap" id="app" aria-live="polite"></main>
 <script>
-// CBTG owner photo folders (Jay and Emely). Talks only to the CBTG Supabase functions
-// owner_login / owner_month / owner_photo, which check the owner PIN on the server.
+// CBTG owner page (Jay and Emely): cleaning-photo folders and Guest Praise. Talks only to
+// the CBTG Supabase owner_* functions, which check the owner PIN on the server.
 const API = 'https://fnebydfckdqgigtfhjfk.supabase.co/rest/v1/rpc/';
 const KEY = 'sb_publishable_PLLPO77LyLTlHHQr1yF23Q_Y27vUAO1';
 const STORE = 'cbtg-owner-v1';
 const FOLDER_NAMES = { 'Cabin 1': 'Cabin Charlie', 'Cabin 2': 'Cabin Charlotte', 'Shared': 'Outdoor CR (shared)' };
 const FOLDER_ORDER = ['Cabin 1', 'Cabin 2', 'Shared'];
 const SLOT_NAMES = { bed_gf: 'Ground-floor bedroom', bed_loft: 'Loft bedroom', cr: 'CR', living: 'Living area', kitchen: 'Kitchen', pool: 'Pool', outdoor_cr: 'Outdoor CR' };
-const state = { pin: null, me: null, data: null, msg: null, busy: false, folder: null, month: null, days: null, imgs: {}, view: null, seen: null };
+const state = { pin: null, me: null, data: null, msg: null, busy: false, folder: null, month: null, days: null, imgs: {}, view: null, seen: null, praise: null, pform: { message: '', guest: '', cabin: '', source: 'Messenger' }, pmsg: null };
 const app = document.getElementById('app');
 
 function load() { try { const s = JSON.parse(localStorage.getItem(STORE) || '{}'); state.pin = s.pin || null; state.seen = s.seen || null; } catch (e) { /* storage blocked */ } }
@@ -155,6 +171,7 @@ async function loadThumbs() {
 
 function render() {
   if (!state.me) return renderLogin();
+  if (state.praise) return renderPraise();
   if (state.view) return renderViewer();
   if (state.folder) return renderMonth();
   return renderFolders();
@@ -192,6 +209,7 @@ function renderFolders() {
       <button class="link" id="out">Log out</button>
     </div>
     ${state.msg ? '<p class="error" role="alert">' + esc(state.msg) + '</p>' : ''}
+    <button class="pgo" id="praisego"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/></svg><div><b>Guest Praise</b><span class="small muted">Send a guest's kind words to the staff app</span></div><span class="go" aria-hidden="true">›</span></button>
     ${top ? `<button class="alert" id="newgo"><div><span class="k">NEW · ${esc(whenText(top.at))}</span><b>${esc(fname(top.cabin))} is Ready</b><span class="small">${esc(top.staff)} uploaded the photos${fresh.length > 1 ? ' · ' + (fresh.length - 1) + ' more new' : ''}</span></div><span class="go" aria-hidden="true">›</span></button>` : ''}
     ${groups.map((g) => {
       const mine = folders.filter((f) => f.folder === g);
@@ -206,6 +224,7 @@ function renderFolders() {
       `<li><span><b>${esc(fname(r.cabin))}</b><br><span class="small muted">${esc(r.staff)}${r.note ? ' · ' + esc(r.note) : ''}</span></span><span class="small muted" style="text-align:right">${esc(whenText(r.at))}</span></li>`).join('')}</ul></section>` : ''}
     <button class="btn secondary" id="ref">Refresh</button>
     <button class="btn secondary" id="seen">Mark all as seen</button>`;
+  document.getElementById('praisego').onclick = () => openPraise();
   document.getElementById('out').onclick = () => { state.pin = null; state.me = null; state.data = null; state.imgs = {}; save(); render(); };
   document.getElementById('ref').onclick = () => login(state.pin);
   document.getElementById('seen').onclick = () => { state.seen = new Date().toISOString(); save(); render(); };
@@ -253,6 +272,99 @@ function renderViewer() {
     <div class="vb">${src ? '<a href="' + src + '" download="' + esc(name) + '">Save photo</a>' : ''}<button id="close">Close</button></div>
   </div>`;
   document.getElementById('close').onclick = () => { state.view = null; render(); };
+}
+
+// ---------- guest praise ----------
+// Paste a guest's message → it shows on the staff page Home (New for 3 days, then it joins
+// the "praise of the day" rotation).
+const PCABINS = ['', 'Charlie', 'Charlotte', 'Choco', 'Charlie + Charlotte', 'Charlotte + Choco', 'Whole property'];
+const PSOURCES = ['Messenger', 'Facebook', 'Airbnb', 'Text / Viber', 'In person', 'Google'];
+const pinitials = (n) => String(n || 'Guest').trim().split(/\s+/).slice(0, 2).map((w) => w.charAt(0).toUpperCase()).join('');
+async function openPraise() {
+  state.praise = []; state.pmsg = null; state.msg = null; render(); window.scrollTo(0, 0);
+  try { const r = await rpc('owner_praise_list', { p_pin: state.pin }); if (r.error) state.msg = r.error; else state.praise = r.praise || []; }
+  catch (e) { state.msg = e.message; }
+  render();
+}
+// "...Best stay ever! – Andrea Reyes" → split off the name.
+function splitSign(text) {
+  const m = /^([\s\S]*?)\s*[\-–—]\s*([A-Za-zÀ-ÿ.' ]{2,40})\s*$/.exec(text.trim());
+  return m && m[1].length > 5 ? { body: m[1].trim(), name: m[2].trim() } : null;
+}
+// The message without a trailing "– Guest Name" signature.
+function bodyOf() {
+  const f = state.pform; const sp = splitSign(f.message);
+  return sp && f.guest && sp.name.toLowerCase() === f.guest.trim().toLowerCase() ? sp.body : f.message.trim();
+}
+function previewHtml() {
+  const f = state.pform; const b = bodyOf();
+  return b ? `<p class="q">“${esc(b)}”</p><div class="by"><span class="ini">${esc(pinitials(f.guest))}</span><span class="nm"><b>${esc(f.guest || 'A guest')}</b><span class="small muted">${f.cabin ? 'Cabin ' + esc(f.cabin) + ' · ' : ''}New</span></span></div>`
+    : '<p class="small muted">The preview shows here when you paste a message.</p>';
+}
+function renderPraise() {
+  const f = state.pform;
+  const list = state.praise || [];
+  app.innerHTML = `
+    <div class="top">
+      <div><p class="eyebrow">Owner · ${esc(state.me)}</p><h1>Guest Praise</h1></div>
+      <button class="backbtn" id="back">‹ Back</button>
+    </div>
+    ${state.msg ? '<p class="error" role="alert">' + esc(state.msg) + '</p>' : ''}
+    ${state.pmsg ? '<p class="notice" role="status">' + esc(state.pmsg) + '</p>' : ''}
+    <div class="field"><label for="pm">Paste a guest message</label>
+      <textarea id="pm" maxlength="1500" placeholder="e.g. Thank you! The cabin was spotless…">${esc(f.message)}</textarea></div>
+    <div class="row2">
+      <div class="field"><label for="pg">Guest name</label><input id="pg" maxlength="60" value="${esc(f.guest)}" placeholder="Optional"></div>
+      <div class="field"><label for="pc">Cabin</label><select id="pc">${PCABINS.map((c) => '<option value="' + esc(c) + '"' + (c === f.cabin ? ' selected' : '') + '>' + (c || '—') + '</option>').join('')}</select></div>
+    </div>
+    <div class="field"><label for="ps">From</label><select id="ps">${PSOURCES.map((c) => '<option' + (c === f.source ? ' selected' : '') + '>' + esc(c) + '</option>').join('')}</select></div>
+    <p class="small muted">Staff will see:</p>
+    <div class="pcard" id="pv">${previewHtml()}</div>
+    <button class="btn primary" id="psend" ${!bodyOf() || state.busy ? 'disabled' : ''}>${state.busy ? 'Sending…' : 'Send to staff app'}</button>
+    <section class="fsec"><h2>Saved praise (${list.length})</h2>
+      <p class="small muted">Newest first. New praise shows first on the staff page for 3 days; after that it joins the daily rotation.</p>
+      ${list.map((p) => `<div class="pcard"><p class="q">“${esc(p.message)}”</p><div class="by"><span class="ini">${esc(pinitials(p.guest))}</span><span class="nm"><b>${esc(p.guest || 'A guest')}</b><span class="small muted">${[p.cabin ? 'Cabin ' + esc(p.cabin) : '', esc(p.source || ''), new Date(p.at).toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' })].filter(Boolean).join(' · ')}</span></span><button class="rm" data-id="${p.id}">Remove</button></div></div>`).join('') || '<p class="empty">Loading…</p>'}
+    </section>`;
+  document.getElementById('back').onclick = () => { state.praise = null; state.msg = null; state.pmsg = null; render(); window.scrollTo(0, 0); };
+  const pm = document.getElementById('pm');
+  const pg = document.getElementById('pg');
+  const sync = () => {
+    f.message = pm.value;
+    // A message signed "– Name" fills in the guest name (unless you typed one yourself).
+    const sp = splitSign(pm.value);
+    if (sp && (!pg.value.trim() || pg.dataset.auto === '1')) { pg.value = sp.name; pg.dataset.auto = '1'; }
+    f.guest = pg.value;
+    document.getElementById('pv').innerHTML = previewHtml();
+    document.getElementById('psend').disabled = !bodyOf().trim();
+  };
+  pm.oninput = sync;
+  pg.oninput = () => { pg.dataset.auto = ''; sync(); };
+  document.getElementById('pc').onchange = (e) => { f.cabin = e.target.value; sync(); };
+  document.getElementById('ps').onchange = (e) => { f.source = e.target.value; };
+  document.getElementById('psend').onclick = async () => {
+    sync();
+    const body = bodyOf();
+    state.busy = true; state.msg = null; state.pmsg = null; renderPraise();
+    try {
+      const r = await rpc('owner_praise_add', { p_pin: state.pin, p_message: body, p_guest: f.guest, p_cabin: f.cabin, p_source: f.source });
+      if (r.error) state.msg = r.error;
+      else {
+        state.pmsg = 'Sent! Staff will see it on their Home screen at their next refresh.';
+        state.pform = { message: '', guest: '', cabin: '', source: f.source };
+        const l = await rpc('owner_praise_list', { p_pin: state.pin }); if (l.praise) state.praise = l.praise;
+      }
+    } catch (e) { state.msg = e.message; }
+    state.busy = false; renderPraise(); window.scrollTo(0, 0);
+  };
+  app.querySelectorAll('.rm').forEach((b) => (b.onclick = async () => {
+    const p = list.find((x) => String(x.id) === b.dataset.id);
+    if (!confirm('Remove this praise from the staff app?\n\n' + (p ? (p.guest || 'A guest') + ': ' + String(p.message).slice(0, 80) : ''))) return;
+    try {
+      const r = await rpc('owner_praise_delete', { p_pin: state.pin, p_id: Number(b.dataset.id) });
+      if (r.error) state.msg = r.error; else { state.praise = list.filter((x) => String(x.id) !== b.dataset.id); state.pmsg = 'Removed.'; }
+    } catch (e) { state.msg = e.message; }
+    const y = window.scrollY; renderPraise(); window.scrollTo(0, y);
+  }));
 }
 
 load();

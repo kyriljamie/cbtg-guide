@@ -241,6 +241,29 @@ label.lbl{font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:u
 .nlist .d{font-weight:600;min-width:96px}
 .nlist .d.today{color:var(--bad)}
 
+/* ---------- guest praise ---------- */
+.praise-head{display:flex;justify-content:space-between;align-items:baseline;margin:6px 0 -4px}
+.praise-head .section{margin:0}
+.praise-head .count{font-size:.74rem;font-weight:600;letter-spacing:.16em;color:var(--brown)}
+.slides{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -20px;padding:4px 20px 6px}
+.slides::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;scroll-snap-align:center;display:flex;flex-direction:column;gap:12px}
+.slide .qrow{display:flex;justify-content:space-between;align-items:flex-start}
+.slide .qmark{font-family:var(--display);font-size:4.4rem;line-height:.6;height:34px;color:#B8925A;font-weight:600}
+.pbadge{font-size:.86rem;font-weight:600;border-radius:999px;padding:5px 14px;background:var(--brown-soft);color:var(--brown)}
+.slide blockquote{margin:0;font-family:var(--display);font-style:italic;font-size:1.3rem;line-height:1.4;white-space:pre-line}
+.slide blockquote.clamp{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.pmore{align-self:flex-start;background:none;border:0;padding:0;color:var(--brown);font-weight:600;font-size:.88rem;cursor:pointer;min-height:32px}
+.pby{display:flex;align-items:center;gap:12px;margin-top:auto}
+.pby .ini{width:48px;height:48px;border-radius:50%;background:var(--forest);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;flex:none}
+.pby .who2{flex:1;min-width:0}
+.pby .who2 b{display:block;font-weight:600;font-size:1.05rem}
+.pby .who2 span{color:var(--muted);font-size:.9rem}
+.pby .thx{color:var(--muted);font-size:.9rem;text-align:right;line-height:1.3}
+.pdots{display:flex;gap:6px;justify-content:center;margin-top:-6px}
+.pdots i{width:7px;height:7px;border-radius:9px;background:#C9C1AE;transition:width .2s}
+.pdots i.on{width:22px;background:var(--forest)}
+
 /* ---------- done ---------- */
 .donecard{text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;padding:30px 20px}
 .donecard .big{width:72px;height:72px;border-radius:50%;background:var(--forest);color:#fff;display:flex;align-items:center;justify-content:center}
@@ -258,7 +281,7 @@ const KEY = 'sb_publishable_PLLPO77LyLTlHHQr1yF23Q_Y27vUAO1';
 const STORE = 'cbtg-staff-v1';
 const LOGO = '../img/logo-320.png';
 
-const state = { verse: null, verseOpen: false, pin: null, entry: '', me: null, data: null, view: null, cabin: null, ticks: {}, note: '', msg: null, busy: false, done: null, whoDate: null, counts: {}, stockNote: '', preview: {}, uploading: null, photoErr: {}, menu: false };
+const state = { verse: null, verseOpen: false, pin: null, entry: '', me: null, data: null, view: null, cabin: null, ticks: {}, note: '', msg: null, busy: false, done: null, whoDate: null, counts: {}, stockNote: '', preview: {}, uploading: null, photoErr: {}, menu: false, praise: null, praiseOpen: {} };
 const app = document.getElementById('app');
 
 // ---------- icons (Lucide, inline) ----------
@@ -302,7 +325,10 @@ const clock = (iso) => new Date(iso).toLocaleTimeString('en-PH', { hour: 'numeri
 const isTodayIso = (iso) => { const d = new Date(iso); return localIso(d) === todayIso(); };
 const localIso = (d) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 const todayIso = () => localIso(new Date());
-const cabinTitle = (c) => (/^cabin/i.test(c) ? c : 'Cabin ' + c);
+// The server keeps the old cabin numbers; staff see the cat names.
+const CAT = { 'Cabin 1': 'Charlie', 'Cabin 2': 'Charlotte', 'Cabin 3': 'Choco' };
+const shortName = (c) => CAT[c] || String(c).replace(/^cabin\s+/i, '');
+const cabinTitle = (c) => 'Cabin ' + shortName(c);
 const firstName = (s) => String(s || '').trim().split(/\s+/)[0];
 
 async function login(pin) {
@@ -310,9 +336,16 @@ async function login(pin) {
   try {
     const r = await rpc('staff_login', { p_pin: pin });
     if (r.error) { state.msg = { kind: 'error', text: r.error }; state.pin = null; state.entry = ''; save(); }
-    else { state.pin = pin; state.me = r.name; state.data = r; save(); }
+    else { state.pin = pin; state.me = r.name; state.data = r; save(); loadPraise(); }
   } catch (e) { state.msg = { kind: 'error', text: e.message }; if (!state.me) state.entry = ''; }
   state.busy = false; render();
+}
+// Guest praise comes separately so the main screens never wait for it.
+async function loadPraise() {
+  try {
+    const r = await rpc('staff_praise', { p_pin: state.pin });
+    if (r && Array.isArray(r.praise)) { state.praise = r.praise; if (state.me && !state.view && !state.done) { const y = window.scrollY; render(); window.scrollTo(0, y); } }
+  } catch (e) { /* no praise today: the card just stays hidden */ }
 }
 async function refresh() { if (state.pin) await login(state.pin); }
 
@@ -444,7 +477,7 @@ function ocularHtml(list, title) {
   return `<section class="ocular" aria-label="${esc(title)}"><h2>${esc(title)}</h2><ul>${list.map((v) => {
     const tel = String(v.phone || '').replace(/[^\d+]/g, '');
     return `<li><span class="t">${time12(v.time)}</span><span><b>${esc(v.name)}</b>${tel ? ' · <a href="tel:' + esc(tel) + '">' + esc(v.phone) + '</a>' : ''}</span>
-      <span class="small muted">Show: ${esc((v.cabins || []).length ? v.cabins.join(', ') : 'all cabins')}${v.note ? ' · ' + esc(v.note) : ''}</span></li>`;
+      <span class="small muted">Show: ${esc((v.cabins || []).length ? v.cabins.map(cabinTitle).join(', ') : 'all cabins')}${v.note ? ' · ' + esc(v.note) : ''}</span></li>`;
   }).join('')}</ul><p class="small muted" style="margin-top:6px">Please have these cabins clean and open before they arrive.</p></section>`;
 }
 const visitsOn = (d, iso) => (d.ocular || []).filter((v) => v.date === iso).sort((a, b) => String(a.time).localeCompare(String(b.time)));
@@ -518,6 +551,59 @@ function cabinState(c) {
 }
 const STATUS_LABEL = { ready: 'Ready', cleaning: 'Cleaning', clean: 'Part done', none: 'Not started' };
 
+// ---------- guest praise ----------
+// New praise (last 3 days) shows first with a "New" badge. The rest of the card is the
+// praise of the day: a different set from everything saved, every day.
+const DAY_MS = 86400000;
+function praiseSlides() {
+  const all = state.praise || [];
+  if (!all.length) return [];
+  const fresh = all.filter((p) => Date.now() - new Date(p.at) < 3 * DAY_MS).slice(0, 3);
+  const pool = all.filter((p) => !fresh.includes(p)).sort((a, b) => a.id - b.id);
+  const out = fresh.map((p) => ({ p, isNew: true }));
+  const day = Math.floor(Date.parse(todayIso() + 'T00:00:00Z') / DAY_MS);
+  const start = pool.length ? (day * 3) % pool.length : 0;
+  for (let i = 0; out.length < 3 && i < pool.length; i++) out.push({ p: pool[(start + i) % pool.length], isNew: false });
+  return out;
+}
+const initials = (n) => String(n || 'Guest').trim().split(/\s+/).slice(0, 2).map((w) => w.charAt(0).toUpperCase()).join('');
+function praiseWhen(iso) {
+  const d = new Date(iso);
+  return Date.now() - d < 90 * DAY_MS ? d.toLocaleDateString('en-PH', { month: 'short', day: 'numeric' }) : d.toLocaleDateString('en-PH', { month: 'short', year: 'numeric' });
+}
+function praiseHtml() {
+  const slides = praiseSlides();
+  if (!slides.length) return '';
+  return `<div class="praise-head"><p class="section">What guests are saying</p><span class="count" id="pcount">1 OF ${slides.length}</span></div>
+    <div class="slides" id="slides" aria-roledescription="carousel">${slides.map(({ p, isNew }, i) => {
+      const open = state.praiseOpen[p.id];
+      const long = String(p.message).length > 190;
+      const where = [p.cabin ? 'Cabin ' + p.cabin : p.source || '', praiseWhen(p.at)].filter(Boolean).join(' · ');
+      return `<section class="card slide" aria-label="Praise ${i + 1} of ${slides.length}">
+        <div class="qrow"><span class="qmark" aria-hidden="true">“</span><span class="pbadge">${isNew ? 'New' : i === (slides.findIndex((x) => !x.isNew)) ? 'Praise of the day' : esc(p.source || 'Guest')}</span></div>
+        <blockquote class="${long && !open ? 'clamp' : ''}">${esc(p.message)}</blockquote>
+        ${long ? '<button class="pmore" data-pid="' + p.id + '">' + (open ? 'Show less' : 'Read more') + '</button>' : ''}
+        <div class="pby"><span class="ini" aria-hidden="true">${esc(initials(p.guest))}</span><span class="who2"><b>${esc(p.guest || 'A guest')}</b><span>${esc(where)}</span></span><span class="thx">Thank you,<br>team!</span></div>
+      </section>`;
+    }).join('')}</div>
+    ${slides.length > 1 ? '<div class="pdots" id="pdots" aria-hidden="true">' + slides.map((_, i) => '<i class="' + (i === 0 ? 'on' : '') + '"></i>').join('') + '</div>' : ''}`;
+}
+function wirePraise() {
+  const box = document.getElementById('slides');
+  if (!box) return;
+  const n = box.children.length;
+  box.onscroll = () => {
+    const i = Math.round(box.scrollLeft / (box.clientWidth || 1));
+    const c = document.getElementById('pcount'); if (c) c.textContent = (Math.min(i, n - 1) + 1) + ' OF ' + n;
+    document.querySelectorAll('#pdots i').forEach((d, k) => d.classList.toggle('on', k === i));
+  };
+  box.querySelectorAll('.pmore').forEach((b) => (b.onclick = () => {
+    const x = box.scrollLeft, y = window.scrollY;
+    state.praiseOpen[b.dataset.pid] = !state.praiseOpen[b.dataset.pid];
+    renderHome(); window.scrollTo(0, y); const nb = document.getElementById('slides'); if (nb) nb.scrollLeft = x;
+  }));
+}
+
 // ---------- home ----------
 function renderHome() {
   const d = state.data;
@@ -559,7 +645,7 @@ function renderHome() {
               <circle cx="66" cy="66" r="${R}" fill="none" stroke="var(--forest)" stroke-width="13" stroke-linecap="round" stroke-dasharray="${(C * pct / 100).toFixed(1)} ${C.toFixed(1)}"/></svg>
             <div class="num"><b>${pct}%</b><span>done today</span></div>
           </div>
-          <div class="bars">${sts.map((s) => `<div><div class="bar-top"><b>${esc(s.c.replace(/^cabin\s+/i, ''))}</b><span>${s.done} of ${s.total}</span></div>
+          <div class="bars">${sts.map((s) => `<div><div class="bar-top"><b>${esc(shortName(s.c))}</b><span>${s.done} of ${s.total}</span></div>
             <div class="track"><div class="${s.done < s.total ? 'part' : ''}" style="width:${s.total ? (s.done / s.total) * 100 : 0}%"></div></div></div>`).join('')}</div>
         </div>
         <div class="cheer">${icon('check')}<span>${total === 0 ? 'No checklist yet — ask the owner.' : left === 0 ? 'All ' + total + ' tasks done · every cabin is ready!' : done + ' of ' + total + ' tasks done · ' + left + ' to go' + (pct >= 75 ? ', almost there!' : '. Kaya natin ’to!')}</span></div>
@@ -568,10 +654,11 @@ function renderHome() {
       ${arrivals.length ? `<p class="alert">Guests arrive TODAY 4:00 PM — ${esc(arrivals.map(cabinTitle).join(', '))}</p>` : ''}
       ${ocularHtml(visitsOn(d, today), visitsOn(d, today).length === 1 ? 'Ocular visit today' : 'Ocular visits today')}
       ${ocularHtml(visitsOn(d, addDaysIso(today, 1)), 'Ocular visit tomorrow')}
+      ${praiseHtml()}
       <p class="section">Main menu</p>
       <button class="tile" id="go-status">
         <div class="head"><span class="ic">${icon('home', 1.8)}</span><span class="chips">${counts.map(([k, n]) => '<span class="chip ' + k + '">' + n + ' ' + STATUS_LABEL[k] + '</span>').join('') || (cabins.length ? '<span class="chip clean">All ready</span>' : '')}</span></div>
-        <h3>Cabin Status</h3><p>${esc(cabins.map((c) => c.replace(/^cabin\s+/i, '')).join(' · ')) || 'No cabins yet'}</p>
+        <h3>Cabin Status</h3><p>${esc(cabins.map(shortName).join(' · ')) || 'No cabins yet'}</p>
       </button>
       <div class="tiles2">
         ${items.length ? `<button class="tile" id="go-stock">
@@ -580,11 +667,11 @@ function renderHome() {
         </button>` : ''}
         <button class="tile" id="go-who">
           <div class="head"><span class="ic">${icon('cal', 1.8)}</span></div>
-          <h3>Next Booking</h3><p>${nxt ? (nxt.checkIn === today ? 'Today' : esc(dayText(nxt.checkIn))) + ' · ' + esc((nxt.cabins || []).map((c) => c.replace(/^cabin\s+/i, '')).join(' + ')) : 'Who’s coming'}</p>
+          <h3>Next Booking</h3><p>${nxt ? (nxt.checkIn === today ? 'Today' : esc(dayText(nxt.checkIn))) + ' · ' + esc((nxt.cabins || []).map(shortName).join(' + ')) : 'Who’s coming'}</p>
         </button>
       </div>
     </div>`;
-  loadVerse(); wireVerse();
+  loadVerse(); wireVerse(); wirePraise();
   document.getElementById('me').onclick = () => { state.menu = !state.menu; renderHome(); };
   const out = document.getElementById('out');
   if (out) out.onclick = () => { state.pin = null; state.me = null; state.data = null; state.entry = ''; state.view = null; state.menu = false; save(); state.msg = null; render(); };
@@ -720,7 +807,7 @@ function renderWho() {
     app.innerHTML = `${hero('Who’s coming', 'Next bookings')}
       <div class="body"><section class="card">${list.length ? '<ol class="nlist">' + list.map((b) => {
         const g = Number(b.guests) || 0;
-        return '<li><span class="d' + (b.checkIn === today ? ' today' : '') + '">' + (b.checkIn === today ? 'TODAY' : esc(dayText(b.checkIn))) + '</span><span>' + (b.guest ? '<b>' + esc(b.guest) + '</b> · ' : '') + esc((b.cabins || []).join(' + ')) + '<br><span class="small muted">' + b.nights + ' night' + (b.nights === 1 ? '' : 's') + ' · out ' + esc(dayText(b.checkOut)) + (g ? ' · ' + paxText(g) : '') + '</span></span></li>';
+        return '<li><span class="d' + (b.checkIn === today ? ' today' : '') + '">' + (b.checkIn === today ? 'TODAY' : esc(dayText(b.checkIn))) + '</span><span>' + (b.guest ? '<b>' + esc(b.guest) + '</b> · ' : '') + esc((b.cabins || []).map(cabinTitle).join(' + ')) + '<br><span class="small muted">' + b.nights + ' night' + (b.nights === 1 ? '' : 's') + ' · out ' + esc(dayText(b.checkOut)) + (g ? ' · ' + paxText(g) : '') + '</span></span></li>';
       }).join('') + '</ol>' : '<p class="muted">No bookings yet.</p>'}</section></div>`;
     return wireBack();
   }
@@ -744,7 +831,7 @@ function renderWho() {
     const stay = mine.filter((b) => b.checkIn <= sel && sel < b.checkOut);
     const evs = [];
     const who = (b) => '<span class="g">' + (b.guest ? esc(b.guest) : 'Guest') + '</span><span class="small muted">' +
-      [paxText(Number(b.guests) || 0), (b.cabins || []).length > 1 ? esc(b.cabins.join(' + ')) + ' booking' : ''].filter(Boolean).join(' · ') + '</span>';
+      [paxText(Number(b.guests) || 0), (b.cabins || []).length > 1 ? esc(b.cabins.map(shortName).join(' + ')) + ' booking' : ''].filter(Boolean).join(' · ') + '</span>';
     out.forEach((b) => { outs++; evs.push('<div class="ev"><span class="k out">Check-out 12:00 NN</span>' + who(b) + '</div>'); });
     stay.forEach((b) => {
       const n = Math.round((new Date(sel + 'T00:00:00') - new Date(b.checkIn + 'T00:00:00')) / 86400000) + 1;
