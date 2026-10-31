@@ -281,7 +281,7 @@ const KEY = 'sb_publishable_PLLPO77LyLTlHHQr1yF23Q_Y27vUAO1';
 const STORE = 'cbtg-staff-v1';
 const LOGO = '../img/logo-320.png';
 
-const state = { verse: null, verseOpen: false, pin: null, entry: '', me: null, data: null, view: null, cabin: null, ticks: {}, note: '', msg: null, busy: false, done: null, whoDate: null, counts: {}, stockNote: '', preview: {}, uploading: null, photoErr: {}, menu: false, praise: null, praiseOpen: {} };
+const state = { verse: null, verseOpen: false, pin: null, entry: '', me: null, data: null, view: null, cabin: null, ticks: {}, note: '', msg: null, busy: false, done: null, whoDate: null, counts: {}, stockNote: '', preview: {}, uploading: null, photoErr: {}, menu: false, praise: null, praiseOpen: {}, progress: null };
 const app = document.getElementById('app');
 
 // ---------- icons (Lucide, inline) ----------
@@ -336,10 +336,45 @@ async function login(pin) {
   try {
     const r = await rpc('staff_login', { p_pin: pin });
     if (r.error) { state.msg = { kind: 'error', text: r.error }; state.pin = null; state.entry = ''; save(); }
-    else { state.pin = pin; state.me = r.name; state.data = r; save(); loadPraise(); }
+    else { state.pin = pin; state.me = r.name; state.data = r; save(); loadPraise(); loadProgress(); }
   } catch (e) { state.msg = { kind: 'error', text: e.message }; if (!state.me) state.entry = ''; }
   state.busy = false; render();
 }
+// Everyone's ticks (so all phones see the same progress). If this fails, the page
+// simply counts this phone's ticks, like before.
+async function loadProgress() {
+  try {
+    const r = await rpc('staff_progress', { p_pin: state.pin });
+    if (r && r.lens) { state.progress = r; if (state.me && (!state.view || state.view === 'status') && !state.done) { const y = window.scrollY; render(); window.scrollTo(0, y); } }
+  } catch (e) { /* keep the old numbers */ }
+}
+// Save my ticks online a moment after the last tap. The first tick also marks the cabin
+// "Cleaning" (same as tapping "I'm starting to clean").
+const tickTimers = {};
+function syncTicks(c) {
+  clearTimeout(tickTimers[c]);
+  tickTimers[c] = setTimeout(async () => {
+    const list = (state.data && state.data.checklist) || [];
+    const items = list.filter((_, i) => (state.ticks[c] || {})[i]);
+    try {
+      const parts = (state.data.parts || (state.data.parts = {}));
+      const mine = (parts[c] || {})[state.me];
+      if (items.length && (!mine || mine.status !== 'cleaning') && !(mine && mine.status === 'ready' && !items.length)) {
+        if (!mine) {
+          const r = await rpc('staff_mark', { p_pin: state.pin, p_cabin: c, p_status: 'cleaning', p_items: [], p_note: '' });
+          if (r && r.at) { (parts[c] || (parts[c] = {}))[state.me] = { status: 'cleaning', at: r.at }; }
+        }
+      }
+      await rpc('staff_tick', { p_pin: state.pin, p_cabin: c, p_items: items });
+    } catch (e) { /* ticks stay on this phone; they'll go up with the next tick */ }
+    if (state.view === 'cabin' && state.cabin === c) { const y = window.scrollY; renderChecklist(); window.scrollTo(0, y); }
+  }, 700);
+}
+// Keep Home and Cabin Status fresh while they're open.
+setInterval(() => {
+  if (document.hidden || !state.me || state.busy || state.uploading) return;
+  if (!state.view || state.view === 'status') refresh();
+}, 60000);
 // Guest praise comes separately so the main screens never wait for it.
 async function loadPraise() {
   try {
@@ -358,6 +393,7 @@ async function mark(status) {
     if (r.error) { state.msg = { kind: 'error', text: r.error }; }
     else if (status === 'ready') {
       delete state.ticks[cabin]; state.note = '';
+      rpc('staff_tick', { p_pin: state.pin, p_cabin: cabin, p_items: [] }).catch(() => {});
       state.cabin = null; state.view = null; save();
       await refresh();
       const parts = ((state.data && state.data.parts) || {})[cabin] || {};
@@ -535,19 +571,40 @@ function cabinState(c) {
   const d = state.data;
   const parts = (d.parts || {})[c] || {};
   const team = d.team || [];
-  const total = (d.checklist || []).length;
   const mine = parts[state.me];
-  const allReady = team.length > 0 && team.every((n) => parts[n] && parts[n].status === 'ready');
-  const anyCleaning = team.some((n) => parts[n] && parts[n].status === 'cleaning');
-  const anyReady = team.some((n) => parts[n] && parts[n].status === 'ready');
+  // Everyone's ticks are saved online (staff_progress); mine come straight from this phone.
+  const prog = state.progress || {};
+  const lens = prog.lens || { [state.me]: (d.checklist || []).length };
+  const others = (prog.ticks || {})[c] || {};
+  const members = team.length ? team : [state.me];
   const ticked = Object.values(state.ticks[c] || {}).filter(Boolean).length;
-  const status = allReady ? 'ready' : anyCleaning ? 'cleaning' : anyReady ? 'clean' : 'none';
-  // Tasks: a Ready cabin counts as all done; otherwise what I've ticked on this phone.
-  const done = allReady || (mine && mine.status === 'ready' && !ticked) ? total : Math.min(ticked, total);
-  const times = team.map((n) => parts[n]).filter(Boolean);
-  const started = times.filter((p) => p.status === 'cleaning').map((p) => p.at).sort()[0] || null;
+  const allReady = team.length > 0 && team.every((n) => parts[n] && parts[n].status === 'ready');
+  let tasksTotal = 0, tasksDone = 0;
+  const tickTimes = [];
+  members.forEach((n) => {
+    const len = Number(lens[n]) || (n === state.me ? (d.checklist || []).length : 0);
+    tasksTotal += len;
+    const p = parts[n];
+    const o = others[n];
+    if (o && o.n) tickTimes.push(o.at);
+    if (p && p.status === 'ready' && !(n === state.me && ticked)) tasksDone += len;
+    else tasksDone += Math.min(len, n === state.me ? ticked : (o ? Number(o.n) || 0 : 0));
+  });
+  const slots = slotsFor(c);
+  const have = photosFor(c);
+  const photosTotal = slots.length;
+  const photosHave = slots.filter((x) => have[x.id]).length;
+  const total = tasksTotal + photosTotal;
+  const done = allReady ? total : Math.min(total, tasksDone + photosHave);
+  const anyCleaning = members.some((n) => parts[n] && parts[n].status === 'cleaning');
+  const anyReady = members.some((n) => parts[n] && parts[n].status === 'ready');
+  const working = !allReady && (anyCleaning || ticked > 0 || tickTimes.length > 0 || (photosHave > 0 && !anyReady));
+  const status = allReady ? 'ready' : working ? 'cleaning' : anyReady ? 'clean' : 'none';
+  const times = members.map((n) => parts[n]).filter(Boolean);
+  const started = times.filter((p) => p.status === 'cleaning').map((p) => p.at)
+    .concat(tickTimes, slots.map((x) => have[x.id] && have[x.id].at).filter(Boolean)).sort()[0] || null;
   const finished = allReady ? times.map((p) => p.at).sort().slice(-1)[0] : null;
-  return { parts, team, total, done, status, started, finished, mine };
+  return { parts, team, total, done, status, started, finished, mine, tasksTotal: allReady ? tasksTotal : tasksTotal, tasksDone: allReady ? tasksTotal : tasksDone, photosTotal, photosHave };
 }
 const STATUS_LABEL = { ready: 'Ready', cleaning: 'Cleaning', clean: 'Part done', none: 'Not started' };
 
@@ -648,7 +705,7 @@ function renderHome() {
           <div class="bars">${sts.map((s) => `<div><div class="bar-top"><b>${esc(shortName(s.c))}</b><span>${s.done} of ${s.total}</span></div>
             <div class="track"><div class="${s.done < s.total ? 'part' : ''}" style="width:${s.total ? (s.done / s.total) * 100 : 0}%"></div></div></div>`).join('')}</div>
         </div>
-        <div class="cheer">${icon('check')}<span>${total === 0 ? 'No checklist yet — ask the owner.' : left === 0 ? 'All ' + total + ' tasks done · every cabin is ready!' : done + ' of ' + total + ' tasks done · ' + left + ' to go' + (pct >= 75 ? ', almost there!' : '. Kaya natin ’to!')}</span></div>
+        <div class="cheer">${icon('check')}<span>${total === 0 ? 'No checklist yet — ask the owner.' : left === 0 ? 'All ' + total + ' steps done · every cabin is ready!' : done + ' of ' + total + ' steps done · ' + left + ' to go' + (pct >= 75 ? ', almost there!' : '. Kaya natin ’to!')}</span></div>
       </section>` : ''}
       ${msgHtml()}
       ${arrivals.length ? `<p class="alert">Guests arrive TODAY 4:00 PM — ${esc(arrivals.map(cabinTitle).join(', '))}</p>` : ''}
@@ -695,13 +752,15 @@ function renderStatus() {
         const s = cabinState(c);
         const arr = (d.arrivals || {})[c];
         const ng = Number((d.arrivalGuests || {})[c]) || 0;
-        const people = s.team.length > 1 ? s.team.map((n) => { const p = s.parts[n]; return esc(n) + ': ' + (p ? (p.status === 'ready' ? 'done ' + clock(p.at) : 'cleaning since ' + clock(p.at)) : 'not yet'); }).join(' · ') : '';
+        const tk = ((state.progress || {}).ticks || {})[c] || {};
+        const lens = (state.progress || {}).lens || {};
+        const people = s.team.length > 1 ? s.team.map((n) => { const p = s.parts[n]; const o = n === state.me ? { n: Object.values(state.ticks[c] || {}).filter(Boolean).length } : tk[n]; return esc(n) + ': ' + (p && p.status === 'ready' ? 'done ' + clock(p.at) : o && o.n ? o.n + (lens[n] ? ' of ' + lens[n] : '') + ' ticked' : p ? 'cleaning since ' + clock(p.at) : 'not yet'); }).join(' · ') : '';
         return `<section class="card cabin">
           <div class="cabin-top"><h2>${esc(cabinTitle(c))}</h2><span class="chip ${s.status}">${STATUS_LABEL[s.status]}</span></div>
           <div class="who">
             ${s.started || s.status !== 'ready' ? '<div><span class="k">Started</span><span class="v">' + (s.started ? esc(clock(s.started)) : '—') + '</span></div>' : ''}
             <div><span class="k">Finished</span><span class="v">${s.finished ? esc(clock(s.finished)) : '—'}</span></div>
-            <span class="tasks">${s.status === 'ready' ? 'Ready for guests' : s.done + ' of ' + s.total + ' tasks'}</span>
+            <span class="tasks">${s.status === 'ready' ? 'Ready for guests' : s.tasksDone + ' of ' + s.tasksTotal + ' tasks' + (s.photosTotal ? '<br>' + s.photosHave + ' of ' + s.photosTotal + ' photos' : '')}</span>
           </div>
           ${people ? '<p class="small muted">' + people + '</p>' : ''}
           <p class="arrive${arr === today ? ' today' : ''}">${arr === today ? 'Guests arrive TODAY 4:00 PM' : arr ? 'Next guests ' + esc(dayText(arr)) : 'No guests coming yet'}${ng ? ' · ' + paxText(ng) : ''}</p>
@@ -1018,7 +1077,7 @@ function renderChecklist() {
   wireBack();
   document.getElementById('note').oninput = (e) => { state.note = e.target.value; };
   app.querySelectorAll('.task input').forEach((cb) => (cb.onchange = () => {
-    t[cb.dataset.i] = cb.checked; save();
+    t[cb.dataset.i] = cb.checked; save(); syncTicks(c);
     const y = window.scrollY; renderChecklist(); window.scrollTo(0, y);
   }));
   const st = document.getElementById('start');
