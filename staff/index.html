@@ -264,6 +264,38 @@ label.lbl{font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:u
 .pdots i{width:7px;height:7px;border-radius:9px;background:#C9C1AE;transition:width .2s}
 .pdots i.on{width:22px;background:var(--forest)}
 
+/* ---------- compact home (mock) ---------- */
+.prog-card{padding:16px 18px}
+.prog-card .prog{gap:18px;margin-top:10px!important}
+.prog-card .ring{width:100px;height:100px}
+.prog-card .ring .num b{font-size:1.9rem}
+.prog-card .ring .num span{font-size:.7rem}
+.prog-card .bars{gap:9px}
+.prog-card .bar-top{font-size:.9rem;white-space:nowrap}
+.prog-card .track{height:7px;margin-top:4px}
+.cheer.slim{margin-top:12px;padding:8px 12px;border-radius:12px;font-size:.88rem;gap:8px}
+.cheer.slim svg{width:16px;height:16px}
+.menu{padding:4px 16px}
+.mrow{display:flex;align-items:center;gap:14px;width:100%;background:none;border:0;border-top:1px solid var(--line);padding:12px 0;text-align:left;cursor:pointer;min-height:68px}
+.mrow:first-child{border-top:0}
+.mrow .ic{width:44px;height:44px;border-radius:12px;background:var(--sage);color:var(--forest);display:flex;align-items:center;justify-content:center;flex:none}
+.mrow .ic svg{width:22px;height:22px}
+.mrow .mt{flex:1;min-width:0}
+.mrow .mt b{display:block;font-family:var(--display);font-weight:500;font-size:1.4rem;line-height:1.1}
+.mrow .mt span{display:block;color:var(--muted);font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mrow .chips{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.mrow .chip{font-size:.74rem;padding:3px 10px}
+.mrow .mt .crow{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;white-space:normal;overflow:visible}
+.mrow .chev{color:var(--muted);flex:none}
+.mrow .chev svg{width:18px;height:18px;display:block}
+
+.today3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tbox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.tbox b{font-weight:600;font-size:.98rem}
+.tbox span{font-size:.76rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tbox.guest{background:#B3261E;border-color:#B3261E;color:#fff}
+.tbox.guest span{color:rgba(255,255,255,.88)}
+
 /* ---------- done ---------- */
 .donecard{text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;padding:30px 20px}
 .donecard .big{width:72px;height:72px;border-radius:50%;background:var(--forest);color:#fff;display:flex;align-items:center;justify-content:center}
@@ -706,9 +738,9 @@ function renderHome() {
       ${verseHtml()}
     </header>
     <div class="body lift">
-      ${cabins.length ? `<section class="card" aria-label="Today's progress">
+      ${cabins.length ? `<section class="card prog-card" aria-label="Today's progress">
         <p class="eyebrow">Today's progress</p>
-        <div class="prog" style="margin-top:16px">
+        <div class="prog">
           <div class="ring" role="img" aria-label="${pct}% done">
             <svg viewBox="0 0 132 132"><circle cx="66" cy="66" r="${R}" fill="none" stroke="var(--line)" stroke-width="13"/>
               <circle cx="66" cy="66" r="${R}" fill="none" stroke="var(--forest)" stroke-width="13" stroke-linecap="round" stroke-dasharray="${(C * pct / 100).toFixed(1)} ${C.toFixed(1)}"/></svg>
@@ -717,28 +749,24 @@ function renderHome() {
           <div class="bars">${sts.map((s) => `<div><div class="bar-top"><b>${esc(shortName(s.c))}</b><span>${s.done} of ${s.total}</span></div>
             <div class="track"><div class="${s.done < s.total ? 'part' : ''}" style="width:${s.total ? (s.done / s.total) * 100 : 0}%"></div></div></div>`).join('')}</div>
         </div>
-        <div class="cheer">${icon('check')}<span>${total === 0 ? 'No checklist yet — ask the owner.' : left === 0 ? 'All ' + total + ' steps done · every cabin is ready!' : done + ' of ' + total + ' steps done · ' + left + ' to go' + (pct >= 75 ? ', almost there!' : '. Kaya natin ’to!')}</span></div>
+        <div class="cheer slim">${icon('check')}<span>${total === 0 ? 'No checklist yet — ask the owner.' : left === 0 ? 'All ' + total + ' steps done · every cabin is ready!' : done + ' of ' + total + ' done · ' + left + ' to go' + (pct >= 75 ? ' · almost there!' : ' · Kaya natin ’to!')}</span></div>
       </section>` : ''}
       ${msgHtml()}
-      ${arrivals.length ? `<p class="alert">Guests arrive TODAY 4:00 PM — ${esc(arrivals.map(cabinTitle).join(', '))}</p>` : ''}
+      ${cabins.length ? `<div class="today3" aria-label="Guests today">${cabins.map((c) => {
+        const arr = (d.arrivals || {})[c];
+        const ng = Number((d.arrivalGuests || {})[c]) || 0;
+        const isToday = arr === today;
+        return '<div class="tbox' + (isToday ? ' guest' : '') + '"><b>' + esc(shortName(c)) + '</b><span>' + (isToday ? (ng ? 'Today · ' + ng + ' pax' : 'Guests today') : arr ? 'Next ' + esc(new Date(arr + 'T00:00:00').toLocaleDateString('en-PH', { month: 'short', day: 'numeric' })) : 'No guests') + '</span></div>';
+      }).join('')}</div>` : ''}
       ${ocularHtml(visitsOn(d, today), visitsOn(d, today).length === 1 ? 'Ocular visit today' : 'Ocular visits today')}
       ${ocularHtml(visitsOn(d, addDaysIso(today, 1)), 'Ocular visit tomorrow')}
       ${praiseHtml()}
       <p class="section">Main menu</p>
-      <button class="tile" id="go-status">
-        <div class="head"><span class="ic">${icon('home', 1.8)}</span><span class="chips">${counts.map(([k, n]) => '<span class="chip ' + k + '">' + n + ' ' + STATUS_LABEL[k] + '</span>').join('') || (cabins.length ? '<span class="chip clean">All ready</span>' : '')}</span></div>
-        <h3>Cabin Status</h3><p>${esc(cabins.map(shortName).join(' · ')) || 'No cabins yet'}</p>
-      </button>
-      <div class="tiles2">
-        ${items.length ? `<button class="tile" id="go-stock">
-          <div class="head"><span class="ic">${icon('box', 1.8)}</span>${d.stockDue ? '<span class="chips"><span class="chip due">Due</span></span>' : ''}</div>
-          <h3>Supplies</h3><p>${d.stockDue ? 'Count due' + (low.length ? ' · ' + low.length + ' low' : '') : low.length ? low.length + ' item' + (low.length === 1 ? '' : 's') + ' low' : last ? 'Nothing low' : 'Not counted yet'}</p>
-        </button>` : ''}
-        <button class="tile" id="go-who">
-          <div class="head"><span class="ic">${icon('cal', 1.8)}</span></div>
-          <h3>Next Booking</h3><p>${nxt ? (nxt.checkIn === today ? 'Today' : esc(dayText(nxt.checkIn))) + ' · ' + esc((nxt.cabins || []).map(shortName).join(' + ')) : 'Who’s coming'}</p>
-        </button>
-      </div>
+      <section class="card menu" aria-label="Main menu">
+        <button class="mrow" id="go-status"><span class="ic">${icon('home')}</span><span class="mt"><b>Cabin Status</b><span class="crow">${counts.map(([k, n]) => '<span class="chip ' + k + '">' + n + ' ' + STATUS_LABEL[k] + '</span>').join('') || (cabins.length ? '<span class="chip clean">All ready</span>' : esc('No cabins yet'))}</span></span><span class="chev">${icon('chev')}</span></button>
+        ${items.length ? `<button class="mrow" id="go-stock"><span class="ic">${icon('box')}</span><span class="mt"><b>Supplies</b><span>${d.stockDue ? 'Count due' + (low.length ? ' · ' + low.length + ' low' : '') : low.length ? low.length + ' item' + (low.length === 1 ? '' : 's') + ' low' : last ? 'Nothing low' : 'Not counted yet'}</span></span>${d.stockDue ? '<span class="chips"><span class="chip due">Due</span></span>' : ''}<span class="chev">${icon('chev')}</span></button>` : ''}
+        <button class="mrow" id="go-who"><span class="ic">${icon('cal')}</span><span class="mt"><b>Next Booking</b><span>${nxt ? (nxt.checkIn === today ? 'Today' : esc(dayText(nxt.checkIn))) + ' · ' + esc((nxt.cabins || []).map(shortName).join(' + ')) : 'Who’s coming'}</span></span><span class="chev">${icon('chev')}</span></button>
+      </section>
     </div>`;
   loadVerse(); wireVerse(); wirePraise();
   document.getElementById('me').onclick = () => { state.menu = !state.menu; renderHome(); };
