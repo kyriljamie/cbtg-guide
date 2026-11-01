@@ -1,0 +1,107 @@
+/* CBTG page themes — see looks.js. Shared by staff/ and expense/. */
+
+/* ---------- the dark header band on the disbursement form (all looks) ---------- */
+.wrap > .top:first-child, .eband{
+  margin:-20px -16px 0; padding:calc(18px + env(safe-area-inset-top)) 18px 26px;
+  border-radius:0 0 26px 26px; color:var(--lk-ink); background:var(--lk-bg); position:relative;
+  align-items:center;
+}
+.wrap > .top:first-child::before{
+  content:""; flex:none; width:44px; height:44px; border-radius:50%;
+  background:url(img/logo-96.png) center/cover, #111; box-shadow:0 0 0 1.5px var(--lk-acc);
+}
+.wrap > .top:first-child > div{flex:1; min-width:0}
+.wrap > .top:first-child .eyebrow, .eband .eyebrow{color:var(--lk-acc)}
+.wrap > .top:first-child h1, .eband h1{color:var(--lk-ink)}
+.wrap > .top:first-child .muted, .eband .muted{color:var(--lk-sub)}
+.wrap > .top:first-child .backbtn{background:transparent; color:var(--lk-acc); border-color:var(--lk-acc)}
+.wrap > .top:first-child .link{color:var(--lk-acc)}
+
+/* disbursement form log-in */
+.eband{text-align:center; padding-top:calc(44px + env(safe-area-inset-top)); padding-bottom:58px; display:flex; flex-direction:column; align-items:center}
+.eband .elogo{width:104px; height:104px; border-radius:50%; display:block; box-shadow:0 0 0 2px var(--lk-acc), 0 10px 30px rgba(0,0,0,.35)}
+.eband .eyebrow{margin-top:18px; letter-spacing:.24em}
+.eband h1{font-size:2.5rem; margin-top:4px}
+.eband .muted{margin-top:2px}
+.ecard{margin-top:-46px; position:relative; z-index:1; box-shadow:0 10px 28px rgba(0,0,0,.12)}
+.ecard .btn.primary{background:var(--lk-btn); color:var(--lk-btn-ink)}
+
+/* ---------- the four looks ---------- */
+:root{
+  --lk-bg:#121412; --lk-acc:#D8B978; --lk-ink:#F6F1E6; --lk-sub:rgba(246,241,230,.72);
+  --lk-btn:#121412; --lk-btn-ink:#D8B978;
+}
+
+/* 1 · Gold foil */
+:root[data-look="gold"]:not([data-nolook]){
+  --night:#0B0B09; --night-2:#1D1A12; --gold:#D8B978;
+  --lk-bg:radial-gradient(120% 90% at 50% 0%, #3A3020 0%, #0B0B09 62%);
+  --lk-acc:#D8B978; --lk-ink:#F6E7B8; --lk-sub:#BFB394;
+  --lk-btn:linear-gradient(180deg,#E3C373,#B28A35); --lk-btn-ink:#1A1408;
+}
+[data-look="gold"] .hero, [data-look="gold"] .login{background:var(--lk-bg)}
+[data-look="gold"] .hero, [data-look="gold"] .wrap > .top:first-child, [data-look="gold"] .eband{border-bottom:3px solid #C9A24A}
+[data-look="gold"] .hero h1, [data-look="gold"] .wrap > .top:first-child h1, [data-look="gold"] .eband h1{
+  background:linear-gradient(180deg,#FFF1C4,#C9A24A 70%,#9A7428); -webkit-background-clip:text; background-clip:text; color:transparent}
+[data-look="gold"] .login .logo, [data-look="gold"] .eband .elogo{box-shadow:0 0 0 2px #C9A24A, 0 0 36px rgba(201,162,74,.55)}
+[data-look="gold"] .key.go{background:linear-gradient(180deg,#E3C373,#B28A35); border-color:#C9A24A}
+
+/* 2 · Forest lodge */
+:root[data-look="forest"]:not([data-nolook]){
+  --night:#1F3A2B; --night-2:#2A4A37; --gold:#D8B866;
+  --lk-bg:repeating-linear-gradient(115deg, rgba(255,255,255,.035) 0 2px, transparent 2px 9px), linear-gradient(160deg,#24442F,#14261C);
+  --lk-acc:#D8B866; --lk-ink:#FBF6EA; --lk-sub:#B8C9B8;
+  --lk-btn:#1F3A2B; --lk-btn-ink:#FBF6EA;
+}
+[data-look="forest"] .hero, [data-look="forest"] .login{background:var(--lk-bg)}
+[data-look="forest"] .hero, [data-look="forest"] .wrap > .top:first-child, [data-look="forest"] .eband{border-radius:0 0 34px 34px}
+[data-look="forest"] .login .logo, [data-look="forest"] .eband .elogo{box-shadow:0 0 0 3px #EADFC8, 0 10px 30px rgba(0,0,0,.35)}
+
+/* 3 · Night at the cabins: stars, a crescent moon, and mountains with a lit cabin */
+:root[data-look="night"]:not([data-nolook]){
+  --night:#1D2A4D; --night-2:#26355E; --gold:#F3D98B;
+  --lk-stars:radial-gradient(1.3px 1.3px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 72% 12%,#fff,transparent),
+    radial-gradient(1.5px 1.5px at 90% 36%,#FFE9B0,transparent),radial-gradient(1px 1px at 38% 28%,#fff,transparent),
+    radial-gradient(1px 1px at 56% 6%,#fff,transparent),radial-gradient(1.2px 1.2px at 6% 52%,#fff,transparent),
+    radial-gradient(1px 1px at 94% 64%,#fff,transparent),radial-gradient(1.2px 1.2px at 28% 62%,#fff,transparent);
+  --lk-moon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath d='M17 2a12 12 0 1 0 9 18A10 10 0 0 1 17 2z' fill='%23F3D98B'/%3E%3C/svg%3E") right 34% top calc(16px + env(safe-area-inset-top)) / 24px 24px no-repeat;
+  --lk-hills:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 46' preserveAspectRatio='none'%3E%3Cpath d='M0 46V30L44 14l34 16 42-24 40 26 34-12 32 18 38-24 34 20 30-12 38 16 34-10v24z' fill='%23111A33'/%3E%3Cpath d='M266 40l13-11 13 11v6h-26z' fill='%230B1229'/%3E%3Crect x='274' y='38' width='5' height='5' fill='%23F3D98B'/%3E%3Crect x='282' y='38' width='4' height='5' fill='%23F3D98B' opacity='.7'/%3E%3C/svg%3E") left bottom / 100% 44px no-repeat;
+  --lk-bg:var(--lk-moon), var(--lk-hills), var(--lk-stars), linear-gradient(180deg,#0B1229 0%,#1D2A4D 70%,#2E3B5E 100%);
+  --lk-acc:#F3D98B; --lk-ink:#FFFFFF; --lk-sub:#C7CFE6;
+  --lk-btn:#1D2A4D; --lk-btn-ink:#F3D98B;
+}
+[data-look="night"] .hero{background:var(--lk-bg); padding-bottom:58px}
+[data-look="night"] .hero.tall{padding-bottom:84px}
+[data-look="night"] .login{background:var(--lk-moon), var(--lk-stars), linear-gradient(180deg,#0B1229 0%,#1D2A4D 60%,#2E3B5E 100%)}
+[data-look="night"] .wrap > .top:first-child{padding-bottom:52px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cpath d='M17 2a12 12 0 1 0 9 18A10 10 0 0 1 17 2z' fill='%23F3D98B'/%3E%3C/svg%3E") right 16px top calc(10px + env(safe-area-inset-top)) / 20px 20px no-repeat,
+    var(--lk-hills), var(--lk-stars), linear-gradient(180deg,#0B1229 0%,#1D2A4D 70%,#2E3B5E 100%)}
+/* the log-in card covers the bottom of the band, so lift the hills above it */
+[data-look="night"] .eband{padding-bottom:100px;
+  background:var(--lk-moon),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 46' preserveAspectRatio='none'%3E%3Cpath d='M0 46V30L44 14l34 16 42-24 40 26 34-12 32 18 38-24 34 20 30-12 38 16 34-10v24z' fill='%23111A33'/%3E%3Cpath d='M266 40l13-11 13 11v6h-26z' fill='%230B1229'/%3E%3Crect x='274' y='38' width='5' height='5' fill='%23F3D98B'/%3E%3Crect x='282' y='38' width='4' height='5' fill='%23F3D98B' opacity='.7'/%3E%3C/svg%3E") left bottom 46px / 100% 44px no-repeat,
+    linear-gradient(#111A33,#111A33) left bottom / 100% 47px no-repeat,
+    var(--lk-stars), linear-gradient(180deg,#0B1229 0%,#1D2A4D 70%,#2E3B5E 100%)}
+[data-look="night"] .key.go{color:#0B1229}
+
+/* staff log-in has a tall keypad, so its picker is a slim row */
+.login .lookpick{margin-top:14px}
+.login .lookpick-t{display:none}
+.login .lp{width:52px; min-height:52px; font-size:.7rem; gap:3px}
+.login .lp i{width:26px; height:26px}
+
+/* ---------- the swatch picker ---------- */
+.lookpick{margin:18px auto 0; text-align:center}
+.lookpick-t{font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; opacity:.75; margin:0 0 8px}
+.lookpick-row{display:flex; gap:6px; justify-content:center}
+.lp{background:none; border:0; padding:4px; width:64px; min-height:64px; cursor:pointer; color:inherit; font:inherit;
+  display:flex; flex-direction:column; align-items:center; gap:5px; font-size:.78rem; opacity:.8}
+.lp i{display:block; width:36px; height:36px; border-radius:50%; box-shadow:0 0 0 2px rgba(255,255,255,.9), 0 0 0 3.5px rgba(0,0,0,.18)}
+.lp.on{opacity:1; font-weight:700}
+.lp.on i{box-shadow:0 0 0 2px #fff, 0 0 0 5px #C9A24A}
+.lp:focus-visible{outline:2px solid #C9A24A; outline-offset:2px; border-radius:12px}
+.lp-dark i{background:#121412}
+.lp-gold i{background:radial-gradient(circle at 50% 38%,#E3C373,#3A3020 58%,#0B0B09)}
+.lp-forest i{background:repeating-linear-gradient(115deg,#2B4A35 0 3px,#1F3A2B 3px 7px)}
+.lp-night i{background:radial-gradient(1px 1px at 30% 30%,#fff,transparent),radial-gradient(1px 1px at 66% 58%,#fff,transparent),linear-gradient(180deg,#0B1229,#2E3B5E)}
+.login .lookpick{color:var(--on-night,#fff)}

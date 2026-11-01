@@ -302,6 +302,8 @@ label.lbl{font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:u
 .donecard .big svg{width:36px;height:36px}
 .donecard h2{font-size:2rem}
 </style>
+<link rel="stylesheet" href="../looks.css">
+<script src="../looks.js"></script>
 </head>
 <body>
 <main class="app" id="app" aria-live="polite"></main>
@@ -523,6 +525,7 @@ function renderLogin() {
       : k === 'go'
         ? `<button class="key ${n >= 4 ? 'go' : 'plain'}" data-k="go" aria-label="Log in" ${n >= 4 && !state.busy ? '' : 'disabled'}>${n >= 4 ? icon('arrow') : ''}</button>`
         : `<button class="key" data-k="${k}" ${state.busy ? 'disabled' : ''}>${k}</button>`).join('')}</div>
+    ${window.cbtgLook ? cbtgLook.picker() : ''}
     <p class="lfoot">${icon('lock')} Stays logged in on this phone</p>
   </section>`;
   app.querySelectorAll('.key').forEach((b) => (b.onclick = () => press(b.dataset.k)));

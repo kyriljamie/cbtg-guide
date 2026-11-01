@@ -135,6 +135,8 @@ input.t:focus,textarea.t:focus,.pin:focus{outline:2px solid var(--gold);outline-
 .dayhead{font-size:.78rem;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;padding-top:12px}
 .sec h2{margin-bottom:6px}
 </style>
+<link rel="stylesheet" href="../looks.css">
+<script src="../looks.js"></script>
 </head>
 <body>
 <main class="wrap" id="app" aria-live="polite"></main>
@@ -624,15 +626,21 @@ function renderOverview() {
 
 function renderLogin() {
   app.innerHTML = `
-    <div class="top"><div><p class="eyebrow">Cabins by the Generals</p><h1>Disbursements</h1></div></div>
-    <p class="muted">Enter your PIN to add expenses and owner advances to the CBTG app.</p>
-    ${msgHtml()}
-    <form id="f" class="card">
+    <header class="eband">
+      <img class="elogo" src="../img/logo-320.png" alt="Cabins by the Generals" width="104" height="104">
+      <p class="eyebrow">Welcome back</p>
+      <h1>Disbursements</h1>
+      <p class="muted small">Cabins by the Generals</p>
+    </header>
+    <form id="f" class="card ecard">
+      <p class="muted small">Enter your PIN to add expenses and owner advances to the CBTG app.</p>
       <label for="pin" class="small muted">Your PIN</label>
       <input id="pin" class="pin" type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" maxlength="6" required>
       <button class="btn primary" ${state.busy ? 'disabled' : ''}>${state.busy ? 'Checking…' : 'Log in'}</button>
     </form>
-    <p class="small muted">Tip (iPhone): open this in Safari, tap Share → “Add to Home Screen”.</p>`;
+    ${msgHtml()}
+    ${window.cbtgLook ? cbtgLook.picker() : ''}
+    <p class="small muted" style="text-align:center">🔒 Stays logged in on this phone · Tip (iPhone): Safari → Share → “Add to Home Screen”.</p>`;
   const f = document.getElementById('f'), pin = document.getElementById('pin');
   if (!state.busy) pin.focus();
   f.onsubmit = (e) => { e.preventDefault(); if (pin.value.trim()) login(pin.value.trim()); };
