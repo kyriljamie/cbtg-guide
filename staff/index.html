@@ -304,6 +304,7 @@ label.lbl{font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:u
 </style>
 <link rel="stylesheet" href="../looks.css">
 <script src="../looks.js"></script>
+<script src="../push.js"></script>
 </head>
 <body>
 <main class="app" id="app" aria-live="polite"></main>
@@ -489,6 +490,7 @@ window.addEventListener('popstate', (e) => {
 
 function render() {
   if (!state.me) return renderLogin();
+  if (window.cbtgRemind) cbtgRemind.take();
   syncHistory();
   if (state.done) return renderDone();
   if (state.view === 'status') return renderStatus();
@@ -496,6 +498,7 @@ function render() {
   if (state.view === 'photos' && state.cabin) return renderPhotos();
   if (state.view === 'stock') return renderStock();
   if (state.view === 'who') return renderWho();
+  if (state.view === 'remind' && window.cbtgRemind) return cbtgRemind.render();
   return renderHome();
 }
 
@@ -764,6 +767,7 @@ function renderHome() {
       ${ocularHtml(visitsOn(d, today), visitsOn(d, today).length === 1 ? 'Ocular visit today' : 'Ocular visits today')}
       ${ocularHtml(visitsOn(d, addDaysIso(today, 1)), 'Ocular visit tomorrow')}
       ${praiseHtml()}
+      ${window.cbtgRemind ? cbtgRemind.cardHtml() : ''}
       <p class="section">Main menu</p>
       <section class="card menu" aria-label="Main menu">
         <button class="mrow" id="go-status"><span class="ic">${icon('home')}</span><span class="mt"><b>Cabin Status</b><span class="crow">${counts.map(([k, n]) => '<span class="chip ' + k + '">' + n + ' ' + STATUS_LABEL[k] + '</span>').join('') || (cabins.length ? '<span class="chip clean">All ready</span>' : esc('No cabins yet'))}</span></span><span class="chev">${icon('chev')}</span></button>
@@ -772,6 +776,7 @@ function renderHome() {
       </section>
     </div>`;
   loadVerse(); wireVerse(); wirePraise();
+  if (window.cbtgRemind) cbtgRemind.wire();
   document.getElementById('me').onclick = () => { state.menu = !state.menu; renderHome(); };
   const out = document.getElementById('out');
   if (out) out.onclick = () => { state.pin = null; state.me = null; state.data = null; state.entry = ''; state.view = null; state.menu = false; save(); state.msg = null; render(); };
@@ -1159,5 +1164,6 @@ function goHomeHist() {
 load();
 if (state.pin) login(state.pin); else render();
 </script>
+<script src="reminders.js"></script>
 </body>
 </html>

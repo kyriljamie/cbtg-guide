@@ -137,6 +137,7 @@ input.t:focus,textarea.t:focus,.pin:focus{outline:2px solid var(--gold);outline-
 </style>
 <link rel="stylesheet" href="../looks.css">
 <script src="../looks.js"></script>
+<script src="../push.js"></script>
 </head>
 <body>
 <main class="wrap" id="app" aria-live="polite"></main>
@@ -340,7 +341,7 @@ function renderForm() {
     </form>
     ${item ? '<button class="btn secondary" id="back2">‹ Back to stock</button>' : ''}
     ${!item ? recentHtml() : ''}
-    ${item ? '' : '<p class="small muted">Tip (iPhone): tap Share → “Add to Home Screen” to open this like an app.</p>'}`;
+    ${item ? '' : (window.cbtgOwner ? cbtgOwner.cardHtml() : '') + '<p class="small muted">Tip (iPhone): tap Share → “Add to Home Screen” to open this like an app.</p>'}`;
 
   const keep = () => {
     const q = document.getElementById('qty'); if (q) f.qty = q.value;
@@ -362,6 +363,7 @@ function renderForm() {
   const out = document.getElementById('out');
   if (out) out.onclick = () => { state.pin = null; state.data = null; state.msg = null; save(); render(); };
   wireTop();
+  if (window.cbtgOwner) cbtgOwner.wire();
   ['back', 'back2'].forEach((id) => { const b = document.getElementById(id); if (b) b.onclick = goBack; });
   const step = (n) => { keep(); const v = Math.max(0, (parseAmount(f.qty) || 0) + n); f.qty = v ? String(v) : ''; render(); };
   const qm = document.getElementById('qm'); if (qm) qm.onclick = () => step(-1);
@@ -649,5 +651,6 @@ function renderLogin() {
 load();
 if (state.pin) login(state.pin); else render();
 </script>
+<script src="alerts.js"></script>
 </body>
 </html>
