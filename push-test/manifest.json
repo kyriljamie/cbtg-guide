@@ -1,0 +1,13 @@
+{
+  "name": "CBTG Reminders",
+  "short_name": "CBTG",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#121412",
+  "theme_color": "#121412",
+  "icons": [
+    { "src": "../img/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "../img/logo-320.png", "sizes": "320x320", "type": "image/png" }
+  ]
+}

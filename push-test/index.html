@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#121412">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CBTG">
+<title>CBTG Reminders</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="../img/favicon-48.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<style>
+:root{--bg:#F4EFE4;--surface:#FFFDF7;--fg:#1B261E;--muted:#5D675F;--line:#E4DDCD;--night:#121412;--gold:#D8B978;--forest:#2F5D3A;--ok:#2E6B3F;--ok-soft:#DDEADF;--bad:#B3261E;--bad-soft:#F7E1DE;--warn:#8A4B0F;--warn-soft:#FBE7C7}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:16px;line-height:1.5}
+.hero{background:var(--night);color:#F6F1E6;border-radius:0 0 28px 28px;padding:calc(18px + env(safe-area-inset-top)) 20px 30px}
+.row{display:flex;align-items:center;gap:12px}.row img{width:44px;height:44px;border-radius:50%;box-shadow:0 0 0 1.5px var(--gold)}
+.brand{font-family:Georgia,serif;font-size:1.5rem;letter-spacing:.14em}
+.eb{color:var(--gold);font-size:.74rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin:18px 0 2px}
+h1{font-family:Georgia,serif;font-weight:400;font-size:2.2rem;margin:0;line-height:1.1}
+main{max-width:520px;margin:0 auto;padding:18px 18px calc(30px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:18px}
+.card h2{font-family:Georgia,serif;font-weight:400;font-size:1.5rem;margin:0 0 6px}
+.muted{color:var(--muted)}.small{font-size:.88rem}
+ol{margin:6px 0 0;padding-left:22px}ol li{margin:6px 0}
+.btn{display:block;width:100%;border:0;border-radius:16px;min-height:56px;font:inherit;font-weight:700;font-size:1.05rem;cursor:pointer;margin-top:12px}
+.g{background:var(--forest);color:#fff}.o{background:#fff;color:var(--fg);border:1.5px solid var(--line)}
+.btn:disabled{opacity:.5}
+input{font:inherit;width:100%;min-height:50px;border-radius:14px;border:1.5px solid var(--line);background:#fff;padding:10px 14px;margin-top:6px}
+.msg{border-radius:14px;padding:12px 14px;font-weight:600}.ok{background:var(--ok-soft);color:var(--ok)}.bad{background:var(--bad-soft);color:var(--bad)}.warn{background:var(--warn-soft);color:var(--warn)}
+.big{font-size:3rem;text-align:center}
+.hide{display:none}
+</style>
+</head>
+<body>
+<header class="hero"><div class="row"><img src="../img/logo-96.png" alt=""><span class="brand">CBTG</span></div>
+<p class="eb" id="eb">Test</p><h1 id="title">Staff reminders</h1></header>
+<main id="app"></main>
+<script>
+const API = 'https://fnebydfckdqgigtfhjfk.supabase.co/rest/v1/rpc/';
+const FN = 'https://fnebydfckdqgigtfhjfk.supabase.co/functions/v1/cbtg-push';
+const KEY = 'sb_publishable_PLLPO77LyLTlHHQr1yF23Q_Y27vUAO1';
+const STORE = 'cbtg-push-test';
+const app = document.getElementById('app');
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+let st = {}; try { st = JSON.parse(localStorage.getItem(STORE) || '{}'); } catch (e) {}
+const save = () => { try { localStorage.setItem(STORE, JSON.stringify(st)); } catch (e) {} };
+let msg = null, busy = false;
+
+const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const supported = 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
+const doneMode = new URLSearchParams(location.search).has('done');
+
+async function rpc(fn, body) {
+  const r = await fetch(API + fn, { method: 'POST', headers: { apikey: KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if (!r.ok) throw new Error('No connection (' + r.status + '). Check data / Wi-Fi.');
+  return r.json();
+}
+async function callFn(body) {
+  const r = await fetch(FN, { method: 'POST', headers: { apikey: KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok || j.error) throw new Error(j.error || ('Reminder server error (' + r.status + ')'));
+  return j;
+}
+function b64ToBytes(b64) {
+  const p = '='.repeat((4 - (b64.length % 4)) % 4);
+  const raw = atob((b64 + p).replace(/-/g, '+').replace(/_/g, '/'));
+  return Uint8Array.from(raw, (c) => c.charCodeAt(0));
+}
+async function currentSub() {
+  if (!supported) return null;
+  const reg = await navigator.serviceWorker.getRegistration('./');
+  return reg ? reg.pushManager.getSubscription() : null;
+}
+
+async function turnOn() {
+  const name = (document.getElementById('nm').value || '').trim();
+  if (!name) { msg = { k: 'bad', t: 'Type your name first.' }; return render(); }
+  st.name = name; save();
+  busy = true; msg = { k: 'warn', t: 'Turning on… tap “Allow” when the phone asks.' }; render();
+  try {
+    const perm = await Notification.requestPermission();
+    if (perm !== 'granted') throw new Error('Notifications were not allowed. On iPhone: Settings → Notifications → CBTG → Allow.');
+    const reg = await navigator.serviceWorker.register('sw.js', { scope: './' });
+    await navigator.serviceWorker.ready;
+    const { key } = await callFn({ action: 'key' });
+    let sub = await reg.pushManager.getSubscription();
+    if (!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToBytes(key) });
+    const r = await rpc('push_subscribe', { p_name: name, p_sub: sub.toJSON(), p_ua: navigator.userAgent });
+    if (r.error) throw new Error(r.error);
+    st.on = true; save();
+    msg = { k: 'ok', t: '✓ Reminders are ON for this phone.' };
+  } catch (e) { msg = { k: 'bad', t: e.message || String(e) }; }
+  busy = false; render();
+}
+
+async function sendTest(delay) {
+  busy = true; msg = null; render();
+  try {
+    const sub = await currentSub();
+    if (!sub) throw new Error('Reminders are not on yet for this phone. Tap “Turn on reminders” first.');
+    await callFn({ action: 'test', sub: sub.toJSON(), delay });
+    msg = { k: 'ok', t: delay ? '✓ Sent! Lock your phone now — the test arrives in about ' + delay + ' seconds.' : '✓ Sent — it should pop up now.' };
+  } catch (e) { msg = { k: 'bad', t: e.message || String(e) }; }
+  busy = false; render();
+}
+
+async function markDone() {
+  busy = true; render();
+  try {
+    const r = await rpc('push_done', { p_name: st.name || '', p_task: 'TEST · Close all gates' });
+    if (r.error) throw new Error(r.error);
+    const at = new Date(r.at).toLocaleTimeString('en-PH', { hour: 'numeric', minute: '2-digit' });
+    msg = { k: 'ok', t: '✓ Recorded — ' + (st.name || 'you') + ' at ' + at + '. Jay can see this. The test worked! 🎉' };
+    st.doneAt = r.at; save();
+  } catch (e) { msg = { k: 'bad', t: e.message || String(e) }; }
+  busy = false; render();
+}
+
+function msgHtml() { return msg ? `<div class="msg ${msg.k}">${esc(msg.t)}</div>` : ''; }
+
+async function render() {
+  const eb = document.getElementById('eb'), title = document.getElementById('title');
+  if (doneMode) {
+    eb.textContent = 'Test reminder'; title.textContent = 'Close all gates';
+    app.innerHTML = `<section class="card"><div class="big">🔒</div><h2 style="text-align:center">Gates closed?</h2>
+      <p class="muted small" style="text-align:center">This is only a test — tap the button to show it works.</p>
+      <button class="btn g" id="done" ${busy ? 'disabled' : ''}>✓ All gates closed</button></section>${msgHtml()}
+      <button class="btn o" id="home">‹ Back to the test page</button>`;
+    document.getElementById('done').onclick = markDone;
+    document.getElementById('home').onclick = () => { location.href = './'; };
+    return;
+  }
+  eb.textContent = 'Test'; title.textContent = 'Staff reminders';
+  if (!supported && !(isIOS && !standalone)) {
+    app.innerHTML = `<section class="card"><h2>This browser can't get reminders</h2><p class="muted">On Android, open this page in <b>Chrome</b>. On iPhone, use <b>Safari</b> and add it to the Home Screen (iOS 16.4 or newer).</p></section>`;
+    return;
+  }
+  if (isIOS && !standalone) {
+    app.innerHTML = `<section class="card"><h2>📲 First, add this to your Home Screen</h2>
+      <p class="muted small">iPhones only allow reminders from pages opened from the Home Screen.</p>
+      <ol><li>Tap the <b>Share</b> button <span aria-hidden="true">(□↑)</span> at the bottom of Safari.</li>
+      <li>Scroll down and tap <b>“Add to Home Screen”</b>, then <b>Add</b>.</li>
+      <li>Close Safari and open the new <b>CBTG</b> icon on your Home Screen.</li></ol>
+      <p class="muted small" style="margin-top:10px">Needs iOS 16.4 or newer (Settings → General → About).</p></section>`;
+    return;
+  }
+  const sub = await currentSub().catch(() => null);
+  const perm = Notification.permission;
+  const on = !!sub && perm === 'granted';
+  app.innerHTML = `
+    <section class="card"><h2>${on ? '🔔 Reminders are ON' : '1 · Turn on reminders'}</h2>
+      ${on ? `<p class="muted small">This phone is set up as <b>${esc(st.name || '')}</b>.</p>` : `<label class="small muted" for="nm">Your name</label><input id="nm" autocomplete="name" placeholder="e.g. Emely" value="${esc(st.name || '')}">
+      <button class="btn g" id="on" ${busy ? 'disabled' : ''}>🔔 Turn on reminders</button>`}
+      ${perm === 'denied' ? '<p class="msg bad small" style="margin-top:10px">Notifications are blocked for this page. iPhone: Settings → Notifications → CBTG → Allow Notifications. Android: tap the lock icon by the address → Notifications → Allow.</p>' : ''}
+    </section>
+    <section class="card"><h2>2 · Send a test</h2>
+      <p class="muted small">Tap the first button, then <b>lock your phone</b> and wait. The test should appear on the lock screen. Tap it to open the “Gates closed?” screen.</p>
+      <button class="btn g" id="t30" ${on && !busy ? '' : 'disabled'}>⏱ Send a test in 30 seconds</button>
+      <button class="btn o" id="t0" ${on && !busy ? '' : 'disabled'}>Send a test now</button>
+    </section>
+    ${msgHtml()}
+    <p class="muted small" style="text-align:center">Didn't arrive? Check Focus / Do Not Disturb is off, and that notifications are allowed for CBTG.</p>`;
+  const b = document.getElementById('on'); if (b) b.onclick = turnOn;
+  document.getElementById('t30').onclick = () => sendTest(30);
+  document.getElementById('t0').onclick = () => sendTest(0);
+}
+if (supported) navigator.serviceWorker.register('sw.js', { scope: './' }).catch(() => {});
+render();
+</script>
+</body>
+</html>
