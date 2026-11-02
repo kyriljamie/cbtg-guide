@@ -6,7 +6,7 @@
 <meta name="description" content="Beach guide ng Cabins by the Generals: mga beach at isla malapit sa Sariaya, Quezon, with Google Maps directions from the cabins.">
 <title>Beach Day mula CBTG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap">
 <style>
 /* Layout: same phone-first column as Ikot sa Sariaya; ready-made beach trips first, then beaches grouped by coast */
 :root{
@@ -32,9 +32,35 @@ p{margin:0}
 a{color:var(--forest)}
 a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .eyebrow{font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
-header{display:flex;flex-direction:column;gap:12px}
+header{display:flex;flex-direction:column;gap:0}
 header .lede{color:var(--muted);max-width:56ch}
-.back{font-size:.85rem;font-weight:700;text-decoration:none}
+/* ---------- dark header band, matching the staff app ---------- */
+.hero{--night:#121412;--night-2:#1E211E;--on-night:#F6F1E6;--on-night-muted:rgba(246,241,230,.74);--hgold:#D8B978;--night-line:rgba(255,255,255,.14);
+  background:radial-gradient(120% 80% at 85% 18%,rgba(216,185,120,.20) 0%,rgba(216,185,120,0) 55%),linear-gradient(180deg,#0E110F 0%,var(--night) 55%,#16201A 100%);
+  color:var(--on-night);border-radius:0 0 30px 30px;position:relative;overflow:hidden;padding-top:env(safe-area-inset-top,0px)}
+.hero-in{max-width:680px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));padding-block:18px 0;position:relative;z-index:1;display:flex;flex-direction:column}
+.hero-row{display:flex;align-items:center;gap:12px;min-height:48px}
+.hlogo{width:44px;height:44px;border-radius:50%;flex:none;display:block;box-shadow:0 0 0 1px rgba(216,185,120,.45),0 6px 18px rgba(0,0,0,.4)}
+.brand{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.6rem;letter-spacing:.14em;color:var(--on-night);font-weight:500;flex:1}
+.back{font-size:.82rem;font-weight:700;text-decoration:none;color:var(--on-night);border:1px solid var(--night-line);background:rgba(255,255,255,.04);border-radius:999px;padding:7px 13px;white-space:nowrap}
+.hero .eyebrow{color:var(--hgold);margin-top:26px}
+.hero h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(2.7rem,11vw,3.9rem);line-height:.98;letter-spacing:-.01em;margin-top:8px;color:var(--on-night)}
+.hero h1 em{font-style:italic;color:var(--hgold)}
+.hero .lede{color:var(--on-night-muted);margin-top:14px;max-width:46ch}
+.hstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:22px;border-top:1px solid var(--night-line);border-bottom:1px solid var(--night-line)}
+.hstats div{padding:12px 0;min-width:0}
+.hstats div+div{padding-left:14px;border-left:1px solid var(--night-line)}
+.hstats b{display:block;font-family:'Cormorant Garamond',Georgia,serif;font-size:2.1rem;font-weight:600;line-height:1;color:var(--hgold);font-variant-numeric:lining-nums tabular-nums}
+.hstats span{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--on-night-muted);font-weight:600}
+.hchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.hchips span{border:1px solid var(--night-line);color:var(--on-night);border-radius:999px;padding:5px 12px;font-size:.8rem;font-weight:600;background:rgba(255,255,255,.04)}
+.bay{display:block;width:100%;height:auto;margin-top:6px;max-width:100%}
+@media (prefers-reduced-motion:no-preference){
+  .bay .sun{animation:sink 2.4s cubic-bezier(.2,.7,.2,1) both}
+  .bay .glint{animation:shimmer 3.6s ease-in-out infinite alternate}
+  @keyframes sink{from{transform:translateY(-18px)}to{transform:translateY(0)}}
+  @keyframes shimmer{from{opacity:.35}to{opacity:.9}}
+}
 .facts{display:flex;flex-wrap:wrap;gap:8px}
 .facts span{background:var(--chip);color:var(--fg);border-radius:999px;padding:5px 12px;font-size:.82rem;font-weight:600}
 nav.jump{display:flex;flex-wrap:wrap;gap:8px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding-block:10px;z-index:2;border-bottom:1px solid var(--line)}
@@ -60,16 +86,50 @@ footer{border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font
 
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <a class="back" href="./">← Ikot sa Sariaya</a>
-    <div class="eyebrow">Cabins by the Generals · Beach guide</div>
-    <h1>Beach Day mula CBTG</h1>
-    <p class="lede">Mga beach at isla malapit sa cabins, from the black-sand resorts sa Sariaya to the white sand of Borawan. Every "Directions" button opens Google Maps with the drive from CBTG already set. Enjoy po! 🌿</p>
-    <div class="facts">
-      <span>Check-in 4:00 PM</span><span>Check-out 12:00 NN</span><span>Brgy. Tumbaga 1, Sariaya</span>
+<header class="hero">
+  <div class="hero-in">
+    <div class="hero-row">
+      <img class="hlogo" src="img/logo-96.png" alt="" width="44" height="44">
+      <span class="brand">CBTG</span>
+      <a class="back" href="./">← Ikot sa Sariaya</a>
     </div>
-  </header>
+    <p class="eyebrow">Cabins by the Generals · Beach guide</p>
+    <h1>Beach Day <em>mula CBTG</em></h1>
+    <p class="lede">Mga beach at isla malapit sa cabins, from the black-sand resorts sa Sariaya to the white sand of Borawan. Every "Directions" button opens Google Maps with the drive from CBTG already set. Enjoy po! 🌿</p>
+    <div class="hstats">
+      <div><b>19</b><span>Beaches &amp; islands</span></div>
+      <div><b>3</b><span>Ready-made trips</span></div>
+      <div><b>4</b><span>Coasts</span></div>
+    </div>
+    <div class="hchips"><span>Check-in 4:00 PM</span><span>Check-out 12:00 NN</span><span>Brgy. Tumbaga 1, Sariaya</span></div>
+  </div>
+  <svg class="bay" viewBox="0 0 680 150" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <radialGradient id="sunG" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#F3D9A0"/><stop offset=".6" stop-color="#D8B978"/><stop offset="1" stop-color="#B8893A"/></radialGradient>
+      <radialGradient id="haloG" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#D8B978" stop-opacity=".45"/><stop offset="1" stop-color="#D8B978" stop-opacity="0"/></radialGradient>
+      <linearGradient id="seaG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B2A22"/><stop offset="1" stop-color="#0E1611"/></linearGradient>
+      <clipPath id="above"><rect x="0" y="0" width="680" height="92"/></clipPath>
+    </defs>
+    <circle cx="520" cy="92" r="90" fill="url(#haloG)"/>
+    <g clip-path="url(#above)"><circle class="sun" cx="520" cy="92" r="40" fill="url(#sunG)"/></g>
+    <path d="M0 80 C 60 70, 110 62, 170 70 S 280 86, 330 84 L 330 92 L 0 92 Z" fill="#17211B"/>
+    <path d="M300 92 L 340 74 L 362 80 L 392 70 L 430 92 Z" fill="#1A251E"/>
+    <rect x="0" y="92" width="680" height="58" fill="url(#seaG)"/>
+    <line x1="0" y1="92" x2="680" y2="92" stroke="#D8B978" stroke-opacity=".55" stroke-width="1"/>
+    <g class="glint" stroke="#D8B978" stroke-linecap="round">
+      <line x1="470" y1="101" x2="570" y2="101" stroke-width="2.4" stroke-opacity=".75"/>
+      <line x1="486" y1="110" x2="554" y2="110" stroke-width="2" stroke-opacity=".6"/>
+      <line x1="498" y1="119" x2="542" y2="119" stroke-width="1.6" stroke-opacity=".5"/>
+      <line x1="508" y1="128" x2="532" y2="128" stroke-width="1.2" stroke-opacity=".4"/>
+    </g>
+    <g fill="none" stroke="#F6F1E6" stroke-opacity=".12" stroke-width="1.2" stroke-linecap="round">
+      <path d="M40 112 q 14 -5 28 0 t 28 0"/><path d="M180 130 q 14 -5 28 0 t 28 0"/><path d="M330 108 q 14 -5 28 0 t 28 0"/><path d="M610 124 q 12 -4 24 0 t 24 0"/>
+    </g>
+    <g fill="none" stroke="#F6F1E6" stroke-opacity=".55" stroke-width="1.4" stroke-linecap="round"><path d="M410 40 q 5 -5 10 0 q 5 -5 10 0"/><path d="M440 28 q 4 -4 8 0 q 4 -4 8 0"/></g>
+  </svg>
+</header>
+
+<div class="wrap">
 
   <nav class="jump" aria-label="Jump to section">
     <a href="#routes">Beach trips</a><a href="#sariaya">Sariaya coast</a><a href="#pagbilao">Pagbilao</a><a href="#islands">Pagbilao islands</a><a href="#burgos">Padre Burgos</a><a href="#batangas">San Juan, Batangas</a><a href="#tips">Tips</a>
