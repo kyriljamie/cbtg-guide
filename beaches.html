@@ -138,7 +138,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font
   <section id="routes">
     <div class="eyebrow">Ready-made drives</div>
     <h2>Pick a beach trip</h2>
-    <p class="intro">Each one starts and ends at CBTG. Tip: go in the morning before check-in, or after check-out.</p>
+    <p class="intro">Each one starts at CBTG and takes you straight to the beach. Tip: go in the morning before check-in, or after check-out.</p>
     <div class="routes" id="routeList"></div>
   </section>
 
@@ -194,15 +194,15 @@ const P = [
  {c:'batangas',n:'Laiya Beach',t:'Laiya, San Juan, Batangas',lat:13.6632203,lng:121.4373596,id:'ChIJm7Bo8XsvvTMRgcwJMSL07FU',h:'★ 4.3',w:'Famous strip of side-by-side resorts with warm, clear water. Banana boat and day tours available.',tip:'Go early · parking gets tight in summer'}
 ];
 const R = [
- {n:'Sariaya sunset swim',s:['CBTG','Costa Sariya Beach Resort','Sariaya Beach (Talaan Aplaya) for sunset','back to CBTG'],
-  w:['13.8444462,121.4808378','13.8816175,121.5680595'],note:'Half day. Swim in the afternoon, then catch the sunset on the way home.'},
- {n:'Sariaya resort day',s:['CBTG','Dalampasigan, Meab or Bena Raza (side by side)','back to CBTG'],
+ {n:'Sariaya sunset swim',s:['CBTG','Costa Sariya Beach Resort','Sariaya Beach (Talaan Aplaya) for sunset'],
+  w:['13.8444462,121.4808378','13.8816175,121.5680595'],note:'Half day. Swim in the afternoon, then end at Talaan Aplaya for the sunset.'},
+ {n:'Sariaya resort day',s:['CBTG','Dalampasigan, Meab or Bena Raza (side by side)'],
   w:['13.859341,121.5103877'],note:'Pools and beach in one stop, about 20 minutes away. Pick whichever has space when you get there.'},
- {n:'Borawan white-sand trip',s:['CBTG','Borawan Island, Padre Burgos','back to CBTG'],
-  w:['13.8966872,121.8009704'],note:'Full day. Leave by early morning and head home before dark.'}
+ {n:'Borawan white-sand trip',s:['CBTG','Borawan Island, Padre Burgos'],
+  w:['13.8966872,121.8009704'],note:'Full day. Leave by early morning so you arrive by daylight.'}
 ];
 const dir = p => 'https://www.google.com/maps/dir/?api=1&origin='+CBTG+'&destination='+encodeURIComponent(p.n)+'&destination_place_id='+p.id+'&travelmode=driving';
-const route = r => 'https://www.google.com/maps/dir/?api=1&origin='+CBTG+'&destination='+CBTG+'&waypoints='+encodeURIComponent(r.w.join('|'))+'&travelmode=driving';
+const route = r => { const w = r.w.slice(0,-1); return 'https://www.google.com/maps/dir/?api=1&origin='+CBTG+'&destination='+r.w[r.w.length-1]+(w.length?'&waypoints='+encodeURIComponent(w.join('|')):'')+'&travelmode=driving'; };
 const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
 
 document.getElementById('routeList').innerHTML = R.map(r =>
