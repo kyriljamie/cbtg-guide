@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="tl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Beach guide ng Cabins by the Generals: mga beach at isla malapit sa Sariaya, Quezon, with Google Maps directions from the cabins.">
+<title>Beach Day mula CBTG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: same phone-first column as Ikot sa Sariaya; ready-made beach trips first, then beaches grouped by coast */
+:root{
+  --bg:#F5F2EA; --surface:#FFFDF8; --fg:#1E2A21; --muted:#5E6A5F; --line:#DCD6C6;
+  --forest:#2F5D3A; --gold:#9A7428; --gold-soft:#F1E6CB; --chip:#E8EFE6;
+  --display:'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --body:'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111511; --surface:#1A201B; --fg:#ECE7DA; --muted:#A6AD9F; --line:#2E362F;
+  --forest:#8FC09A; --gold:#D8B566; --gold-soft:#2C2719; --chip:#223024; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111511; --surface:#1A201B; --fg:#ECE7DA; --muted:#A6AD9F; --line:#2E362F;
+  --forest:#8FC09A; --gold:#D8B566; --gold-soft:#2C2719; --chip:#223024; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.55;margin:0}
+.wrap{max-width:680px;margin:0 auto;padding-inline:16px;padding-block:28px 56px;display:flex;flex-direction:column;gap:36px}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.3rem,9vw,3.3rem);line-height:1.02}
+h2{font-size:1.65rem;line-height:1.15}
+h3{font-size:1.15rem;line-height:1.25}
+p{margin:0}
+a{color:var(--forest)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.eyebrow{font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+header{display:flex;flex-direction:column;gap:12px}
+header .lede{color:var(--muted);max-width:56ch}
+.back{font-size:.85rem;font-weight:700;text-decoration:none}
+.facts{display:flex;flex-wrap:wrap;gap:8px}
+.facts span{background:var(--chip);color:var(--fg);border-radius:999px;padding:5px 12px;font-size:.82rem;font-weight:600}
+nav.jump{display:flex;flex-wrap:wrap;gap:8px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding-block:10px;z-index:2;border-bottom:1px solid var(--line)}
+nav.jump a{text-decoration:none;font-size:.85rem;font-weight:700;color:var(--forest);border:1px solid var(--line);border-radius:999px;padding:6px 12px;background:var(--surface)}
+section{display:flex;flex-direction:column;gap:14px;scroll-margin-top:72px}
+section > .intro{color:var(--muted)}
+.routes{display:flex;flex-direction:column;gap:14px}
+.route{background:var(--gold-soft);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.route ol{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:2px}
+.route .note{font-size:.88rem;color:var(--muted)}
+.btn{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:800;font-size:.9rem;background:var(--forest);color:var(--bg);border-radius:999px;padding:10px 16px}
+.list{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.place{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 14px;padding-block:14px;border-bottom:1px solid var(--line);align-items:start}
+.place .meta{font-size:.8rem;color:var(--muted);font-weight:600}
+.place .why{grid-column:1 / -1;font-size:.93rem}
+.place .tip{grid-column:1 / -1;font-size:.83rem;color:var(--gold);font-weight:700}
+.place a.go{font-size:.82rem;font-weight:800;text-decoration:none;white-space:nowrap;color:var(--forest);border:1px solid var(--forest);border-radius:999px;padding:5px 11px;margin-top:2px}
+.place .name{display:flex;flex-direction:column;gap:2px;min-width:0}
+.tips{display:flex;flex-direction:column;gap:8px;padding-left:1.2em;margin:0}
+footer{border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:.85rem;display:flex;flex-direction:column;gap:8px}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="back" href="./">← Ikot sa Sariaya</a>
+    <div class="eyebrow">Cabins by the Generals · Beach guide</div>
+    <h1>Beach Day mula CBTG</h1>
+    <p class="lede">Mga beach at isla malapit sa cabins, from the black-sand resorts sa Sariaya to the white sand of Borawan. Every "Directions" button opens Google Maps with the drive from CBTG already set. Enjoy po! 🌿</p>
+    <div class="facts">
+      <span>Check-in 4:00 PM</span><span>Check-out 12:00 NN</span><span>Brgy. Tumbaga 1, Sariaya</span>
+    </div>
+  </header>
+
+  <nav class="jump" aria-label="Jump to section">
+    <a href="#routes">Beach trips</a><a href="#sariaya">Sariaya coast</a><a href="#pagbilao">Pagbilao</a><a href="#islands">Pagbilao islands</a><a href="#burgos">Padre Burgos</a><a href="#batangas">San Juan, Batangas</a><a href="#tips">Tips</a>
+  </nav>
+
+  <section id="routes">
+    <div class="eyebrow">Ready-made drives</div>
+    <h2>Pick a beach trip</h2>
+    <p class="intro">Each one starts and ends at CBTG. Tip: go in the morning before check-in, or after check-out.</p>
+    <div class="routes" id="routeList"></div>
+  </section>
+
+  <section id="sariaya"><div class="eyebrow">Closest to the cabins</div><h2>Sariaya coast</h2><p class="intro">Mostly black or gray sand, calm water at mga resort na may pool. 15 to 30 minutes from CBTG.</p><div class="list" data-cat="sariaya"></div></section>
+  <section id="pagbilao"><div class="eyebrow">Past Lucena</div><h2>Pagbilao beaches</h2><p class="intro">White sand, about an hour from the cabins.</p><div class="list" data-cat="pagbilao"></div></section>
+  <section id="islands"><div class="eyebrow">By boat only</div><h2>Pagbilao islands &amp; sandbars</h2><p class="intro">Book an island-hopping boat in Pagbilao. The Directions button takes you near the spot; the last part is by boat.</p><div class="list" data-cat="islands"></div></section>
+  <section id="burgos"><div class="eyebrow">White sand &amp; camping</div><h2>Padre Burgos islands</h2><p class="intro">The farthest but the prettiest. Leave early and drive by daylight.</p><div class="list" data-cat="burgos"></div></section>
+  <section id="batangas"><div class="eyebrow">Over the provincial line</div><h2>San Juan, Batangas</h2><p class="intro">Laiya's resort strip. The road winds around the coast, so plan for the whole day.</p><div class="list" data-cat="batangas"></div></section>
+
+  <section id="tips">
+    <div class="eyebrow">Before you go</div>
+    <h2>Beach tips</h2>
+    <ul class="tips">
+      <li><b>Check the tide.</b> The Pagbilao sandbars only show at low tide, usually mid to late afternoon. Ask your boatman the day before.</li>
+      <li><b>Ingat sa salabay.</b> Box jellyfish show up in some months on Tayabas Bay. Follow the lifeguards, and bring vinegar and aqua shoes.</li>
+      <li><b>Bring cash.</b> Entrance, cottage, tent and boat fees are mostly cash only, and signal is weak on the islands.</li>
+      <li><b>Pawikan nests.</b> Sea turtles lay eggs at Costa Sariya in season. Keep clear of marked areas and bring your trash home.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>Ratings and fees are from Google reviews as of November 2026. Rates change, so please message the resort before you go, especially on holidays.</p>
+    <p>May tanong? Message us on our <a href="https://www.facebook.com/share/164L1d4j1f/" target="_blank" rel="noopener">Facebook page</a>. Ingat sa biyahe! 🌿</p>
+  </footer>
+</div>
+
+<script>
+const CBTG = '13.9443251,121.5251939';
+const P = [
+ // sariaya coast
+ {c:'sariaya',n:'Sariaya Beach (Talaan Aplaya)',t:'Sariaya · public beach',lat:13.8816175,lng:121.5680595,id:'ChIJ7S8DG1VLvTMRYbgILuGUyyE',h:'★ 4.5',w:'Closest open public beach to the cabins. Clear water and a nice sunset; the sand is gray, not white.',tip:'Bring your own shade and snacks'},
+ {c:'sariaya',n:"Placa's White House Beach Resort",t:'Talaan Aplaya, Sariaya',lat:13.8875178,lng:121.5777081,id:'ChIJJ5lybl5KvTMR9b9kq1taeso',h:'★ 4.6 · open 24 hours',w:'Clean, quiet resort with friendly staff. Black sand, good for families with small kids.'},
+ {c:'sariaya',n:'Dalampasigan Beach and Pool Resort',t:'Eco-Tourism Road, Sariaya',lat:13.859341,lng:121.5103877,id:'ChIJ2RZUuD42vTMR4f6H8maYhSI',h:'★ 4.0',w:'Huge resort with pools, playgrounds, lots of cottages and big parking. Good for big groups.',tip:'Quieter on weekdays · rent a cottage for a day trip'},
+ {c:'sariaya',n:'Meab Beach Resort',t:'Eco-Tourism Road, Sariaya',lat:13.8592424,lng:121.5129852,id:'ChIJdbIK3xQ3vTMRkuwDHYJjYsk',h:'★ 4.7',w:'Small, budget-friendly and peaceful, with clean rooms and spacious cottages. You can snorkel here.'},
+ {c:'sariaya',n:'Bena Raza Beach Resort',t:'Lutucan–Guisguis Road, Sariaya',lat:13.8596122,lng:121.5166466,id:'ChIJNSla4zc2vTMR8MBbY8xobOo',h:'★ 4.1',w:'Calm and cozy. Rooms have aircon, ref and videoke.',tip:'Water gets cloudy after heavy rain'},
+ {c:'sariaya',n:'Villa Del Prado Pool and Beach Resort',t:'Bignay 1, Sariaya',lat:13.8484124,lng:121.4862107,id:'ChIJT0i0HrI3vTMR88SasU9XDkY',h:'★ 4.1',w:'Big summer resort with pools and a sunrise view. Families pitch tents by the beach.',tip:'Best as a day trip for the pools'},
+ {c:'sariaya',n:'Costa Sariya Beach Resort',t:'Sariaya',lat:13.8444462,lng:121.4808378,id:'ChIJA1Cxbq83vTMRF8PTnqkojSw',h:'★ 4.3 · pet-friendly',w:'One of the cleanest shores here: fine brown sand and mild waves for kids. Boat rides out for snorkeling.',tip:'Watch for pawikan nests'},
+ {c:'sariaya',n:'Monte Vista Beach Resort',t:'Bignay 2, Sariaya',lat:13.84019,lng:121.4751198,id:'ChIJYzXXN6c3vTMRzwhGxg8gmk0',h:'★ 4.3 · PWD-accessible',w:'Two pools with four slides, a park, mini golf and a clean beach. Good for barkada and team building.'},
+ {c:'sariaya',n:'Sariaya Beach (Bignay)',t:'Bignay, Sariaya · public beach',lat:13.830389,lng:121.4661535,id:'ChIJkRnhEEU3vTMRhgkh0i40_k8',h:'★ 4.0',w:'Shallow and peaceful, with fine gray sand, cheap cottages and a wide sunset view.'},
+ // pagbilao drive-in
+ {c:'pagbilao',n:'Sunshine Beach Resort',t:'Bantigue, Pagbilao',lat:13.9196003,lng:121.6984655,id:'ChIJ9RkRnhK0ojMRXrEqUUwDu4M',h:'★ 3.8 · about ₱80 entrance, kids free',w:'Shady trees, sea breeze and a view. Try the iced coffee at Juaning Café.',tip:'Rocky at low tide · swim at high tide'},
+ {c:'pagbilao',n:'Cala De Oro Beach Resort',t:'Pagbilao',lat:13.9278349,lng:121.7016394,id:'ChIJq66WvSWzojMRpW9OUm9Nshs',h:'★ 3.5 · 6 AM–6 PM, Sat open 24 hours',w:'Rustic white-sand resort. Grill outside your room or pitch your own tent; A-frame rooms available.',tip:'Bring your own camping gear'},
+ // pagbilao islands
+ {c:'islands',n:'Bilaran Sandbar',t:'Pagbilao · by boat',lat:13.896496,lng:121.719086,id:'ChIJnde7WIy1ojMRhMPI8nCk2X8',h:'★ 4.8',w:'Turquoise water and a wide white sandbar with starfish and crabs. The highlight of most boat tours.',tip:'Only visible at low tide · wear aqua shoes'},
+ {c:'islands',n:'Puting Buhangin Sandbar',t:'Off Lucena · by boat',lat:13.9107422,lng:121.6920859,id:'ChIJnbdRwdG1ojMRU4Ir5UqyAx0',h:'★ 5.0',w:'Small white sandbar with very clean water, about 15 minutes by boat.'},
+ {c:'islands',n:'Kwebang Lampas',t:'Pagbilao Grande Island · by boat',lat:13.8843561,lng:121.7517308,id:'ChIJsy2IBgC3ojMRXlxrM1e91T4',h:'★ 4.3 · about ₱80 entrance',w:'Swim through a sea cave with clear water and friendly fish. Beautiful at sunset.',tip:'Go through the cave and swim right for a hidden cove'},
+ {c:'islands',n:'Titans Island White Beach',t:'Pagbilao · by boat',lat:13.8966875,lng:121.7710625,id:'ChIJnz5e1fS3ojMRyMapYf9rCeQ',h:'★ 4.3',w:'Relaxing white-sand island, great for beach camping with family and friends.',tip:'Very weak signal · set your pickup time first'},
+ // padre burgos
+ {c:'burgos',n:'Borawan Island',t:'Lipata, Padre Burgos',lat:13.8966872,lng:121.8009704,id:'ChIJM3xQhly3ojMRpRlqHcxiPCs',h:'★ 4.1 · about ₱150–220 entrance',w:'Powdery white sand, clear water and big limestone rock formations. Day trip or overnight camping.',tip:'Last stretch is rough and unlit · drive by daylight'},
+ {c:'burgos',n:'Dampalitan Island',t:'Padre Burgos · by boat',lat:13.8955279,lng:121.8256571,id:'ChIJt0eTN-m5ojMRfdacYJe9ttk',h:'★ 4.5 · about ₱80 per head',w:"Borawan's quieter neighbor, made for overnight camping with a group.",tip:'Tent pitching about ₱200, tent rental about ₱500'},
+ // batangas
+ {c:'batangas',n:'Calubcub Bay Resort',t:'San Juan, Batangas',lat:13.7577451,lng:121.4279842,id:'ChIJV5UqLY86vTMRa7j2uNOrSfA',h:'★ 4.2 · open 24 hours',w:'Calm sea, soft black sand, a big lawn and several pools. Good for families and team building.'},
+ {c:'batangas',n:'Laiya Beach',t:'Laiya, San Juan, Batangas',lat:13.6632203,lng:121.4373596,id:'ChIJm7Bo8XsvvTMRgcwJMSL07FU',h:'★ 4.3',w:'Famous strip of side-by-side resorts with warm, clear water. Banana boat and day tours available.',tip:'Go early · parking gets tight in summer'}
+];
+const R = [
+ {n:'Sariaya sunset swim',s:['CBTG','Costa Sariya Beach Resort','Sariaya Beach (Talaan Aplaya) for sunset','back to CBTG'],
+  w:['13.8444462,121.4808378','13.8816175,121.5680595'],note:'Half day. Swim in the afternoon, then catch the sunset on the way home.'},
+ {n:'Sariaya resort day',s:['CBTG','Dalampasigan, Meab or Bena Raza (side by side)','back to CBTG'],
+  w:['13.859341,121.5103877'],note:'Pools and beach in one stop, about 20 minutes away. Pick whichever has space when you get there.'},
+ {n:'Borawan white-sand trip',s:['CBTG','Borawan Island, Padre Burgos','back to CBTG'],
+  w:['13.8966872,121.8009704'],note:'Full day. Leave by early morning and head home before dark.'}
+];
+const dir = p => 'https://www.google.com/maps/dir/?api=1&origin='+CBTG+'&destination='+encodeURIComponent(p.n)+'&destination_place_id='+p.id+'&travelmode=driving';
+const route = r => 'https://www.google.com/maps/dir/?api=1&origin='+CBTG+'&destination='+CBTG+'&waypoints='+encodeURIComponent(r.w.join('|'))+'&travelmode=driving';
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+document.getElementById('routeList').innerHTML = R.map(r =>
+ `<div class="route"><h3>${esc(r.n)}</h3><ol>${r.s.map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p class="note">${esc(r.note)}</p><a class="btn" href="${route(r)}" target="_blank" rel="noopener">Open route in Google Maps ↗</a></div>`).join('');
+
+document.querySelectorAll('.list').forEach(el => {
+ el.innerHTML = P.filter(p => p.c === el.dataset.cat).map(p =>
+  `<div class="place"><div class="name"><h3>${esc(p.n)}</h3><span class="meta">${esc(p.t)}${p.h?' · '+esc(p.h):''}</span></div><a class="go" href="${dir(p)}" target="_blank" rel="noopener">Directions ↗</a><p class="why">${esc(p.w)}</p>${p.tip?`<p class="tip">${esc(p.tip)}</p>`:''}</div>`).join('');
+});
+</script>
+
+</body>
+</html>
