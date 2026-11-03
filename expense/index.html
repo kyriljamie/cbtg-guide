@@ -318,6 +318,7 @@ function renderForm() {
       <div><p class="eyebrow">Cabins by the Generals</p><h1>Add disbursement</h1><p class="muted small">Hi, ${esc(d.name)}!</p></div>
       <button class="link" id="out">Log out</button>
     </div>
+    ${!item && window.cbtgOwner ? cbtgOwner.cardHtml() : ''}
     ${topButtons()}
     ${segHtml()}`}
     ${msgHtml()}
@@ -341,7 +342,7 @@ function renderForm() {
     </form>
     ${item ? '<button class="btn secondary" id="back2">‹ Back to stock</button>' : ''}
     ${!item ? recentHtml() : ''}
-    ${item ? '' : (window.cbtgOwner ? cbtgOwner.cardHtml() : '') + '<p class="small muted">Tip (iPhone): tap Share → “Add to Home Screen” to open this like an app.</p>'}`;
+    ${item ? '' : '<p class="small muted">Tip (iPhone): tap Share → “Add to Home Screen” to open this like an app.</p>'}`;
 
   const keep = () => {
     const q = document.getElementById('qty'); if (q) f.qty = q.value;
