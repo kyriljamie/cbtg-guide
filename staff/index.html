@@ -150,6 +150,17 @@ h1,h2,h3{font-family:var(--display);font-weight:500;margin:0;line-height:1.08;le
 .ocular li:first-child{border-top:0;padding-top:2px}
 .ocular .t{font-weight:600;color:var(--blue)}
 .ocular a{color:var(--forest);font-weight:600}
+.ocular .idbtn{margin-top:6px;border:1px dashed var(--blue);background:#fff8;border-radius:12px;padding:10px;font-weight:700;color:var(--fg);cursor:pointer;text-align:center}
+.ocular .ocb{display:flex;gap:8px;margin-top:8px}
+.ocular .ocb button{flex:1;border-radius:12px;padding:10px 6px;font-weight:700;font-size:.92rem;cursor:pointer}
+.ocular .ocb .yes{background:var(--forest);color:#fff;border:0}
+.ocular .ocb .no{background:#fff;color:var(--bad);border:1px solid var(--bad)}
+.ocular .done{margin-top:6px;font-weight:700;color:var(--forest)}
+.ocular .done.ns{color:var(--bad)}
+.idview{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;gap:12px}
+.idview img{max-width:100%;max-height:75vh;border-radius:10px;background:#fff}
+.idview p{color:#eee;font-size:.9rem;text-align:center}
+.idview button{background:#fff;border:0;border-radius:12px;padding:10px 22px;font-weight:700}
 
 /* ---------- cabin status ---------- */
 .cabin{display:flex;flex-direction:column;gap:14px}
@@ -383,7 +394,7 @@ async function login(pin) {
   try {
     const r = await rpc('staff_login', { p_pin: pin });
     if (r.error) { state.msg = { kind: 'error', text: r.error }; state.pin = null; state.entry = ''; save(); }
-    else { state.pin = pin; state.me = r.name; state.data = r; save(); loadPraise(); loadProgress(); }
+    else { state.pin = pin; state.me = r.name; state.data = r; save(); loadPraise(); loadProgress(); loadOcular(); }
   } catch (e) { state.msg = { kind: 'error', text: e.message }; if (!state.me) state.entry = ''; }
   state.busy = false; render();
 }
@@ -560,12 +571,65 @@ const dayText = (iso) => new Date(iso + 'T00:00:00').toLocaleDateString('en-PH',
 const time12 = (t) => { const m = /^(\d{1,2}):(\d{2})$/.exec(t || ''); if (!m) return esc(t); const h = +m[1]; return (h % 12 || 12) + ':' + m[2] + ' ' + (h < 12 ? 'AM' : 'PM'); };
 function ocularHtml(list, title) {
   if (!list.length) return '';
+  const today = todayIso(), tomorrow = addDaysIso(today, 1);
+  const st = state.ocStatus || { withId: [], marks: {} };
   return `<section class="ocular" aria-label="${esc(title)}"><h2>${esc(title)}</h2><ul>${list.map((v) => {
     const tel = String(v.phone || '').replace(/[^\d+]/g, '');
-    return `<li><span class="t">${time12(v.time)}</span><span><b>${esc(v.name)}</b>${tel ? ' · <a href="tel:' + esc(tel) + '">' + esc(v.phone) + '</a>' : ''}</span>
-      <span class="small muted">Show: ${esc((v.cabins || []).length ? v.cabins.map(cabinTitle).join(', ') : 'all cabins')}${v.note ? ' · ' + esc(v.note) : ''}</span></li>`;
-  }).join('')}</ul><p class="small muted" style="margin-top:6px">Please have these cabins clean and open before they arrive.</p></section>`;
+    const hasId = v.idType && (st.withId || []).includes(v.id);
+    const m = (st.marks || {})[v.id];
+    const idPart = hasId ? (v.date === today || v.date === tomorrow
+      ? '<button class="idbtn" data-ocid="' + esc(v.id) + '">🔒 Tap to view ID · ' + esc(v.idType) + '</button>'
+      : '<span class="small muted">🪪 ' + esc(v.idType) + ' · you can see it the day before the visit</span>') : '';
+    const act = m ? '<span class="done' + (m.status === 'noshow' ? ' ns' : '') + '">' + (m.status === 'arrived' ? '✓ Arrived' : '✗ No-show') + ' · ' + esc(m.name) + ' ' + esc(clock(m.at)) + '</span>'
+      : v.date === today && v.id ? '<div class="ocb"><button class="yes" data-ocmark="arrived" data-oc="' + esc(v.id) + '">✓ Arrived' + (hasId ? ' · ID matches' : '') + '</button><button class="no" data-ocmark="noshow" data-oc="' + esc(v.id) + '">No-show</button></div>' : '';
+    return `<li><span class="t">${time12(v.time)}</span><span><b>${esc(v.name)}</b>${v.pax ? ' · ' + Number(v.pax) + ' ' + (Number(v.pax) === 1 ? 'person' : 'people') : ''}${tel ? ' · <a href="tel:' + esc(tel) + '">' + esc(v.phone) + '</a>' : ''}</span>
+      <span class="small muted">Show: ${esc((v.cabins || []).length ? v.cabins.map(cabinTitle).join(', ') : 'all cabins')}${v.meetName ? ' · Meets them: ' + esc(v.meetName) : ''}${v.note ? ' · ' + esc(v.note) : ''}</span>${idPart}${act}</li>`;
+  }).join('')}</ul><p class="small muted" style="margin-top:6px">Please have these cabins clean and open before they arrive.${list.some((v) => v.idType) ? ' Check that the visitor matches the ID at the gate.' : ''}</p></section>`;
 }
+// Ocular IDs and Arrived / No-show (app 1.27.0). The ID is shown only the day before and the day of the visit.
+async function loadOcular() {
+  const list = (state.data && state.data.ocular) || [];
+  if (!state.pin || !list.some((v) => v.id)) return;
+  try {
+    const r = await rpc('staff_ocular_status', { p_pin: state.pin });
+    if (r && !r.error) { state.ocStatus = r; if (state.me && !state.done) { const y = window.scrollY; render(); window.scrollTo(0, y); } }
+  } catch (e) { /* not set up yet */ }
+}
+async function showOcularId(id) {
+  const box = document.createElement('div');
+  box.className = 'idview';
+  box.innerHTML = '<p>Loading the ID…</p><button>Close</button>';
+  document.body.appendChild(box);
+  const close = () => box.remove();
+  box.querySelector('button').onclick = close;
+  try {
+    const r = await rpc('staff_ocular_id', { p_pin: state.pin, p_id: id });
+    if (r.error) box.querySelector('p').textContent = r.error;
+    else {
+      box.innerHTML = '<img alt="Visitor ID"><p>' + esc(r.type || 'Valid ID') + ' · for checking the visitor at the gate only. Please don\'t screenshot or share.</p><button>Close</button>';
+      box.querySelector('img').src = r.img;
+      box.querySelector('button').onclick = close;
+    }
+  } catch (e) { box.querySelector('p').textContent = e.message; }
+}
+async function markOcular(id, status, btn) {
+  if (status === 'noshow' && !confirm('Mark as no-show?')) return;
+  btn.disabled = true;
+  try {
+    const r = await rpc('staff_ocular_mark', { p_pin: state.pin, p_id: id, p_status: status });
+    if (r.error) { alert(r.error); btn.disabled = false; return; }
+    state.ocStatus = state.ocStatus || { withId: [], marks: {} };
+    state.ocStatus.marks = state.ocStatus.marks || {};
+    state.ocStatus.marks[id] = { status: r.status, name: r.name, at: r.at };
+    const y = window.scrollY; render(); window.scrollTo(0, y);
+  } catch (e) { alert(e.message); btn.disabled = false; }
+}
+document.addEventListener('click', (e) => {
+  const t = e.target.closest && e.target.closest('[data-ocid],[data-ocmark]');
+  if (!t) return;
+  if (t.dataset.ocid) showOcularId(t.dataset.ocid);
+  else markOcular(t.dataset.oc, t.dataset.ocmark, t);
+});
 const visitsOn = (d, iso) => (d.ocular || []).filter((v) => v.date === iso).sort((a, b) => String(a.time).localeCompare(String(b.time)));
 
 // ---------- verse for today ----------
