@@ -21,8 +21,7 @@
     if (!P || on === null) return '';
     if (!P.supported && !P.needsHomeScreen) return '';
     if (on) {
-      return '<section class="card rmd on" aria-label="Reminders"><div class="rmd-row"><span class="rmd-ic">🔔</span><div class="grow"><b>Reminders are on</b><span class="muted small"> · this phone gets the 9 PM gate reminder</span></div>' +
-        '<button class="rmd-link" id="rmd-test"' + (busy ? ' disabled' : '') + '>Test</button></div>' + noteHtml() + '</section>';
+      return '<section class="card rmd on" aria-label="Reminders"><div class="rmd-row"><span class="rmd-ic">🔔</span><div class="grow"><b>Reminders are on</b><span class="muted small"> · this phone gets the 9 PM gate reminder</span></div></div>' + noteHtml() + '</section>';
     }
     if (P.needsHomeScreen) {
       return '<section class="card rmd" aria-label="Reminders"><p class="eyebrow">Reminders</p><h2 style="font-size:1.5rem;margin:4px 0 6px">🔔 Get reminders on this iPhone</h2>' +
