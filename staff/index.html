@@ -751,7 +751,7 @@ function praiseHtml() {
     <div class="slides" id="slides" aria-roledescription="carousel">${slides.map(({ p, isNew }, i) => {
       const open = state.praiseOpen[p.id];
       const long = String(p.message).length > 140 || String(p.message).split('\n').length > 3;
-      const where = [p.cabin ? 'Cabin ' + p.cabin : p.source || '', praiseWhen(p.at)].filter(Boolean).join(' · ');
+      const where = [p.cabin ? cabinTitle(/^\d+$/.test(String(p.cabin)) ? 'Cabin ' + p.cabin : p.cabin) : p.source || '', praiseWhen(p.at)].filter(Boolean).join(' · ');
       return `<section class="card slide" aria-label="Praise ${i + 1} of ${slides.length}">
         <div class="qrow"><span class="qmark" aria-hidden="true">“</span><span class="pbadge">${isNew ? 'New' : i === (slides.findIndex((x) => !x.isNew)) ? 'Praise of the day' : esc(p.source || 'Guest')}</span></div>
         <blockquote class="${long && !open ? 'clamp' : ''}">${esc(p.message)}</blockquote>
