@@ -1,6 +1,6 @@
 // Pinoy BnB Rentals web: keeps the app's own files on the device so it opens without internet.
 // Your data is never sent here; it stays in this browser. Licence checks always go online.
-const CACHE = 'pbnb-rentals-v1';
+const CACHE = 'pbnb-rentals-v2';
 self.addEventListener('install', (e) => {
   self.skipWaiting();
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(['./', './index.html', './sql-wasm.js', './sql-wasm.wasm', './manifest.json'])).catch(() => undefined));
