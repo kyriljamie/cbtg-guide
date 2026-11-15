@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Your stay · Cabins by the Generals</title>
+<meta name="theme-color" content="#15130F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1E1A14; --muted:#5A5244; --soft:#6B6253; --cream:#FAF6EE; --card:#FFFFFF; --line:#E8DFCC; --sand:#F1E7D0;
+  --night:#15130F; --night2:#24201A; --nightline:#3A3328; --onnight:#F4EEDF; --onnight2:#BDB4A2;
+  --gold:#D4AF5A; --goldtext:#7A5C17; --ok:#2E7D4F; --warn:#3A1E14;
+  --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--cream);color:var(--ink);font:15px/1.5 var(--sans);-webkit-text-size-adjust:100%}
+a{color:var(--goldtext)}
+button,input,textarea{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--serif);font-weight:600;margin:0}
+.wrap{max-width:560px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+.hero{background:var(--night);color:var(--onnight);padding:26px 22px 24px;display:flex;flex-direction:column;gap:16px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .mark{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.brand b{display:block;font-size:11px;letter-spacing:2px;color:var(--gold);font-weight:600}
+.brand span{font-size:12px;color:var(--onnight2)}
+.eyebrow{font-size:12px;letter-spacing:2px;color:var(--gold);font-weight:600;text-transform:uppercase}
+.hero h1{font-size:32px;line-height:1.12}
+.hero h1 em{color:var(--gold)}
+.hero p{margin:0;color:#D9D0BE;font-size:14px}
+.stay{background:var(--night2);border:1px solid var(--nightline);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.stay-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.stay-top b{font-family:var(--serif);font-size:20px;font-weight:600}
+.pill{font-size:12px;font-weight:600;color:var(--night);background:var(--gold);border-radius:999px;padding:4px 10px;white-space:nowrap}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.kv small{display:block;font-size:11px;color:#A89E8A;letter-spacing:.5px}
+.kv strong{font-size:14px;font-weight:600}
+.body{padding:20px 20px 8px;display:flex;flex-direction:column;gap:14px}
+.sec{font-size:19px}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.tile{text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:96px;display:flex;flex-direction:column;gap:6px;cursor:pointer}
+.tile b{font-size:15px}.tile span{font-size:12px;color:var(--soft)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.card.dark{background:var(--night);border-color:var(--night);color:var(--onnight)}
+.card.sand{background:var(--sand);border-color:var(--sand)}
+.card.warn{background:var(--warn);border-color:var(--warn);color:#FBEDE6}
+.row{display:flex;align-items:center;gap:10px}
+.between{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.btn{min-height:48px;border-radius:13px;border:none;background:var(--night);color:var(--onnight);font-weight:600;font-size:15px;padding:0 16px;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;text-decoration:none}
+.btn.gold{background:var(--gold);color:var(--night)}
+.btn.light{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.btn.block{width:100%}
+.btn:disabled{opacity:.55;cursor:default}
+.chip{min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:13px;font-weight:500;cursor:pointer}
+.chip.on{background:var(--night);border-color:var(--night);color:var(--onnight);font-weight:600}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.check{display:flex;gap:10px;align-items:center;font-size:14px}
+.check svg{flex-shrink:0}
+.amen{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.amen div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 6px;font-size:12px;font-weight:500;text-align:center;min-height:44px;display:flex;align-items:center;justify-content:center}
+.howto ol,.card ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px;font-size:14px}
+.tip{background:var(--sand);border-radius:10px;padding:10px 12px;font-size:13px}
+.rule{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;font-size:14px}
+.rule .n{width:30px;height:30px;border-radius:50%;background:var(--night);color:var(--gold);font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.back{width:44px;height:44px;border-radius:12px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.top{display:flex;align-items:center;gap:12px;padding:18px 20px 4px}
+.top h1{font-size:25px}
+.copy{min-height:40px;padding:0 14px;border-radius:10px;border:none;background:var(--gold);color:var(--night);font-weight:600;font-size:13px;cursor:pointer}
+.media{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.media a,.media div{position:relative;aspect-ratio:1/1;border-radius:10px;overflow:hidden;background:#2B4A5C;display:block}
+.media img,.media video{width:100%;height:100%;object-fit:cover;display:block}
+.media .tag{position:absolute;top:6px;right:6px;font-size:10px;font-weight:600;background:rgba(21,19,15,.8);color:#F4EEDF;border-radius:6px;padding:2px 6px}
+.radio{text-align:left;width:100%;min-height:64px;border-radius:14px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);cursor:pointer}
+.radio.on{border:2px solid var(--goldtext);background:#FFFDF7}
+.dot{width:20px;height:20px;border-radius:50%;border:2px solid #B9AD94;flex-shrink:0;margin-top:1px}
+.radio.on .dot{border:6px solid var(--goldtext)}
+.radio b{display:block;font-size:15px}.radio span{font-size:13px;color:var(--muted)}
+label.lbl{font-size:14px;font-weight:600}
+input.txt{width:100%;min-height:48px;border-radius:12px;border:1px solid var(--line);background:var(--card);padding:0 12px;font-size:15px}
+.picked{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.picked div{aspect-ratio:1/1;border-radius:10px;background:#3A4A3F;overflow:hidden;position:relative}
+.picked img{width:100%;height:100%;object-fit:cover}
+.picked span{position:absolute;bottom:4px;left:4px;font-size:10px;color:#fff;background:rgba(0,0,0,.6);border-radius:5px;padding:1px 5px}
+.progress{height:8px;border-radius:4px;background:var(--line);overflow:hidden}.progress i{display:block;height:100%;background:var(--goldtext);width:0}
+.msg{font-size:13px;color:var(--muted)}.err{color:#A3321F;font-size:13px}
+nav.tabs{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);padding:6px 6px calc(10px + env(safe-area-inset-bottom));z-index:5}
+nav.tabs .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+nav.tabs button{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:48px;font-size:11px;color:var(--soft);cursor:pointer;padding:4px 0}
+nav.tabs button.on{color:var(--goldtext);font-weight:600}
+.center{padding:60px 28px;text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
+.stars{display:flex;gap:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--night);color:var(--onnight);padding:10px 16px;border-radius:999px;font-size:13px;z-index:9;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+iframe.ikot{width:100%;height:70vh;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"><div class="center"><p class="msg">Loading your stay…</p></div></div>
+<nav class="tabs" id="tabs" hidden><div class="in"></div></nav>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ------------------------------------------------------------------ settings */
+const SUPABASE_URL = 'https://fnebydfckdqgigtfhjfk.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_PLLPO77LyLTlHHQr1yF23Q_Y27vUAO1';
+const BUCKET = 'cbtg-moments';
+const CHAT_URL = 'https://cbtg-chat.netlify.app/';
+const MESSENGER_URL = 'https://m.me/61566419019212';
+const PHONE = '0927 446 6154';
+const PIN_URL = 'https://www.google.com/maps/search/?api=1&query=13.9443251,121.5251939';
+const WAZE_URL = 'https://waze.com/ul?ll=13.9443251,121.5251939&navigate=yes';
+const IKOT_URL = 'https://kyriljamie.github.io/cbtg-guide/';
+const GOOGLE_REVIEW_URL = '';          // e.g. https://g.page/r/XXXX/review — leave empty to hide
+const FACEBOOK_URL = 'https://www.facebook.com/61566419019212';
+const FEATURE_PERK = '₱500 off';        // shown on the Album page; '' hides the perk line
+const VIDEO_MAX_SEC = 60;
+const MAX_MB = 50;
+
+/* ------------------------------------------------------------------ cabin content */
+const SHOWER_AUTO = { title: 'Hot & cold shower', steps: [
+  'Automatic na po ang water heater — buksan lang ang shower.',
+  'Hintayin ng ilang segundo hanggang uminit ang tubig.',
+  'I-adjust ang init gamit ang shower knob o mixer.',
+  'Isara lang ang shower pagkatapos — kusang mag-o-off ang heater.'],
+  tip: 'Subukan muna ang init gamit ang kamay bago pumasok, lalo na para sa mga bata.' };
+const GRILL = { title: 'Griller, griddle & gasul', steps: [
+  'Siguraduhing naka-OFF lahat ng knob, saka buksan ang regulator ng gasul.',
+  'Itulak at iikot ang knob papuntang HI para mag-spark at magsindi.',
+  'Hindi sumindi? I-OFF, maghintay ng 5 minuto para mawala ang gas, saka ulitin o gumamit ng mahabang posporo.',
+  'Pagkatapos magluto: i-OFF ang mga knob, saka isara ang regulator.'],
+  tip: 'Outdoor use lang po. Free ang gasul!' };
+
+const CABINS = {
+  'Cabin 1': {
+    name: 'Cabin Charlie', tagline: 'The Ultimate Indoor Entertainment Suite',
+    wifi: { ssid: '', pass: '' },        // fill in Cabin Charlie's Wi-Fi
+    quiet: 'No quiet time sa Cabin Charlie! Sound-insulated ang glass walls, kaya videoke all night long — basta nakasara ang pinto at bintana.',
+    amenities: ['PS5', '65" Mini LED TV', 'NBA League Pass', 'Videoke', 'Jacuzzi tub', 'Private pool', 'Gourmet kitchen', '3 aircons', 'Board games', 'Griller', 'Free gasul', 'Free water'],
+    howto: [
+      { title: 'Loft aircon (TCL)', steps: [
+        'Itutok ang TCL remote sa aircon sa loft at pindutin ang POWER.',
+        'Pindutin ang MODE hanggang Cool (snowflake icon), saka i-set sa 24–25°C.',
+        'Gusto agad lumamig? Pindutin ang TURBO — mabilis na lamig sa loob ng mga 30 minuto.',
+        'Pagtulog: pindutin ang SLEEP. Unti-unting tataas ang temp para hindi kayo ginawin sa madaling-araw.',
+        'Ayaw ng diretsong hangin? Gamitin ang Gentle Breeze o SWING.'],
+        tip: 'Ang 24–25°C ay malamig na pero tipid. Kapag maalinsangan, subukan ang Dry mode (droplet icon).' },
+      { title: 'Bedroom & living area aircon (Kolin)', steps: [
+        'May sariling Kolin remote ang aircon sa ground floor bedroom at sa living area.',
+        'Itutok ang remote sa aircon at pindutin ang ON/OFF. Mag-be-beep ito kapag natanggap.',
+        'Pindutin ang MODE hanggang Cool, saka i-set sa 24–25°C.',
+        'FAN para sa lakas ng hangin, SLEEP pagtulog, SWING para gumalaw ang hangin.'],
+        tip: 'Pakipatay po lahat ng 3 aircon bago umalis ng cabin.' },
+      SHOWER_AUTO,
+      { title: 'TV, PS5 & streaming', steps: [
+        'I-on ang TV gamit ang Samsung remote. Pindutin ang Home para sa YouTube, Netflix at NBA League Pass.',
+        'Para sa PS5: pindutin ang PS button sa controller. Kusang mag-o-on ang Game Mode ng TV.',
+        'Para sa 120Hz games: PS5 Settings → Screen and Video → Video Output → Enable 120Hz Output → Automatic.',
+        'Gamitin ang YouTube ng CBTG (huwag i-sign out). Kung nag-login kayo sa sariling Netflix, mag-log out po bago mag-checkout.'],
+        tip: 'Naka-saksak ang PS5 sa HDMI port na may game controller icon para sa pinakamagandang gaming.' },
+      { title: 'Videoke (YouTube + speaker)', steps: [
+        'Naka-set up na po — naka-connect na ang speaker sa Samsung TV via Bluetooth.',
+        'Sa TV, buksan ang YouTube (naka-login na ang CBTG account, walang ads).',
+        'I-search ang kanta + "karaoke", hal. "Dancing Queen karaoke".',
+        'I-on ang 2 wireless mic at kanta na!'],
+        tip: 'Huwag po i-disconnect ang Bluetooth o mag-sign out sa YouTube ng CBTG, para gumana pa rin sa susunod na guests.' },
+      { title: 'Jacuzzi tub', steps: [
+        'Isara ang drain at punuin ang tub hanggang 1–2 inches na lampas sa pinakamataas na jet.',
+        'Pindutin ang jet button para i-on.',
+        'I-OFF muna ang jets bago tumayo o umahon, para hindi tumalsik ang tubig.',
+        'Hugutin ang drain pagkatapos gamitin.'],
+        tip: 'Huwag i-on ang jets nang walang tubig. Bawal ang bath oil, hanggang 40°C lang ang init. Bantayan ang mga bata.' },
+      GRILL,
+    ],
+  },
+  'Cabin 2': {
+    name: 'Cabin Charlotte', tagline: 'The Fresco Cinema',
+    wifi: { ssid: 'Charlotte!', pass: '1Kyriljamie!' },
+    quiet: 'Videoke is allowed until 10:00 PM. Pagsapit ng 10:00 PM, stop na po ang videoke at malakas na ingay bilang respeto sa ibang guests at kapitbahay.',
+    amenities: ['200" outdoor cinema', 'Videoke', 'Jacuzzi pool', 'Royal Gourmet griddle', 'Dual griller', 'Bonfire pit', 'NBA League Pass', 'Free gasul', 'Free water'],
+    howto: [
+      { title: 'Aircon — bedroom & loft (Midea)', steps: [
+        'May sariling Midea remote ang aircon sa ground floor bedroom at sa loft.',
+        'Itutok ang remote sa aircon at pindutin ang ON/OFF.',
+        'Pindutin ang MODE hanggang Cool, saka i-set sa 24–25°C.',
+        'TURBO para mabilis lumamig, SLEEP pagtulog, SWING para gumalaw ang hangin.'],
+        tip: 'Sa ibang Midea remote, nasa SET button ang Sleep — pindutin ang SET hanggang mag-flash ang Sleep icon, saka OK.' },
+      { title: 'Outdoor cinema (200")', steps: [
+        'Naka-set up na po ang lahat — i-on lang gamit ang remote.',
+        'Hintayin ng 1–2 minuto hanggang lumiwanag nang buo ang screen.',
+        'Buksan ang YouTube (naka-login na ang CBTG account), Netflix o NBA League Pass.',
+        'Pagkatapos manood, i-off gamit ang remote.'],
+        tip: 'Pinakamaganda pagkadilim na. Kapag umuulan, i-off po agad at sabihan si Kuya Mike.' },
+      { title: 'Videoke (YouTube + speaker)', steps: [
+        'Naka-connect na po ang speaker sa outdoor cinema via Bluetooth.',
+        'Sa YouTube, i-search ang kanta + "karaoke".',
+        'I-on ang wireless mics at kanta na!',
+        'I-off ang mics pagkatapos para hindi maubos ang battery.'],
+        tip: 'Free po ang videoke! Stop na po pagsapit ng 10:00 PM.' },
+      { title: 'Jacuzzi pool', steps: [
+        'Banlaw muna sa shower bago lumusong.',
+        'Bawal ang babasaging bote at baso sa pool area.',
+        'Bantayan po palagi ang mga bata sa pool.'],
+        tip: 'Kapag may tanong sa jets o tubig, i-message lang po si Kuya Mike.' },
+      Object.assign({}, GRILL, { title: 'Royal Gourmet griddle, griller & gasul', tip: 'Outdoor use lang. Pahiran ng kaunting mantika ang griddle bago magluto para hindi dumikit.' }),
+      { title: 'Bonfire pit', steps: [
+        'Magpatulong kay Kuya Mike para sa kahoy at pagsisindi.',
+        'Huwag gumamit ng gasolina o gasul para magsindi.',
+        'Huwag iwanang walang bantay ang apoy.',
+        'Patayin gamit ang tubig o buhangin bago matulog.'],
+        tip: 'Perfect para sa kwentuhan pagkatapos ng sine!' },
+    ],
+  },
+  'Cabin 3': {
+    name: 'Cabin Choco', tagline: 'Extra rooms for your group',
+    wifi: { ssid: '', pass: '' }, quiet: '',
+    amenities: ['Air-conditioned bedroom', 'Own CR', 'Loft'], howto: [],
+  },
+};
+
+const DIRECTIONS = [
+  'I-set ang GPS sa "Cabins by the Generals" (o i-tap ang Google Maps sa itaas).',
+  'Mula sa Barangay Hall, diretso pa ng mga 80–100 meters.',
+  'Hanapin ang FUEL gas station sa inyong kanan.',
+  'Kumanan sa maliit na kalye bago mismo ang gas station.',
+  'Sundan ang daan hanggang dulo — nasa kaliwa ang cabin. Libre ang parking sa loob.',
+];
+
+const GAS_STEPS = [
+  'Huwag mag-on o mag-off ng switch, saksakan o ilaw. Walang apoy o sigarilyo.',
+  'Isara ang regulator ng gasul.',
+  'Buksan lahat ng pinto at bintana.',
+  'Lumabas at i-message o tawagan agad ang staff: ' + PHONE + '.',
+];
+
+/* ------------------------------------------------------------------ helpers */
+const $ = (s, el = document) => el.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const peso = (n) => '₱' + Number(n || 0).toLocaleString('en-PH', { maximumFractionDigits: 0 });
+const DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const dayLabel = (iso) => { const d = new Date(iso + 'T00:00:00Z'); return isNaN(d) ? iso : `${DOW[d.getUTCDay()]}, ${MON[d.getUTCMonth()]} ${d.getUTCDate()}`; };
+const daysBetween = (a, b) => Math.round((Date.parse(b + 'T00:00:00Z') - Date.parse(a + 'T00:00:00Z')) / 86400000);
+const icon = {
+  home: '<path d="M3 11 12 4l9 7v9H3v-9Z"/>', cabin: '<path d="M12 3 3 21h18L12 3Z"/><path d="M12 12v9"/>',
+  ikot: '<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/>', chat: '<path d="M4 5h16v11H9l-5 4V5Z"/>',
+  album: '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m21 17-5-5-8 7"/>',
+  pin: '<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/>',
+  rules: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/>',
+  wifi: '<path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1"/>',
+  check: '<path d="m5 12 5 5 9-10"/>', back: '<path d="m15 5-7 7 7 7"/>', up: '<path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/>',
+  shield: '<path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6l-8-3Z"/>', phone: '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/>',
+  play: '<path d="M8 5v14l11-7L8 5Z"/>', star: '<path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7L12 3Z"/>',
+};
+const svg = (name, size = 22, color = 'currentColor', w = 1.8, fill = 'none') =>
+  `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="${fill}" stroke="${fill === 'none' ? color : 'none'}" stroke-width="${w}" aria-hidden="true">${icon[name]}</svg>`;
+function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('show'), 1800); }
+async function copy(t) { try { await navigator.clipboard.writeText(t); toast('Copied!'); } catch { prompt('Copy this:', t); } }
+function headers(json = true) { const h = { apikey: SUPABASE_KEY }; if (!SUPABASE_KEY.startsWith('sb_')) h.Authorization = 'Bearer ' + SUPABASE_KEY; if (json) h['Content-Type'] = 'application/json'; return h; }
+async function rpc(fn, body) {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fn}`, { method: 'POST', headers: headers(), body: JSON.stringify(body) });
+  const t = await r.text(); if (!r.ok) throw new Error(t.slice(0, 160) || r.statusText); return JSON.parse(t);
+}
+const publicUrl = (path) => `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${path.split('/').map(encodeURIComponent).join('/')}`;
+const randId = () => (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2));
+
+/* ------------------------------------------------------------------ state */
+const token = new URLSearchParams(location.search).get('s') || '';
+let S = null;          // { stay, checkOut, today, media }
+let tab = 'home';
+let view = null;       // sub-view inside a tab: 'rules' | 'directions' | 'howto' | 'upload'
+let cabinIdx = 0;
+let up = { files: [], consent: 'first', caption: '', busy: false, done: 0, err: '' };
+
+/* ------------------------------------------------------------------ load */
+async function load() {
+  if (!/^[A-Za-z0-9_-]{16,64}$/.test(token)) return fail('This link looks incomplete.', 'Pakicheck po ang link na pinadala namin, o i-message kami para sa bago.');
+  try {
+    const r = await rpc('stay_get', { p_token: token });
+    if (r.error === 'missing') return fail('Guest page not found', 'Baka po na-update ang booking niyo. I-message lang kami para sa bagong link.');
+    if (r.error === 'closed') return fail('Salamat po sa pag-stay!', 'Closed na po ang guest page na ito. Sana makabalik kayo sa CBTG! 🌿');
+    if (r.error) throw new Error(r.error);
+    S = r; render();
+  } catch (e) {
+    fail('Walang internet?', 'Hindi ma-load ang guest page. Pakisubukan ulit mamaya.', true);
+  }
+}
+function fail(title, text, retry) {
+  $('#tabs').hidden = true;
+  $('#app').innerHTML = `<div class="center"><div class="brand"><div class="mark">${svg('cabin', 20, '#7A5C17', 1.6)}</div></div>
+    <h1 style="font-size:24px">${esc(title)}</h1><p class="msg">${esc(text)}</p>
+    ${retry ? '<button class="btn" onclick="load()">Try again</button>' : ''}
+    <a class="btn light" href="${MESSENGER_URL}">Message CBTG</a></div>`;
+}
+
+/* ------------------------------------------------------------------ derived */
+function stay() { return S.stay || {}; }
+function cabins() { const c = (stay().cabins || []).filter((k) => CABINS[k]); return c.length ? c : ['Cabin 1']; }
+function cabin() { const list = cabins(); return CABINS[list[Math.min(cabinIdx, list.length - 1)]]; }
+function phase() {
+  const s = stay(), today = S.today;
+  if (today < s.checkIn) return 'before';
+  if (today < s.checkOut) return 'during';
+  return today === s.checkOut ? 'checkout' : 'after';
+}
+function countdown() {
+  const s = stay(), d = daysBetween(S.today, s.checkIn), p = phase();
+  if (p === 'before') return d === 1 ? 'Bukas na!' : `${d} days to go`;
+  if (p === 'during') return 'Enjoy your stay';
+  if (p === 'checkout') return 'Check-out today';
+  return 'Thank you!';
+}
+
+/* ------------------------------------------------------------------ render */
+function render() {
+  const tabsEl = $('#tabs'); tabsEl.hidden = false;
+  const T = [['home', 'Home'], ['cabin', 'Cabin'], ['ikot', 'Ikot'], ['chat', 'Chat'], ['album', 'Album']];
+  tabsEl.firstElementChild.innerHTML = T.map(([k, l]) =>
+    `<button class="${tab === k ? 'on' : ''}" onclick="go('${k}')" ${tab === k ? 'aria-current="page"' : ''}>${svg(k === 'home' ? 'home' : k, 22)}${l}</button>`).join('');
+  const html = view ? VIEWS[view]() : TABS[tab]();
+  $('#app').innerHTML = html;
+  window.scrollTo(0, 0);
+}
+function getRead() { try { return localStorage.getItem('rules-' + token); } catch { return null; } }
+function setRead() { try { localStorage.setItem('rules-' + token, '1'); } catch {} }
+function go(t) { tab = t; view = null; render(); }
+function show(v) { view = v; render(); }
+function topBar(title, backTo) {
+  return `<div class="top"><button class="back" aria-label="Back" onclick="${backTo ? `show('${backTo}')` : 'show(null)'}">${svg('back', 18, 'currentColor', 2)}</button><h1>${esc(title)}</h1></div>`;
+}
+function brandBlock() {
+  return `<div class="brand"><div class="mark">${svg('cabin', 20, '#D4AF5A', 1.6)}</div><div><b>CABINS BY THE GENERALS</b><span>Private. Stylish. Yours.</span></div></div>`;
+}
+
+const TABS = {
+  home() {
+    const s = stay(), p = phase();
+    if (p === 'checkout' || p === 'after') return VIEWS.checkout();
+    return `<div class="hero">${brandBlock()}
+      <div><p>Welcome po,</p><h1>${esc(s.firstName || 'Guest')}${s.pax > 1 ? ' &amp; group' : ''}</h1></div>
+      <div class="stay"><div class="stay-top"><b>${esc((s.cabinNames || []).join(' + ') || cabin().name)}</b><span class="pill">${esc(countdown())}</span></div>
+        <div class="grid2">
+          <div class="kv"><small>CHECK-IN</small><strong>${esc(dayLabel(s.checkIn))} · ${esc(s.inTime || '4:00 PM')}</strong></div>
+          <div class="kv"><small>CHECK-OUT</small><strong>${esc(dayLabel(s.checkOut))} · ${esc(s.outTime || '12:00 NN')}</strong></div>
+          <div class="kv"><small>GUESTS</small><strong>${esc(s.pax)} pax</strong></div>
+          ${s.balance > 0 ? `<div class="kv"><small>BALANCE ON ARRIVAL</small><strong>${peso(s.balance)}</strong></div>` : `<div class="kv"><small>PAYMENT</small><strong>Fully paid</strong></div>`}
+        </div></div></div>
+      <div class="body">
+        <h2 class="sec">Your stay, all in one place</h2>
+        <div class="tiles">
+          <button class="tile" onclick="go('cabin')">${svg('cabin', 24, '#7A5C17', 1.7)}<b>My cabin</b><span>Wi-Fi, how-tos</span></button>
+          <button class="tile" onclick="show('directions')">${svg('pin', 24, '#7A5C17', 1.7)}<b>Directions</b><span>Map pin, emergency</span></button>
+          <button class="tile" onclick="show('rules')">${svg('rules', 24, '#7A5C17', 1.7)}<b>House rules</b><span>Please read first</span></button>
+          <button class="tile" onclick="go('ikot')">${svg('ikot', 24, '#7A5C17', 1.7)}<b>Ikot-Sariaya</b><span>Food, sights, pasalubong</span></button>
+        </div>
+        ${p === 'before' ? `<div class="card sand"><b>Before you arrive</b>
+          <div class="check">${svg('check', 20, '#2E7D4F', 2.2)}Booking confirmed</div>
+          <div class="check">${svg(getRead() ? 'check' : 'rules', 20, getRead() ? '#2E7D4F' : '#7A5C17', 2)}${getRead() ? 'House rules read — salamat!' : '<a href="#" onclick="show(\'rules\');return false">Read the house rules</a>'}</div>
+          <div class="check">${svg('chat', 20, '#7A5C17', 2)}Message us 30 mins before you arrive</div></div>` : ''}
+        <button class="card dark" style="text-align:left;cursor:pointer" onclick="go('album')"><div class="row">${svg('album', 26, '#D4AF5A', 1.7)}<div><b>Your CBTG album</b><div style="font-size:12px;color:#BDB4A2">Share your best moments with us</div></div></div></button>
+      </div>`;
+  },
+  cabin() {
+    const list = cabins(), c = cabin();
+    const wifi = c.wifi && c.wifi.ssid;
+    return `<div class="hero" style="padding-bottom:20px">${list.length > 1 ? `<div class="chips">${list.map((k, i) => `<button class="chip ${i === cabinIdx ? 'on' : ''}" onclick="cabinIdx=${i};render()">${esc(CABINS[k].name)}</button>`).join('')}</div>` : ''}
+        <div><div class="eyebrow">Your cabin</div><h1>${esc(c.name)}</h1><p>${esc(c.tagline)}</p></div></div>
+      <div class="body">
+        <div class="card dark"><div class="row">${svg('wifi', 22, '#D4AF5A')}<b>Wi-Fi</b></div>
+          ${wifi ? `<div class="between"><div class="kv"><small>NETWORK</small><strong>${esc(c.wifi.ssid)}</strong></div><button class="copy" onclick="copy(${esc(JSON.stringify(c.wifi.ssid))})">Copy</button></div>
+          <div class="between"><div class="kv"><small>PASSWORD</small><strong>${esc(c.wifi.pass)}</strong></div><button class="copy" onclick="copy(${esc(JSON.stringify(c.wifi.pass))})">Copy</button></div>
+          <div style="font-size:12px;color:#BDB4A2">Or scan the Wi-Fi QR code posted in the cabin.</div>`
+          : `<div style="font-size:14px;color:#D9D0BE">Scan the Wi-Fi QR code posted in the cabin, or ask Kuya Mike for the password.</div>`}</div>
+        ${c.quiet ? `<div class="card sand" style="font-size:14px">${esc(c.quiet)}</div>` : ''}
+        <h2 class="sec">What's inside</h2>
+        <div class="amen">${c.amenities.map((a) => `<div>${esc(a)}</div>`).join('')}</div>
+        ${c.howto.length ? `<h2 class="sec">How to use</h2>
+        ${c.howto.map((h, i) => `<button class="tile" style="min-height:52px;flex-direction:row;align-items:center" onclick="howtoIdx=${i};show('howto')"><span style="width:34px;height:34px;border-radius:8px;background:#F1E7D0;display:flex;align-items:center;justify-content:center">${svg('play', 15, '', 0, '#7A5C17')}</span><b style="flex:1">${esc(h.title)}</b></button>`).join('')}` : ''}
+        <div class="card warn"><b style="font-family:var(--serif);font-size:18px">May naaamoy na gas?</b><ol>${GAS_STEPS.map((g) => `<li>${esc(g)}</li>`).join('')}</ol></div>
+      </div>`;
+  },
+  ikot() {
+    return `<div class="top" style="flex-direction:column;align-items:flex-start;gap:4px"><div class="eyebrow" style="color:var(--goldtext)">Ikot sa Sariaya</div><h1>Explore around CBTG</h1>
+      <p class="msg" style="margin:0">Our favorite spots — food, sights and pasalubong, with directions.</p></div>
+      <div class="body"><iframe class="ikot" src="${IKOT_URL}" title="Ikot sa Sariaya guide" loading="lazy"></iframe>
+      <a class="btn light block" href="${IKOT_URL}" target="_blank" rel="noopener">Open Ikot-Sariaya in full screen</a>
+      <div class="card dark"><div class="row">${svg('star', 22, '', 0, '#D4AF5A')}<span style="font-size:14px">CBTG pick: ask Kuya Mike for today's best place to eat — he knows!</span></div></div></div>`;
+  },
+  chat() {
+    return `<div class="hero"><div class="row"><div><div class="eyebrow">On-site staff</div><h1 style="font-size:26px">Kuya Mike &amp; team</h1><p>Message us anytime — usually we reply within minutes.</p></div></div></div>
+      <div class="body">
+        <a class="btn gold block" href="${CHAT_URL}" target="_blank" rel="noopener">${svg('chat', 20, '#15130F', 2)}Open chat with our staff</a>
+        <div class="grid2"><a class="btn light" href="tel:${PHONE.replace(/\s/g, '')}">${svg('phone', 18, '#7A5C17', 1.8)}Call</a><a class="btn light" href="${MESSENGER_URL}" target="_blank" rel="noopener">${svg('chat', 18, '#7A5C17', 1.8)}Messenger</a></div>
+        <h2 class="sec">Quick requests</h2>
+        <p class="msg" style="margin:0">Tap one, then paste it in the chat.</p>
+        <div class="chips">${[['Extra towels', 'Pwede po humingi ng extra towels?'], ['Ice', 'Pwede po ba humingi ng yelo?'], ['Late check-out', 'Pwede po ba mag-late check-out? Magkano po?'], ['Something is broken', 'May sira po sa cabin, pakitingnan po.'], ['Bonfire help', 'Pakitulungan po kami sa bonfire.']].map(([l, q]) => `<button class="chip" onclick="copy(${esc(JSON.stringify(q))})">${esc(l)}</button>`).join('')}</div>
+        <div class="card"><b>Walang signal? Gamitin ang walkie-talkie</b><ol>
+          <li>Press and hold the power button para i-on.</li>
+          <li>Press and hold ang button sa kaliwa, saka magsalita nang malinaw.</li>
+          <li>Bitawan ang button para makinig.</li></ol>
+          <div class="tip">Naka-set na ang channel — huwag po itong palitan.</div></div>
+      </div>`;
+  },
+  album() {
+    const media = S.media || [];
+    return `<div class="hero"><div class="eyebrow">Your CBTG album</div>
+        <h1>Kayo ang bida ng <em>CBTG.</em></h1>
+        <p>Bawat tawanan sa videoke, bawat langoy sa pool under the stars — kayo ang dahilan kung bakit may CBTG. Ipunin natin ang mga alaala ng stay niyo dito, para sa inyo at sa susunod niyong balik.</p></div>
+      <div class="body">
+        ${perk('Your own keepsake album', 'Lahat ng photos at videos ng barkada o pamilya, sa iisang link — kahit nakauwi na kayo.')}
+        ${perk('Get featured on our page', 'Ang pinakamagagandang moments, ipapakita namin — only if you say OK.')}
+        ${FEATURE_PERK ? perk(`${FEATURE_PERK} your next stay`, 'Kapag na-feature ang photo o video niyo, may discount kayo sa susunod niyong balik.') : ''}
+        <button class="btn gold block" onclick="show('upload')">${svg('up', 20, '#15130F', 2)}Add photos &amp; videos</button>
+        <div class="between"><h2 class="sec">Your stay so far</h2><span class="msg">${media.filter((m) => m.kind === 'photo').length} photos · ${media.filter((m) => m.kind === 'video').length} videos</span></div>
+        ${media.length ? `<div class="media">${media.map((m) => m.kind === 'video'
+          ? `<a href="${publicUrl(m.path)}" target="_blank" rel="noopener" aria-label="Open video"><video src="${publicUrl(m.path)}#t=0.5" preload="metadata" muted playsinline></video><span class="tag">${m.consent === 'private' ? 'Private' : 'Video'}</span></a>`
+          : `<a href="${publicUrl(m.path)}" target="_blank" rel="noopener" aria-label="Open photo"><img src="${publicUrl(m.path)}" alt="${esc(m.caption || 'Guest photo')}" loading="lazy">${m.consent === 'private' ? '<span class="tag">Private</span>' : ''}</a>`).join('')}</div>`
+          : '<p class="msg" style="margin:0">Wala pa pong upload. Ang unang kuha niyo, dito lalabas!</p>'}
+        <div class="card"><div class="row" style="align-items:flex-start">${svg('shield', 20, '#2E7D4F', 2)}<span style="font-size:13px;color:#4A4337">Kayo ang bahala sa bawat upload. Private stays private — hindi namin ipo-post. Ask anytime and we'll remove it.</span></div></div>
+      </div>`;
+  },
+};
+function perk(t, d) { return `<div class="row" style="align-items:flex-start"><span style="width:36px;height:36px;border-radius:10px;background:#F1E7D0;display:flex;align-items:center;justify-content:center;flex-shrink:0">${svg('check', 18, '#7A5C17', 2)}</span><div><b>${esc(t)}</b><div style="font-size:13px;color:#5A5244">${esc(d)}</div></div></div>`; }
+
+let howtoIdx = 0;
+const VIEWS = {
+  rules() {
+    const s = stay(), c = cabin();
+    const rules = (s.rules && s.rules.length ? s.rules : ['Shoes off inside the cabin.', 'Take care of the appliances — anything broken is charged.', 'No smoking inside the cabin.', 'Bantayan po ang mga bata sa pool.']);
+    const read = getRead();
+    return `${topBar('House rules')}<div class="body">
+      <p class="msg" style="margin:0">Para po sa ligtas at masayang staycation ng lahat. Salamat sa pag-aalaga sa cabin na parang sariling bahay!</p>
+      ${rules.map((r, i) => `<div class="rule"><span class="n">${i + 1}</span><span>${esc(r)}</span></div>`).join('')}
+      <div class="rule"><span class="n">${rules.length + 1}</span><span>Check-in ${esc(s.inTime || '4:00 PM')} · Check-out ${esc(s.outTime || '12:00 NN')}. Full 20 hours — late check-in? Later check-out din po.</span></div>
+      <div class="rule"><span class="n">${rules.length + 2}</span><span>May mga pusang nakatira sa paligid — friendly sila! Pakiusap, huwag silang papasukin sa cabin o pakainin ng pagkain ng tao.</span></div>
+      ${c.quiet ? `<div class="card sand" style="font-size:14px">${esc(c.quiet)}</div>` : ''}
+      ${read ? `<div class="card sand"><div class="check">${svg('check', 20, '#2E7D4F', 2.2)}Salamat po! Nabasa niyo na ang house rules.</div></div>`
+        : `<label class="check" style="min-height:44px"><input type="checkbox" id="agree" style="width:22px;height:22px;accent-color:#7A5C17">Nabasa ko po at sang-ayon ako sa house rules</label>
+           <button class="btn block" onclick="if(!$('#agree').checked){toast('Paki-tick po muna ang box');return}setRead();toast('Salamat po!');go('home')">I agree</button>`}
+    </div>`;
+  },
+  directions() {
+    return `${topBar('Getting here')}<div class="body">
+      <div class="grid2"><a class="btn" href="${PIN_URL}" target="_blank" rel="noopener">${svg('pin', 18, '#D4AF5A', 1.8)}Google Maps</a><a class="btn light" href="${WAZE_URL}" target="_blank" rel="noopener">Waze</a></div>
+      <div class="card"><b>Directions</b><ol>${DIRECTIONS.map((d) => `<li>${esc(d)}</li>`).join('')}</ol></div>
+      <div class="card sand" style="font-size:14px"><span><b>Free parking</b> inside the gate. Message us 30 mins before you arrive para nakaabang si Kuya Mike sa gate.</span></div>
+      <h2 class="sec">Emergency</h2>
+      <a class="btn light block" style="justify-content:space-between" href="tel:${PHONE.replace(/\s/g, '')}"><span>CBTG staff</span><span style="color:#7A5C17">${PHONE}</span></a>
+      <a class="btn light block" style="justify-content:space-between" href="tel:911"><span>National emergency</span><span style="color:#7A5C17">911</span></a>
+      <div class="card warn"><b style="font-family:var(--serif);font-size:18px">May naaamoy na gas?</b><ol>${GAS_STEPS.map((g) => `<li>${esc(g)}</li>`).join('')}</ol></div>
+    </div>`;
+  },
+  howto() {
+    const h = cabin().howto[howtoIdx] || cabin().howto[0];
+    return `<div class="top"><button class="back" aria-label="Back" onclick="go('cabin')">${svg('back', 18, 'currentColor', 2)}</button><h1>${esc(h.title)}</h1></div>
+      <div class="body"><div class="card howto"><ol>${h.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>${h.tip ? `<div class="tip"><b>Tip:</b> ${esc(h.tip)}</div>` : ''}</div>
+      <p class="msg" style="margin:0">Hindi pa rin gumagana? <a href="#" onclick="go('chat');return false">I-message lang po si Kuya Mike.</a></p></div>`;
+  },
+  upload() {
+    const opts = [
+      ['private', 'Private — para sa amin lang', 'Only you and the CBTG owners can see these. Never posted.'],
+      ['first', 'OK to feature · first name only', `CBTG may post these on Facebook and Instagram as "${esc(stay().guestShort || stay().firstName || 'Guest')}".`],
+      ['tag', 'OK to feature · tag me', 'Post and tag my Facebook so my friends see it too.'],
+    ];
+    const n = up.files.length;
+    return `<div class="top"><button class="back" aria-label="Back" onclick="go('album')">${svg('back', 18, 'currentColor', 2)}</button><h1>${n ? `Share ${n} moment${n > 1 ? 's' : ''}` : 'Share your moments'}</h1></div>
+      <div class="body">
+        <label class="btn light block" style="border-style:dashed">${svg('up', 20, '#7A5C17', 2)}Choose photos or videos
+          <input type="file" accept="image/*,video/*" multiple class="sr" onchange="pick(this.files)" ${up.busy ? 'disabled' : ''}></label>
+        <span class="msg">Videos up to ${VIDEO_MAX_SEC} seconds · max ${MAX_MB}MB each</span>
+        ${n ? `<div class="picked">${up.files.map((f) => `<div>${f.thumb ? `<img src="${f.thumb}" alt="">` : ''}${f.kind === 'video' ? `<span>${Math.round(f.sec || 0)}s</span>` : ''}</div>`).join('')}</div>` : ''}
+        <label class="lbl" for="cap">Caption <span style="font-weight:400;color:#6B6253">(optional)</span></label>
+        <input id="cap" class="txt" maxlength="200" placeholder="Hal. Birthday ni Lola sa ${esc(cabin().name)}!" value="${esc(up.caption)}" oninput="up.caption=this.value">
+        <span class="lbl">Who can see these?</span>
+        <div role="radiogroup" aria-label="Who can see these" style="display:flex;flex-direction:column;gap:10px">
+          ${opts.map(([k, t, d]) => `<button role="radio" aria-checked="${up.consent === k}" class="radio ${up.consent === k ? 'on' : ''}" onclick="up.consent='${k}';render()"><span class="dot"></span><span><b>${t}</b><span>${d}</span></span></button>`).join('')}
+        </div>
+        ${up.consent !== 'private' && FEATURE_PERK ? `<div class="card sand" style="font-size:13px"><span>Salamat po! Kapag na-feature, makakatanggap kayo ng <b>${esc(FEATURE_PERK)}</b> sa susunod niyong stay.</span></div>` : ''}
+        ${up.busy ? `<div class="progress"><i style="width:${Math.round((up.done / Math.max(1, n)) * 100)}%"></i></div><span class="msg">Uploading ${up.done + 1} of ${n}… huwag po munang isara ang page.</span>` : ''}
+        ${up.err ? `<span class="err">${esc(up.err)}</span>` : ''}
+        <button class="btn block" ${!n || up.busy ? 'disabled' : ''} onclick="uploadAll()">${up.busy ? 'Uploading…' : `Upload ${n || ''} item${n === 1 ? '' : 's'}`}</button>
+      </div>`;
+  },
+  checkout() {
+    const s = stay(), p = phase();
+    return `<div class="hero">${brandBlock()}<div class="eyebrow">${p === 'checkout' ? `Check-out · ${esc(s.outTime || '12:00 NN')} today` : 'Thank you for staying'}</div>
+        <h1>Salamat po, <em>${esc(s.firstName || 'Guest')}!</em></h1><p>Sana po nag-enjoy kayo sa ${esc((s.cabinNames || []).join(' + ') || cabin().name)}. Ingat po sa biyahe pauwi.</p></div>
+      <div class="body">
+        ${p === 'checkout' ? `<h2 class="sec">Before you leave</h2><div class="card">${['Aircon and lights off', 'Trash in the bins outside', 'Keys returned to our staff', 'Check for chargers and gamit', 'Wait 5 minutes for the quick inspection'].map((c) => `<label class="check" style="min-height:40px"><input type="checkbox" style="width:22px;height:22px;accent-color:#7A5C17">${esc(c)}</label>`).join('')}</div>` : ''}
+        <div class="card dark"><b>How was your stay?</b><div class="stars">${[1, 2, 3, 4, 5].map(() => svg('star', 28, '', 0, '#D4AF5A')).join('')}</div>
+          <span style="font-size:13px;color:#CFC6B3">Malaking tulong po sa maliit na negosyo ang isang review.</span>
+          <div class="${GOOGLE_REVIEW_URL ? 'grid2' : ''}" style="display:${GOOGLE_REVIEW_URL ? 'grid' : 'flex'}">${GOOGLE_REVIEW_URL ? `<a class="btn gold" href="${GOOGLE_REVIEW_URL}" target="_blank" rel="noopener">Review on Google</a>` : ''}<a class="btn ${GOOGLE_REVIEW_URL ? '' : 'gold block'}" style="${GOOGLE_REVIEW_URL ? 'background:transparent;border:1px solid #4A4235' : ''}" href="${FACEBOOK_URL}" target="_blank" rel="noopener">Review on Facebook</a></div></div>
+        <button class="card" style="text-align:left;cursor:pointer" onclick="go('album')"><div class="row">${svg('album', 24, '#7A5C17', 1.8)}<div><b>Your album stays open for 30 days</b><div style="font-size:12px;color:#5A5244">Pahabol na photos? Upload pa rin po kayo.</div></div></div></button>
+        <div class="card sand"><b style="font-family:var(--serif);font-size:20px">Balik kayo, ha?</b><span style="font-size:14px">Book your next stay direct with us — message us anytime.</span><a class="btn" href="${MESSENGER_URL}" target="_blank" rel="noopener">Book your next stay</a></div>
+      </div>`;
+  },
+};
+
+/* ------------------------------------------------------------------ uploads */
+async function pick(fileList) {
+  up.err = '';
+  for (const file of Array.from(fileList || [])) {
+    if (up.files.length >= 20) { up.err = 'Hanggang 20 items po per upload.'; break; }
+    const kind = file.type.startsWith('video/') ? 'video' : file.type.startsWith('image/') ? 'photo' : null;
+    if (!kind) continue;
+    const item = { file, kind, thumb: null, sec: 0 };
+    if (kind === 'video') {
+      const meta = await videoMeta(file);
+      if (meta.sec > VIDEO_MAX_SEC + 2) { up.err = `Hanggang ${VIDEO_MAX_SEC} seconds lang po ang video (${file.name || 'video'} ay ${Math.round(meta.sec)}s).`; continue; }
+      if (file.size > MAX_MB * 1048576) { up.err = `Masyadong malaki ang video (max ${MAX_MB}MB).`; continue; }
+      item.sec = meta.sec; item.thumb = meta.thumb;
+    } else {
+      item.thumb = URL.createObjectURL(file);
+    }
+    up.files.push(item);
+  }
+  render();
+}
+function videoMeta(file) {
+  return new Promise((res) => {
+    const v = document.createElement('video'); v.preload = 'metadata'; v.muted = true; v.playsInline = true;
+    const url = URL.createObjectURL(file); let done = false;
+    const finish = (thumb) => { if (done) return; done = true; res({ sec: isFinite(v.duration) ? v.duration : 0, thumb }); };
+    v.onloadeddata = () => { try { const c = document.createElement('canvas'); c.width = 240; c.height = 240 * (v.videoHeight / v.videoWidth || 1); c.getContext('2d').drawImage(v, 0, 0, c.width, c.height); finish(c.toDataURL('image/jpeg', 0.7)); } catch { finish(null); } };
+    v.onloadedmetadata = () => { v.currentTime = Math.min(0.5, (v.duration || 1) / 2); };
+    v.onerror = () => finish(null); setTimeout(() => finish(null), 6000);
+    v.src = url;
+  });
+}
+function shrinkPhoto(file) {
+  return new Promise((res) => {
+    const img = new Image(); const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const max = 2000, k = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement('canvas'); c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      c.toBlob((b) => res(b && b.size < file.size ? { blob: b, type: 'image/jpeg', ext: 'jpg' } : { blob: file, type: file.type, ext: extOf(file) }), 'image/jpeg', 0.86);
+    };
+    img.onerror = () => res({ blob: file, type: file.type, ext: extOf(file) });
+    img.src = url;
+  });
+}
+function extOf(f) { const m = /\.([a-z0-9]{2,5})$/i.exec(f.name || ''); return (m ? m[1] : (f.type.split('/')[1] || 'bin')).toLowerCase().replace('quicktime', 'mov').replace('jpeg', 'jpg'); }
+async function uploadAll() {
+  if (!up.files.length || up.busy) return;
+  up.busy = true; up.done = 0; up.err = ''; render();
+  try {
+    for (const it of up.files) {
+      const body = it.kind === 'photo' ? await shrinkPhoto(it.file) : { blob: it.file, type: it.file.type || 'video/mp4', ext: extOf(it.file) };
+      if (body.blob.size > MAX_MB * 1048576) throw new Error(`Masyadong malaki ang isang file (max ${MAX_MB}MB).`);
+      const path = `${token}/${randId()}.${body.ext}`;
+      const r = await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET}/${path}`, { method: 'POST', headers: Object.assign(headers(false), { 'Content-Type': body.type, 'x-upsert': 'false' }), body: body.blob });
+      if (!r.ok) throw new Error('Hindi na-upload ang isang file. Pakisubukan ulit.');
+      const a = await rpc('stay_media_add', { p_token: token, p_path: path, p_kind: it.kind, p_consent: up.consent, p_caption: up.caption });
+      if (a.error) throw new Error(a.error);
+      up.done++; render();
+    }
+    up = { files: [], consent: up.consent, caption: '', busy: false, done: 0, err: '' };
+    const r = await rpc('stay_get', { p_token: token }); if (!r.error) S = r;
+    toast('Salamat po! Na-upload na.'); go('album');
+  } catch (e) {
+    up.busy = false; up.err = e.message || 'Hindi na-upload. Pakisubukan ulit.'; render();
+  }
+}
+
+load();
+</script>
+</body>
+</html>
