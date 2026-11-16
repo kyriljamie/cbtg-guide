@@ -107,7 +107,7 @@ textarea{min-height:76px;resize:vertical}
   <div class="in">
     <div class="eyebrow">👀 Visit before you book</div>
     <h1>Schedule an <em>ocular visit</em></h1>
-    <p>See the cabins in person. Pick a day and time, add a valid ID for the gate, and we'll text you to confirm.</p>
+    <p>See the cabins in person. Pick a day and time and add a valid ID for the gate. We'll check our guest schedule and text you to confirm.</p>
   </div>
 </header>
 
@@ -131,7 +131,7 @@ textarea{min-height:76px;resize:vertical}
 
     <section class="card">
       <h2>When</h2>
-      <p class="sub">Visits are from 12:00 NN to 6:30 PM, every day.</p>
+      <p class="sub">Visits are between 3:00 PM and 7:00 PM. Last start time is 6:30 PM.</p>
       <span class="l">Date</span>
       <div class="chips scroll" id="days"></div>
       <input id="other" type="date" class="hide" style="margin-top:10px" aria-label="Pick another date">
@@ -172,16 +172,18 @@ textarea{min-height:76px;resize:vertical}
 
     <div class="err" id="err" role="alert"></div>
     <button class="btn main" id="send" type="submit">Send my visit request</button>
+    <p class="fine" style="margin-top:10px">We'll text you to confirm after checking our guest schedule.</p>
     <p class="fine">Questions? Call or text <a href="tel:09274466154">0927 446 6154</a> or message us on <a href="https://m.me/61566419019212" target="_blank" rel="noopener">Messenger</a>.</p>
   </form>
 
   <section class="card done hide" id="done">
     <div class="tick">✓</div>
     <h2>Request sent!</h2>
+    <p style="margin:6px 0 0;font-weight:700;color:var(--terra)">Not confirmed yet</p>
     <p style="margin:6px 0 0;color:var(--ink-soft)">Your reference</p>
     <div class="ref" id="ref"></div>
     <div class="sum" id="sum"></div>
-    <p style="margin:0;color:var(--ink-soft);font-size:.95rem">We'll text you shortly to confirm. Please message us if you'll be late or can't make it. 🌿</p>
+    <p style="margin:0;color:var(--ink-soft);font-size:.95rem">We'll check if we have guests at that time and text you to confirm. If it doesn't work, we'll suggest another time. Please wait for our text before coming. 🌿</p>
     <div class="btns">
       <a class="btn gold" href="https://www.google.com/maps/search/?api=1&query=13.9443251,121.5251939" target="_blank" rel="noopener">📍 Open the map pin</a>
       <a class="btn out" href="https://m.me/61566419019212" target="_blank" rel="noopener">💬 Message us on Messenger</a>
@@ -197,7 +199,7 @@ textarea{min-height:76px;resize:vertical}
   var KEY = "sb_publishable_PLLPO77LyLTlHHQr1yF23Q_Y27vUAO1";
   var DOW = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   var MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  var DEFAULT_TIMES = ["12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00","18:30"];
+  var DEFAULT_TIMES = ["15:00","15:30","16:00","16:30","17:00","17:30","18:00","18:30"];
   var ID_TYPES = ["PhilID", "Driver's license", "UMID", "Passport", "Postal ID", "Other"];
   var $ = function (id) { return document.getElementById(id); };
 
