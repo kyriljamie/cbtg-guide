@@ -4,28 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Send an inquiry · Cabins by the Generals</title>
-<meta name="description" content="Quick inquiry for Cabins by the Generals, Sariaya, Quezon. Leave your name, number and dates and we'll text you.">
+<meta name="description" content="Quick inquiry or rebooking for Cabins by the Generals, Sariaya, Quezon.">
 <meta name="theme-color" content="#121412">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
 <style>
-:root{--stone:#F9F8F6;--stone-2:#F1EEE8;--paper:#fff;--line:#E3DED5;--char:#121412;--terra:#B5653F;--forest:#24402F;--champ:#C8AE7D;--ink:#1E211E;--soft:#5E625C;--mute:#8B8F87;--err:#A3402A}
+:root{--stone:#F9F8F6;--paper:#fff;--line:#E3DED5;--char:#121412;--terra:#B5653F;--forest:#24402F;--champ:#C8AE7D;--ink:#1E211E;--soft:#5E625C;--mute:#8B8F87;--err:#A3402A}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--stone);color:var(--ink);font:16px/1.5 "Plus Jakarta Sans",system-ui,sans-serif}
+[hidden]{display:none!important}
 header{background:var(--char);color:#fff;padding:28px 20px 34px;text-align:center}
 .eyebrow{font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:700;color:var(--champ);margin:0}
 h1{font:600 2rem/1.1 "Cormorant Garamond",serif;margin:8px 0 6px}
 header p.sub{margin:0;color:#C9CCC5;font-size:.92rem}
 main{max-width:520px;margin:-18px auto 40px;padding:0 14px}
 .card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:20px 18px;box-shadow:0 8px 30px rgba(18,20,18,.06)}
-form{display:grid;gap:14px}
+form,.stack{display:grid;gap:14px}
 .lbl{display:block;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
 input,select,textarea{font:inherit;font-size:1rem;color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:12px 13px;background:var(--stone);width:100%}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink);background:var(--paper)}
 textarea{min-height:70px;resize:vertical}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .chip{border:1px solid var(--line);background:var(--stone);border-radius:14px;padding:10px 11px;text-align:left;cursor:pointer;font:inherit;color:var(--ink)}
 .chip b{display:block;font-size:.9rem;font-weight:600}
@@ -34,11 +34,37 @@ textarea{min-height:70px;resize:vertical}
 .err{color:var(--err);font-size:.86rem;margin:0}
 .btn{display:block;width:100%;border:0;border-radius:999px;padding:14px 18px;font:600 1rem "Plus Jakarta Sans",sans-serif;cursor:pointer;text-align:center;text-decoration:none}
 .btn.dark{background:var(--char);color:#fff}
-.btn.dark:disabled{opacity:.6}
+.btn:disabled{opacity:.6}
 .btn.line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
 .fine{font-size:.8rem;color:var(--soft);margin:0}
 .check{display:flex;gap:10px;align-items:flex-start;font-size:.84rem;color:var(--soft)}
 .check input{width:20px;height:20px;flex:none;margin-top:2px;accent-color:var(--forest)}
+.box{background:var(--stone);border:1px solid var(--line);border-radius:16px;padding:12px 14px;font-size:.9rem}
+.box b{font-weight:600}
+.box.note{background:#FBF4EC;border-color:#EBD8C4}
+.box.price{background:#EEF3EF;border-color:#CFDDD3}
+.big{font:600 1.5rem "Cormorant Garamond",serif;color:var(--forest)}
+dl.kv{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:6px 0 0}
+dl.kv dt{color:var(--mute)}
+dl.kv dd{margin:0;font-weight:600}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.cal-head b{font-weight:600}
+.cal-nav{border:1px solid var(--line);background:var(--paper);border-radius:999px;width:36px;height:36px;font-size:1.1rem;cursor:pointer;color:var(--ink)}
+.cal-nav:disabled{opacity:.3}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}
+.cal .dow{font-size:.68rem;color:var(--mute);font-weight:700;padding:2px 0}
+.cal button{border:0;background:var(--stone);border-radius:10px;padding:9px 0;font:inherit;font-size:.9rem;color:var(--ink);cursor:pointer}
+.cal button:disabled{background:transparent;color:#C3C6BF;cursor:default}
+.cal button.taken{text-decoration:line-through;color:#B9A79A}
+.cal button.own{background:#F3E7DA;color:var(--terra)}
+.cal button.in{background:#CFDDD3}
+.cal button.start{background:var(--forest);color:#fff;font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.74rem;color:var(--soft);margin-top:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.stepper{display:flex;align-items:center;gap:12px}
+.stepper button{width:42px;height:42px;border-radius:999px;border:1px solid var(--line);background:var(--paper);font-size:1.3rem;cursor:pointer;color:var(--ink)}
+.stepper button:disabled{opacity:.3}
+.stepper output{font-weight:700;font-size:1.2rem;min-width:2ch;text-align:center}
 .done{text-align:center}
 .done .ref{font:600 2rem "Cormorant Garamond",serif;letter-spacing:.08em;color:var(--forest);margin:4px 0 10px}
 .done dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;text-align:left;background:var(--stone);border-radius:14px;padding:12px 14px;margin:14px 0;font-size:.9rem}
@@ -57,7 +83,7 @@ footer a{color:var(--soft)}
 </header>
 <main>
   <div class="card">
-    <form id="f" novalidate>
+    <div class="stack" id="pick">
       <div>
         <span class="lbl" id="mode-l">I am</span>
         <div class="chips" role="group" aria-labelledby="mode-l">
@@ -65,8 +91,20 @@ footer a{color:var(--soft)}
           <button type="button" class="chip mode" data-m="rebook" aria-pressed="false"><b>Rebooking</b><span>Moving my booking to a new date</span></button>
         </div>
       </div>
-      <label id="rb-wrap" hidden><span class="lbl">Your booking number</span><input id="rb" inputmode="numeric" autocomplete="off" placeholder="From your confirmation"></label>
-      <div>
+    </div>
+
+    <form id="find" class="stack" novalidate hidden style="margin-top:14px">
+      <label><span class="lbl">Booking number</span><input id="rb-no" inputmode="numeric" autocomplete="off" placeholder="e.g. 1201 (on your confirmation)"></label>
+      <label><span class="lbl">Mobile number you booked with</span><input id="rb-ph" type="tel" inputmode="tel" autocomplete="tel" placeholder="0917 123 4567"></label>
+      <p class="err" id="find-err" hidden></p>
+      <button class="btn dark" type="submit" id="find-btn">Find my booking</button>
+    </form>
+
+    <form id="f" novalidate style="margin-top:14px">
+      <div class="box" id="bk" hidden></div>
+      <div class="box note" id="bk-pending" hidden></div>
+
+      <div id="cab-wrap">
         <span class="lbl" id="cab-l">Cabin</span>
         <div class="chips" role="group" aria-labelledby="cab-l">
           <button type="button" class="chip" data-o="c1"><b>Charlie</b><span>Up to 15 guests</span></button>
@@ -75,40 +113,64 @@ footer a{color:var(--soft)}
           <button type="button" class="chip" data-o="c23"><b>Charlotte + Choco</b><span>Up to 20 guests</span></button>
         </div>
       </div>
-      <div class="row">
-        <label><span class="lbl" id="ci-l">Check-in date</span><input type="date" id="ci" required></label>
-        <label><span class="lbl">Nights</span>
-          <select id="nights"></select>
-        </label>
+
+      <div id="nights-wrap">
+        <label><span class="lbl">Nights</span><select id="nights"></select></label>
       </div>
-      <label><span class="lbl">How many guests</span><input type="number" id="guests" inputmode="numeric" min="1" max="24" value="8"></label>
-      <label><span class="lbl">Your name</span><input id="name" autocomplete="name" required></label>
-      <label><span class="lbl">Mobile number</span><input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="0917 123 4567" required></label>
+
+      <div>
+        <span class="lbl" id="cal-l">Check-in date</span>
+        <p class="fine" id="cal-hint">Pick a cabin to see the free dates.</p>
+        <div id="cal-box" hidden>
+          <div class="cal-head">
+            <button type="button" class="cal-nav" id="cal-prev" aria-label="Previous month">‹</button>
+            <b id="cal-month"></b>
+            <button type="button" class="cal-nav" id="cal-next" aria-label="Next month">›</button>
+          </div>
+          <div class="cal" id="cal"></div>
+          <div class="legend"><span><i style="background:var(--forest)"></i>Check-in</span><span><i style="background:#CFDDD3"></i>Your nights</span><span id="lg-own"><i style="background:#F3E7DA"></i>Current dates</span><span><s>12</s> Booked</span></div>
+          <p class="fine" id="cal-pick" style="margin-top:6px"></p>
+        </div>
+      </div>
+
+      <div id="g-new">
+        <label><span class="lbl">How many guests</span><input type="number" id="guests" inputmode="numeric" min="1" max="24" value="8"></label>
+      </div>
+      <div id="g-rb" hidden>
+        <span class="lbl">Guests</span>
+        <div class="stepper">
+          <button type="button" id="g-minus" aria-label="Fewer guests">−</button>
+          <output id="g-val">8</output>
+          <button type="button" id="g-plus" aria-label="More guests">+</button>
+        </div>
+        <p class="fine" id="g-hint" style="margin-top:6px"></p>
+      </div>
+
+      <div class="box price" id="price" hidden aria-live="polite"></div>
+
+      <div id="who">
+        <label><span class="lbl">Your name</span><input id="name" autocomplete="name"></label>
+      </div>
+      <label id="phone-wrap"><span class="lbl">Mobile number</span><input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="0917 123 4567"></label>
       <label><span class="lbl">Email (optional)</span><input id="email" type="email" inputmode="email" autocomplete="email" placeholder="For your booking confirmation"></label>
       <label><span class="lbl">Anything we should know? (optional)</span><textarea id="note" placeholder="Occasion, arrival time, questions"></textarea></label>
-      <label class="check"><input type="checkbox" id="ok"><span>I agree that CBTG may text, call or email me about this inquiry.</span></label>
+      <label class="check"><input type="checkbox" id="ok"><span>I agree that CBTG may text, call or email me about this request.</span></label>
       <p class="err" id="err" hidden></p>
       <button class="btn dark" type="submit" id="send">Send inquiry</button>
-      <p class="fine" id="fine">No payment here. We'll check the dates and text you the total and payment details.</p>
+      <p class="fine" id="fine"></p>
     </form>
 
     <div class="done" id="done" hidden tabindex="-1">
       <p class="eyebrow" style="color:var(--terra)" id="d-head">Inquiry sent</p>
       <p class="ref" id="d-ref"></p>
-      <p class="fine" id="d-msg">Keep this reference. We'll text you at <b id="d-ph"></b> to confirm your dates.</p>
-      <dl>
-        <dt>Cabin</dt><dd id="d-cab"></dd>
-        <dt>Dates</dt><dd id="d-dates"></dd>
-        <dt>Guests</dt><dd id="d-g"></dd>
-        <dt class="money">Total</dt><dd class="money" id="d-tot"></dd>
-        <dt class="money">30% fee</dt><dd class="money" id="d-fee"></dd>
-      </dl>
-      <p class="fine" id="d-foot">Not booked yet: the cabin is held only after the reservation fee is paid.</p>
+      <p class="fine" id="d-msg"></p>
+      <dl id="d-list"></dl>
+      <p class="fine" id="d-foot"></p>
     </div>
 
     <div class="links">
       <a class="btn line" href="https://m.me/61566419019212">Message us on Messenger</a>
-      <a class="btn line" href="website.html">See photos, rates and live calendar</a>
+      <a class="btn line" href="website.html">See photos, rates and cabins</a>
     </div>
   </div>
 </main>
@@ -118,97 +180,254 @@ footer a{color:var(--soft)}
   "use strict";
   var API = "https://fnebydfckdqgigtfhjfk.supabase.co/rest/v1/rpc/";
   var KEY = "sb_publishable_PLLPO77LyLTlHHQr1yF23Q_Y27vUAO1";
-  var NAMES = { c1: "Charlie", c2: "Charlotte", c12: "Charlie + Charlotte", c23: "Charlotte + Choco" };
-  var MAX = { c1: 15, c2: 15, c12: 24, c23: 20 };
+  var FEED = "https://fnebydfckdqgigtfhjfk.supabase.co/functions/v1/cbtg-calendar/availability.json";
+  var OPTS = {
+    c1: { name: "Charlie", cabins: ["Cabin 1"], max: 15 },
+    c2: { name: "Charlotte", cabins: ["Cabin 2"], max: 15 },
+    c12: { name: "Charlie + Charlotte", cabins: ["Cabin 1", "Cabin 2"], max: 24 },
+    c23: { name: "Charlotte + Choco", cabins: ["Cabin 2", "Cabin 3"], max: 20 }
+  };
+  var CAT = { "Cabin 1": "Charlie", "Cabin 2": "Charlotte", "Cabin 3": "Choco" };
   var $ = function (id) { return document.getElementById(id); };
-  var opt = "";
+
+  function iso(d) { return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
+  function dt(s) { var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function addDays(s, n) { var d = dt(s); d.setDate(d.getDate() + n); return iso(d); }
+  function nice(s, y) { return dt(s).toLocaleDateString("en-PH", y ? { weekday: "short", month: "short", day: "numeric", year: "numeric" } : { weekday: "short", month: "short", day: "numeric" }); }
+  function peso(n) { return "₱" + Math.round(+n || 0).toLocaleString("en-PH"); }
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function cabName(list) { return list.map(function (c) { return CAT[c] || c; }).join(" + "); }
+  function post(fn, body) {
+    var ctl = window.AbortController ? new AbortController() : null, t = setTimeout(function () { if (ctl) ctl.abort(); }, 20000);
+    return fetch(API + fn, { method: "POST", headers: { apikey: KEY, "Content-Type": "application/json" }, body: JSON.stringify(body), signal: ctl ? ctl.signal : undefined })
+      .then(function (r) { clearTimeout(t); return r.ok ? r.json() : Promise.reject(r.status); }, function (e) { clearTimeout(t); throw e; });
+  }
+  function showErr(el, m) { $(el).textContent = m || ""; $(el).hidden = !m; }
+  var today = iso(new Date());
+
+  var mode = "new", opt = "", bk = null, ci = null, gRb = 8, booked = {}, live = false;
+  var month = dt(today); month.setDate(1);
+  var maxDay = addDays(today, 400);
+
+  /* ---------- live calendar ---------- */
+  function loadFeed() {
+    fetch(FEED, { cache: "no-store" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      if (!j || !j.booked) return;
+      booked = {};
+      Object.keys(j.booked).forEach(function (c) { booked[c] = {}; (j.booked[c] || []).forEach(function (d) { booked[c][d] = 1; }); });
+      live = true;
+      if (ci && !rangeFree(ci)) { ci = null; $("price").hidden = true; }
+      renderCal();
+    }).catch(function () {});
+  }
+  function cabinsNow() { return mode === "rebook" ? (bk ? bk.cabins : []) : (opt ? OPTS[opt].cabins : []); }
+  function nightsNow() { return mode === "rebook" ? (bk ? +bk.nights : 1) : +$("nights").value; }
+  function isOwn(s) { return mode === "rebook" && !!bk && s >= bk.checkIn && s < bk.checkOut; }
+  function nightTaken(s) { return !isOwn(s) && cabinsNow().some(function (c) { return booked[c] && booked[c][s]; }); }
+  function rangeFree(start) { for (var i = 0; i < nightsNow(); i++) if (nightTaken(addDays(start, i))) return false; return true; }
+  function minDay() { return mode === "rebook" ? addDays(today, 1) : today; }
+
+  function renderCal() {
+    var has = cabinsNow().length > 0;
+    $("cal-box").hidden = !has; $("cal-hint").hidden = has; $("lg-own").hidden = mode !== "rebook";
+    if (!has) return;
+    var y = month.getFullYear(), m = month.getMonth();
+    $("cal-month").textContent = month.toLocaleDateString("en-PH", { month: "long", year: "numeric" });
+    var startDow = new Date(y, m, 1).getDay(), days = new Date(y, m + 1, 0).getDate();
+    var h = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map(function (d) { return '<span class="dow">' + d + "</span>"; }).join("");
+    for (var i = 0; i < startDow; i++) h += "<span></span>";
+    var n = nightsNow(), end = ci ? addDays(ci, n) : null;
+    for (var d = 1; d <= days; d++) {
+      var s = iso(new Date(y, m, d)), taken = nightTaken(s), cls = [];
+      var can = s >= minDay() && s <= maxDay && !(mode === "rebook" && bk && s === bk.checkIn) && rangeFree(s);
+      if (taken) cls.push("taken");
+      if (isOwn(s)) cls.push("own");
+      if (ci && s >= ci && s < end) cls.push(s === ci ? "start" : "in");
+      h += '<button type="button" data-d="' + s + '" class="' + cls.join(" ") + '"' + (can ? "" : " disabled") +
+        ' aria-label="' + nice(s) + (taken ? ", booked" : can ? "" : ", not available") + '"' + (s === ci ? ' aria-pressed="true"' : "") + ">" + d + "</button>";
+    }
+    $("cal").innerHTML = h;
+    var t0 = dt(today);
+    $("cal-prev").disabled = month <= new Date(t0.getFullYear(), t0.getMonth(), 1);
+    $("cal-next").disabled = month >= dt(maxDay);
+    $("cal-pick").textContent = ci
+      ? "Check-in " + nice(ci, true) + ", 4 PM · Check-out " + nice(addDays(ci, n), true) + ", 12 NN (" + n + (n > 1 ? " nights)" : " night)")
+      : live ? "Tap your check-in date. Crossed-out nights are booked." : "Tap your check-in date.";
+  }
+  $("cal").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-d]"); if (!b || b.disabled) return;
+    ci = b.getAttribute("data-d"); renderCal(); if (mode === "rebook") quoteSoon();
+  });
+  $("cal-prev").onclick = function () { month.setMonth(month.getMonth() - 1); renderCal(); };
+  $("cal-next").onclick = function () { month.setMonth(month.getMonth() + 1); renderCal(); };
+
+  /* ---------- new guest ---------- */
   var chips = document.querySelectorAll(".chip[data-o]");
   chips.forEach(function (c) {
     c.setAttribute("aria-pressed", "false");
     c.addEventListener("click", function () {
       opt = c.getAttribute("data-o");
       chips.forEach(function (x) { x.setAttribute("aria-pressed", x === c ? "true" : "false"); });
-      $("guests").max = MAX[opt];
+      $("guests").max = OPTS[opt].max;
+      if (ci && !rangeFree(ci)) ci = null;
+      renderCal();
     });
   });
-  for (var i = 1; i <= 14; i++) {
-    var o = document.createElement("option"); o.value = i; o.textContent = i + (i > 1 ? " nights" : " night"); $("nights").appendChild(o);
+  for (var i = 1; i <= 14; i++) { var o = document.createElement("option"); o.value = i; o.textContent = i + (i > 1 ? " nights" : " night"); $("nights").appendChild(o); }
+  $("nights").onchange = function () { if (ci && !rangeFree(ci)) ci = null; renderCal(); };
+
+  /* ---------- rebooking ---------- */
+  function renderGuests() {
+    if (!bk) return;
+    $("g-val").textContent = gRb;
+    $("g-minus").disabled = gRb <= +bk.guests;
+    $("g-plus").disabled = gRb >= +bk.max;
+    $("g-hint").textContent = "Booked for " + bk.guests + ". You can add guests (up to " + bk.max + "). If fewer are coming, leave it at " + bk.guests + " — your rate stays the same.";
   }
-  function iso(d) { return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
-  function addDays(s, n) { var p = s.split("-"); return iso(new Date(+p[0], +p[1] - 1, +p[2] + n)); }
-  function nice(s) { var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString("en-PH", { weekday: "short", month: "short", day: "numeric" }); }
-  function peso(n) { return "₱" + Math.round(+n || 0).toLocaleString("en-PH"); }
-  var today = iso(new Date());
-  // Two modes: new guest, or rebooking (inquire.html?rebook=1234 opens in rebooking with the number filled in).
-  var qs = new URLSearchParams(location.search), rebook = false;
+  $("g-minus").onclick = function () { if (gRb > +bk.guests) { gRb--; renderGuests(); quoteSoon(); } };
+  $("g-plus").onclick = function () { if (gRb < +bk.max) { gRb++; renderGuests(); quoteSoon(); } };
+
+  var qTimer = null, qSeq = 0;
+  function quoteSoon() { clearTimeout(qTimer); qTimer = setTimeout(quote, 250); }
+  function quote() {
+    if (mode !== "rebook" || !bk) return;
+    if (!ci) { $("price").hidden = true; return; }
+    var seq = ++qSeq;
+    $("price").hidden = false; $("price").textContent = "Checking the rate…";
+    post("rebook_request", { p_data: { no: bk.no, phone: $("rb-ph").value, checkIn: ci, guests: gRb }, p_save: false }).then(function (j) {
+      if (seq !== qSeq) return;
+      if (!j || j.error) {
+        $("price").innerHTML = '<span class="err">' + esc((j && j.error) || "Couldn't check the rate.") + "</span>";
+        if (j && j.taken) { ci = null; loadFeed(); renderCal(); }
+        return;
+      }
+      $("price").innerHTML = priceHtml(j);
+    }).catch(function () { if (seq === qSeq) $("price").textContent = "We'll text you the rate for the new date."; });
+  }
+  function priceHtml(j) {
+    if (j.newRate === null || j.newRate === undefined) return "<b>Rate:</b> we'll text you the rate for the new date.";
+    if (+j.newRate <= +j.rate) return '<span class="lbl" style="margin:0">Your rate</span><div class="big">' + peso(j.newRate) + "</div>Same as now — nothing more to pay for the move.";
+    var parts = [], more = gRb - bk.guests;
+    if (+j.dateAdd > 0) parts.push("+" + peso(j.dateAdd) + " because the new dates cost more");
+    if (+j.guestAdd > 0) parts.push("+" + peso(j.guestAdd) + " for " + more + " more guest" + (more > 1 ? "s" : ""));
+    return '<span class="lbl" style="margin:0">New rate</span><div class="big">' + peso(j.newRate) + "</div>Now " + peso(j.rate) + " · " + parts.join(" · ") +
+      '<br><span class="fine">Subject to CBTG\'s approval. We\'ll text you how to pay the difference.</span>';
+  }
+
+  /* ---------- modes ---------- */
   var TXT = {
-    new: { doc: "Send an inquiry · Cabins by the Generals", h: "Send us an inquiry", sub: "Takes a minute. We'll text you back.", ci: "Check-in date", send: "Send inquiry",
+    new: { doc: "Send an inquiry · Cabins by the Generals", h: "Send us an inquiry", sub: "Takes a minute. We'll text you back.", cal: "Check-in date", send: "Send inquiry",
       fine: "No payment here. We'll check the dates and text you the total and payment details." },
-    rebook: { doc: "Choose a new date · Cabins by the Generals", h: "Choose a new date", sub: "For guests moving an existing booking. We'll text you to confirm.", ci: "New check-in date", send: "Send new date",
-      fine: "Nothing to pay here. We'll check the new date and text you to confirm, including any price difference." }
+    rebook: { doc: "Choose a new date · Cabins by the Generals", h: "Choose a new date", sub: "For guests moving a confirmed booking. CBTG approves every change.", cal: "New check-in date", send: "Send for approval",
+      fine: "Nothing to pay here. Your booking stays on its current date until CBTG approves the change." }
   };
   function setMode(m) {
-    rebook = m === "rebook"; var t = TXT[m];
+    mode = m; var t = TXT[m], rb = m === "rebook";
     document.querySelectorAll(".chip.mode").forEach(function (x) { x.setAttribute("aria-pressed", x.getAttribute("data-m") === m ? "true" : "false"); });
     document.title = t.doc; $("h-title").textContent = t.h; $("h-sub").textContent = t.sub;
-    $("ci-l").textContent = t.ci; $("send").textContent = t.send; $("fine").textContent = t.fine;
-    $("rb-wrap").hidden = !rebook; showErr("");
+    $("cal-l").textContent = t.cal; $("send").textContent = t.send; $("fine").textContent = t.fine;
+    ci = null; showErr("err", ""); showErr("find-err", "");
+    $("find").hidden = !rb || !!bk;
+    $("f").hidden = rb && !bk;
+    $("bk").hidden = !rb || !bk; $("bk-pending").hidden = !rb || !bk || !bk.pending;
+    $("cab-wrap").hidden = rb; $("nights-wrap").hidden = rb; $("g-new").hidden = rb; $("g-rb").hidden = !rb;
+    $("who").hidden = rb; $("phone-wrap").hidden = rb; $("price").hidden = true;
+    month = dt(rb && bk ? addDays(today, 1) : today); month.setDate(1);
+    renderCal(); renderGuests();
   }
   document.querySelectorAll(".chip.mode").forEach(function (c) { c.addEventListener("click", function () { setMode(c.getAttribute("data-m")); }); });
-  if (qs.has("rebook")) { $("rb").value = (qs.get("rebook") || "").replace(/[^0-9A-Za-z-]/g, "").slice(0, 20); setMode("rebook"); }
-  $("ci").min = today; $("ci").max = addDays(today, 400);
 
+  $("find").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var no = $("rb-no").value.replace(/\D/g, ""), ph = $("rb-ph").value;
+    if (!no) return showErr("find-err", "Type your booking number (it's on your confirmation).");
+    if (ph.replace(/\D/g, "").length < 10) return showErr("find-err", "Type the mobile number you booked with, like 0917 123 4567.");
+    showErr("find-err", "");
+    var btn = $("find-btn"); btn.disabled = true; btn.textContent = "Looking…";
+    var reset = function () { btn.disabled = false; btn.textContent = "Find my booking"; };
+    post("rebook_lookup", { p_no: no, p_phone: ph }).then(function (j) {
+      reset();
+      if (!j || j.error) return showErr("find-err", (j && j.error) || "Something went wrong. Please message us.");
+      bk = j; gRb = +j.guests || 1;
+      var n = +j.nights;
+      $("bk").innerHTML = "<b>Hi " + esc(j.name || "there") + "!</b> Here's your booking:" +
+        '<dl class="kv"><dt>Booking</dt><dd>#' + esc(j.no) + (j.status === "To rebook" ? " · waiting for a new date" : "") + "</dd>" +
+        "<dt>Cabin</dt><dd>" + esc(cabName(j.cabins)) + "</dd>" +
+        "<dt>Dates</dt><dd>" + nice(j.checkIn) + " → " + nice(j.checkOut) + " (" + n + (n > 1 ? " nights" : " night") + ")</dd>" +
+        "<dt>Guests</dt><dd>" + esc(j.guests) + "</dd><dt>Rate</dt><dd>" + peso(j.rate) + "</dd></dl>" +
+        '<p class="fine" style="margin-top:6px">Pick a new check-in date below. You keep the same ' + n + (n > 1 ? " nights" : " night") + ".</p>";
+      if (j.pending) $("bk-pending").textContent = "You already asked to move to " + nice(j.pending.checkIn) + " (ref " + j.pending.ref + "). Sending a new date replaces that request.";
+      setMode("rebook");
+      $("bk").scrollIntoView({ behavior: "smooth", block: "start" });
+    }).catch(function () { reset(); showErr("find-err", "We couldn't reach our system. Please message or call us."); });
+  });
+
+  /* ---------- send ---------- */
   function problem() {
-    var g = +$("guests").value, em = $("email").value.trim();
-    if (rebook && !$("rb").value.trim()) return "Type your booking number (it's on your confirmation).";
-    if (!opt) return "Pick a cabin.";
-    if (!$("ci").value || $("ci").value < today) return "Pick your check-in date.";
-    if (!(g >= 1) || g > MAX[opt]) return "Guests for " + NAMES[opt] + ": 1 to " + MAX[opt] + ".";
-    if ($("name").value.trim().length < 2) return "Type your name.";
-    if ($("phone").value.replace(/\D/g, "").length < 10) return "Type a valid mobile number, like 0917 123 4567.";
+    var em = $("email").value.trim();
+    if (mode === "new") {
+      var g = +$("guests").value;
+      if (!opt) return "Pick a cabin.";
+      if (!ci) return "Pick your check-in date on the calendar.";
+      if (!(g >= 1) || g > OPTS[opt].max) return "Guests for " + OPTS[opt].name + ": 1 to " + OPTS[opt].max + ".";
+      if ($("name").value.trim().length < 2) return "Type your name.";
+      if ($("phone").value.replace(/\D/g, "").length < 10) return "Type a valid mobile number, like 0917 123 4567.";
+    } else if (!ci) return "Pick your new check-in date on the calendar.";
     if (em && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)) return "Please check your email address, or leave it blank.";
     if (!$("ok").checked) return "Please tick the box so we can contact you.";
     return "";
   }
-  function showErr(m) { $("err").textContent = m; $("err").hidden = !m; }
-
   var sending = false;
   $("f").addEventListener("submit", function (e) {
     e.preventDefault(); if (sending) return;
-    var p = problem(); showErr(p); if (p) return;
+    var p = problem(); showErr("err", p); if (p) return;
     sending = true; var btn = $("send"); btn.disabled = true; btn.textContent = "Sending…";
-    var ci = $("ci").value, co = addDays(ci, +$("nights").value), g = Math.round(+$("guests").value);
-    var body = { p_data: {
-      option: opt, name: $("name").value.trim(), phone: $("phone").value.trim(), email: $("email").value.trim(),
-      checkIn: ci, checkOut: co, guests: g, occasion: "", note: ((rebook ? "[Rebooking · Booking #" + $("rb").value.trim() + "] " : "[Inquiry form] ") + $("note").value.trim()).trim()
-    } };
-    var ctl = window.AbortController ? new AbortController() : null, timer = setTimeout(function () { if (ctl) ctl.abort(); }, 20000);
-    var done = function () { clearTimeout(timer); sending = false; btn.disabled = false; btn.textContent = rebook ? "Send new date" : "Send inquiry"; };
-    fetch(API + "booking_request", { method: "POST", headers: { apikey: KEY, "Content-Type": "application/json" }, body: JSON.stringify(body), signal: ctl ? ctl.signal : undefined })
-      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-      .then(function (j) {
-        done();
-        if (!j || j.error) { showErr((j && j.error) || "Something went wrong. Please message or call us."); return; }
-        $("d-ref").textContent = j.ref;
-        $("d-ph").textContent = $("phone").value.trim();
-        $("d-cab").textContent = NAMES[opt];
-        var n = +$("nights").value;
-        $("d-dates").textContent = nice(ci) + " to " + nice(co) + " (" + n + (n > 1 ? " nights)" : " night)");
-        $("d-g").textContent = g;
-        $("d-tot").textContent = peso(j.total);
-        $("d-fee").textContent = peso(j.fee);
-        if (rebook) {
-          $("d-head").textContent = "New date sent";
-          $("d-msg").innerHTML = "We'll check it and text you at <b></b> to confirm your new date.";
-          $("d-msg").querySelector("b").textContent = $("phone").value.trim();
-          document.querySelectorAll(".money").forEach(function (x) { x.hidden = true; });
-          $("d-foot").textContent = "Your booking #" + $("rb").value.trim() + " stays as it is until we confirm the change.";
-        }
-        $("f").hidden = true; $("done").hidden = false; $("done").focus();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      })
-      .catch(function () { done(); showErr("We couldn't send it right now. Please message us on Messenger or call 0927 446 6154."); });
+    var done = function () { sending = false; btn.disabled = false; btn.textContent = TXT[mode].send; };
+    var req = mode === "new"
+      ? post("booking_request", { p_data: {
+          option: opt, name: $("name").value.trim(), phone: $("phone").value.trim(), email: $("email").value.trim(),
+          checkIn: ci, checkOut: addDays(ci, nightsNow()), guests: Math.round(+$("guests").value), occasion: "",
+          note: ("[Inquiry form] " + $("note").value.trim()).trim() } })
+      : post("rebook_request", { p_data: { no: bk.no, phone: $("rb-ph").value, checkIn: ci, guests: gRb,
+          email: $("email").value.trim(), note: $("note").value.trim() }, p_save: true });
+    req.then(function (j) {
+      done();
+      if (!j || j.error) {
+        if (j && j.taken) { ci = null; loadFeed(); renderCal(); }
+        return showErr("err", (j && j.error) || "Something went wrong. Please message or call us.");
+      }
+      showDone(j);
+    }).catch(function () { done(); showErr("err", "We couldn't send it right now. Please message us on Messenger or call 0927 446 6154."); });
   });
+
+  function row(k, v) { return "<dt>" + k + "</dt><dd>" + v + "</dd>"; }
+  function showDone(j) {
+    var n = nightsNow(), co = addDays(ci, n);
+    $("d-ref").textContent = j.ref;
+    if (mode === "new") {
+      $("d-head").textContent = "Inquiry sent";
+      $("d-msg").innerHTML = "Keep this reference. We'll text you at <b></b> to confirm your dates.";
+      $("d-msg").querySelector("b").textContent = $("phone").value.trim();
+      $("d-list").innerHTML = row("Cabin", esc(OPTS[opt].name)) + row("Dates", nice(ci) + " to " + nice(co) + " (" + n + (n > 1 ? " nights)" : " night)")) +
+        row("Guests", esc(Math.round(+$("guests").value))) + row("Total", peso(j.total)) + row("30% fee", peso(j.fee));
+      $("d-foot").textContent = "Not booked yet: the cabin is held only after the reservation fee is paid.";
+    } else {
+      var known = j.newRate !== null && j.newRate !== undefined;
+      $("d-head").textContent = "Sent for approval";
+      $("d-msg").textContent = "Keep this reference. We'll text you once CBTG approves your new date.";
+      $("d-list").innerHTML = row("Booking", "#" + esc(bk.no)) + row("Cabin", esc(cabName(bk.cabins))) +
+        row("Now", nice(bk.checkIn) + " → " + nice(bk.checkOut)) + row("New", nice(ci) + " → " + nice(co)) + row("Guests", esc(j.guests)) +
+        row("Rate", known ? peso(j.newRate) + (+j.newRate > +j.rate ? " (+" + peso(+j.newRate - +j.rate) + ")" : " (same)") : "We'll text you");
+      $("d-foot").textContent = "Your booking stays on " + nice(bk.checkIn) + " until we confirm the change.";
+    }
+    $("pick").hidden = true; $("f").hidden = true; $("find").hidden = true; $("done").hidden = false; $("done").focus();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  var qs = new URLSearchParams(location.search);
+  if (qs.has("rebook")) { $("rb-no").value = (qs.get("rebook") || "").replace(/\D/g, "").slice(0, 10); setMode("rebook"); }
+  else setMode("new");
+  loadFeed();
 })();
 </script>
 </body>
