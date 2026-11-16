@@ -52,12 +52,13 @@ footer a{color:var(--soft)}
 <body>
 <header>
   <p class="eyebrow">Cabins by the Generals · Sariaya</p>
-  <h1>Send us an inquiry</h1>
-  <p class="sub">Takes a minute. We'll text you back.</p>
+  <h1 id="h-title">Send us an inquiry</h1>
+  <p class="sub" id="h-sub">Takes a minute. We'll text you back.</p>
 </header>
 <main>
   <div class="card">
     <form id="f" novalidate>
+      <label id="rb-wrap" hidden><span class="lbl">Your booking number</span><input id="rb" inputmode="numeric" autocomplete="off" placeholder="From your confirmation"></label>
       <div>
         <span class="lbl" id="cab-l">Cabin</span>
         <div class="chips" role="group" aria-labelledby="cab-l">
@@ -68,7 +69,7 @@ footer a{color:var(--soft)}
         </div>
       </div>
       <div class="row">
-        <label><span class="lbl">Check-in date</span><input type="date" id="ci" required></label>
+        <label><span class="lbl" id="ci-l">Check-in date</span><input type="date" id="ci" required></label>
         <label><span class="lbl">Nights</span>
           <select id="nights"></select>
         </label>
@@ -85,17 +86,17 @@ footer a{color:var(--soft)}
     </form>
 
     <div class="done" id="done" hidden tabindex="-1">
-      <p class="eyebrow" style="color:var(--terra)">Inquiry sent</p>
+      <p class="eyebrow" style="color:var(--terra)" id="d-head">Inquiry sent</p>
       <p class="ref" id="d-ref"></p>
-      <p class="fine">Keep this reference. We'll text you at <b id="d-ph"></b> to confirm your dates.</p>
+      <p class="fine" id="d-msg">Keep this reference. We'll text you at <b id="d-ph"></b> to confirm your dates.</p>
       <dl>
         <dt>Cabin</dt><dd id="d-cab"></dd>
         <dt>Dates</dt><dd id="d-dates"></dd>
         <dt>Guests</dt><dd id="d-g"></dd>
-        <dt>Total</dt><dd id="d-tot"></dd>
-        <dt>30% fee</dt><dd id="d-fee"></dd>
+        <dt class="money">Total</dt><dd class="money" id="d-tot"></dd>
+        <dt class="money">30% fee</dt><dd class="money" id="d-fee"></dd>
       </dl>
-      <p class="fine">Not booked yet: the cabin is held only after the reservation fee is paid.</p>
+      <p class="fine" id="d-foot">Not booked yet: the cabin is held only after the reservation fee is paid.</p>
     </div>
 
     <div class="links">
@@ -131,10 +132,22 @@ footer a{color:var(--soft)}
   function nice(s) { var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString("en-PH", { weekday: "short", month: "short", day: "numeric" }); }
   function peso(n) { return "₱" + Math.round(+n || 0).toLocaleString("en-PH"); }
   var today = iso(new Date());
+  // Rebooking mode: inquire.html?rebook=1234 (or ?rebook= with no number).
+  var qs = new URLSearchParams(location.search), rebook = qs.has("rebook");
+  if (rebook) {
+    document.title = "Choose a new date · Cabins by the Generals";
+    $("h-title").textContent = "Choose a new date";
+    $("h-sub").textContent = "For guests moving an existing booking. We'll text you to confirm.";
+    $("rb-wrap").hidden = false; $("rb").value = (qs.get("rebook") || "").replace(/[^0-9A-Za-z-]/g, "").slice(0, 20);
+    $("ci-l").textContent = "New check-in date";
+    $("send").textContent = "Send new date";
+    $("f").querySelector(".fine").textContent = "Nothing to pay here. We'll check the new date and text you to confirm, including any price difference.";
+  }
   $("ci").min = today; $("ci").max = addDays(today, 400);
 
   function problem() {
     var g = +$("guests").value, em = $("email").value.trim();
+    if (rebook && !$("rb").value.trim()) return "Type your booking number (it's on your confirmation).";
     if (!opt) return "Pick a cabin.";
     if (!$("ci").value || $("ci").value < today) return "Pick your check-in date.";
     if (!(g >= 1) || g > MAX[opt]) return "Guests for " + NAMES[opt] + ": 1 to " + MAX[opt] + ".";
@@ -154,10 +167,10 @@ footer a{color:var(--soft)}
     var ci = $("ci").value, co = addDays(ci, +$("nights").value), g = Math.round(+$("guests").value);
     var body = { p_data: {
       option: opt, name: $("name").value.trim(), phone: $("phone").value.trim(), email: $("email").value.trim(),
-      checkIn: ci, checkOut: co, guests: g, occasion: "", note: ("[Inquiry form] " + $("note").value.trim()).trim()
+      checkIn: ci, checkOut: co, guests: g, occasion: "", note: ((rebook ? "[Rebooking · Booking #" + $("rb").value.trim() + "] " : "[Inquiry form] ") + $("note").value.trim()).trim()
     } };
     var ctl = window.AbortController ? new AbortController() : null, timer = setTimeout(function () { if (ctl) ctl.abort(); }, 20000);
-    var done = function () { clearTimeout(timer); sending = false; btn.disabled = false; btn.textContent = "Send inquiry"; };
+    var done = function () { clearTimeout(timer); sending = false; btn.disabled = false; btn.textContent = rebook ? "Send new date" : "Send inquiry"; };
     fetch(API + "booking_request", { method: "POST", headers: { apikey: KEY, "Content-Type": "application/json" }, body: JSON.stringify(body), signal: ctl ? ctl.signal : undefined })
       .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
       .then(function (j) {
@@ -171,6 +184,13 @@ footer a{color:var(--soft)}
         $("d-g").textContent = g;
         $("d-tot").textContent = peso(j.total);
         $("d-fee").textContent = peso(j.fee);
+        if (rebook) {
+          $("d-head").textContent = "New date sent";
+          $("d-msg").innerHTML = "We'll check it and text you at <b></b> to confirm your new date.";
+          $("d-msg").querySelector("b").textContent = $("phone").value.trim();
+          document.querySelectorAll(".money").forEach(function (x) { x.hidden = true; });
+          $("d-foot").textContent = "Your booking #" + $("rb").value.trim() + " stays as it is until we confirm the change.";
+        }
         $("f").hidden = true; $("done").hidden = false; $("done").focus();
         window.scrollTo({ top: 0, behavior: "smooth" });
       })
