@@ -58,6 +58,13 @@ footer a{color:var(--soft)}
 <main>
   <div class="card">
     <form id="f" novalidate>
+      <div>
+        <span class="lbl" id="mode-l">I am</span>
+        <div class="chips" role="group" aria-labelledby="mode-l">
+          <button type="button" class="chip mode" data-m="new" aria-pressed="true"><b>A new guest</b><span>Asking about a stay</span></button>
+          <button type="button" class="chip mode" data-m="rebook" aria-pressed="false"><b>Rebooking</b><span>Moving my booking to a new date</span></button>
+        </div>
+      </div>
       <label id="rb-wrap" hidden><span class="lbl">Your booking number</span><input id="rb" inputmode="numeric" autocomplete="off" placeholder="From your confirmation"></label>
       <div>
         <span class="lbl" id="cab-l">Cabin</span>
@@ -82,7 +89,7 @@ footer a{color:var(--soft)}
       <label class="check"><input type="checkbox" id="ok"><span>I agree that CBTG may text, call or email me about this inquiry.</span></label>
       <p class="err" id="err" hidden></p>
       <button class="btn dark" type="submit" id="send">Send inquiry</button>
-      <p class="fine">No payment here. We'll check the dates and text you the total and payment details.</p>
+      <p class="fine" id="fine">No payment here. We'll check the dates and text you the total and payment details.</p>
     </form>
 
     <div class="done" id="done" hidden tabindex="-1">
@@ -115,7 +122,7 @@ footer a{color:var(--soft)}
   var MAX = { c1: 15, c2: 15, c12: 24, c23: 20 };
   var $ = function (id) { return document.getElementById(id); };
   var opt = "";
-  var chips = document.querySelectorAll(".chip");
+  var chips = document.querySelectorAll(".chip[data-o]");
   chips.forEach(function (c) {
     c.setAttribute("aria-pressed", "false");
     c.addEventListener("click", function () {
@@ -132,17 +139,23 @@ footer a{color:var(--soft)}
   function nice(s) { var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString("en-PH", { weekday: "short", month: "short", day: "numeric" }); }
   function peso(n) { return "₱" + Math.round(+n || 0).toLocaleString("en-PH"); }
   var today = iso(new Date());
-  // Rebooking mode: inquire.html?rebook=1234 (or ?rebook= with no number).
-  var qs = new URLSearchParams(location.search), rebook = qs.has("rebook");
-  if (rebook) {
-    document.title = "Choose a new date · Cabins by the Generals";
-    $("h-title").textContent = "Choose a new date";
-    $("h-sub").textContent = "For guests moving an existing booking. We'll text you to confirm.";
-    $("rb-wrap").hidden = false; $("rb").value = (qs.get("rebook") || "").replace(/[^0-9A-Za-z-]/g, "").slice(0, 20);
-    $("ci-l").textContent = "New check-in date";
-    $("send").textContent = "Send new date";
-    $("f").querySelector(".fine").textContent = "Nothing to pay here. We'll check the new date and text you to confirm, including any price difference.";
+  // Two modes: new guest, or rebooking (inquire.html?rebook=1234 opens in rebooking with the number filled in).
+  var qs = new URLSearchParams(location.search), rebook = false;
+  var TXT = {
+    new: { doc: "Send an inquiry · Cabins by the Generals", h: "Send us an inquiry", sub: "Takes a minute. We'll text you back.", ci: "Check-in date", send: "Send inquiry",
+      fine: "No payment here. We'll check the dates and text you the total and payment details." },
+    rebook: { doc: "Choose a new date · Cabins by the Generals", h: "Choose a new date", sub: "For guests moving an existing booking. We'll text you to confirm.", ci: "New check-in date", send: "Send new date",
+      fine: "Nothing to pay here. We'll check the new date and text you to confirm, including any price difference." }
+  };
+  function setMode(m) {
+    rebook = m === "rebook"; var t = TXT[m];
+    document.querySelectorAll(".chip.mode").forEach(function (x) { x.setAttribute("aria-pressed", x.getAttribute("data-m") === m ? "true" : "false"); });
+    document.title = t.doc; $("h-title").textContent = t.h; $("h-sub").textContent = t.sub;
+    $("ci-l").textContent = t.ci; $("send").textContent = t.send; $("fine").textContent = t.fine;
+    $("rb-wrap").hidden = !rebook; showErr("");
   }
+  document.querySelectorAll(".chip.mode").forEach(function (c) { c.addEventListener("click", function () { setMode(c.getAttribute("data-m")); }); });
+  if (qs.has("rebook")) { $("rb").value = (qs.get("rebook") || "").replace(/[^0-9A-Za-z-]/g, "").slice(0, 20); setMode("rebook"); }
   $("ci").min = today; $("ci").max = addDays(today, 400);
 
   function problem() {
