@@ -690,11 +690,13 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
         <form class="form" id="req" hidden novalidate>
           <label>Your name<input name="name" id="f-name" autocomplete="name" required></label>
           <label>Mobile number<input name="phone" id="f-phone" type="tel" inputmode="tel" autocomplete="tel" required></label>
+          <label>Email (optional)<input name="email" id="f-email" type="email" inputmode="email" autocomplete="email" placeholder="For your booking confirmation"></label>
           <label>Occasion
             <select name="occ" id="f-occ"><option value="">Just a getaway</option><option>Barkada staycation</option><option>Birthday</option><option>Family reunion</option><option>Couple's getaway</option><option>Team outing</option></select>
           </label>
           <label>Anything we should know?<textarea name="note" id="f-note" placeholder="Arrival time, celebration, questions"></textarea></label>
           <p class="err-msg" id="req-err" hidden>Add your name and a mobile number (like 0917 123 4567) so we can text you.</p>
+          <p class="err-msg" id="req-err-email" hidden>Please check your email address, or leave it blank.</p>
           <button class="btn dark" type="submit" id="send">Send booking request</button>
           <p class="fine">No payment on the website. We'll text you to confirm your dates and send the payment details for the 30% reservation fee.</p>
         </form>
@@ -1252,6 +1254,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
     if (f.occ.value) lines.push("• Occasion: " + f.occ.value);
     lines.push("• Name: " + f.name.value.trim());
     lines.push("• Mobile: " + f.phone.value.trim());
+    if (f.email.value.trim()) lines.push("• Email: " + f.email.value.trim());
     if (f.note.value.trim()) lines.push("• Note: " + f.note.value.trim());
     lines.push("Salamat po!");
     return lines.join("\n");
@@ -1259,7 +1262,8 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
   var form = $("req");
   function valid() {
     var ok = form.name.value.trim().length >= 2 && form.phone.value.replace(/\D/g, "").length >= 10;
-    $("req-err").hidden = !!ok; return ok;
+    var em = form.email.value.trim(), emOk = !em || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em);
+    $("req-err").hidden = !!ok; $("req-err-email").hidden = emOk; return ok && emOk;
   }
   // Some Android Messages apps open a blank text when it contains "%": use the look-alike "％".
   $("sms").addEventListener("click", function () { this.href = "sms:" + PHONE + "?body=" + encodeURIComponent(message(form).replace(/%/g, "％")); });
@@ -1274,7 +1278,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
     sending = true; $("req-fail").hidden = true;
     var btn = $("send"); btn.disabled = true; btn.textContent = "Sending…";
     var body = { p_data: {
-      option: opt, name: form.name.value.trim(), phone: form.phone.value.trim(),
+      option: opt, name: form.name.value.trim(), phone: form.phone.value.trim(), email: form.email.value.trim(),
       checkIn: ci, checkOut: co, guests: guests, occasion: form.occ.value, note: form.note.value.trim()
     } };
     var done = function () { sending = false; btn.disabled = false; btn.textContent = "Send booking request"; };
