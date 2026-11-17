@@ -134,10 +134,13 @@ const GRILL = { title: 'Griller, griddle & gasul', steps: [
   'Pagkatapos magluto: i-OFF ang mga knob, saka isara ang regulator.'],
   tip: 'Outdoor use lang po. Free ang gasul!' };
 
+// One Wi-Fi for the whole CBTG (all cabins).
+const CBTG_WIFI = { ssid: 'Charlotte_1', pass: '1Kyriljamie!', qr: 'wifi-cbtg.png' };
+
 const CABINS = {
   'Cabin 1': {
     name: 'Cabin Charlie', tagline: 'The Ultimate Indoor Entertainment Suite',
-    wifi: { ssid: '', pass: '' },        // fill in Cabin Charlie's Wi-Fi
+    wifi: CBTG_WIFI,
     quiet: 'No quiet time sa Cabin Charlie! Sound-insulated ang glass walls, kaya videoke all night long — basta nakasara ang pinto at bintana.',
     amenities: ['PS5', '65" Mini LED TV', 'NBA League Pass', 'Videoke', 'Jacuzzi tub', 'Private pool', 'Gourmet kitchen', '3 aircons', 'Board games', 'Griller', 'Free gasul', 'Free water'],
     howto: [
@@ -178,7 +181,7 @@ const CABINS = {
   },
   'Cabin 2': {
     name: 'Cabin Charlotte', tagline: 'The Fresco Cinema',
-    wifi: { ssid: 'Charlotte!', pass: '1Kyriljamie!' },
+    wifi: CBTG_WIFI,
     quiet: 'Videoke is allowed until 10:00 PM. Pagsapit ng 10:00 PM, stop na po ang videoke at malakas na ingay bilang respeto sa ibang guests at kapitbahay.',
     amenities: ['200" outdoor cinema', 'Videoke', 'Jacuzzi pool', 'Royal Gourmet griddle', 'Dual griller', 'Bonfire pit', 'NBA League Pass', 'Free gasul', 'Free water'],
     howto: [
@@ -216,7 +219,7 @@ const CABINS = {
   },
   'Cabin 3': {
     name: 'Cabin Choco', tagline: 'Extra rooms for your group',
-    wifi: { ssid: '', pass: '' }, quiet: '',
+    wifi: CBTG_WIFI, quiet: '',
     amenities: ['Air-conditioned bedroom', 'Own CR', 'Loft'], howto: [],
   },
 };
@@ -372,7 +375,8 @@ const TABS = {
         <div class="card dark"><div class="row">${svg('wifi', 22, '#D4AF5A')}<b>Wi-Fi</b></div>
           ${wifi ? `<div class="between"><div class="kv"><small>NETWORK</small><strong>${esc(c.wifi.ssid)}</strong></div><button class="copy" onclick="copy(${esc(JSON.stringify(c.wifi.ssid))})">Copy</button></div>
           <div class="between"><div class="kv"><small>PASSWORD</small><strong>${esc(c.wifi.pass)}</strong></div><button class="copy" onclick="copy(${esc(JSON.stringify(c.wifi.pass))})">Copy</button></div>
-          <div style="font-size:12px;color:#BDB4A2">Or scan the Wi-Fi QR code posted in the cabin.</div>`
+          ${c.wifi.qr ? `<div style="text-align:center;margin-top:6px"><img src="${esc(c.wifi.qr)}" alt="Wi-Fi QR code for ${esc(c.wifi.ssid)}" style="width:200px;height:200px;background:#fff;border-radius:14px;padding:6px;display:block;margin:0 auto 8px"><div style="font-size:12px;color:#BDB4A2">Scan po para mag-connect agad. Ipakita sa kasama, o i-screenshot at i-scan from Gallery.</div></div>`
+          : `<div style="font-size:12px;color:#BDB4A2">Or scan the Wi-Fi QR code posted in the cabin.</div>`}`
           : `<div style="font-size:14px;color:#D9D0BE">Scan the Wi-Fi QR code posted in the cabin, or ask Kuya Mike for the password.</div>`}</div>
         ${c.quiet ? `<div class="card sand" style="font-size:14px">${esc(c.quiet)}</div>` : ''}
         <h2 class="sec">What's inside</h2>
