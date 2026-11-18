@@ -92,6 +92,17 @@ nav.tabs button{background:none;border:none;display:flex;flex-direction:column;a
 nav.tabs button.on{color:var(--goldtext);font-weight:600}
 .center{padding:60px 28px;text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
 .stars{display:flex;gap:6px}
+.rstars{display:flex;gap:4px;justify-content:space-between;max-width:300px}
+.rstars button{background:none;border:0;padding:4px;cursor:pointer;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
+.rlabel{font-size:13px;color:#E9D9A8;font-weight:600;min-height:18px}
+.card.dark .chip{background:transparent;border-color:#4A4235;color:var(--onnight)}
+.card.dark .chip.on{background:var(--gold);border-color:var(--gold);color:var(--night)}
+.card.dark textarea{width:100%;box-sizing:border-box;min-height:84px;border-radius:12px;border:1px solid #4A4235;background:var(--night2);color:var(--onnight);padding:12px;font-size:14px;resize:vertical}
+.card.dark .check{color:#D9D0BE;font-size:13px}
+.rlinks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.rlinks.one{grid-template-columns:1fr}
+.btn.ghost{background:transparent;border:1px solid #4A4235;color:var(--onnight)}
+.small-links{font-size:13px;color:#CFC6B3}.small-links a{color:#E9D9A8}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--night);color:var(--onnight);padding:10px 16px;border-radius:999px;font-size:13px;z-index:9;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.show{opacity:1}
@@ -116,6 +127,7 @@ const WAZE_URL = 'https://waze.com/ul?ll=13.9443251,121.5251939&navigate=yes';
 const IKOT_URL = 'https://kyriljamie.github.io/cbtg-guide/';
 const GOOGLE_REVIEW_URL = '';          // e.g. https://g.page/r/XXXX/review — leave empty to hide
 const FACEBOOK_URL = 'https://www.facebook.com/61566419019212';
+const FACEBOOK_REVIEW_URL = 'https://www.facebook.com/profile.php?id=61566419019212&sk=reviews';
 const FEATURE_PERK = '₱500 off';        // shown on the Album page; '' hides the perk line
 const VIDEO_MAX_SEC = 60;
 const MAX_MB = 50;
@@ -277,6 +289,11 @@ let tab = 'home';
 let view = null;       // sub-view inside a tab: 'rules' | 'directions' | 'howto' | 'upload'
 let cabinIdx = 0;
 let up = { files: [], consent: 'first', caption: '', busy: false, done: 0, err: '' };
+// Stay rating (Nov 18): private first, but every guest also sees the Google + Facebook review buttons.
+let rate = { stars: 0, tags: [], comment: '', share: true, saved: null, busy: false, err: '', edit: true };
+const LOVED = ['Clean cabin', 'Friendly staff', 'Pool', 'Videoke & TV', 'Comfy beds', 'Kitchen', 'Quiet & private', 'Good value'];
+const FIX = ['Not clean', 'Aircon / hot water', 'Staff', 'Noise', 'Missing items', 'Wi-Fi', 'Price', 'Check-in / check-out'];
+const STAR_WORDS = ['', 'Hindi po maganda', 'May kulang po', 'Okay lang po', 'Maganda po!', 'Sobrang ganda po!'];
 
 /* ------------------------------------------------------------------ load */
 async function load() {
@@ -287,6 +304,9 @@ async function load() {
     if (r.error === 'closed') return fail('Salamat po sa pag-stay!', 'Closed na po ang guest page na ito. Sana makabalik kayo sa CBTG! 🌿');
     if (r.error) throw new Error(r.error);
     S = r; render();
+    rpc('stay_rating_get', { p_token: token }).then((g) => {
+      if (g && g.stars) { rate = { ...rate, stars: g.stars, tags: g.tags || [], comment: g.comment || '', share: !!g.share, saved: g.stars, edit: false }; drawRate(); }
+    }).catch(() => {});
   } catch (e) {
     fail('Walang internet?', 'Hindi ma-load ang guest page. Pakisubukan ulit mamaya.', true);
   }
@@ -336,6 +356,71 @@ function topBar(title, backTo) {
 }
 function brandBlock() {
   return `<div class="brand"><div class="mark">${svg('cabin', 20, '#D4AF5A', 1.6)}</div><div><b>CABINS BY THE GENERALS</b><span>Private. Stylish. Yours.</span></div></div>`;
+}
+
+/* ------------------------------------------------------------------ stay rating */
+function reviewButtons(big) {
+  const g = GOOGLE_REVIEW_URL ? `<a class="btn ${big ? 'gold' : 'ghost'}" href="${GOOGLE_REVIEW_URL}" target="_blank" rel="noopener">Review on Google</a>` : '';
+  const f = `<a class="btn ${big && !GOOGLE_REVIEW_URL ? 'gold' : 'ghost'}" href="${FACEBOOK_REVIEW_URL}" target="_blank" rel="noopener">Review on Facebook</a>`;
+  return `<div class="rlinks ${GOOGLE_REVIEW_URL ? '' : 'one'}">${g}${f}</div>`;
+}
+function rateHtml() {
+  const r = rate;
+  if (r.saved && !r.edit) {
+    const happy = r.saved >= 4;
+    return `<b>${happy ? 'Salamat po! 💛' : 'Salamat po sa honest feedback.'}</b>
+      <div class="stars">${[1, 2, 3, 4, 5].map((n) => svg('star', 22, '', 0, n <= r.saved ? '#D4AF5A' : '#4A4235')).join('')}</div>
+      ${happy
+        ? `<span style="font-size:14px;color:#D9D0BE">Malaking tulong po sa maliit na negosyo kung i-share niyo rin ito sa Google o Facebook. 🌿</span>
+           ${r.comment ? `<button class="btn ghost" onclick="copyReview()">Copy my comment</button><span style="font-size:12px;color:#BDB4A2">I-paste lang po sa review.</span>` : ''}
+           ${reviewButtons(true)}`
+        : `<span style="font-size:14px;color:#D9D0BE">Pasensya na po. Babasahin ito mismo ni Jay at imemessage kayo para maayos namin. 🙏</span>
+           <a class="btn gold" href="${MESSENGER_URL}" target="_blank" rel="noopener">Message CBTG now</a>
+           <span class="small-links">Pwede rin po kayong mag-review: ${GOOGLE_REVIEW_URL ? `<a href="${GOOGLE_REVIEW_URL}" target="_blank" rel="noopener">Google</a> · ` : ''}<a href="${FACEBOOK_REVIEW_URL}" target="_blank" rel="noopener">Facebook</a></span>`}
+      <button class="btn ghost" onclick="rate.edit=true;drawRate()">Change my rating</button>`;
+  }
+  const tags = r.stars >= 4 ? LOVED : r.stars ? FIX : [];
+  return `<b>How was your stay?</b>
+    <div class="rstars" role="radiogroup" aria-label="Rating">${[1, 2, 3, 4, 5].map((n) =>
+      `<button role="radio" aria-checked="${n === r.stars}" aria-label="${n} star${n > 1 ? 's' : ''}" onclick="pickStars(${n})">${svg('star', 34, '', 0, n <= r.stars ? '#D4AF5A' : '#4A4235')}</button>`).join('')}</div>
+    <div class="rlabel">${r.stars ? esc(STAR_WORDS[r.stars]) : 'Tap a star'}</div>
+    ${r.stars ? `
+      <span style="font-size:13px;color:#D9D0BE">${r.stars >= 4 ? 'Ano po ang nagustuhan niyo?' : 'Ano po ang dapat naming ayusin?'}</span>
+      <div class="chips">${tags.map((t) => `<button class="chip ${r.tags.includes(t) ? 'on' : ''}" onclick="toggleTag(this, '${t.replace(/'/g, "\\'")}')">${esc(t)}</button>`).join('')}</div>
+      <textarea id="rcomment" maxlength="1000" placeholder="${r.stars >= 4 ? 'Kwento po kayo ng konti (optional)' : 'Ano po ang nangyari? (optional)'}" oninput="rate.comment=this.value">${esc(r.comment)}</textarea>
+      ${r.stars >= 4 ? `<label class="check"><input type="checkbox" ${r.share ? 'checked' : ''} onchange="rate.share=this.checked" style="width:20px;height:20px;accent-color:#D4AF5A">OK na i-share ang comment ko sa CBTG page</label>` : ''}
+      ${r.err ? `<span style="color:#F4B8A6;font-size:13px">${esc(r.err)}</span>` : ''}
+      <button class="btn gold" ${r.busy ? 'disabled' : ''} onclick="sendRating()">${r.busy ? 'Sending…' : r.saved ? 'Save changes' : 'Send rating'}</button>`
+    : `<span style="font-size:13px;color:#CFC6B3">Private po ito, para kay Jay at sa CBTG team.</span>`}
+    ${r.stars ? '' : `<span class="small-links">O diretso na po sa review: ${GOOGLE_REVIEW_URL ? `<a href="${GOOGLE_REVIEW_URL}" target="_blank" rel="noopener">Google</a> · ` : ''}<a href="${FACEBOOK_REVIEW_URL}" target="_blank" rel="noopener">Facebook</a></span>`}`;
+}
+function drawRate() { const el = document.getElementById('rate'); if (el) el.innerHTML = rateHtml(); }
+function pickStars(n) {
+  const wasHappy = rate.stars >= 4;
+  rate.stars = n; rate.err = '';
+  if (rate.stars >= 4 !== wasHappy) rate.tags = [];
+  drawRate();
+}
+function toggleTag(btn, t) {
+  const i = rate.tags.indexOf(t);
+  if (i >= 0) rate.tags.splice(i, 1); else rate.tags.push(t);
+  btn.classList.toggle('on', i < 0);
+}
+async function sendRating() {
+  if (!rate.stars) return;
+  rate.busy = true; rate.err = ''; drawRate();
+  try {
+    const r = await rpc('stay_rate', { p_token: token, p_data: { stars: rate.stars, tags: rate.tags, comment: rate.comment, share: rate.stars >= 4 && rate.share } });
+    if (r.error) throw new Error(r.error);
+    rate.saved = rate.stars; rate.edit = false;
+  } catch (e) {
+    rate.err = e && e.message && !/^\{|fetch/i.test(e.message) ? e.message : 'Hindi po na-send. Pakisubukan ulit.';
+  }
+  rate.busy = false; drawRate();
+}
+function copyReview() {
+  const s = stay();
+  copy(rate.comment || `Sobrang ganda po ng stay namin sa ${(s.cabinNames || []).join(' + ') || 'CBTG'}!`);
 }
 
 const TABS = {
@@ -494,9 +579,7 @@ const VIEWS = {
         <h1>Salamat po, <em>${esc(s.firstName || 'Guest')}!</em></h1><p>Sana po nag-enjoy kayo sa ${esc((s.cabinNames || []).join(' + ') || cabin().name)}. Ingat po sa biyahe pauwi.</p></div>
       <div class="body">
         ${p === 'checkout' ? `<h2 class="sec">Before you leave</h2><div class="card">${['Aircon and lights off', 'Trash in the bins outside', 'Keys returned to our staff', 'Check for chargers and gamit', 'Wait 5 minutes for the quick inspection'].map((c) => `<label class="check" style="min-height:40px"><input type="checkbox" style="width:22px;height:22px;accent-color:#7A5C17">${esc(c)}</label>`).join('')}</div>` : ''}
-        <div class="card dark"><b>How was your stay?</b><div class="stars">${[1, 2, 3, 4, 5].map(() => svg('star', 28, '', 0, '#D4AF5A')).join('')}</div>
-          <span style="font-size:13px;color:#CFC6B3">Malaking tulong po sa maliit na negosyo ang isang review.</span>
-          <div class="${GOOGLE_REVIEW_URL ? 'grid2' : ''}" style="display:${GOOGLE_REVIEW_URL ? 'grid' : 'flex'}">${GOOGLE_REVIEW_URL ? `<a class="btn gold" href="${GOOGLE_REVIEW_URL}" target="_blank" rel="noopener">Review on Google</a>` : ''}<a class="btn ${GOOGLE_REVIEW_URL ? '' : 'gold block'}" style="${GOOGLE_REVIEW_URL ? 'background:transparent;border:1px solid #4A4235' : ''}" href="${FACEBOOK_URL}" target="_blank" rel="noopener">Review on Facebook</a></div></div>
+        <div class="card dark" id="rate">${rateHtml()}</div>
         <button class="card" style="text-align:left;cursor:pointer" onclick="go('album')"><div class="row">${svg('album', 24, '#7A5C17', 1.8)}<div><b>Your album stays open for 30 days</b><div style="font-size:12px;color:#5A5244">Pahabol na photos? Upload pa rin po kayo.</div></div></div></button>
         <div class="card sand"><b style="font-family:var(--serif);font-size:20px">Balik kayo, ha?</b><span style="font-size:14px">Book your next stay direct with us — message us anytime.</span><a class="btn" href="${MESSENGER_URL}" target="_blank" rel="noopener">Book your next stay</a></div>
       </div>`;
