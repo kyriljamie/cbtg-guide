@@ -6,7 +6,7 @@
 <meta name="description" content="Booking system for Filipino resorts. Calendars, staff app and promo materials in one app. Plans from ₱149/mo, free promo video until Nov 30.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Pinoy BnB Plans · Booking system for resorts">
-<meta property="og:description" content="Calendars, staff app and promo materials in one app. Plans from ₱149/mo. Free promo video until Nov 30.">
+<meta property="og:description" content="Calendars, staff app and promo materials in one app. Plans from ₱149/mo. Intro rates and free promo video until Nov 30 only.">
 <meta property="og:url" content="https://kyriljamie.github.io/cbtg-guide/pinoy-bnb/">
 <meta property="og:image" content="https://kyriljamie.github.io/cbtg-guide/pinoy-bnb/og.jpg">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
@@ -49,6 +49,15 @@ header{position:sticky;top:0;z-index:20;background:rgba(11,14,21,.82);backdrop-f
 .promo b{color:#f3d793}
 .note{position:relative;font-size:12px;color:var(--dim);margin-top:12px}
 
+.cd{position:relative;margin:18px auto 0;max-width:420px;background:linear-gradient(180deg,#1a1608,#120f06);border:1px solid #4a3d1f;border-radius:18px;padding:14px 14px 12px}
+.cd .h{font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.02em}
+.cd .h b{color:#f3d793}
+.cd .t{display:flex;justify-content:center;gap:8px;margin-top:10px}
+.cd .u{min-width:62px;background:#0b0e15;border:1px solid #3a3018;border-radius:12px;padding:8px 4px}
+.cd .u b{display:block;font-size:26px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:#fff}
+.cd .u span{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.cd .s{font-size:11.5px;color:#b9a674;margin-top:9px}
+.ends{display:inline-block;margin-top:6px;font-size:11.5px;font-weight:700;color:var(--gold);background:var(--gold-soft);border:1px solid #4a3d1f;border-radius:999px;padding:3px 9px}
 /* toggle */
 .toggle{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:6px;max-width:360px;margin:22px auto 0;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:5px}
 .toggle button{padding:10px 8px;border-radius:12px;font-weight:600;font-size:14.5px;color:var(--muted);line-height:1.2}
@@ -246,7 +255,16 @@ footer{padding:30px 0 50px;text-align:center;color:var(--dim);font-size:12px;lin
     </svg>
     <h1>Upgrade your resort to<br><span>Pinoy BnB</span></h1>
     <p>Stop tracking bookings by hand. Get calendars, staff tools and promo materials in one app, built by a resort owner for resort owners.</p>
-    <div class="promo">🎬 <span><b>Free promo video</b> when you sign up before Nov 30</span></div>
+    <div class="cd" id="cd" role="timer" aria-live="off">
+      <div class="h" id="cdh">🔥 Discounted intro rates until <b>Nov 30 only</b></div>
+      <div class="t" id="cdt">
+        <div class="u"><b id="cdd">--</b><span>Days</span></div>
+        <div class="u"><b id="cdhh">--</b><span>Hours</span></div>
+        <div class="u"><b id="cdm">--</b><span>Mins</span></div>
+        <div class="u"><b id="cds">--</b><span>Secs</span></div>
+      </div>
+      <div class="s">🎬 Plus a <b>free promo video</b> for your resort when you sign up</div>
+    </div>
     <div class="toggle" role="group" aria-label="Billing period">
       <button id="bm" aria-pressed="true">Monthly</button>
       <button id="ba" aria-pressed="false">Annual<small>Pay 10 months, get 12</small></button>
@@ -285,7 +303,7 @@ footer{padding:30px 0 50px;text-align:center;color:var(--dim);font-size:12px;lin
 
   <div class="final">
     <h3>Get your weekends back</h3>
-    <p>Try Pinoy BnB at intro pricing, plus a free promo video for your resort until Nov 30.</p>
+    <p>Intro rates end Nov 30. Lock in ₱149 or ₱249 for your first 3 months, plus a free promo video for your resort.</p>
     <button class="cta" data-open="pro">Get Pinoy BnB Pro</button>
   </div>
 </main>
@@ -392,6 +410,9 @@ const PLANS = [
       ["support","Priority setup and support","Live in 48 hours, with replies the same day"]]}
 ];
 let annual=false;
+const DEADLINE=new Date("2026-11-30T23:59:59+08:00").getTime();
+function promoOn(){return Date.now()<DEADLINE}
+
 
 function priceHTML(p){
   if(annual){
@@ -399,7 +420,7 @@ function priceHTML(p){
     return `<div class="price">${p.start?'<span class="from">Starting at</span>':""}<span class="amt">${peso(p.annual)}</span><span class="per">/yr</span></div><div class="after">About ${peso(eq)}/mo · 2 months free</div>`;
   }
   if(p.start) return `<div class="price"><span class="from">Starting at</span><span class="amt">${peso(p.intro)}</span><span class="per">/mo</span></div><div class="after">Custom quote for multiple properties</div>`;
-  return `<div class="price"><span class="amt">${peso(p.intro)}</span><span class="per">/mo</span><s>${peso(p.reg)}</s></div><div class="after">for 3 months, then ${peso(p.reg)}/mo · upgrade anytime</div>`;
+  return `<div class="price"><span class="amt">${peso(p.intro)}</span><span class="per">/mo</span><s>${peso(p.reg)}</s></div><div class="after">for 3 months, then ${peso(p.reg)}/mo · upgrade anytime</div>`+(promoOn()?`<span class="ends">⏳ Promo price ends Nov 30</span>`:"");
 }
 function render(){
   document.getElementById("plans").innerHTML=PLANS.map(p=>`
@@ -475,6 +496,19 @@ document.getElementById("copy").onclick=async()=>{
   catch(_){const r=document.createRange();r.selectNodeContents(document.getElementById("msg"));const s=getSelection();s.removeAllRanges();s.addRange(r);toast("Selected. Long-press to copy")}
 };
 function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),2200)}
+
+
+const pad=n=>String(n).padStart(2,"0");
+function tick(){
+  const ms=DEADLINE-Date.now();
+  if(ms<=0){document.getElementById("cdh").innerHTML="Intro promo has ended";document.getElementById("cdt").style.display="none";clearInterval(cdI);rerenderPrices();return}
+  const t=Math.floor(ms/1000);
+  document.getElementById("cdd").textContent=Math.floor(t/86400);
+  document.getElementById("cdhh").textContent=pad(Math.floor(t%86400/3600));
+  document.getElementById("cdm").textContent=pad(Math.floor(t%3600/60));
+  document.getElementById("cds").textContent=pad(t%60);
+}
+const cdI=setInterval(tick,1000);tick();
 
 /* open first feature of Pro as a teaser */
 (()=>{const f=document.querySelector('#pro .feat');f.querySelector(".demo").innerHTML=S[f.dataset.snip]();f.classList.add("open");f.querySelector(".frow").setAttribute("aria-expanded","true")})();
