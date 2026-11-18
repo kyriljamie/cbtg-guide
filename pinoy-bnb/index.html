@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Booking system for Filipino resorts. Calendars, staff app and promo materials in one app. Plans from ₱299/mo, free promo video until Nov 30.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Pinoy BnB Plans · Booking system for resorts">
+<meta property="og:description" content="Calendars, staff app and promo materials in one app. Plans from ₱299/mo. Free promo video until Nov 30.">
+<meta property="og:url" content="https://kyriljamie.github.io/cbtg-guide/pinoy-bnb/">
+<meta property="og:image" content="https://kyriljamie.github.io/cbtg-guide/pinoy-bnb/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="theme-color" content="#0b0e15">
+<title>Pinoy BnB Plans</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0e15; --bg2:#0f1420; --surface:#161b27; --surface2:#1e2533; --line:#262d3b;
+  --fg:#f1f3f7; --muted:#9aa1b0; --dim:#6c7383;
+  --accent:#3c84ff; --accent2:#2a6fe8; --accent-soft:#15233f;
+  --gold:#d4ad5c; --gold-soft:#2a2414; --green:#3ecf8e; --green-soft:#12291f; --red:#ff7a6e;
+  --font:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);-webkit-font-smoothing:antialiased;line-height:1.45}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 18px}
+.ico{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* header */
+header{position:sticky;top:0;z-index:20;background:rgba(11,14,21,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:58px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.01em}
+.logo{width:32px;height:32px;border-radius:9px;background:linear-gradient(145deg,#1d2a48,#0f1626);border:1px solid #2c3a5c;display:grid;place-items:center}
+.brand small{display:block;font-weight:500;font-size:11px;color:var(--muted);letter-spacing:.02em}
+.hbtn{background:var(--accent);color:#fff;font-weight:600;font-size:14px;padding:9px 14px;border-radius:999px}
+
+/* hero */
+.hero{position:relative;overflow:hidden;padding:46px 0 26px;text-align:center}
+.hero::before{content:"";position:absolute;inset:-200px -20% auto;height:520px;background:radial-gradient(closest-side,rgba(60,132,255,.22),transparent 70%);pointer-events:none}
+.stars{position:absolute;inset:0;pointer-events:none;opacity:.55}
+.hero h1{position:relative;font-size:clamp(28px,6vw,46px);line-height:1.1;letter-spacing:-.03em;font-weight:800}
+.hero h1 span{background:linear-gradient(90deg,#7fb0ff,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{position:relative;color:var(--muted);max-width:560px;margin:14px auto 0;font-size:15.5px}
+.promo{position:relative;display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:var(--gold-soft);border:1px solid #4a3d1f;color:var(--gold);font-size:13px;font-weight:600;padding:7px 13px;border-radius:999px}
+.promo b{color:#f3d793}
+.note{position:relative;font-size:12px;color:var(--dim);margin-top:12px}
+
+/* toggle */
+.toggle{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:6px;max-width:360px;margin:22px auto 0;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:5px}
+.toggle button{padding:10px 8px;border-radius:12px;font-weight:600;font-size:14.5px;color:var(--muted);line-height:1.2}
+.toggle button small{display:block;font-size:11px;color:var(--green);font-weight:600;margin-top:2px}
+.toggle button[aria-pressed="true"]{background:var(--accent-soft);color:#cfe0ff;box-shadow:inset 0 0 0 1px #2c4a85}
+
+/* plans */
+.plans{display:grid;gap:18px;padding:22px 0 10px}
+@media(min-width:900px){.plans{grid-template-columns:repeat(3,1fr);align-items:start}}
+.card{background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--line);border-radius:22px;padding:22px 20px 14px;position:relative}
+.card.rec{border:1.5px solid var(--accent);box-shadow:0 0 0 4px rgba(60,132,255,.12),0 20px 50px -20px rgba(60,132,255,.45)}
+.badge{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;display:block}
+.card h2{font-size:26px;letter-spacing:-.02em;font-weight:700}
+.card h2 span{color:var(--accent)}
+.card.elite h2 span{color:var(--gold)}
+.tag{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.price{margin-top:16px;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.price .from{width:100%;font-size:13px;color:var(--muted);margin-bottom:-4px}
+.price .amt{font-size:38px;font-weight:800;letter-spacing:-.03em;color:var(--green)}
+.card.elite .price .amt{color:var(--fg)}
+.price .per{font-size:15px;color:var(--muted);font-weight:500}
+.price s{color:var(--dim);font-size:15px}
+.after{font-size:13.5px;color:var(--muted);margin-top:4px;min-height:20px}
+.cta{display:block;width:100%;margin-top:16px;background:var(--accent);color:#fff;font-weight:700;font-size:15px;padding:13px;border-radius:999px;transition:background .15s}
+.cta:hover{background:var(--accent2)}
+.card.elite .cta{background:linear-gradient(90deg,#b8913f,#d4ad5c);color:#1a1405}
+.sect{margin-top:22px;font-size:13px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:8px}
+.sect::after{content:"";flex:1;height:1px;background:var(--line)}
+.tip{font-size:12px;color:var(--dim);margin-top:6px}
+
+/* features */
+.feat{border-bottom:1px solid var(--line)}
+.feat:last-child{border-bottom:0}
+.frow{display:flex;gap:12px;width:100%;text-align:left;padding:13px 0}
+.frow .chk{margin-top:2px;color:var(--fg)}
+.frow .t{flex:1}
+.frow .t b{display:block;font-size:14.5px;font-weight:600}
+.frow .t span{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+.frow .chev{color:var(--dim);transition:transform .2s;margin-top:2px}
+.feat.open .chev{transform:rotate(180deg);color:var(--accent)}
+.peek{font-size:11.5px;color:var(--accent);font-weight:600;margin-top:5px;display:inline-flex;gap:4px;align-items:center}
+.feat.open .peek{display:none}
+.snip{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s ease}
+.feat.open .snip{grid-template-rows:1fr}
+.snip>div{overflow:hidden}
+.demo{margin:0 0 14px 32px;background:#0a0d14;border:1px solid var(--line);border-radius:16px;padding:12px;font-size:12.5px}
+.demo .cap{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:8px;display:flex;justify-content:space-between}
+
+/* snippet bits */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}
+.cal i{font-style:normal;font-size:10px;color:var(--dim);padding-bottom:2px}
+.cal div{aspect-ratio:1;border-radius:7px;display:grid;place-items:center;font-size:11px;background:var(--surface);color:var(--muted);position:relative}
+.cal .b1{background:#173064;color:#cfe0ff}.cal .b2{background:#3a2f12;color:#f3d793}.cal .b3{background:#0f3325;color:#9ff0c8}
+.cal .full{background:linear-gradient(135deg,#173064 50%,#3a2f12 50%);color:#fff}
+.cal .today{box-shadow:inset 0 0 0 1.5px var(--accent);color:#fff}
+.legend{display:flex;gap:10px;margin-top:8px;font-size:11px;color:var(--muted);flex-wrap:wrap}
+.legend span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:3px;margin-right:5px;background:var(--c)}
+.li{display:flex;align-items:center;gap:10px;padding:8px;border-radius:12px;background:var(--surface);margin-top:6px}
+.li:first-of-type{margin-top:0}
+.av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:12px;flex:none}
+.li .m{flex:1;min-width:0}
+.li .m b{display:block;font-size:12.5px}
+.li .m span{font-size:11px;color:var(--muted)}
+.pill{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;white-space:nowrap}
+.p-paid{background:var(--green-soft);color:var(--green)}.p-dp{background:var(--gold-soft);color:var(--gold)}.p-new{background:var(--accent-soft);color:#8fb8ff}
+.units{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.unit{background:var(--surface);border-radius:12px;padding:10px 8px;text-align:center}
+.unit b{display:block;font-size:12.5px}
+.unit span{font-size:11px}
+.ok{color:var(--green)}.no{color:var(--red)}
+.chip{display:inline-block;background:var(--surface2);border-radius:8px;padding:5px 9px;font-size:11.5px;margin-bottom:8px}
+.bub{background:#1a2f57;color:#e6efff;border-radius:14px 14px 4px 14px;padding:10px 12px;margin-left:18px;font-size:12px;line-height:1.5}
+.bub+.meta{text-align:right;font-size:10.5px;color:var(--dim);margin-top:4px}
+.task{display:flex;align-items:center;gap:9px;padding:8px 6px;border-bottom:1px dashed var(--line);font-size:12.5px;cursor:pointer;user-select:none}
+.task:last-child{border:0}
+.box{width:18px;height:18px;border-radius:6px;border:1.5px solid var(--dim);display:grid;place-items:center;flex:none}
+.task.done .box{background:var(--green);border-color:var(--green)}
+.task.done .box::after{content:"";width:8px;height:4px;border:2px solid #062014;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.task.done .lbl{color:var(--dim);text-decoration:line-through}
+.prog{height:8px;background:var(--surface2);border-radius:99px;overflow:hidden;margin:6px 0}
+.prog>div{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:99px;transition:width .5s}
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.ph{aspect-ratio:4/3;border-radius:10px;background:linear-gradient(135deg,#1c2436,#111725);display:grid;place-items:center;color:var(--dim);font-size:10.5px;text-align:center;position:relative}
+.ph.ok::after{content:"✓";position:absolute;top:4px;right:6px;color:var(--green);font-weight:800}
+.verse{background:linear-gradient(135deg,#1a2240,#141a2a);border:1px solid #2a3558;border-radius:14px;padding:12px;font-size:12.5px;line-height:1.55}
+.verse em{display:block;color:var(--gold);font-style:normal;font-size:11px;margin-top:6px;font-weight:600}
+.rev{margin-top:8px;background:var(--surface);border-radius:12px;padding:10px;font-size:12px}
+.rev .st{color:var(--gold);letter-spacing:2px;font-size:11px}
+.big{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.row{display:flex;justify-content:space-between;align-items:baseline}
+.bars{display:flex;align-items:flex-end;gap:6px;height:70px;margin-top:10px}
+.bars div{flex:1;border-radius:6px 6px 2px 2px;background:#22355e;position:relative}
+.bars div.hit{background:linear-gradient(180deg,var(--green),#1b7a52)}
+.bars div span{position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:9.5px;color:var(--dim)}
+.pcard{border-radius:14px;padding:14px;background:linear-gradient(160deg,#10213f 0%,#0b1426 55%,#2a1f0b 100%);border:1px solid #2c3a5c;position:relative;overflow:hidden}
+.pcard .moon{position:absolute;right:-22px;top:-26px;width:60px;height:60px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff5d6,#d4ad5c 60%,transparent 62%);opacity:.85}
+.pcard small{color:var(--gold);font-weight:700;letter-spacing:.12em;font-size:9.5px}
+.pcard h4{font-size:18px;padding-right:30px;margin:4px 0 2px;letter-spacing:-.01em}
+.pcard p{font-size:11.5px;color:#c9d3e6}
+.pcard .pr{display:inline-block;margin-top:8px;background:var(--gold);color:#1a1405;font-weight:800;font-size:12px;border-radius:8px;padding:4px 9px}
+.vid{aspect-ratio:9/12;max-width:170px;margin:0 auto;border-radius:14px;background:linear-gradient(180deg,#132447,#0b1222 60%,#2b200c);position:relative;overflow:hidden;border:1px solid #2c3a5c;cursor:pointer}
+.vid .play{position:absolute;inset:0;margin:auto;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.14);backdrop-filter:blur(4px);display:grid;place-items:center}
+.vid .cap2{position:absolute;left:10px;right:10px;bottom:10px;font-size:11px;font-weight:700}
+.vid .cap2 small{display:block;font-weight:500;color:#c9d3e6;font-size:10px}
+.vid .tl{position:absolute;left:0;bottom:0;height:3px;background:var(--gold);width:0}
+.vid.playing .tl{animation:tl 6s linear forwards}
+.vid.playing .play{opacity:0;transition:opacity .2s}
+.vid .sc{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;font-size:15px;text-align:center;padding:16px;opacity:0;transition:opacity .4s}
+@keyframes tl{to{width:100%}}
+.hub{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.hc{background:var(--surface);border-radius:12px;overflow:hidden}
+.hc .img{height:58px;background:linear-gradient(135deg,#1b2c52,#0e1628)}
+.hc.f{box-shadow:0 0 0 1.5px var(--gold)}
+.hc.f .img{background:linear-gradient(135deg,#3a2f12,#1b2c52)}
+.hc div.t{padding:7px 8px;font-size:11.5px}
+.hc div.t b{display:block}
+.hc div.t span{color:var(--muted);font-size:10.5px}
+.ft{font-size:9.5px;color:var(--gold);font-weight:700;letter-spacing:.08em}
+.chat{display:flex;flex-direction:column;gap:6px}
+.chat .them{align-self:flex-start;background:var(--surface2);border-radius:14px 14px 14px 4px;padding:8px 11px;max-width:85%}
+.chat .me{align-self:flex-end;background:#1a2f57;border-radius:14px 14px 4px 14px;padding:8px 11px;max-width:85%}
+.stack{display:flex;gap:6px;flex-wrap:wrap}
+.prop{flex:1 1 30%;background:var(--surface);border-radius:12px;padding:9px;text-align:center;font-size:11.5px}
+.prop b{display:block;font-size:16px}
+
+/* compare */
+section.blk{padding:44px 0 6px}
+section.blk h3{font-size:24px;letter-spacing:-.02em;text-align:center}
+section.blk .sub{text-align:center;color:var(--muted);font-size:14px;margin-top:6px}
+.tbl{margin-top:20px;overflow-x:auto;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+table{width:100%;border-collapse:collapse;min-width:520px;font-size:13.5px}
+th,td{padding:12px 14px;text-align:center;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left;width:150px;max-width:150px;color:var(--muted);position:sticky;left:0;background:var(--surface)}
+thead th{font-size:14px;color:var(--fg)}
+thead th.rec{color:var(--accent)}
+tr:last-child td{border:0}
+td .y{color:var(--green);font-weight:800}
+td .n{color:var(--dim)}
+
+/* why + faq */
+.why{display:grid;gap:12px;margin-top:20px}
+@media(min-width:760px){.why{grid-template-columns:repeat(3,1fr)}}
+.w{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px}
+.w .n{font-size:28px;font-weight:800;color:var(--gold);letter-spacing:-.02em}
+.w p{font-size:13.5px;color:var(--muted);margin-top:4px}
+.faq{max-width:720px;margin:18px auto 0}
+details{border-bottom:1px solid var(--line);padding:14px 2px}
+summary{font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:10px;font-size:15px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--accent);font-size:20px;line-height:1}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);font-size:14px;margin-top:8px}
+.final{margin:44px 0 0;text-align:center;padding:34px 20px;border-radius:24px;background:radial-gradient(120% 140% at 50% 0%,#18305e 0%,#0f1626 55%,var(--bg) 100%);border:1px solid #23345a}
+.final h3{font-size:24px;letter-spacing:-.02em}
+.final p{color:var(--muted);margin:8px auto 18px;max-width:480px;font-size:14.5px}
+.final .cta{max-width:320px;margin:0 auto}
+footer{padding:30px 0 50px;text-align:center;color:var(--dim);font-size:12px;line-height:1.7}
+
+/* sheet */
+.scrim{position:fixed;inset:0;background:rgba(3,5,10,.65);display:none;z-index:50;align-items:flex-end;justify-content:center}
+.scrim.on{display:flex}
+.sheet{width:100%;max-width:460px;background:var(--surface);border:1px solid var(--line);border-radius:24px 24px 0 0;padding:22px 20px calc(24px + env(safe-area-inset-bottom,0px));animation:up .25s ease}
+@media(min-width:600px){.scrim{align-items:center}.sheet{border-radius:24px}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.sheet h4{font-size:20px;letter-spacing:-.01em}
+.sheet p{color:var(--muted);font-size:14px;margin-top:6px}
+.sum{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:14px;font-size:13.5px}
+.sum div{display:flex;justify-content:space-between;padding:3px 0}
+.sum div span:first-child{color:var(--muted)}
+.copybox{margin-top:12px;background:var(--bg2);border:1px dashed #33405a;border-radius:12px;padding:10px 12px;font-size:12.5px;color:#cfd6e4;white-space:pre-wrap}
+.srow{display:flex;gap:8px;margin-top:14px}
+.srow button{flex:1;padding:12px;border-radius:999px;font-weight:600;font-size:14px}
+.ghost{background:var(--surface2)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#e8eefc;color:#0b0e15;font-weight:600;font-size:13px;padding:10px 16px;border-radius:999px;opacity:0;transition:.25s;z-index:60;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <div class="brand">
+      <div class="logo"><svg class="ico" viewBox="0 0 24 24" style="color:var(--gold)"><path d="M3 20 12 4l9 16"/><path d="M8 20l4-7 4 7"/></svg></div>
+      <div>Pinoy BnB<small>Booking system for resorts</small></div>
+    </div>
+    <button class="hbtn" data-open="pro">Start free</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <svg class="stars" viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true">
+      <g fill="#fff"><circle cx="30" cy="30" r="1"/><circle cx="90" cy="70" r=".8"/><circle cx="160" cy="20" r="1.2"/><circle cx="240" cy="55" r=".7"/><circle cx="310" cy="25" r="1"/><circle cx="370" cy="80" r=".9"/><circle cx="60" cy="120" r=".7"/><circle cx="350" cy="140" r=".8"/><circle cx="200" cy="100" r=".6"/></g>
+    </svg>
+    <h1>Upgrade your resort to<br><span>Pinoy BnB</span></h1>
+    <p>Stop tracking bookings by hand. Get calendars, staff tools and promo materials in one app, built by a resort owner for resort owners.</p>
+    <div class="promo">🎬 <span><b>Free promo video</b> when you sign up before Nov 30</span></div>
+    <div class="toggle" role="group" aria-label="Billing period">
+      <button id="bm" aria-pressed="true">Monthly</button>
+      <button id="ba" aria-pressed="false">Annual<small>Pay 10 months, get 12</small></button>
+    </div>
+    <div class="note">Cancel anytime. Tap any feature to see a preview.</div>
+  </section>
+
+  <div class="plans" id="plans"></div>
+
+  <section class="blk" id="compare">
+    <h3>Compare plans</h3>
+    <div class="sub">Each plan includes everything in the plan before it.</div>
+    <div class="tbl"><table id="tbl"></table></div>
+  </section>
+
+  <section class="blk">
+    <h3>Why resort owners switch</h3>
+    <div class="sub">From running Cabins by the Generals in Sariaya, Quezon</div>
+    <div class="why">
+      <div class="w"><div class="n">Hours back</div><p>No more listing bookings, checking which dates and units are free, or texting staff all day. The app keeps track for you.</p></div>
+      <div class="w"><div class="n">More promos</div><p>Spend the time you save on what brings guests: promo cards, Reels and replying to inquiries on Facebook.</p></div>
+      <div class="w"><div class="n">Monthly targets</div><p>Set a revenue target every month and see your progress. It's the habit that grew CBTG's revenue month after month.</p></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h3>Questions</h3>
+    <div class="faq">
+      <details><summary>What happens after the first 3 months?</summary><p>Your plan moves to the regular monthly price shown under it. Before that, we send you a report of the bookings you handled and the time you saved, so you can decide.</p></details>
+      <details><summary>Can I change plans later?</summary><p>Yes. Upgrade or downgrade anytime, and your bookings and settings carry over.</p></details>
+      <details><summary>Do my staff need their own phones?</summary><p>The staff app runs on any Android or iPhone. Several staff members can share one login per resort if you prefer.</p></details>
+      <details><summary>How do I pay?</summary><p>GCash, Maya or bank transfer. Annual plans are paid once a year.</p></details>
+      <details><summary>Will you help me set it up?</summary><p>Yes. We add your units, rates and existing bookings for you. Elite plans get priority setup within 48 hours.</p></details>
+    </div>
+  </section>
+
+  <div class="final">
+    <h3>Get your weekends back</h3>
+    <p>Try Pinoy BnB at intro pricing, plus a free promo video for your resort until Nov 30.</p>
+    <button class="cta" data-open="pro">Get Pinoy BnB Pro</button>
+  </div>
+</main>
+
+<footer class="wrap">
+  Pinoy BnB · Made in Sariaya, Quezon<br>
+  Previews use sample data. Prices in Philippine pesos (₱). Intro prices apply to the first 3 months for new accounts.
+</footer>
+
+<div class="scrim" id="scrim" role="dialog" aria-modal="true" aria-labelledby="sh">
+  <div class="sheet">
+    <h4 id="sh">Get Pinoy BnB</h4>
+    <p>Send us this message on Facebook (search <b style="color:var(--fg)">Pinoy BnB</b>) and we'll set you up.</p>
+    <div class="sum" id="sum"></div>
+    <div class="copybox" id="msg"></div>
+    <div class="srow">
+      <button class="ghost" id="close">Close</button>
+      <button class="cta" style="margin:0" id="copy">Copy message</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const peso = n => "₱" + n.toLocaleString("en-PH");
+const I = {
+  chk:'<svg class="ico chk" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  chev:'<svg class="ico chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>',
+  home:'<svg class="ico" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>',
+  play:'<svg viewBox="0 0 24 24" width="18" height="18" fill="#fff"><path d="M8 5v14l11-7z"/></svg>'
+};
+
+/* ---------- snippets (sample data) ---------- */
+const S = {
+  calendar(){
+    const map={19:"b1",3:"b1",4:"b1",7:"b2",8:"full",9:"b3",14:"b1",15:"b2",16:"b2",21:"full",22:"b3",27:"b1",28:"b1"};
+    let h='<div class="cap"><span>December · All units</span><span>Sample</span></div><div class="cal">'+["S","M","T","W","T","F","S"].map(d=>`<i>${d}</i>`).join("");
+    for(let i=0;i<2;i++)h+='<div style="background:none"></div>';
+    for(let d=1;d<=31;d++){h+=`<div class="${map[d]||""} ">${d}</div>`}
+    return h+'</div><div class="legend"><span style="--c:#3c84ff">Cabin 1</span><span style="--c:#d4ad5c">Cabin 2</span><span style="--c:#3ecf8e">Cabin 3</span></div>';
+  },
+  bookings(){
+    const b=[["MR","Maria R.","Dec 20–21 · Cabin 1 · 4 pax","p-paid","Paid","#173064","#cfe0ff"],["JD","Jun D.","Dec 22–23 · Cabin 2 · 6 pax","p-dp","50% down","#3a2f12","#f3d793"],["AL","Ana L.","Dec 24–25 · Cabin 3 · 2 pax","p-new","New","#0f3325","#9ff0c8"]];
+    return '<div class="cap"><span>Upcoming bookings</span><span>Sample</span></div>'+b.map(x=>`<div class="li"><div class="av" style="background:${x[5]};color:${x[6]}">${x[0]}</div><div class="m"><b>${x[1]}</b><span>${x[2]}</span></div><span class="pill ${x[3]}">${x[4]}</span></div>`).join("");
+  },
+  avail(){
+    return '<div class="cap"><span>Check a date</span><span>Sample</span></div><span class="chip">📅 Sat, Dec 19 · overnight</span><div class="units"><div class="unit"><b>Cabin 1</b><span class="no">Booked</span></div><div class="unit"><b>Cabin 2</b><span class="ok">Available</span></div><div class="unit"><b>Cabin 3</b><span class="ok">Available</span></div></div><div class="tip" style="margin-top:8px">Answer "May available pa po ba?" in seconds.</div>';
+  },
+  confirm(){
+    return '<div class="cap"><span>Confirmation · one tap</span><span>Sample</span></div><div class="bub">Hi Maria! 🌿 Your booking is confirmed:<br>📍 Cabin 1 · Dec 20–21<br>👥 4 pax · Check-in 2PM<br>💳 Fully paid. See you soon!</div><div class="meta">Copied to Messenger ✓</div>';
+  },
+  staff(){
+    const t=[["Change bed linens · Cabin 1",1],["Clean bathroom and restock toiletries",1],["Sweep deck and check the grill",0],["Refill drinking water",0]];
+    return '<div class="cap"><span>Staff app · Today</span><span>Tap to tick</span></div><div class="chip">🧹 Turnover · Cabin 1 · guest arrives 2:00 PM</div>'+t.map(x=>`<div class="task ${x[1]?"done":""}"><div class="box"></div><span class="lbl">${x[0]}</span></div>`).join("")+'<div class="prog" style="margin-top:10px"><div data-p style="width:50%"></div></div><div class="tip" data-pt>2 of 4 done</div>';
+  },
+  ocular(){
+    return '<div class="cap"><span>Ocular checklist · Cabin 2</span><span>Sample</span></div><div class="row"><b>Before check-in inspection</b><span class="pill p-paid">Passed</span></div><div class="photos"><div class="ph ok">Bedroom</div><div class="ph ok">Bathroom</div><div class="ph ok">Deck</div></div><div class="tip" style="margin-top:8px">Staff send photos, and you approve from anywhere.</div>';
+  },
+  morale(){
+    return '<div class="cap"><span>Staff home screen</span><span>Sample</span></div><div class="verse">"Whatever you do, work at it with all your heart."<em>Verse of the day · Colossians 3:23</em></div><div class="rev"><div class="st">★★★★★</div>"Super linis ng cabin and ang bait ng staff!" <span style="color:var(--dim)">— recent guest</span></div>';
+  },
+  target(){
+    return '<div class="cap"><span>Monthly revenue target</span><span>Sample</span></div><div class="row"><span class="big">₱86,400</span><span style="color:var(--muted)">of ₱100,000</span></div><div class="prog"><div style="width:86%"></div></div><div class="tip">86% · 13 days left · about 3 more bookings to hit it</div><div class="bars"><div style="height:45%"><span>Jul</span></div><div style="height:58%" class="hit"><span>Aug</span></div><div style="height:62%" class="hit"><span>Sep</span></div><div style="height:74%" class="hit"><span>Oct</span></div><div style="height:88%" class="hit"><span>Nov</span></div><div style="height:80%"><span>Dec</span></div></div><div style="height:14px"></div>';
+  },
+  promo(){
+    return '<div class="cap"><span>Promo card</span><span>Sample</span></div><div class="pcard"><div class="moon"></div><small>WEEKDAY SPECIAL</small><h4>Stay Mon–Thu, save 20%</h4><p>A-frame cabins · near the beach · free parking</p><span class="pr">From ₱3,200/night</span></div><div class="tip" style="margin-top:8px">Sized for Facebook posts and Stories.</div>';
+  },
+  video(){
+    return '<div class="cap"><span>Promo Reel · 30 sec</span><span>Tap to preview</span></div><div class="vid" data-vid><div class="sc" data-s="0">Your resort,<br>at golden hour ✨</div><div class="sc" data-s="1">Cabins · Pool · Grill</div><div class="sc" data-s="2" style="color:var(--gold)">Book now on<br>Messenger</div><div class="play">'+I.play+'</div><div class="cap2">Your Resort Name<small>Shot, edited and captioned for you</small></div><div class="tl"></div></div>';
+  },
+  units(){
+    return '<div class="cap"><span>Your properties</span><span>Sample</span></div><div class="stack"><div class="prop"><b>3</b>A-frames</div><div class="prop"><b>8</b>Rooms</div><div class="prop"><b>2</b>Villas</div></div><div class="tip" style="margin-top:8px">Manage several properties and unlimited units from one account.</div>';
+  },
+  hub(){
+    return '<div class="cap"><span>Pinoy BnB booking hub</span><span>Coming soon</span></div><div class="hub"><div class="hc f"><div class="img"></div><div class="t"><span class="ft">FEATURED</span><b>Your Resort</b><span>Quezon · ★ 4.9</span></div></div><div class="hc"><div class="img"></div><div class="t"><b>Other resort</b><span>Batangas · ★ 4.6</span></div></div></div><div class="tip" style="margin-top:8px">Elite resorts get top placement when the hub launches.</div>';
+  },
+  support(){
+    return '<div class="cap"><span>Priority support</span><span>Sample</span></div><div class="chat"><div class="me">Can you add our new villa before Saturday?</div><div class="them">Done! ✅ Villa 2 is live with your weekend rates.</div></div><div class="tip" style="margin-top:8px">Setup within 48 hours, with replies the same day.</div>';
+  }
+};
+
+/* ---------- plans ---------- */
+const PLANS = [
+  {id:"starter",name:"Starter",tag:"Up to 3 units",intro:299,reg:599,annual:5990,
+   head:"Everything you need to stop tracking bookings by hand",
+   f:[["calendar","Booking calendar","See every unit's booked and free dates at a glance"],
+      ["bookings","Upcoming bookings","Guests, pax and payment status in one list"],
+      ["avail","Availability check","Answer \"available pa po?\" in seconds"],
+      ["confirm","Guest confirmation messages","Ready-to-send confirmations for Messenger"]]},
+  {id:"pro",name:"Pro",tag:"Up to 10 units",intro:499,reg:1499,annual:14990,rec:true,
+   head:"Everything in Starter, plus staff tools and marketing",
+   f:[["staff","Staff app","Daily cleaning tasks your staff tick off on their phones"],
+      ["ocular","Ocular visit checklist","Photo inspections before every check-in"],
+      ["morale","Staff morale features","Daily scripture and guest reviews on the staff home screen"],
+      ["target","Monthly revenue target","Set a goal and track it every day"],
+      ["promo","2 promo cards a month","Designed for your Facebook page"],
+      ["video","Free promo video","A 30-second Reel of your resort when you sign up"]]},
+  {id:"elite",name:"Elite",tag:"Unlimited units",intro:4999,reg:null,annual:49990,start:true,
+   head:"Everything in Pro, plus done-for-you marketing",
+   f:[["units","Unlimited units and properties","Run several resorts from one account"],
+      ["video","A promo Reel every month","Fresh video content for your page"],
+      ["promo","Unlimited promo cards","Promos for holidays, weekdays and seasons whenever you need them"],
+      ["hub","Featured on the booking hub","Top placement when the Pinoy BnB hub launches"],
+      ["support","Priority setup and support","Live in 48 hours, with replies the same day"]]}
+];
+let annual=false;
+
+function priceHTML(p){
+  if(annual){
+    const eq=Math.round(p.annual/12);
+    return `<div class="price">${p.start?'<span class="from">Starting at</span>':""}<span class="amt">${peso(p.annual)}</span><span class="per">/yr</span></div><div class="after">About ${peso(eq)}/mo · 2 months free</div>`;
+  }
+  if(p.start) return `<div class="price"><span class="from">Starting at</span><span class="amt">${peso(p.intro)}</span><span class="per">/mo</span></div><div class="after">Custom quote for multiple properties</div>`;
+  return `<div class="price"><span class="amt">${peso(p.intro)}</span><span class="per">/mo</span><s>${peso(p.reg)}</s></div><div class="after">for 3 months, ${peso(p.reg)}/mo after</div>`;
+}
+function render(){
+  document.getElementById("plans").innerHTML=PLANS.map(p=>`
+  <article class="card ${p.rec?"rec":""} ${p.id}" id="${p.id}">
+    ${p.rec?'<span class="badge">Recommended</span>':""}
+    <h2>Pinoy BnB <span>${p.name}</span></h2>
+    <div class="tag">${I.home}${p.tag}</div>
+    <div data-price>${priceHTML(p)}</div>
+    <button class="cta" data-open="${p.id}">Get Pinoy BnB ${p.name}</button>
+    <div class="sect">${p.head}</div>
+    <div>${p.f.map((x,i)=>`
+      <div class="feat" data-snip="${x[0]}">
+        <button class="frow" aria-expanded="false">${I.chk}<span class="t"><b>${x[1]}</b><span>${x[2]}</span>${i===0?'<span class="peek">Tap to preview ›</span>':""}</span>${I.chev}</button>
+        <div class="snip"><div><div class="demo"></div></div></div>
+      </div>`).join("")}</div>
+  </article>`).join("");
+}
+function rerenderPrices(){PLANS.forEach(p=>{document.querySelector(`#${p.id} [data-price]`).innerHTML=priceHTML(p)})}
+render();
+
+/* compare table */
+const rows=[["Units","Up to 3","Up to 10","Unlimited"],["Booking calendar and availability",1,1,1],["Upcoming bookings and payment status",1,1,1],["Guest confirmation messages",1,1,1],["Staff app and ocular checklist",0,1,1],["Staff morale features",0,1,1],["Monthly revenue target",0,1,1],["Promo cards","—","2/mo","Unlimited"],["Promo Reel video","—","1 free","Monthly"],["Featured on booking hub",0,0,1],["Priority setup and support",0,0,1]];
+document.getElementById("tbl").innerHTML='<thead><tr><th></th><th>Starter</th><th class="rec">Pro ★</th><th>Elite</th></tr></thead><tbody>'+rows.map(r=>`<tr><td>${r[0]}</td>${r.slice(1).map(v=>`<td>${v===1?'<span class="y">✓</span>':v===0?'<span class="n">—</span>':v}</td>`).join("")}</tr>`).join("")+"</tbody>";
+
+/* interactions */
+document.addEventListener("click",e=>{
+  const fr=e.target.closest(".frow");
+  if(fr){
+    const f=fr.parentElement, d=f.querySelector(".demo");
+    if(!d.innerHTML) d.innerHTML=S[f.dataset.snip]();
+    const open=!f.classList.contains("open");
+    f.classList.toggle("open",open); fr.setAttribute("aria-expanded",open);
+    return;
+  }
+  const t=e.target.closest(".task");
+  if(t){
+    t.classList.toggle("done");
+    const d=t.closest(".demo"), all=d.querySelectorAll(".task").length, done=d.querySelectorAll(".task.done").length;
+    d.querySelector("[data-p]").style.width=(done/all*100)+"%";
+    d.querySelector("[data-pt]").textContent=done===all?"All done! Cabin ready for guests 🎉":`${done} of ${all} done`;
+    return;
+  }
+  const v=e.target.closest("[data-vid]");
+  if(v && !v.classList.contains("playing")){
+    v.classList.add("playing");
+    const sc=v.querySelectorAll(".sc"), cap=v.querySelector(".cap2");cap.style.opacity=0;
+    sc.forEach((s,i)=>{setTimeout(()=>{sc.forEach(x=>x.style.opacity=0);s.style.opacity=1},i*2000)});
+    setTimeout(()=>{v.classList.remove("playing");sc.forEach(x=>x.style.opacity=0);cap.style.opacity=1},6200);
+    return;
+  }
+  const o=e.target.closest("[data-open]");
+  if(o){openSheet(o.dataset.open);return}
+});
+const bm=document.getElementById("bm"),ba=document.getElementById("ba");
+bm.onclick=()=>{annual=false;bm.setAttribute("aria-pressed","true");ba.setAttribute("aria-pressed","false");rerenderPrices()};
+ba.onclick=()=>{annual=true;ba.setAttribute("aria-pressed","true");bm.setAttribute("aria-pressed","false");rerenderPrices()};
+
+const scrim=document.getElementById("scrim");
+function openSheet(id){
+  const p=PLANS.find(x=>x.id===id);
+  const pr=annual?`${peso(p.annual)}/yr`:p.start?`from ${peso(p.intro)}/mo`:`${peso(p.intro)}/mo for 3 months`;
+  document.getElementById("sh").textContent=`Get Pinoy BnB ${p.name}`;
+  document.getElementById("sum").innerHTML=`<div><span>Plan</span><b>${p.name}</b></div><div><span>Billing</span><b>${annual?"Annual":"Monthly"}</b></div><div><span>Price</span><b>${pr}</b></div><div><span>Bonus</span><b style="color:var(--gold)">Free promo video</b></div>`;
+  document.getElementById("msg").textContent=`Hi Pinoy BnB! I'm interested in the ${p.name} plan (${annual?"annual":"monthly"}, ${pr}).\nResort name: \nNumber of units: \nLocation: `;
+  scrim.classList.add("on");
+}
+document.getElementById("close").onclick=()=>scrim.classList.remove("on");
+scrim.addEventListener("click",e=>{if(e.target===scrim)scrim.classList.remove("on")});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")scrim.classList.remove("on")});
+document.getElementById("copy").onclick=async()=>{
+  const txt=document.getElementById("msg").textContent;
+  try{await navigator.clipboard.writeText(txt);toast("Copied! Paste it in Messenger")}
+  catch(_){const r=document.createRange();r.selectNodeContents(document.getElementById("msg"));const s=getSelection();s.removeAllRanges();s.addRange(r);toast("Selected. Long-press to copy")}
+};
+function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),2200)}
+
+/* open first feature of Pro as a teaser */
+(()=>{const f=document.querySelector('#pro .feat');f.querySelector(".demo").innerHTML=S[f.dataset.snip]();f.classList.add("open");f.querySelector(".frow").setAttribute("aria-expanded","true")})();
+</script>
+</body>
+</html>
