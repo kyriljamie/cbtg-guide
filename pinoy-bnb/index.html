@@ -11,6 +11,7 @@
 <meta property="og:image" content="https://kyriljamie.github.io/cbtg-guide/pinoy-bnb/og.jpg">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="theme-color" content="#0b0e15">
+<link rel="icon" href="favicon-48.png" sizes="48x48"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>Pinoy BnB Plans</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -34,7 +35,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 header{position:sticky;top:0;z-index:20;background:rgba(11,14,21,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .bar{display:flex;align-items:center;justify-content:space-between;height:58px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.01em}
-.logo{width:32px;height:32px;border-radius:9px;background:linear-gradient(145deg,#1d2a48,#0f1626);border:1px solid #2c3a5c;display:grid;place-items:center}
+.logo{width:36px;height:36px;border-radius:50%;display:block}
 .brand small{display:block;font-weight:500;font-size:11px;color:var(--muted);letter-spacing:.02em}
 .hbtn{background:var(--accent);color:#fff;font-weight:600;font-size:14px;padding:9px 14px;border-radius:999px}
 
@@ -216,6 +217,17 @@ details p{color:var(--muted);font-size:14px;margin-top:8px}
 .final .cta{max-width:320px;margin:0 auto}
 footer{padding:30px 0 50px;text-align:center;color:var(--dim);font-size:12px;line-height:1.7}
 
+.hlogo{position:relative;width:92px;height:92px;border-radius:50%;margin:0 auto 14px;display:block;box-shadow:0 10px 40px -10px rgba(212,173,92,.45)}
+.demo-btn{position:relative;display:inline-flex;align-items:center;gap:10px;margin-top:16px;background:var(--surface);border:1px solid #2c3a5c;color:var(--fg);font-weight:600;font-size:14.5px;padding:8px 16px 8px 8px;border-radius:999px}
+.demo-btn .pl{width:34px;height:34px;border-radius:50%;background:var(--accent);display:grid;place-items:center}
+.demo-btn small{color:var(--muted);font-weight:500}
+.vscrim{position:fixed;inset:0;background:rgba(3,5,10,.92);display:none;z-index:70;align-items:center;justify-content:center;padding:16px}
+.vscrim.on{display:flex}
+.vbox{position:relative;width:min(420px,100%);max-height:100%}
+.vbox video{width:100%;max-height:calc(100vh - 90px);border-radius:18px;background:#000;display:block;margin:0 auto}
+.vbox .x{position:absolute;top:-6px;right:-6px;width:38px;height:38px;border-radius:50%;background:#fff;color:#0b0e15;font-size:20px;font-weight:700;z-index:2}
+.vbox .vc{display:flex;justify-content:center;margin-top:12px}
+.vbox .vc .cta{max-width:280px;margin:0}
 /* sheet */
 .scrim{position:fixed;inset:0;background:rgba(3,5,10,.65);display:none;z-index:50;align-items:flex-end;justify-content:center}
 .scrim.on{display:flex}
@@ -241,7 +253,7 @@ footer{padding:30px 0 50px;text-align:center;color:var(--dim);font-size:12px;lin
 <header>
   <div class="wrap bar">
     <div class="brand">
-      <div class="logo"><svg class="ico" viewBox="0 0 24 24" style="color:var(--gold)"><path d="M3 20 12 4l9 16"/><path d="M8 20l4-7 4 7"/></svg></div>
+      <img class="logo" src="logo-96.png" alt="Pinoy BnB logo" width="36" height="36">
       <div>Pinoy BnB<small>Booking system for resorts</small></div>
     </div>
     <button class="hbtn" data-open="pro">Start free</button>
@@ -250,6 +262,7 @@ footer{padding:30px 0 50px;text-align:center;color:var(--dim);font-size:12px;lin
 
 <main class="wrap">
   <section class="hero">
+    <img class="hlogo" src="logo-192.png" alt="" width="96" height="96">
     <svg class="stars" viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true">
       <g fill="#fff"><circle cx="30" cy="30" r="1"/><circle cx="90" cy="70" r=".8"/><circle cx="160" cy="20" r="1.2"/><circle cx="240" cy="55" r=".7"/><circle cx="310" cy="25" r="1"/><circle cx="370" cy="80" r=".9"/><circle cx="60" cy="120" r=".7"/><circle cx="350" cy="140" r=".8"/><circle cx="200" cy="100" r=".6"/></g>
     </svg>
@@ -265,6 +278,7 @@ footer{padding:30px 0 50px;text-align:center;color:var(--dim);font-size:12px;lin
       </div>
       <div class="s">🎬 Plus a <b>free promo video</b> for your resort when you sign up</div>
     </div>
+    <div><button class="demo-btn" id="demoBtn"><span class="pl"><svg viewBox="0 0 24 24" width="16" height="16" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span>Watch the app demo <small>· 1½ min</small></button></div>
     <div class="toggle" role="group" aria-label="Billing period">
       <button id="bm" aria-pressed="true">Monthly</button>
       <button id="ba" aria-pressed="false">Annual<small>Pay 10 months, get 12</small></button>
@@ -294,6 +308,7 @@ footer{padding:30px 0 50px;text-align:center;color:var(--dim);font-size:12px;lin
     <h3>Questions</h3>
     <div class="faq">
       <details><summary>What happens after the first 3 months?</summary><p>Your plan moves to its regular monthly price (Starter ₱599, Pro ₱999), and you can upgrade to a higher plan anytime. Before the 3 months end, we send you a report of the bookings you handled and the time you saved, so you can decide.</p></details>
+      <details><summary>Can I see the app first?</summary><p>Yes. Watch the demo video at the top of this page, or message us for a live walkthrough on Messenger video call.</p></details>
       <details><summary>Can I change plans later?</summary><p>Yes. Upgrade or downgrade anytime, and your bookings and settings carry over.</p></details>
       <details><summary>Do my staff need their own phones?</summary><p>The staff app runs on any Android or iPhone. Several staff members can share one login per resort if you prefer.</p></details>
       <details><summary>How do I pay?</summary><p>GCash, Maya or bank transfer. Annual plans are paid once a year.</p></details>
@@ -323,6 +338,13 @@ footer{padding:30px 0 50px;text-align:center;color:var(--dim);font-size:12px;lin
       <button class="ghost" id="close">Close</button>
       <button class="cta" style="margin:0" id="copy">Copy message</button>
     </div>
+  </div>
+</div>
+<div class="vscrim" id="vscrim" role="dialog" aria-modal="true" aria-label="App demo video">
+  <div class="vbox">
+    <button class="x" id="vclose" aria-label="Close">×</button>
+    <video id="vid" src="demo.mp4" poster="demo-poster.jpg" controls playsinline preload="none"></video>
+    <div class="vc"><button class="cta" data-open="pro" id="vcta">Get Pinoy BnB Pro</button></div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -510,6 +532,15 @@ function tick(){
 }
 const cdI=setInterval(tick,1000);tick();
 
+
+/* demo video */
+(()=>{const sc=document.getElementById("vscrim"),v=document.getElementById("vid");
+const close=()=>{v.pause();sc.classList.remove("on")};
+document.getElementById("demoBtn").onclick=()=>{sc.classList.add("on");const p=v.play();if(p&&p.catch)p.catch(()=>{})};
+document.getElementById("vclose").onclick=close;
+document.getElementById("vcta").addEventListener("click",close);
+sc.addEventListener("click",e=>{if(e.target===sc)close()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&sc.classList.contains("on"))close()});})();
 /* open first feature of Pro as a teaser */
 (()=>{const f=document.querySelector('#pro .feat');f.querySelector(".demo").innerHTML=S[f.dataset.snip]();f.classList.add("open");f.querySelector(".frow").setAttribute("aria-expanded","true")})();
 </script>
