@@ -438,7 +438,7 @@ const VIEWS = {
     return `${topBar('House rules')}<div class="body">
       <p class="msg" style="margin:0">Para po sa ligtas at masayang staycation ng lahat. Salamat sa pag-aalaga sa cabin na parang sariling bahay!</p>
       ${rules.map((r, i) => `<div class="rule"><span class="n">${i + 1}</span><span>${esc(r)}</span></div>`).join('')}
-      <div class="rule"><span class="n">${rules.length + 1}</span><span>Check-in ${esc(s.inTime || '4:00 PM')} · Check-out ${esc(s.outTime || '12:00 NN')}. Full 20 hours — late check-in? Later check-out din po.</span></div>
+      <div class="rule"><span class="n">${rules.length + 1}</span><span>Check-in ${esc(s.inTime || '4:00 PM')} · Check-out ${esc(s.outTime || '12:00 NN')}. Early check-in? Early check-out din po (20 hours pa rin). Late check-in? Fixed pa rin po ang check-out — maliban kung kami ang dahilan ng delay.</span></div>
       <div class="rule"><span class="n">${rules.length + 2}</span><span>May mga pusang nakatira sa paligid — friendly sila! Pakiusap, huwag silang papasukin sa cabin o pakainin ng pagkain ng tao.</span></div>
       ${c.quiet ? `<div class="card sand" style="font-size:14px">${esc(c.quiet)}</div>` : ''}
       ${read ? `<div class="card sand"><div class="check">${svg('check', 20, '#2E7D4F', 2.2)}Salamat po! Nabasa niyo na ang house rules.</div></div>`
