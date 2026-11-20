@@ -111,6 +111,12 @@ const BUCKET = 'cbtg-moments';
 const CHAT_URL = 'https://cbtg-chat.netlify.app/';
 const MESSENGER_URL = 'https://m.me/61566419019212';
 const PHONE = '0927 446 6154';
+// Balance payment (Home → Balance → Pay ahead). Add GCash: put its QR in img/pay-gcash.jpg and uncomment the line.
+const PAY_METHODS = [
+  { key: 'BDO', label: 'BDO / InstaPay', img: '../img/pay-bdo.jpg', name: 'Emely General', acct: 'BDO account ending in 4791' },
+  // { key: 'GCash', label: 'GCash', img: '../img/pay-gcash.jpg', name: 'Emely General', acct: 'GCash ending in xxxx' },
+];
+let payMethod = 0;
 const PIN_URL = 'https://www.google.com/maps/search/?api=1&query=13.9443251,121.5251939';
 const WAZE_URL = 'https://waze.com/ul?ll=13.9443251,121.5251939&navigate=yes';
 const IKOT_URL = 'https://kyriljamie.github.io/cbtg-guide/';
@@ -349,7 +355,7 @@ const TABS = {
           <div class="kv"><small>CHECK-IN</small><strong>${esc(dayLabel(s.checkIn))} · ${esc(s.inTime || '4:00 PM')}</strong></div>
           <div class="kv"><small>CHECK-OUT</small><strong>${esc(dayLabel(s.checkOut))} · ${esc(s.outTime || '12:00 NN')}</strong></div>
           <div class="kv"><small>GUESTS</small><strong>${esc(s.pax)} pax</strong></div>
-          ${s.balance > 0 ? `<div class="kv"><small>BALANCE ON ARRIVAL</small><strong>${peso(s.balance)}</strong></div>` : `<div class="kv"><small>PAYMENT</small><strong>Fully paid</strong></div>`}
+          ${s.balance > 0 ? `<button class="kv" style="text-align:left;background:none;border:none;color:inherit;padding:0;cursor:pointer;font:inherit" onclick="show('pay')"><small>BALANCE</small><strong>${peso(s.balance)} <span style="font-size:12px;color:#D4AF5A;text-decoration:underline">Pay ›</span></strong></button>` : `<div class="kv"><small>PAYMENT</small><strong>Fully paid</strong></div>`}
         </div></div></div>
       <div class="body">
         <h2 class="sec">Your stay, all in one place</h2>
@@ -359,6 +365,7 @@ const TABS = {
           <button class="tile" onclick="show('rules')">${svg('rules', 24, '#7A5C17', 1.7)}<b>House rules</b><span>Please read first</span></button>
           <button class="tile" onclick="go('ikot')">${svg('ikot', 24, '#7A5C17', 1.7)}<b>Ikot-Sariaya</b><span>Food, sights, pasalubong</span></button>
         </div>
+        ${s.balance > 0 && p !== 'checkout' && p !== 'after' ? `<button class="card" style="text-align:left;cursor:pointer" onclick="show('pay')"><div class="row">${svg('check', 22, '#7A5C17', 2)}<div><b>Balance: ${peso(s.balance)}</b><div style="font-size:12px;color:#5A5244">Pay ahead by QR (BDO${PAY_METHODS.length > 1 ? ' / GCash' : ''}), or on check-in. Tap for payment details.</div></div></div></button>` : ''}
         ${p === 'before' ? `<div class="card sand"><b>Before you arrive</b>
           <div class="check">${svg('check', 20, '#2E7D4F', 2.2)}Booking confirmed</div>
           <div class="check">${svg(getRead() ? 'check' : 'rules', 20, getRead() ? '#2E7D4F' : '#7A5C17', 2)}${getRead() ? 'House rules read — salamat!' : '<a href="#" onclick="show(\'rules\');return false">Read the house rules</a>'}</div>
@@ -431,6 +438,30 @@ function perk(t, d) { return `<div class="row" style="align-items:flex-start"><s
 
 let howtoIdx = 0;
 const VIEWS = {
+  pay() {
+    const s = stay(), m = PAY_METHODS[payMethod] || PAY_METHODS[0];
+    if (!(s.balance > 0)) return `${topBar('Payment')}<div class="body"><div class="card sand"><div class="check">${svg('check', 20, '#2E7D4F', 2.2)}Fully paid na po. Salamat!</div></div></div>`;
+    return `${topBar('Pay your balance')}<div class="body">
+      <div class="card" style="text-align:center;align-items:center">
+        <small style="font-size:11px;color:#8A8170;letter-spacing:.5px">BALANCE</small>
+        <strong style="font-family:var(--serif);font-size:34px;line-height:1.1">${peso(s.balance)}</strong>
+        <span style="font-size:13px;color:#5A5244">Pwede pong bayaran ahead, o sa check-in (${esc(dayLabel(s.checkIn))}).</span>
+      </div>
+      ${PAY_METHODS.length > 1 ? `<div class="chips" style="justify-content:center">${PAY_METHODS.map((x, i) => `<button class="chip ${i === payMethod ? 'on' : ''}" onclick="payMethod=${i};render()">${esc(x.label)}</button>`).join('')}</div>` : ''}
+      <div class="card" style="align-items:center;text-align:center">
+        <img src="${esc(m.img)}" alt="${esc(m.label)} QR code" style="width:240px;max-width:100%;background:#fff;border-radius:14px;padding:6px">
+        <div><b>${esc(m.name)}</b><div style="font-size:13px;color:#5A5244">${esc(m.acct)}</div></div>
+        <a class="btn light" href="${esc(m.img)}" download>Save QR picture</a>
+      </div>
+      <div class="card"><b>Paano magbayad</b><ol>
+        <li>I-scan ang QR gamit ang bank o e-wallet app niyo (InstaPay). Pwede rin i-save ang QR at i-scan from Gallery.</li>
+        <li>Bayaran ang exact amount: <b>${peso(s.balance)}</b>.</li>
+        <li>I-screenshot ang successful payment at i-send sa amin sa Messenger.</li>
+      </ol>
+      <a class="btn block" href="${MESSENGER_URL}" target="_blank" rel="noopener">${svg('chat', 18, '#D4AF5A', 1.8)}Send screenshot on Messenger</a></div>
+      <p style="font-size:12px;color:#8A8170;margin:0;text-align:center">Babalikan namin kayo kapag na-check na ang payment. Questions? Call ${esc(PHONE)}.</p>
+    </div>`;
+  },
   rules() {
     const s = stay(), c = cabin();
     const rules = (s.rules && s.rules.length ? s.rules : ['Shoes off inside the cabin.', 'Take care of the appliances — anything broken is charged.', 'No smoking inside the cabin.', 'Bantayan po ang mga bata sa pool.']);
