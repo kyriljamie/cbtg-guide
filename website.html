@@ -30,7 +30,7 @@
   "slogan": "Private. Stylish. Yours.",
   "image": ["https://kyriljamie.github.io/cbtg-guide/img/c1-hero.jpg","https://kyriljamie.github.io/cbtg-guide/img/c2-dusk.jpg"],
   "telephone": "+63 927 446 6154",
-  "priceRange": "₱7,100 – ₱20,000 per night",
+  "priceRange": "₱7,100 – ₱28,000 per night",
   "address": {"@type": "PostalAddress","addressLocality": "Sariaya","addressRegion": "Quezon","addressCountry": "PH"},
   "checkinTime": "16:00",
   "checkoutTime": "12:00",
@@ -275,6 +275,7 @@ section{padding:96px 0}
 .lines{margin:18px 0 0;display:grid;gap:8px;font-size:.92rem;font-variant-numeric:tabular-nums}
 .lines div{display:flex;justify-content:space-between;gap:12px}
 .lines .muted{color:var(--ink-soft)}
+.lines .disc{color:#2E7D4F;font-weight:600}
 .lines .tot{border-top:1px solid var(--line);padding-top:12px;margin-top:4px;font-weight:700;font-size:1.02rem}
 .hint{margin-top:14px;font-size:.88rem;color:var(--ink-soft)}
 .tight{color:#7A4A1F !important;background:#F6EADF;border-radius:14px;padding:11px 13px}
@@ -639,7 +640,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
     </article>
 
     <div class="retreat">
-      <div><b>Charlie + Charlotte, the whole retreat</b><span>Two pools, two kitchens, 16 guests included, up to 24. ₱14,300 Sun–Thu · ₱17,900 Fri–Sat.</span></div>
+      <div><b>Charlie + Charlotte, the whole retreat</b><span>Two pools, two kitchens, 16 guests included, up to 24. ₱14,300 Sun–Thu · ₱24,000 Fri–Sat (₱28,000 in December).</span></div>
       <button class="btn terra" data-pick="c12">Check dates <i data-lucide="arrow-right" class="ico"></i></button>
     </div>
   </div>
@@ -695,6 +696,8 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
             <select name="occ" id="f-occ"><option value="">Just a getaway</option><option>Barkada staycation</option><option>Birthday</option><option>Family reunion</option><option>Couple's getaway</option><option>Team outing</option></select>
           </label>
           <label>Anything we should know?<textarea name="note" id="f-note" placeholder="Arrival time, celebration, questions"></textarea></label>
+          <label>Discount code (optional)<input name="code" id="f-code" maxlength="20" autocapitalize="characters" autocomplete="off" spellcheck="false"></label>
+          <p class="err-msg" id="code-err" hidden></p>
           <p class="err-msg" id="req-err" hidden>Add your name and a mobile number (like 0917 123 4567) so we can text you.</p>
           <p class="err-msg" id="req-err-email" hidden>Please check your email address, or leave it blank.</p>
           <button class="btn dark" type="submit" id="send">Send booking request</button>
@@ -794,7 +797,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
         <div class="acc-panel" id="p3" role="region" aria-labelledby="a3"><div><div class="acc-body">
           <p>Charlie and Charlotte are comfortable for up to 14 guests each. If you're a group of 15 and want to save, you can book just one cabin, but the sleeping area will be tight. Charlotte + Choco fits up to 20, and Charlie + Charlotte up to 24.</p>
           <p>Each booking includes a set number of guests: 8 for one cabin, 12 for Charlotte + Choco, 16 for Charlie + Charlotte. Extra guests are <b>₱600 each per night</b>, or <b>₱750</b> for nights in December.</p>
-          <p><b>December 12 to January 15:</b> one cabin is ₱15,000 a night and two cabins are ₱20,000 a night. Holiday dates fill up first, so book early.</p>
+          <p><b>December 12 to January 15:</b> one cabin is ₱15,000 a night and two cabins are ₱20,000 a night (Charlie + Charlotte on Fri and Sat nights: ₱28,000 all December). Holiday dates fill up first, so book early.</p>
         </div></div></div>
       </div>
       <div class="acc-item">
@@ -1091,7 +1094,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
   var OPT = {
     c1:  { name: "Charlie (Cabin 1)", short: "Charlie", cabins: ["Cabin 1"], wk: 8000, we: 10400, hol: 15000, base: 8, max: 15, comfy: 14 },
     c2:  { name: "Charlotte (Cabin 2)", short: "Charlotte", cabins: ["Cabin 2"], wk: 7100, we: 9200, hol: 15000, base: 8, max: 15, comfy: 14 },
-    c12: { name: "Charlie + Charlotte (Cabins 1 and 2)", short: "Charlie + Charlotte", cabins: ["Cabin 1", "Cabin 2"], wk: 14300, we: 17900, hol: 20000, base: 16, max: 24 },
+    c12: { name: "Charlie + Charlotte (Cabins 1 and 2)", short: "Charlie + Charlotte", cabins: ["Cabin 1", "Cabin 2"], wk: 14300, we: 24000, weDec: 28000, weFirst: true, hol: 20000, base: 16, max: 24 },
     c23: { name: "Charlotte + Choco (Cabins 2 and 3)", short: "Charlotte + Choco", cabins: ["Cabin 2", "Cabin 3"], wk: 12200, we: 15200, hol: 20000, base: 12, max: 20 }
   };
   var ABNB = { c1: "1328036843746108479", c2: "1668742538884638684", c12: "1668741995292624618", c23: "1784785119302977307" };
@@ -1164,14 +1167,45 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
 
   function nights() { return ci && co ? Math.round((parse(co) - parse(ci)) / 864e5) : 0; }
 
+  // Same rules as cbtg_web_quote on the server. Charlie + Charlotte: Fri and Sat nights are
+  // ₱24,000 (₱28,000 in December), even in the holiday season.
+  function rateFor(o, s) {
+    var w = parse(s).getDay(), fs = w === 5 || w === 6;
+    if (o.weFirst && fs) return { t: "we", r: s.slice(5, 7) === "12" ? o.weDec : o.we };
+    var t = nightType(s); return { t: t, r: o[t] };
+  }
   function quote() {
-    var o = OPT[opt], q = { wk: 0, we: 0, hol: 0, nwk: 0, nwe: 0, nhol: 0, extra: 0, extraN: Math.max(0, guests - o.base), total: 0 };
+    var o = OPT[opt], q = { wk: 0, we: 0, hol: 0, nwk: 0, nwe: 0, nhol: 0, rwe: {}, extra: 0, extraN: Math.max(0, guests - o.base), total: 0 };
     for (var s = ci; s < co; s = addDays(s, 1)) {
-      var t = nightType(s); q[t] += o[t]; q["n" + t]++;
+      var x = rateFor(o, s); q[x.t] += x.r; q["n" + x.t]++;
+      if (x.t === "we") q.rwe[x.r] = (q.rwe[x.r] || 0) + 1;
       q.extra += q.extraN * extraRate(s);
     }
-    q.total = q.wk + q.we + q.hol + q.extra;
+    q.full = q.wk + q.we + q.hol + q.extra;
+    q.pct = disc.pct || 0;
+    q.discount = Math.round(q.full * q.pct / 100);
+    q.total = q.full - q.discount;
+    q.fee = Math.round(q.total * 0.3);
     return q;
+  }
+
+  /* ---------- discount code (checked by the server: cbtg_quote) ---------- */
+  var disc = { code: "", pct: 0, err: "" };
+  function checkCode() {
+    var c = $("f-code").value.trim();
+    if (c.toUpperCase() === disc.code.toUpperCase() && !disc.err) return;
+    disc = { code: c, pct: 0, err: "" };
+    if (!c) { drawSummary(); return; }
+    var d0 = ci || today, d1 = co || addDays(d0, 1);
+    fetch(API + "cbtg_quote", { method: "POST", headers: { apikey: KEY, "Content-Type": "application/json" },
+      body: JSON.stringify({ p_option: opt, p_in: d0, p_out: d1, p_guests: guests, p_code: c }) })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (disc.code !== c) return;
+        if (j && j.codeError) disc.err = j.codeError; else if (j && j.pct) disc.pct = +j.pct; else disc.err = "We couldn't check that code. Try again.";
+        drawSummary();
+      })
+      .catch(function () { if (disc.code === c) { disc.err = "We couldn't check that code. Try again."; drawSummary(); } });
   }
 
   function drawSummary() {
@@ -1184,12 +1218,14 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
     $("g-minus").disabled = guests <= 1; $("g-plus").disabled = guests >= o.max;
     $("g-note").textContent = "Up to " + o.max + ", " + o.base + " included";
     $("tight").hidden = !(o.comfy && guests > o.comfy);
+    $("code-err").hidden = !disc.err; $("code-err").textContent = disc.err;
     $("s-in").querySelector(".v").textContent = ci ? nice(ci) : "Add date";
     $("s-out").querySelector(".v").textContent = co ? nice(co) : "Add date";
     var L = $("lines");
     if (!(ci && co)) {
       $("s-big").textContent = peso(o.wk); $("s-per").textContent = "a night, Sun to Thu";
       L.innerHTML = '<div class="muted"><span>Fri and Sat nights</span><span>' + peso(o.we) + "</span></div>" +
+        (o.weDec ? '<div class="muted"><span>Fri and Sat nights in December</span><span>' + peso(o.weDec) + "</span></div>" : "") +
         '<div class="muted"><span>Holiday nights (Dec 12 to Jan 15)</span><span>' + peso(o.hol) + "</span></div>";
       $("hint").hidden = false; $("req").hidden = true;
       bar();
@@ -1197,11 +1233,12 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
     }
     var q = quote(), n = nights(), r = "";
     if (q.nwk) r += row(q.nwk, o.wk, "weeknight", q.wk);
-    if (q.nwe) r += row(q.nwe, o.we, "Fri/Sat night", q.we);
+    if (q.nwe) Object.keys(q.rwe).forEach(function (k) { r += row(q.rwe[k], +k, "Fri/Sat night", q.rwe[k] * k); });
     if (q.nhol) r += row(q.nhol, o.hol, "holiday night", q.hol);
     if (q.extraN) r += '<div><span>' + q.extraN + " extra guest" + (q.extraN > 1 ? "s" : "") + " × " + n + " night" + (n > 1 ? "s" : "") + "</span><span>" + peso(q.extra) + "</span></div>";
+    if (q.discount) r += '<div class="disc"><span>Discount ' + disc.code.toUpperCase() + " (" + q.pct + "%)</span><span>−" + peso(q.discount) + "</span></div>";
     r += '<div class="tot"><span>Total</span><span>' + peso(q.total) + "</span></div>";
-    r += '<div class="muted"><span>Reservation fee (30%) to hold your dates</span><span>' + peso(Math.round(q.total * 0.3)) + "</span></div>";
+    r += '<div class="muted"><span>Reservation fee (30%) to hold your dates</span><span>' + peso(q.fee) + "</span></div>";
     L.innerHTML = r;
     $("s-big").textContent = peso(q.total); $("s-per").textContent = "for " + n + (n > 1 ? " nights" : " night");
     $("hint").hidden = true; $("req").hidden = false;
@@ -1249,8 +1286,9 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
       "• Check-in: " + nice(ci, { weekday: "short", month: "short", day: "numeric", year: "numeric" }) + ", 4 PM",
       "• Check-out: " + nice(co, { weekday: "short", month: "short", day: "numeric", year: "numeric" }) + ", 12 NN",
       "• " + n + (n > 1 ? " nights" : " night") + ", " + guests + " guests",
-      "• Total from the website: " + peso(q.total) + " (30% reservation fee: " + peso(Math.round(q.total * 0.3)) + ")"
+      "• Total from the website: " + peso(q.total) + " (30% reservation fee: " + peso(q.fee) + ")"
     ];
+    if (q.discount) lines.push("• Discount code: " + disc.code.toUpperCase() + " (" + q.pct + "% off)");
     if (f.occ.value) lines.push("• Occasion: " + f.occ.value);
     lines.push("• Name: " + f.name.value.trim());
     lines.push("• Mobile: " + f.phone.value.trim());
@@ -1260,6 +1298,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
     return lines.join("\n");
   }
   var form = $("req");
+  $("f-code").addEventListener("change", checkCode);
   function valid() {
     var ok = form.name.value.trim().length >= 2 && form.phone.value.replace(/\D/g, "").length >= 10;
     var em = form.email.value.trim(), emOk = !em || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em);
@@ -1275,11 +1314,13 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
   var sending = false;
   form.addEventListener("submit", function (e) {
     e.preventDefault(); if (!valid() || sending || !(ci && co)) return;
+    if ($("f-code").value.trim().toUpperCase() !== disc.code.toUpperCase()) { checkCode(); return; }
+    if (disc.err) { $("code-err").scrollIntoView({ behavior: "smooth", block: "center" }); return; }
     sending = true; $("req-fail").hidden = true;
     var btn = $("send"); btn.disabled = true; btn.textContent = "Sending…";
     var body = { p_data: {
       option: opt, name: form.name.value.trim(), phone: form.phone.value.trim(), email: form.email.value.trim(),
-      checkIn: ci, checkOut: co, guests: guests, occasion: form.occ.value, note: form.note.value.trim()
+      checkIn: ci, checkOut: co, guests: guests, occasion: form.occ.value, note: form.note.value.trim(), code: disc.pct ? disc.code : ""
     } };
     var done = function () { sending = false; btn.disabled = false; btn.textContent = "Send booking request"; };
     var ctl = window.AbortController ? new AbortController() : null, timer = setTimeout(function () { if (ctl) ctl.abort(); }, 20000);
