@@ -21,6 +21,14 @@ background:radial-gradient(ellipse at center,#1e5a5a 0%,#0c3440 45%,#08202a 100%
 .o{font-size:clamp(14px,2.2vw,22px);margin:6px 0}
 a.cta{display:inline-block;margin-top:16px;background:#3c82ff;color:#fff;text-decoration:none;font-weight:900;border-radius:40px;padding:14px 30px;font-size:clamp(16px,2.6vw,26px)}
 .snd{position:fixed;top:14px;right:14px;background:#12464e;color:#f6eedc;border:2px solid #d4af5a;border-radius:30px;padding:10px 16px;font:700 15px Inter,system-ui,sans-serif;cursor:pointer;z-index:9}
+.slots{margin:4px 0 10px;font-weight:900;font-size:clamp(18px,3vw,30px);color:#f58c3c}
+.who{background:transparent;color:#d4af5a;border:2px solid #d4af5a;border-radius:40px;padding:10px 22px;font:800 clamp(14px,2.2vw,20px) Inter,system-ui,sans-serif;cursor:pointer;margin:6px 0 4px}
+.mb{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:20;padding:18px}
+.mc{background:#0c3440;border:2px solid #d4af5a;border-radius:24px;max-width:440px;width:100%;padding:22px;max-height:80vh;overflow:auto;text-align:left}
+.mc h2{margin:0 0 4px;color:#d4af5a;font-size:22px}.mc p{margin:0 0 14px;color:#a0bebe;font-size:14px}
+.mc ol{margin:0;padding-left:26px}.mc li{font-weight:800;font-size:20px;padding:6px 0;border-bottom:1px solid #12464e}
+.mc button{margin-top:16px;width:100%;background:#3c82ff;color:#fff;border:0;border-radius:30px;padding:12px;font:800 16px Inter,system-ui,sans-serif;cursor:pointer}
+.hide{display:none!important}
 .hot .b{border-color:#f58c3c}.hot .c{color:#f58c3c}
 .done h1{color:#f58c3c}
 </style></head><body><button class="snd" id="snd">🔇 Tap for sound</button><div class="w" id="w">
@@ -32,10 +40,13 @@ a.cta{display:inline-block;margin-top:16px;background:#3c82ff;color:#fff;text-de
 <div class="b"><div class="n" id="mm">00</div><div class="l">MINUTES</div></div><div class="c">:</div>
 <div class="b"><div class="n" id="ss">00</div><div class="l">SECONDS</div></div></div>
 <div class="d" id="dl">Hanggang NOV 30, 2026 · 11:59 PM lang!</div>
+<div class="slots hide" id="slots"></div>
+<button class="who hide" id="who"></button>
 <div class="o">Unang 30 owners: <b>₱149/month</b> sa unang 12 months pagkatapos ng trial · hanggang 10 units</div>
 <div class="o">I-message kami at i-type ang <b style="color:#d4af5a">"TRIAL"</b></div>
 <a class="cta" href="../">Tingnan ang Pinoy BnB app →</a>
 </div>
+<div class="mb" id="mb"><div class="mc"><h2>Mga resort na naka-trial na</h2><p>Para sa privacy, unang 3 letra lang ng pangalan ang ipinapakita.</p><ol id="ol"></ol><button id="mx">Sige, gusto ko rin!</button></div></div>
 <script>
 var END=Date.parse("2026-11-30T23:59:59+08:00");
 function z(n){return(n<10?"0":"")+n}
@@ -53,4 +64,15 @@ document.getElementById("snd").onclick=function(){if(!ac)ac=new(window.AudioCont
 this.textContent=on?"🔊 Sound on":"🔇 Tap for sound";};
 var tick0=tick;tick=function(){tick0();var r=Math.max(0,Math.floor((END-Date.now())/1000));if(r!==last){last=r;if(r>0)click(r%2===0);}};
 tick();setInterval(tick,250);
+var SLOTS=30,API="https://fnebydfckdqgigtfhjfk.supabase.co/rest/v1/rpc/trial_public_list",KEY="sb_publishable_PLLPO77LyLTlHHQr1yF23Q_Y27vUAO1";
+function esc(x){return String(x).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function load(){fetch(API,{method:"POST",headers:{apikey:KEY,"Content-Type":"application/json"},body:"{}"}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
+var n=d.count||0,names=d.names||[],left=Math.max(0,SLOTS-n);
+var sl=document.getElementById("slots");sl.classList.remove("hide");
+sl.textContent=left>0?"🔥 "+left+" slot"+(left>1?"s":"")+" na lang ang natitira (sa "+SLOTS+")":"Puno na ang 30 slots. I-message kami para sa waitlist.";
+var w=document.getElementById("who");if(n>0){w.classList.remove("hide");w.textContent="👀 "+n+" resort"+(n>1?"s":"")+" na ang naka-trial · Tingnan";
+document.getElementById("ol").innerHTML=names.map(function(x){return"<li>"+esc(x)+"</li>"}).join("");}}).catch(function(){})}
+load();setInterval(load,60000);
+document.getElementById("who").onclick=function(){document.getElementById("mb").style.display="flex"};
+document.getElementById("mx").onclick=document.getElementById("mb").onclick=function(e){if(e.target===this)document.getElementById("mb").style.display="none"};
 </script></body></html>
