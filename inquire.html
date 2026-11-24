@@ -153,6 +153,16 @@ footer a{color:var(--soft)}
       </div>
       <label id="phone-wrap"><span class="lbl">Mobile number</span><input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="0917 123 4567"></label>
       <label><span class="lbl">Email (optional)</span><input id="email" type="email" inputmode="email" autocomplete="email" placeholder="For your booking confirmation"></label>
+      <div id="bday">
+        <span class="lbl">Birthday add-on (optional)</span>
+        <div class="chips" style="margin-top:6px">
+          <button type="button" class="chip" data-b="Birthday Backdrop" data-p="200"><b>Backdrop · ₱200</b><span>Celebrant's name on the TV or cinema</span></button>
+          <button type="button" class="chip" data-b="Birthday Song" data-p="600"><b>Birthday Song · ₱600</b><span>Personalized song + MP3 to keep</span></button>
+          <button type="button" class="chip" data-b="Video + Song" data-p="1,000"><b>Video + Song · ₱1,000</b><span>Photo video with their song, on loop</span></button>
+          <button type="button" class="chip" data-b="Full Birthday Package" data-p="1,500"><b>Full Package · ₱1,500</b><span>All three, played at cake time</span></button>
+        </div>
+        <p class="fine" style="margin-top:6px">Paid with your balance. We'll message you for the celebrant's details and photos (needed 3 days before check-in).</p>
+      </div>
       <label><span class="lbl">Anything we should know? (optional)</span><textarea id="note" placeholder="Occasion, arrival time, questions"></textarea></label>
       <label class="check"><input type="checkbox" id="ok"><span>I agree that CBTG may text, call or email me about this request.</span></label>
       <p class="err" id="err" hidden></p>
@@ -262,6 +272,17 @@ footer a{color:var(--soft)}
   $("cal-next").onclick = function () { month.setMonth(month.getMonth() + 1); renderCal(); };
 
   /* ---------- new guest ---------- */
+  // Birthday add-on: one choice, tap again to remove.
+  var bday = null;
+  document.querySelectorAll(".chip[data-b]").forEach(function (b) {
+    b.setAttribute("aria-pressed", "false");
+    b.onclick = function () {
+      var on = bday && bday.name === b.dataset.b;
+      bday = on ? null : { name: b.dataset.b, price: b.dataset.p };
+      document.querySelectorAll(".chip[data-b]").forEach(function (x) { x.setAttribute("aria-pressed", String(!on && x === b)); });
+    };
+  });
+  function bdayNote() { return bday ? "[Birthday add-on: " + bday.name + " PHP " + bday.price + "] " : ""; }
   var chips = document.querySelectorAll(".chip[data-o]");
   chips.forEach(function (c) {
     c.setAttribute("aria-pressed", "false");
@@ -387,9 +408,9 @@ footer a{color:var(--soft)}
       ? post("booking_request", { p_data: {
           option: opt, name: $("name").value.trim(), phone: $("phone").value.trim(), email: $("email").value.trim(),
           checkIn: ci, checkOut: addDays(ci, nightsNow()), guests: Math.round(+$("guests").value), occasion: "",
-          note: ("[Inquiry form] " + $("note").value.trim()).trim() } })
+          note: ("[Inquiry form] " + bdayNote() + $("note").value.trim()).trim() } })
       : post("rebook_request", { p_data: { no: bk.no, phone: $("rb-ph").value, checkIn: ci, guests: gRb,
-          email: $("email").value.trim(), note: $("note").value.trim() }, p_save: true });
+          email: $("email").value.trim(), note: (bdayNote() + $("note").value.trim()).trim() }, p_save: true });
     req.then(function (j) {
       done();
       if (!j || j.error) {
@@ -409,7 +430,8 @@ footer a{color:var(--soft)}
       $("d-msg").innerHTML = "Keep this reference. We'll text you at <b></b> to confirm your dates.";
       $("d-msg").querySelector("b").textContent = $("phone").value.trim();
       $("d-list").innerHTML = row("Cabin", esc(OPTS[opt].name)) + row("Dates", nice(ci) + " to " + nice(co) + " (" + n + (n > 1 ? " nights)" : " night)")) +
-        row("Guests", esc(Math.round(+$("guests").value))) + row("Total", peso(j.total)) + row("30% fee", peso(j.fee));
+        row("Guests", esc(Math.round(+$("guests").value))) + row("Total", peso(j.total)) + row("30% fee", peso(j.fee)) +
+        (bday ? row("Birthday add-on", esc(bday.name) + " · ₱" + esc(bday.price) + " (added to your balance)") : "");
       $("d-foot").textContent = "Not booked yet: the cabin is held only after the reservation fee is paid.";
     } else {
       var known = j.newRate !== null && j.newRate !== undefined;
