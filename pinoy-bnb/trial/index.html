@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="fil"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pinoy BnB — 30-Day Free Trial Countdown</title>
+<meta property="og:title" content="Ilang araw na lang para ma-avail ang 30-DAY FREE TRIAL!">
+<meta property="og:description" content="Pinoy BnB app para sa resort, staycation at transient owners. Hanggang Nov 30, 2026, 11:59 PM lang.">
+<link rel="icon" href="../logo-96.png">
+<style>
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:Inter,system-ui,sans-serif;color:#f6eedc;
+background:radial-gradient(ellipse at center,#1e5a5a 0%,#0c3440 45%,#08202a 100%)}
+.w{max-width:1100px;width:100%;padding:28px 18px;text-align:center}
+.top{border:3px solid #d4af5a;background:#281e0a;border-radius:28px;padding:16px 20px}
+.top p{margin:0;font-weight:700;font-size:clamp(18px,3.4vw,34px)}
+.top h1{margin:4px 0 0;color:#d4af5a;font-weight:900;font-size:clamp(28px,6vw,58px)}
+.sub{color:#a0bebe;margin:14px 0 22px;font-size:clamp(14px,2.2vw,22px)}
+.t{display:flex;justify-content:center;gap:clamp(6px,2vw,22px);align-items:flex-start}
+.b{background:#12464e;border:3px solid #d4af5a;border-radius:20px;width:clamp(68px,18vw,190px);padding:clamp(10px,2vw,22px) 0}
+.n{font-weight:900;font-size:clamp(38px,10vw,110px);line-height:1;color:#fff;font-variant-numeric:tabular-nums}
+.l{color:#a0bebe;font-weight:700;margin-top:8px;font-size:clamp(11px,1.8vw,20px);letter-spacing:.04em}
+.c{font-weight:900;color:#d4af5a;font-size:clamp(30px,7vw,80px);line-height:1.2}
+.d{display:inline-block;background:#e14646;color:#fff;font-weight:900;border-radius:40px;padding:10px 26px;margin:26px 0 14px;font-size:clamp(16px,3vw,30px);animation:p 2s ease-in-out infinite}
+@keyframes p{50%{opacity:.75}}
+.o{font-size:clamp(14px,2.2vw,22px);margin:6px 0}
+a.cta{display:inline-block;margin-top:16px;background:#3c82ff;color:#fff;text-decoration:none;font-weight:900;border-radius:40px;padding:14px 30px;font-size:clamp(16px,2.6vw,26px)}
+.hot .b{border-color:#f58c3c}.hot .c{color:#f58c3c}
+.done h1{color:#f58c3c}
+</style></head><body><div class="w" id="w">
+<div class="top"><p>Ilang araw na lang para ma-avail ang</p><h1>30-DAY FREE TRIAL!</h1></div>
+<div class="sub">Pinoy BnB app · para sa resort, staycation at transient owners</div>
+<div class="t" id="t">
+<div class="b"><div class="n" id="dd">00</div><div class="l">DAYS</div></div><div class="c">:</div>
+<div class="b"><div class="n" id="hh">00</div><div class="l">HOURS</div></div><div class="c">:</div>
+<div class="b"><div class="n" id="mm">00</div><div class="l">MINUTES</div></div><div class="c">:</div>
+<div class="b"><div class="n" id="ss">00</div><div class="l">SECONDS</div></div></div>
+<div class="d" id="dl">Hanggang NOV 30, 2026 · 11:59 PM lang!</div>
+<div class="o">Unang 30 owners: <b>₱149/month</b> sa unang 12 months pagkatapos ng trial · hanggang 10 units</div>
+<div class="o">I-message kami at i-type ang <b style="color:#d4af5a">"TRIAL"</b></div>
+<a class="cta" href="../">Tingnan ang Pinoy BnB app →</a>
+</div>
+<script>
+var END=Date.parse("2026-11-30T23:59:59+08:00");
+function z(n){return(n<10?"0":"")+n}
+function tick(){var r=Math.max(0,Math.floor((END-Date.now())/1000));
+document.getElementById("dd").textContent=z(Math.floor(r/86400));document.getElementById("hh").textContent=z(Math.floor(r%86400/3600));
+document.getElementById("mm").textContent=z(Math.floor(r%3600/60));document.getElementById("ss").textContent=z(r%60);
+document.getElementById("t").className="t"+(r<3*86400?" hot":"");
+if(r===0){document.getElementById("dl").textContent="Tapos na ang promo. I-message kami para sa susunod na offer.";}}
+tick();setInterval(tick,1000);
+</script></body></html>
