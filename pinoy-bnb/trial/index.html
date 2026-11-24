@@ -20,9 +20,10 @@ background:radial-gradient(ellipse at center,#1e5a5a 0%,#0c3440 45%,#08202a 100%
 @keyframes p{50%{opacity:.75}}
 .o{font-size:clamp(14px,2.2vw,22px);margin:6px 0}
 a.cta{display:inline-block;margin-top:16px;background:#3c82ff;color:#fff;text-decoration:none;font-weight:900;border-radius:40px;padding:14px 30px;font-size:clamp(16px,2.6vw,26px)}
+.snd{position:fixed;top:14px;right:14px;background:#12464e;color:#f6eedc;border:2px solid #d4af5a;border-radius:30px;padding:10px 16px;font:700 15px Inter,system-ui,sans-serif;cursor:pointer;z-index:9}
 .hot .b{border-color:#f58c3c}.hot .c{color:#f58c3c}
 .done h1{color:#f58c3c}
-</style></head><body><div class="w" id="w">
+</style></head><body><button class="snd" id="snd">🔇 Tap for sound</button><div class="w" id="w">
 <div class="top"><p>Ilang araw na lang para ma-avail ang</p><h1>30-DAY FREE TRIAL!</h1></div>
 <div class="sub">Pinoy BnB app · para sa resort, staycation at transient owners</div>
 <div class="t" id="t">
@@ -43,5 +44,13 @@ document.getElementById("dd").textContent=z(Math.floor(r/86400));document.getEle
 document.getElementById("mm").textContent=z(Math.floor(r%3600/60));document.getElementById("ss").textContent=z(r%60);
 document.getElementById("t").className="t"+(r<3*86400?" hot":"");
 if(r===0){document.getElementById("dl").textContent="Tapos na ang promo. I-message kami para sa susunod na offer.";}}
-tick();setInterval(tick,1000);
+var ac=null,on=false,last=-1;
+function click(hi){if(!on||!ac)return;var t=ac.currentTime,o=ac.createOscillator(),g=ac.createGain(),f=ac.createBiquadFilter();
+o.type="square";o.frequency.value=hi?1900:1400;f.type="highpass";f.frequency.value=900;
+g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.35,t+0.002);g.gain.exponentialRampToValueAtTime(0.0001,t+0.045);
+o.connect(f);f.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+0.06);}
+document.getElementById("snd").onclick=function(){if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();ac.resume();on=!on;
+this.textContent=on?"🔊 Sound on":"🔇 Tap for sound";};
+var tick0=tick;tick=function(){tick0();var r=Math.max(0,Math.floor((END-Date.now())/1000));if(r!==last){last=r;if(r>0)click(r%2===0);}};
+tick();setInterval(tick,250);
 </script></body></html>
