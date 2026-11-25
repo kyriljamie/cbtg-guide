@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Your order · Pinoy BnB Studio</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0F5C5A">
+<link rel="icon" href="../favicon-48.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="studio.css">
+</head>
+<body>
+<main class="wrap" id="app" aria-live="polite" style="padding-bottom:48px"><p class="hint">Loading your order…</p></main>
+<input type="file" id="pickReceipt" accept="image/*,application/pdf" class="vis" tabindex="-1" aria-hidden="true">
+<script src="studio.js"></script>
+<script>
+const q = new URLSearchParams(location.search), ID = q.get('o') || '', TOKEN = q.get('t') || '';
+const S = { o: null, err: '', msg: '', busy: false, change: false, note: '' };
+const $ = (id) => document.getElementById(id);
+const CHECK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>';
+
+async function load() {
+  if (!ID || !TOKEN) { S.err = 'This link is incomplete. Please use the full link we gave you.'; return render(); }
+  try { const r = await rpc('studio_status', { p_id: ID, p_token: TOKEN }); if (r.error) S.err = r.error; else { S.o = r; S.err = ''; } }
+  catch (e) { S.err = 'Could not load your order. Check your signal and reload.'; }
+  render();
+}
+
+function timeline(o) {
+  const downOk = o.paid >= o.down, order = ['new', 'editing', 'preview', 'changes', 'approved', 'done'];
+  const at = order.indexOf(o.status);
+  const steps = [
+    ['Order received', `${o.files} file${o.files === 1 ? '' : 's'} uploaded`, true],
+    ['Down payment confirmed', downOk ? `${peso(o.paid)} received` : o.receipts ? 'Receipt sent, we are checking it' : `Pay ${peso(o.down)} to start`, downOk],
+    ['Editing your video', 'Usually 2–3 days', at >= order.indexOf('preview')],
+    [o.status === 'changes' ? 'Making your changes' : 'Preview ready', o.status === 'changes' ? 'We will post the new preview soon' : 'Watch it, then approve or ask for 1 change', at >= order.indexOf('approved')],
+    ['Final video & caption', o.final ? 'Ready to download' : 'After the balance is paid', o.status === 'done' || !!o.final],
+  ];
+  const now = steps.findIndex((s) => !s[2]);
+  return `<div class="tl">${steps.map((s, i) => `<div class="st ${s[2] ? 'done' : i === now ? 'now' : ''}"><div style="display:flex;flex-direction:column"><div class="dot">${s[2] ? CHECK : ''}</div>${i < steps.length - 1 ? '<div class="ln"></div>' : ''}</div><div><div class="t" style="${!s[2] && i !== now ? 'color:var(--muted)' : ''}">${esc(s[0])}</div><div class="d">${esc(s[1])}</div></div></div>`).join('')}</div>`;
+}
+
+function payCard(o, amount, label) {
+  return `<div class="card"><div class="row"><b>${esc(label)}</b><span class="price" style="font-size:18px">${peso(amount)}</span></div>
+    <div class="pay"><img src="${PAY.img}" alt="${esc(PAY.label)} QR code"><div style="font-size:14px"><b>${esc(PAY.label)}</b><br>${esc(PAY.name)}<br><span class="hint">${esc(PAY.acct)}</span></div></div>
+    <button type="button" class="btn" data-act="receipt" ${S.busy ? 'disabled' : ''}>${S.busy ? 'Uploading…' : 'Upload payment receipt'}</button>
+    ${o.receipts ? `<p class="hint">${o.receipts} receipt${o.receipts === 1 ? '' : 's'} sent. We'll confirm soon.</p>` : ''}</div>`;
+}
+
+function render() {
+  const head = `<div class="top"><span class="brand">${LOGO_SVG}Pinoy BnB Studio</span></div>`;
+  if (!S.o) { $('app').innerHTML = head + (S.err ? `<div class="msg err" role="alert">${esc(S.err)}</div>` : '<p class="hint">Loading your order…</p>'); return; }
+  const o = S.o, pk = PACKAGES[o.package] || { name: o.package };
+  const title = { new: o.paid >= o.down ? 'Payment received, editing starts soon' : 'Order received', editing: "We're editing your video", preview: 'Your preview is ready!', changes: "We're making your changes", approved: o.paid >= o.total ? 'Approved, final video coming up' : 'Approved! Pay the balance to download', done: 'Your video is ready', cancelled: 'This order was cancelled' }[o.status] || 'Your order';
+  let body = '';
+  if (o.status === 'cancelled') body += `<div class="msg err">Questions? Text ${esc(CONTACT.phone)}.</div>`;
+  else {
+    if (o.paid < o.down) body += payCard(o, o.down, `Pay ${DOWN_PCT}% down to start`);
+    if (o.preview && ['preview', 'changes', 'approved'].includes(o.status) && !o.final) {
+      body += `<div class="card"><b>Preview</b><video src="${esc(publicUrl(o.preview))}" controls playsinline preload="metadata" style="width:100%;max-height:70vh;border-radius:12px;background:#000"></video>
+        ${o.status === 'preview' ? (S.change
+          ? `<div class="field"><label for="note">What should we change?</label><textarea class="inp" id="note" maxlength="1000" placeholder="e.g. Use the pool photo first, change the price to ₱7,999">${esc(S.note)}</textarea></div>
+             <div style="display:flex;gap:10px"><button type="button" class="btn" data-act="sendchange" ${S.busy ? 'disabled' : ''}>Send my changes</button><button type="button" class="btn alt" data-act="cancelchange">Back</button></div>`
+          : `<div class="grid2"><button type="button" class="btn" data-act="approve" ${S.busy ? 'disabled' : ''}>Approve</button><button type="button" class="btn alt" data-act="change">Request a change</button></div><p class="hint">Your package has 1 free change. More changes are ${peso(300)} each.</p>`) : ''}</div>`;
+    }
+    if (o.status === 'approved' && o.paid < o.total) body += payCard(o, o.total - o.paid, 'Pay the balance');
+    if (o.final) {
+      body += `<div class="card"><b>Final video</b><video src="${esc(publicUrl(o.final))}" controls playsinline preload="metadata" style="width:100%;max-height:70vh;border-radius:12px;background:#000"></video>
+        <a class="btn" href="${esc(publicUrl(o.final))}?download=${esc(o.ref)}.mp4">Download the video</a></div>`;
+      if (o.delivery) body += `<div class="card"><b>Caption, hashtags &amp; FAQ</b><pre class="brief" id="dl">${esc(o.delivery)}</pre><button type="button" class="btn alt" data-copytxt="1">Copy all</button></div>`;
+    }
+  }
+  if (o.adminNote) body += `<div class="card"><b>Note from us</b><p style="margin:0;white-space:pre-wrap">${esc(o.adminNote)}</p></div>`;
+  $('app').innerHTML = `${head}
+    <div class="hero"><span class="eyebrow">Order ${esc(o.ref)} · ${esc(pk.name)}</span><h1>${esc(title)}</h1><p>${esc(o.resort || '')}</p></div>
+    ${S.msg ? `<div class="msg ok" role="status">${esc(S.msg)}</div>` : ''}${S.err ? `<div class="msg err" role="alert">${esc(S.err)}</div>` : ''}
+    ${body}
+    <div class="card">${timeline(o)}</div>
+    <div class="card"><div class="sr"><span>Total</span><span>${peso(o.total)}</span></div><div class="sr"><span>Paid</span><span>${peso(o.paid)}</span></div><div class="sr"><span>Balance</span><span class="price">${peso(Math.max(0, o.total - o.paid))}</span></div></div>
+    <p class="hint">Keep this page's link. Questions? Text ${esc(CONTACT.phone)} or <a href="${CONTACT.messenger}" target="_blank" rel="noopener">message us on Messenger</a>.</p>`;
+}
+
+async function owner(action, extra = {}) {
+  S.busy = true; S.err = ''; S.msg = ''; render();
+  try {
+    const r = await rpc('studio_owner', { p_id: ID, p_token: TOKEN, p_action: action, p_note: extra.note || null, p_receipt: extra.receipt || null });
+    if (r.error) S.err = r.error; else { S.msg = extra.done || 'Saved.'; S.change = false; S.note = ''; }
+  } catch (e) { S.err = e.message; }
+  S.busy = false; await load();
+}
+
+document.addEventListener('input', (e) => { if (e.target.id === 'note') S.note = e.target.value; });
+document.addEventListener('click', async (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.copytxt) { const ok = await copyText(S.o.delivery || ''); b.textContent = ok ? 'Copied ✓' : 'Copy failed'; return; }
+  const a = b.dataset.act;
+  if (a === 'receipt') $('pickReceipt').click();
+  if (a === 'change') { S.change = true; render(); }
+  if (a === 'cancelchange') { S.change = false; render(); }
+  if (a === 'approve') owner('approve', { done: 'Approved! Salamat.' });
+  if (a === 'sendchange') owner('changes', { note: S.note, done: "Got it. We'll post the new preview soon." });
+});
+$('pickReceipt').addEventListener('change', async (e) => {
+  const f = e.target.files[0]; e.target.value = ''; if (!f || !S.o) return;
+  if (f.size > MAX_MB * 1024 * 1024) { S.err = 'That file is too big.'; return render(); }
+  S.busy = true; render();
+  try {
+    const path = `o/${S.o.uploadKey}/receipt-${safeName(f.name)}`;
+    await uploadFile(path, f);
+    await owner('receipt', { receipt: { path, name: f.name, type: fileType(f), size: f.size }, done: "Receipt sent. We'll confirm soon." });
+  } catch (err) { S.busy = false; S.err = err.message; render(); }
+});
+load();
+</script>
+</body>
+</html>

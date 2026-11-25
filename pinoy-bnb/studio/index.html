@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pinoy BnB Studio · Video ads for resorts</title>
+<meta name="description" content="Upload your resort photos and videos. We make the reel that books your dates: video, voiceover, caption and hashtags.">
+<meta property="og:title" content="Pinoy BnB Studio · Video ads for resorts">
+<meta property="og:description" content="Upload your photos. We make the reel that books your dates. From ₱999.">
+<meta name="theme-color" content="#0F5C5A">
+<link rel="icon" href="../favicon-48.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="studio.css">
+</head>
+<body>
+<main class="wrap" id="app" aria-live="polite"></main>
+<div class="foot" id="foot"></div>
+<input type="file" id="pick" accept="image/*,video/*" multiple class="vis" tabindex="-1" aria-hidden="true">
+<input type="file" id="pickLogo" accept="image/*" class="vis" tabindex="-1" aria-hidden="true">
+<input type="file" id="pickReceipt" accept="image/*,application/pdf" class="vis" tabindex="-1" aria-hidden="true">
+<script src="studio.js"></script>
+<script>
+const DRAFT = 'pinoy-studio-draft';
+const S = {
+  step: 1, err: '', busy: false, sending: null, done: null,
+  f: { resort: '', town: '', fb: '', owner: '', mobile: '', love: '', goal: '', guests: [], format: 'reels', length: '15',
+       feel: '', voice: 'taglish', gender: 'female', headline: '', price: '', until: '', cta: CTAS[0], useLogo: false,
+       drive: '', notes: '', package: 'full', addons: [], rights: false },
+  files: [], logo: null, receipt: null,
+};
+try { Object.assign(S.f, JSON.parse(localStorage.getItem(DRAFT) || '{}'), { rights: false }); } catch (e) { /* storage blocked */ }
+const saveDraft = () => { try { const { rights, ...rest } = S.f; localStorage.setItem(DRAFT, JSON.stringify(rest)); } catch (e) { /* ignore */ } };
+const $ = (id) => document.getElementById(id);
+
+const pressed = (on) => `aria-pressed="${on ? 'true' : 'false'}"`;
+const field = (k, label, ph, type = 'text', extra = '') =>
+  `<div class="field"><label for="f-${k}">${label}</label><input class="inp" id="f-${k}" data-k="${k}" type="${type}" value="${esc(S.f[k])}" placeholder="${esc(ph)}" ${extra}></div>`;
+const totalNow = () => (PACKAGES[S.f.package]?.price || 0) + S.f.addons.reduce((a, k) => a + (ADDONS[k]?.price || 0), 0);
+
+function head(n) {
+  return `<div class="top">${n > 1 ? `<button class="btn alt sm" data-go="${n - 1}" aria-label="Back" style="border:0;background:none;padding:0 6px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1B1A17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></button>` : `<span class="brand">${LOGO_SVG}Pinoy BnB Studio</span>`}
+    <span class="step">Step ${n} of 5</span></div><div class="bar" role="progressbar" aria-valuemin="1" aria-valuemax="5" aria-valuenow="${n}"><i style="width:${n * 20}%"></i></div>`;
+}
+
+const STEPS = {
+  1: () => `${head(1)}
+    <div class="hero"><span class="eyebrow">Video ads for resorts</span>
+      <h1>Upload your photos. We make the reel that books your dates.</h1>
+      <p>Ready in 2–3 days, with caption, hashtags and voiceover. From ${peso(999)}. Only ${DOWN_PCT}% down to start.</p></div>
+    <h2>About your resort</h2>
+    ${field('resort', 'Resort name', 'e.g. Villa Azul Private Resort', 'text', 'autocomplete="organization" maxlength="100"')}
+    ${field('town', 'Town / province', 'e.g. Lucban, Quezon', 'text', 'maxlength="80"')}
+    ${field('fb', 'Facebook page or website (optional)', 'facebook.com/yourresort', 'text', 'maxlength="200"')}
+    <div class="grid2">${field('owner', 'Your name', 'Juan Dela Cruz', 'text', 'autocomplete="name" maxlength="80"')}${field('mobile', 'Mobile / Viber', '0917 123 4567', 'tel', 'autocomplete="tel" inputmode="tel" maxlength="20"')}</div>
+    <div class="field"><label for="f-love">What guests love most (optional)</label><textarea class="inp" id="f-love" data-k="love" maxlength="400" placeholder="Infinity pool, mountain view, near the beach…">${esc(S.f.love)}</textarea></div>`,
+  2: () => `${head(2)}
+    <div><h1>What should this ad do?</h1><p class="lede">Pick one main goal. It decides the hook, the text and the call to action.</p></div>
+    <div class="grid2">${Object.entries(GOALS).map(([k, [t, d]]) => `<button type="button" class="opt" data-pick="goal" data-v="${k}" ${pressed(S.f.goal === k)}><b>${esc(t)}</b><span>${esc(d)}</span></button>`).join('')}</div>
+    <h2>Who are you inviting?</h2>
+    <div class="chips">${GUESTS.map((g) => `<button type="button" class="chip" data-multi="guests" data-v="${esc(g)}" ${pressed(S.f.guests.includes(g))}>${esc(g)}</button>`).join('')}</div>
+    <h2>Where will it run?</h2>
+    <div class="chips">${Object.entries(FORMATS).map(([k, t]) => `<button type="button" class="chip" data-pick="format" data-v="${k}" ${pressed(S.f.format === k)}>${esc(t)}</button>`).join('')}</div>
+    <h2>How long?</h2>
+    <div class="grid3">${['15', '30'].map((l) => `<button type="button" class="chip" data-pick="length" data-v="${l}" ${pressed(S.f.length === l)}>${l} sec</button>`).join('')}</div>
+    <p class="hint">15 seconds works best for ads. 30 seconds for a fuller tour (Full Ad and Monthly Pack).</p>`,
+  3: () => {
+    const photos = S.files.filter((x) => x.kind === 'photo').length, vids = S.files.length - photos;
+    return `${head(3)}
+    <div><h1>Send your best shots</h1><p class="lede">Up to 40 photos and 10 videos, ${MAX_MB} MB each. Vertical phone videos are perfect.</p></div>
+    <button type="button" class="drop" data-act="pick"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#0F5C5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4"></path><path d="m7 9 5-5 5 5"></path><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"></path></svg>
+      <b>Tap to add photos &amp; videos</b><span class="hint">From your gallery or camera</span></button>
+    ${S.files.length ? `<div class="row"><b>${photos} photo${photos === 1 ? '' : 's'} · ${vids} video${vids === 1 ? '' : 's'}</b><span class="hint">Tap ✕ to remove</span></div>
+    <div class="thumbs">${S.files.map((x, i) => `<div class="thumb">${x.kind === 'photo' ? `<img src="${x.url}" alt="Photo ${i + 1}">` : `<video src="${x.url}#t=0.5" muted playsinline preload="metadata" aria-label="Video ${i + 1}"></video>`}<span class="tag">${x.kind === 'photo' ? 'Photo' : '▶ Video'}</span><button type="button" class="x" data-rm="${i}" aria-label="Remove file ${i + 1}">✕</button></div>`).join('')}</div>` : ''}
+    <div class="card"><h2 style="margin:0">Checklist for a great ad</h2>
+      <div class="hint" style="font-size:14px;line-height:1.7">✓ Pool or main view, day and night<br>✓ Bedrooms and bathroom<br>✓ Amenities: karaoke, grill, games<br>✓ A walk-through or drone video, if you have one</div></div>
+    ${field('drive', 'Files too big? Paste a Google Drive link (optional)', 'https://drive.google.com/…', 'url', 'maxlength="300"')}
+    <label class="check"><input type="checkbox" data-k="rights" ${S.f.rights ? 'checked' : ''}>I own these photos and videos, or I have permission to use them in ads.</label>`;
+  },
+  4: () => `${head(4)}
+    <h1>How should it feel?</h1>
+    <div class="grid2">${Object.entries(FEELS).map(([k, [t, d]]) => `<button type="button" class="opt" data-pick="feel" data-v="${k}" ${pressed(S.f.feel === k)}><b>${esc(t)}</b><span>${esc(d)}</span></button>`).join('')}</div>
+    <h2>Voiceover</h2><p class="hint" style="margin-top:-8px">Included in the Full Ad and Monthly Pack.</p>
+    <div class="chips">${Object.entries(VOICES).map(([k, t]) => `<button type="button" class="chip" data-pick="voice" data-v="${k}" ${pressed(S.f.voice === k)}>${esc(t)}</button>`).join('')}</div>
+    ${S.f.voice !== 'none' ? `<div class="chips">${['female', 'male'].map((g) => `<button type="button" class="chip" data-pick="gender" data-v="${g}" ${pressed(S.f.gender === g)}>${g === 'female' ? 'Female voice' : 'Male voice'}</button>`).join('')}</div>` : ''}
+    <h2>Text on the video</h2>
+    ${field('headline', 'Main offer or headline', 'e.g. 30% OFF this weekend', 'text', 'maxlength="80"')}
+    <div class="grid2">${field('price', 'Price to show (optional)', '₱8,500 / night', 'text', 'maxlength="40"')}${field('until', 'Valid until (optional)', 'Dec 15', 'text', 'maxlength="40"')}</div>
+    <div class="field"><label for="f-cta">Call to action</label><select class="inp" id="f-cta" data-k="cta">${CTAS.map((c) => `<option ${S.f.cta === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select></div>
+    <div class="card"><label class="check"><input type="checkbox" data-k="useLogo" ${S.f.useLogo ? 'checked' : ''}>Add my logo</label>
+      ${S.f.useLogo ? `<button type="button" class="btn alt sm" data-act="logo">${S.logo ? 'Logo added ✓ (tap to change)' : 'Upload logo'}</button>` : ''}</div>
+    <div class="field"><label for="f-notes">Anything else? (optional)</label><textarea class="inp" id="f-notes" data-k="notes" maxlength="600" placeholder="Music you like, things to avoid, dates to promote…">${esc(S.f.notes)}</textarea></div>`,
+  5: () => {
+    const t = totalNow(), d = downOf(t);
+    return `${head(5)}
+    <h1>Pick your package</h1>
+    ${Object.entries(PACKAGES).map(([k, p]) => `<button type="button" class="opt" data-pick="package" data-v="${k}" ${pressed(S.f.package === k)}>${k === 'full' ? '<span class="badge">Most picked</span>' : ''}<span class="row" style="font-size:15px;color:var(--ink)"><b style="font-size:15px">${p.name}</b><span class="price">${peso(p.price)}${p.per || ''}</span></span><span>${esc(p.desc)}</span></button>`).join('')}
+    <div class="card"><b>Add-ons</b>${Object.entries(ADDONS).map(([k, a]) => `<label class="check"><input type="checkbox" data-addon="${k}" ${S.f.addons.includes(k) ? 'checked' : ''}>${esc(a.name)} <span class="price" style="margin-left:auto">+${peso(a.price)}</span></label>`).join('')}</div>
+    ${S.f.package === 'quick' && S.f.voice !== 'none' ? '<div class="msg err" style="background:#FFF4E5;color:#7A4100">The Quick Reel has music only, no voiceover. Pick the Full Ad if you want the voice.</div>' : ''}
+    <div class="card">
+      <div class="sr"><span>Resort</span><span>${esc(S.f.resort)}${S.f.town ? ', ' + esc(S.f.town) : ''}</span></div>
+      <div class="sr"><span>Goal</span><span>${esc(GOALS[S.f.goal]?.[0] || '')}</span></div>
+      <div class="sr"><span>Format</span><span>${esc(FORMATS[S.f.format])} · ${S.f.package === 'quick' ? '15' : esc(S.f.length)} sec</span></div>
+      <div class="sr"><span>Files</span><span>${S.files.length} file${S.files.length === 1 ? '' : 's'}${S.f.drive ? ' + Drive link' : ''}</span></div>
+      <div class="sr"><span>Total</span><span class="price">${peso(t)}</span></div>
+      <div class="sr"><span><b style="color:var(--ink)">${DOWN_PCT}% down to start</b></span><span class="price" style="font-size:18px">${peso(d)}</span></div>
+      <p class="hint">The balance of ${peso(t - d)} is due when you approve the final video.</p></div>
+    <div class="card"><b>Pay the ${peso(d)} down payment</b>
+      <div class="pay"><img src="${PAY.img}" alt="${esc(PAY.label)} QR code"><div style="font-size:14px"><b>${esc(PAY.label)}</b><br>${esc(PAY.name)}<br><span class="hint">${esc(PAY.acct)}. Scan the QR in your bank app.</span></div></div>
+      <button type="button" class="btn alt sm" data-act="receipt">${S.receipt ? 'Receipt added ✓ (tap to change)' : 'Upload payment receipt'}</button>
+      <p class="hint">No receipt yet? You can send your order now and add the receipt later on your order page. We start once it's paid.</p></div>`;
+  },
+};
+
+function viewSending() {
+  const s = S.sending;
+  return `<div class="top"><span class="brand">${LOGO_SVG}Pinoy BnB Studio</span></div>
+    <h1>Sending your order…</h1><p class="lede">Please keep this page open until it's done.</p>
+    <div class="card"><div class="row"><b>${esc(s.label)}</b><span class="hint">${Math.round(s.pct * 100)}%</span></div><div class="prog"><i style="width:${Math.round(s.pct * 100)}%"></i></div></div>
+    ${S.err ? `<div class="msg err" role="alert">${esc(S.err)}</div><button type="button" class="btn" data-act="send">Try again</button>` : ''}`;
+}
+function viewDone() {
+  const d = S.done, link = new URL(`order.html?o=${d.id}&t=${d.token}`, location.href).href;
+  return `<div class="top"><span class="brand">${LOGO_SVG}Pinoy BnB Studio</span></div>
+    <div class="hero"><span class="eyebrow">Order ${esc(d.ref)}</span><h1>Salamat! We got your order.</h1>
+      <p>${S.receipt ? "We'll check your payment and start editing. Expect your preview in 2–3 days." : `Pay the ${peso(d.down)} down payment and upload the receipt on your order page so we can start.`}</p></div>
+    <div class="card"><b>Your order page</b><p class="hint" style="font-size:14px">Save this link. You'll see your preview here, approve it, and download the final video.</p>
+      <a class="btn" href="${esc(link)}">Open my order page</a>
+      <button type="button" class="btn alt" data-copy="${esc(link)}">Copy link</button></div>
+    <p class="hint">Questions? Text ${esc(CONTACT.phone)} or <a href="${CONTACT.messenger}" target="_blank" rel="noopener">message us on Messenger</a>.</p>`;
+}
+
+function render() {
+  if (S.done) { $('app').innerHTML = viewDone(); $('foot').innerHTML = ''; return; }
+  if (S.sending) { $('app').innerHTML = viewSending(); $('foot').innerHTML = ''; return; }
+  $('app').innerHTML = STEPS[S.step]() + (S.err ? `<div class="msg err" role="alert">${esc(S.err)}</div>` : '');
+  const next = { 1: 'Next: choose your goal', 2: 'Next: upload photos & videos', 3: 'Next: style & voiceover', 4: 'Next: choose a package', 5: 'Send my order' }[S.step];
+  $('foot').innerHTML = `<div><button type="button" class="btn ${S.step === 5 ? 'hot' : ''}" data-act="next">${next}</button></div>`;
+}
+
+function check(step) {
+  const f = S.f;
+  if (step === 1) {
+    if (f.resort.trim().length < 2) return 'Please type your resort name.';
+    if (f.town.trim().length < 2) return 'Please type the town or province.';
+    if (f.owner.trim().length < 2) return 'Please type your name.';
+    const dg = f.mobile.replace(/\D/g, ''); if (dg.length < 10 || dg.length > 13) return 'Please type a valid mobile number, like 0917 123 4567.';
+  }
+  if (step === 2) {
+    if (!f.goal) return 'Please pick one goal for the ad.';
+    if (!f.guests.length) return 'Who are you inviting? Pick at least one.';
+  }
+  if (step === 3) {
+    if (S.files.length < 3 && !f.drive.trim()) return 'Please add at least 3 photos or videos, or a Google Drive link.';
+    if (!f.rights) return 'Please tick the box to confirm you can use these photos and videos.';
+  }
+  if (step === 4) {
+    if (!f.feel) return 'Please pick how the ad should feel.';
+    if (f.useLogo && !S.logo) return 'Please upload your logo, or untick "Add my logo".';
+  }
+  return '';
+}
+
+function addFiles(list) {
+  let msg = '';
+  for (const file of list) {
+    const type = fileType(file), kind = type.startsWith('video/') ? 'video' : type.startsWith('image/') ? 'photo' : null;
+    if (!kind) { msg = `${file.name} is not a photo or video.`; continue; }
+    if (file.size > MAX_MB * 1024 * 1024) { msg = `${file.name} is over ${MAX_MB} MB. Paste a Google Drive link for big videos.`; continue; }
+    const count = S.files.filter((x) => x.kind === kind).length;
+    if ((kind === 'photo' && count >= 40) || (kind === 'video' && count >= 10)) { msg = 'That is the most files we can take here. Use a Google Drive link for the rest.'; continue; }
+    S.files.push({ file, kind, url: URL.createObjectURL(file) });
+  }
+  S.err = msg; render();
+}
+
+async function send() {
+  S.err = ''; S.sending = S.sending || { label: 'Starting…', pct: 0, order: null, uploaded: {} }; render();
+  try {
+    const s = S.sending, f = S.f;
+    if (!s.order) {
+      const data = { ...f, length: f.package === 'quick' ? '15' : f.length, voice: f.package === 'quick' ? 'none' : f.voice };
+      delete data.rights;
+      const r = await rpc('studio_create', { p_data: data });
+      if (r.error) { S.sending = null; S.err = r.error; return render(); }
+      s.order = r;
+    }
+    const jobs = [...S.files.map((x) => ({ file: x.file, kind: x.kind })), ...(S.logo ? [{ file: S.logo, kind: 'logo' }] : []), ...(S.receipt ? [{ file: S.receipt, kind: 'receipt' }] : [])];
+    const totalBytes = jobs.reduce((a, j) => a + j.file.size, 0) || 1;
+    let doneBytes = jobs.filter((j, i) => s.uploaded[i]).reduce((a, j) => a + j.file.size, 0);
+    for (let i = 0; i < jobs.length; i++) {
+      if (s.uploaded[i]) continue;
+      const j = jobs[i];
+      s.label = `Uploading ${i + 1} of ${jobs.length}…`; render();
+      const path = `o/${s.order.uploadKey}/${j.kind}-${safeName(j.file.name)}`;
+      await uploadFile(path, j.file, (p) => { s.pct = (doneBytes + p * j.file.size) / totalBytes; render(); });
+      doneBytes += j.file.size;
+      s.uploaded[i] = { path, name: j.file.name, type: fileType(j.file), size: j.file.size, kind: j.kind };
+    }
+    s.label = 'Finishing…'; s.pct = 1; render();
+    const files = jobs.map((j, i) => s.uploaded[i]).filter((x) => x.kind !== 'receipt');
+    const receipt = jobs.map((j, i) => s.uploaded[i]).find((x) => x.kind === 'receipt') || null;
+    const r2 = await rpc('studio_submit', { p_id: s.order.id, p_token: s.order.token, p_files: files, p_receipt: receipt });
+    if (r2.error) throw new Error(r2.error);
+    S.done = s.order;
+    try { const mine = JSON.parse(localStorage.getItem('pinoy-studio-orders') || '[]'); mine.unshift({ id: s.order.id, t: s.order.token, ref: s.order.ref }); localStorage.setItem('pinoy-studio-orders', JSON.stringify(mine.slice(0, 20))); localStorage.removeItem(DRAFT); } catch (e) { /* ignore */ }
+    render(); scrollTo(0, 0);
+  } catch (e) { S.err = e.message || 'Something went wrong. Please try again.'; render(); }
+}
+
+document.addEventListener('input', (e) => {
+  const k = e.target.dataset.k; if (!k) return;
+  S.f[k] = e.target.type === 'checkbox' ? e.target.checked : e.target.value; saveDraft();
+  if (k === 'useLogo') render();
+});
+document.addEventListener('change', (e) => {
+  const a = e.target.dataset.addon;
+  if (a) { S.f.addons = e.target.checked ? [...new Set([...S.f.addons, a])] : S.f.addons.filter((x) => x !== a); saveDraft(); render(); }
+});
+document.addEventListener('click', async (e) => {
+  const b = e.target.closest('button,[data-copy]'); if (!b) return;
+  if (b.dataset.pick) { S.f[b.dataset.pick] = b.dataset.v; saveDraft(); S.err = ''; render(); return; }
+  if (b.dataset.multi) { const k = b.dataset.multi, v = b.dataset.v; S.f[k] = S.f[k].includes(v) ? S.f[k].filter((x) => x !== v) : [...S.f[k], v]; saveDraft(); render(); return; }
+  if (b.dataset.rm) { const x = S.files.splice(+b.dataset.rm, 1)[0]; if (x) URL.revokeObjectURL(x.url); render(); return; }
+  if (b.dataset.go) { S.step = +b.dataset.go; S.err = ''; render(); scrollTo(0, 0); return; }
+  if (b.dataset.copy) { const ok = await copyText(b.dataset.copy); b.textContent = ok ? 'Copied ✓' : 'Copy failed: long-press the link'; return; }
+  const act = b.dataset.act;
+  if (act === 'pick') $('pick').click();
+  if (act === 'logo') $('pickLogo').click();
+  if (act === 'receipt') $('pickReceipt').click();
+  if (act === 'send') send();
+  if (act === 'next') {
+    const m = check(S.step); S.err = m;
+    if (m) { render(); return; }
+    if (S.step < 5) { S.step += 1; render(); scrollTo(0, 0); } else send();
+  }
+});
+$('pick').addEventListener('change', (e) => { addFiles([...e.target.files]); e.target.value = ''; });
+$('pickLogo').addEventListener('change', (e) => { const f = e.target.files[0]; if (f) { S.logo = f; render(); } e.target.value = ''; });
+$('pickReceipt').addEventListener('change', (e) => { const f = e.target.files[0]; if (f) { if (f.size > MAX_MB * 1024 * 1024) S.err = 'That file is too big.'; else S.receipt = f; render(); } e.target.value = ''; });
+render();
+</script>
+</body>
+</html>

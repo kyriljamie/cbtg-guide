@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Studio orders · Pinoy BnB Studio</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0F5C5A">
+<link rel="icon" href="../favicon-48.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="studio.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+<main class="wrap" id="app" aria-live="polite" style="padding-bottom:48px"></main>
+<input type="file" id="pickVideo" accept="video/*" class="vis" tabindex="-1" aria-hidden="true">
+<script src="studio.js"></script>
+<script>
+const KEY = 'pinoy-studio-admin';
+const S = { pass: '', orders: null, open: null, filter: 'active', err: '', msg: '', busy: '', zip: null, uploadFor: null };
+try { S.pass = localStorage.getItem(KEY) || sessionStorage.getItem(KEY) || ''; } catch (e) { /* storage blocked */ }
+const $ = (id) => document.getElementById(id);
+const STATUS = { new: ['New', '#C2561B'], editing: ['Editing', '#0F5C5A'], preview: ['Preview sent', '#5B4BB0'], changes: ['Changes asked', '#C2561B'], approved: ['Approved', '#2E7D4F'], done: ['Done', '#5E574D'], cancelled: ['Cancelled', '#5E574D'] };
+const pill = (s) => `<span style="font-size:12px;font-weight:700;color:#fff;background:${(STATUS[s] || ['', '#5E574D'])[1]};border-radius:10px;padding:3px 10px;white-space:nowrap">${esc((STATUS[s] || [s])[0])}</span>`;
+const when = (iso) => new Date(iso).toLocaleString('en-PH', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+const ownerLink = (o) => new URL(`order.html?o=${o.id}&t=${o.token}`, location.href).href;
+
+async function load() {
+  S.err = '';
+  try { const r = await rpc('studio_admin_list', { p_pass: S.pass }); if (r.error) { S.err = r.error; S.orders = null; } else S.orders = r.orders; }
+  catch (e) { S.err = e.message; }
+  render();
+}
+async function update(o, patch, done) {
+  S.busy = 'save'; S.err = ''; S.msg = ''; render();
+  try { const r = await rpc('studio_admin_update', { p_pass: S.pass, p_id: o.id, p_patch: patch }); if (r.error) S.err = r.error; else S.msg = done || 'Saved.'; }
+  catch (e) { S.err = e.message; }
+  S.busy = ''; await load();
+}
+
+function brief(o) {
+  const d = o.data || {}, files = o.files || [];
+  const photos = files.filter((f) => f.kind === 'photo').length, vids = files.filter((f) => f.kind === 'video').length, logo = files.find((f) => f.kind === 'logo');
+  const len = d.package === 'quick' ? '15' : (d.length || '15');
+  const lines = [
+    `VIDEO AD BRIEF · ${o.ref} · ${(PACKAGES[d.package] || {}).name || d.package}`,
+    `Resort: ${d.resort}${d.town ? ', ' + d.town : ''}`,
+    d.fb ? `FB / website: ${d.fb}` : '',
+    `Owner: ${d.owner} · ${d.mobile}`,
+    `Goal: ${(GOALS[d.goal] || [d.goal])[0]}${GOALS[d.goal] ? ' (' + GOALS[d.goal][1] + ')' : ''}`,
+    `Guests: ${(d.guests || []).join(', ')}`,
+    `Format: ${FORMATS[d.format] || d.format}, ${len} sec`,
+    `Feel: ${(FEELS[d.feel] || [d.feel])[0]}`,
+    `Voiceover: ${d.voice === 'none' || !d.voice ? 'None, music only' : `${VOICES[d.voice]}, ${d.gender} voice (ElevenLabs)`}`,
+    d.headline ? `On-screen text: ${d.headline}` : '',
+    d.price || d.until ? `Price: ${d.price || '-'} · Valid until: ${d.until || '-'}` : '',
+    `Call to action: ${d.cta}`,
+    `Logo: ${logo ? 'yes (in the ZIP: ' + logo.name + ')' : 'no'}`,
+    d.love ? `Guests love: ${d.love}` : '',
+    d.notes ? `Notes: ${d.notes}` : '',
+    (d.addons || []).length ? `Add-ons: ${d.addons.map((a) => (ADDONS[a] || { name: a }).name).join(', ')}` : '',
+    `Files: ${photos} photos, ${vids} videos (attached ZIP)${d.drive ? ' + Google Drive: ' + d.drive : ''}`,
+    o.owner_note ? `Owner's change request: ${o.owner_note}` : '',
+    '',
+    d.package === 'quick'
+      ? `Please make: the clip (${FORMATS[d.format] || '9:16'}, ${len} sec) with music, on-screen text, logo and an end card. Make a watermarked preview too.`
+      : `Please make: the clip (${FORMATS[d.format] || '9:16'}, ${len} sec), the ElevenLabs voiceover script with emotion tags timed to the clip, the FB caption + hashtags (copy-ready), and FAQ replies. Make a watermarked preview too.`,
+  ];
+  return lines.filter((l, i) => l !== '' || i === lines.length - 2).join('\n');
+}
+
+async function downloadZip(o) {
+  if (!window.JSZip) { S.err = 'The ZIP tool did not load. Reload the page.'; return render(); }
+  const files = (o.files || []);
+  if (!files.length) { S.err = 'This order has no uploaded files' + (o.data?.drive ? ' (it has a Google Drive link).' : '.'); return render(); }
+  const zip = new JSZip(); S.busy = 'zip';
+  try {
+    for (let i = 0; i < files.length; i++) {
+      S.zip = `Downloading ${i + 1} of ${files.length}…`; render();
+      const r = await fetch(publicUrl(files[i].path)); if (!r.ok) throw new Error(`Could not download ${files[i].name} (${r.status}).`);
+      zip.file(`${String(i + 1).padStart(2, '0')}-${files[i].kind}-${files[i].name.replace(/[\\/:*?"<>|]/g, '_')}`, await r.blob());
+    }
+    zip.file('BRIEF.txt', brief(o));
+    S.zip = 'Making the ZIP…'; render();
+    const blob = await zip.generateAsync({ type: 'blob', compression: 'STORE' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${o.ref}-${(o.data?.resort || 'files').replace(/[^\w]+/g, '-')}.zip`;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+    S.msg = 'ZIP downloaded. Attach it in Claude with the brief.';
+  } catch (e) { S.err = e.message; }
+  S.busy = ''; S.zip = null; render();
+}
+
+function viewLogin() {
+  return `<div class="top"><span class="brand">${LOGO_SVG}Studio orders</span></div>
+    <h1>Sign in</h1><p class="lede">Use the studio password you set in Supabase.</p>
+    ${S.err ? `<div class="msg err" role="alert">${esc(S.err)}</div>` : ''}
+    <form id="login" class="card"><div class="field"><label for="pw">Studio password</label><input class="inp" id="pw" type="password" autocomplete="current-password" required minlength="8"></div>
+      <label class="check"><input type="checkbox" id="rem" checked>Remember on this device</label>
+      <button class="btn" type="submit">Sign in</button></form>`;
+}
+
+function viewList() {
+  const list = S.orders.filter((o) => S.filter === 'all' ? true : S.filter === 'active' ? !['done', 'cancelled'].includes(o.status) : ['done', 'cancelled'].includes(o.status));
+  const counts = { active: S.orders.filter((o) => !['done', 'cancelled'].includes(o.status)).length };
+  return `<div class="top"><span class="brand">${LOGO_SVG}Studio orders</span><button type="button" class="btn alt sm" data-act="reload">Refresh</button></div>
+    ${S.err ? `<div class="msg err" role="alert">${esc(S.err)}</div>` : ''}
+    <div class="chips">${[['active', `Active (${counts.active})`], ['closed', 'Done'], ['all', 'All']].map(([k, t]) => `<button type="button" class="chip" data-filter="${k}" aria-pressed="${S.filter === k}">${t}</button>`).join('')}</div>
+    ${list.length ? list.map((o) => `<button type="button" class="opt" data-open="${o.id}">
+      <span class="row" style="color:var(--ink)"><b style="font-size:16px">${esc(o.data?.resort || '')}</b>${pill(o.status)}</span>
+      <span>${esc(o.ref)} · ${esc((PACKAGES[o.data?.package] || {}).name || '')} · ${when(o.created_at)}</span>
+      <span>Paid ${peso(o.paid)} of ${peso(o.total)}${o.receipts?.length ? ` · ${o.receipts.length} receipt${o.receipts.length === 1 ? '' : 's'}` : ''}${o.paid < o.down && o.receipts?.length ? ' · <b style="color:var(--orange)">check payment</b>' : ''}</span></button>`).join('')
+      : '<p class="hint">No orders here yet.</p>'}
+    <p class="hint"><a href="#" data-act="logout">Sign out</a></p>`;
+}
+
+function viewOrder(o) {
+  const d = o.data || {}, files = o.files || [];
+  const media = files.filter((f) => f.kind !== 'receipt');
+  return `<div class="top"><button type="button" class="btn alt sm" data-act="back">← Orders</button>${pill(o.status)}</div>
+    <div><h1>${esc(o.ref)} · ${esc(d.resort)}</h1><p class="lede">${esc(d.owner)} · <a href="tel:${esc(d.mobile)}">${esc(d.mobile)}</a> · ${when(o.created_at)}</p></div>
+    ${S.msg ? `<div class="msg ok" role="status">${esc(S.msg)}</div>` : ''}${S.err ? `<div class="msg err" role="alert">${esc(S.err)}</div>` : ''}
+    ${o.owner_note ? `<div class="card" style="border-color:var(--orange)"><b>Owner's note</b><p style="margin:0;white-space:pre-wrap">${esc(o.owner_note)}</p></div>` : ''}
+    <button type="button" class="btn" data-act="brief">Copy brief for Claude</button>
+    <button type="button" class="btn alt" data-act="zip" ${S.busy ? 'disabled' : ''} style="flex:none">${S.zip ? esc(S.zip) : `Download all files (ZIP, ${media.length} file${media.length === 1 ? '' : 's'})`}</button>
+    ${d.drive ? `<a class="btn alt" style="flex:none" href="${esc(d.drive)}" target="_blank" rel="noopener">Open their Google Drive link</a>` : ''}
+    <pre class="brief">${esc(brief(o))}</pre>
+    ${media.length ? `<div class="thumbs">${media.map((f) => `<a class="thumb" href="${esc(publicUrl(f.path))}" target="_blank" rel="noopener">${f.kind === 'video' ? `<video src="${esc(publicUrl(f.path))}#t=0.5" muted playsinline preload="metadata" aria-label="${esc(f.name)}"></video>` : `<img src="${esc(publicUrl(f.path))}" alt="${esc(f.name)}" loading="lazy">`}<span class="tag">${esc(f.kind)}</span></a>`).join('')}</div>` : ''}
+
+    <div class="card"><b>Payment</b>
+      <div class="sr"><span>Total</span><span>${peso(o.total)}</span></div><div class="sr"><span>Down (${DOWN_PCT}%)</span><span>${peso(o.down)}</span></div><div class="sr"><span>Paid</span><span class="price">${peso(o.paid)}</span></div>
+      ${(o.receipts || []).map((r, i) => `<a href="${esc(publicUrl(r.path))}" target="_blank" rel="noopener">Receipt ${i + 1}${r.kind ? ' (' + esc(r.kind) + ')' : ''} · ${when(r.at)}</a>`).join('<br>') || '<p class="hint">No receipts yet.</p>'}
+      <div class="grid2"><button type="button" class="btn sm" data-paid="${o.down}">Down paid</button><button type="button" class="btn sm" data-paid="${o.total}">Fully paid</button></div></div>
+
+    <div class="card"><b>Status</b>
+      <div class="chips">${Object.keys(STATUS).map((k) => `<button type="button" class="chip" data-status="${k}" aria-pressed="${o.status === k}">${esc(STATUS[k][0])}</button>`).join('')}</div></div>
+
+    <div class="card"><b>Preview &amp; final video</b>
+      ${o.preview_path ? `<a href="${esc(publicUrl(o.preview_path))}" target="_blank" rel="noopener">Current preview</a>` : '<p class="hint">No preview yet.</p>'}
+      <button type="button" class="btn sm" data-upload="preview" ${S.busy ? 'disabled' : ''}>${S.busy === 'preview' ? 'Uploading…' : 'Upload preview (watermarked) → owner can review'}</button>
+      ${o.final_path ? `<a href="${esc(publicUrl(o.final_path))}" target="_blank" rel="noopener">Final video uploaded</a>` : ''}
+      <button type="button" class="btn sm hot" data-upload="final" ${S.busy ? 'disabled' : ''}>${S.busy === 'final' ? 'Uploading…' : 'Upload FINAL video → order done'}</button>
+      <p class="hint">The owner can download the final only when Paid = Total.</p></div>
+
+    <div class="card"><div class="field"><label for="dlv">Caption, hashtags &amp; FAQ for the owner</label><textarea class="inp" id="dlv" style="height:140px">${esc(o.delivery_text || '')}</textarea></div>
+      <div class="field"><label for="anote">Note shown on the owner's page</label><textarea class="inp" id="anote">${esc(o.admin_note || '')}</textarea></div>
+      <button type="button" class="btn sm" data-act="savetext">Save text</button></div>
+
+    <div class="card"><b>Owner's order page</b><button type="button" class="btn alt sm" data-copylink="1">Copy link to send them</button></div>`;
+}
+
+function render() {
+  if (!S.pass || (!S.orders && S.err === 'Wrong password.')) { $('app').innerHTML = viewLogin(); return; }
+  if (!S.orders) { $('app').innerHTML = `<p class="hint">Loading…</p>${S.err ? `<div class="msg err">${esc(S.err)}</div>` : ''}`; return; }
+  const o = S.open && S.orders.find((x) => x.id === S.open);
+  $('app').innerHTML = o ? viewOrder(o) : viewList();
+}
+
+document.addEventListener('submit', (e) => {
+  if (e.target.id !== 'login') return; e.preventDefault();
+  S.pass = $('pw').value; S.err = '';
+  try { (($('rem').checked) ? localStorage : sessionStorage).setItem(KEY, S.pass); } catch (er) { /* ignore */ }
+  load();
+});
+document.addEventListener('click', async (e) => {
+  const b = e.target.closest('button,a[data-act]'); if (!b) return;
+  const o = S.open && S.orders?.find((x) => x.id === S.open);
+  if (b.dataset.filter) { S.filter = b.dataset.filter; return render(); }
+  if (b.dataset.open) { S.open = b.dataset.open; S.msg = ''; S.err = ''; render(); return scrollTo(0, 0); }
+  if (b.dataset.status && o) return update(o, { status: b.dataset.status }, 'Status saved.');
+  if (b.dataset.paid && o) return update(o, { paid: +b.dataset.paid, ...(o.status === 'new' && +b.dataset.paid >= o.down ? { status: 'editing' } : {}) }, 'Payment saved.');
+  if (b.dataset.upload && o) { S.uploadFor = b.dataset.upload; return $('pickVideo').click(); }
+  if (b.dataset.copylink && o) { const ok = await copyText(ownerLink(o)); b.textContent = ok ? 'Copied ✓' : 'Copy failed'; return; }
+  const a = b.dataset.act;
+  if (a === 'logout') { e.preventDefault(); try { localStorage.removeItem(KEY); sessionStorage.removeItem(KEY); } catch (er) { /* ignore */ } S.pass = ''; S.orders = null; return render(); }
+  if (a === 'reload') return load();
+  if (a === 'back') { S.open = null; S.msg = ''; S.err = ''; return render(); }
+  if (a === 'brief' && o) { const ok = await copyText(brief(o)); b.textContent = ok ? 'Copied ✓ Paste it in Claude' : 'Copy failed: select the text below'; return; }
+  if (a === 'zip' && o) return downloadZip(o);
+  if (a === 'savetext' && o) return update(o, { delivery: $('dlv').value, note: $('anote').value }, 'Text saved.');
+});
+$('pickVideo').addEventListener('change', async (e) => {
+  const f = e.target.files[0], o = S.orders?.find((x) => x.id === S.open), kind = S.uploadFor; e.target.value = '';
+  if (!f || !o || !kind) return;
+  if (f.size > MAX_MB * 1024 * 1024) { S.err = `Over ${MAX_MB} MB. Export a smaller file.`; return render(); }
+  S.busy = kind; S.err = ''; render();
+  try {
+    const path = `o/${o.upload_key}/${kind}-${safeName(f.name)}`;
+    await uploadFile(path, f);
+    S.busy = '';
+    await update(o, kind === 'preview' ? { preview: path, status: 'preview' } : { final: path, status: 'done' }, kind === 'preview' ? 'Preview posted. Send the owner their link.' : 'Final video posted.');
+  } catch (err) { S.busy = ''; S.err = err.message; render(); }
+});
+if (S.pass) load(); else render();
+</script>
+</body>
+</html>
