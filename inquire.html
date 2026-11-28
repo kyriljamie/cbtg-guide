@@ -135,6 +135,8 @@ footer a{color:var(--soft)}
 
       <div id="g-new">
         <label><span class="lbl">How many guests</span><input type="number" id="guests" inputmode="numeric" min="1" max="24" value="8"></label>
+        <label><span class="lbl">Pets (₱500 each)</span><select id="pets"><option value="0">No pets</option><option value="1">1 pet</option><option value="2">2 pets</option><option value="3">3 pets</option><option value="4">4 pets</option><option value="5">5 pets</option></select></label>
+        <p class="fine" style="margin-top:4px">Couple rate: Charlotte for 2 guests is ₱6,500 Sun–Thu / ₱7,000 Fri–Sat.</p>
       </div>
       <div id="g-rb" hidden>
         <span class="lbl">Guests</span>
@@ -407,7 +409,7 @@ footer a{color:var(--soft)}
     var req = mode === "new"
       ? post("booking_request", { p_data: {
           option: opt, name: $("name").value.trim(), phone: $("phone").value.trim(), email: $("email").value.trim(),
-          checkIn: ci, checkOut: addDays(ci, nightsNow()), guests: Math.round(+$("guests").value), occasion: "",
+          checkIn: ci, checkOut: addDays(ci, nightsNow()), guests: Math.round(+$("guests").value), pets: +$("pets").value || 0, occasion: "",
           note: ("[Inquiry form] " + bdayNote() + $("note").value.trim()).trim() } })
       : post("rebook_request", { p_data: { no: bk.no, phone: $("rb-ph").value, checkIn: ci, guests: gRb,
           email: $("email").value.trim(), note: (bdayNote() + $("note").value.trim()).trim() }, p_save: true });
@@ -430,7 +432,7 @@ footer a{color:var(--soft)}
       $("d-msg").innerHTML = "Keep this reference. We'll text you at <b></b> to confirm your dates.";
       $("d-msg").querySelector("b").textContent = $("phone").value.trim();
       $("d-list").innerHTML = row("Cabin", esc(OPTS[opt].name)) + row("Dates", nice(ci) + " to " + nice(co) + " (" + n + (n > 1 ? " nights)" : " night)")) +
-        row("Guests", esc(Math.round(+$("guests").value))) + row("Total", peso(j.total)) + row("30% fee", peso(j.fee)) +
+        row("Guests", esc(Math.round(+$("guests").value))) + (j.couple ? row("Rate", "Couple rate") : "") + (j.petFee ? row("Pets", esc(j.pets) + " × ₱500 = " + peso(j.petFee)) : "") + row("Total", peso(j.total)) + row("30% fee", peso(j.fee)) +
         (bday ? row("Birthday add-on", esc(bday.name) + " · ₱" + esc(bday.price) + " (added to your balance)") : "");
       $("d-foot").textContent = "Not booked yet: the cabin is held only after the reservation fee is paid.";
     } else {

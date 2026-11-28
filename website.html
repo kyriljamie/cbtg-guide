@@ -696,6 +696,9 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
             <select name="occ" id="f-occ"><option value="">Just a getaway</option><option>Barkada staycation</option><option>Birthday</option><option>Family reunion</option><option>Couple's getaway</option><option>Team outing</option></select>
           </label>
           <label>Anything we should know?<textarea name="note" id="f-note" placeholder="Arrival time, celebration, questions"></textarea></label>
+          <label>Pets (₱500 each)
+            <select name="pets" id="f-pets"><option value="0">No pets</option><option value="1">1 pet</option><option value="2">2 pets</option><option value="3">3 pets</option><option value="4">4 pets</option><option value="5">5 pets</option></select>
+          </label>
           <label>Discount code (optional)<input name="code" id="f-code" maxlength="20" autocapitalize="characters" autocomplete="off" spellcheck="false"></label>
           <p class="err-msg" id="code-err" hidden></p>
           <p class="err-msg" id="req-err" hidden>Add your name and a mobile number (like 0917 123 4567) so we can text you.</p>
@@ -797,7 +800,8 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
         <button class="acc" id="a3" aria-expanded="false" aria-controls="p3"><i data-lucide="users-round" class="ico"></i><span>Guests &amp; holiday rates</span><i class="plus" aria-hidden="true"><i data-lucide="plus" class="ico" style="color:inherit;width:16px;height:16px"></i></i></button>
         <div class="acc-panel" id="p3" role="region" aria-labelledby="a3"><div><div class="acc-body">
           <p>Charlie and Charlotte are comfortable for up to 14 guests each. If you're a group of 15 and want to save, you can book just one cabin, but the sleeping area will be tight. Charlotte + Choco fits up to 20, and Charlie + Charlotte up to 24.</p>
-          <p>Each booking includes a set number of guests: 8 for Charlie, 10 for Charlotte, 12 for Charlotte + Choco, 16 for Charlie + Charlotte. Extra guests are <b>₱750 each per night</b>.</p>
+          <p>Each booking includes a set number of guests: 8 for Charlie, 10 for Charlotte, 12 for Charlotte + Choco, 16 for Charlie + Charlotte. Extra guests are <b>₱750 each per night</b>. Pets are welcome at <b>₱500 each</b> per stay.</p>
+          <p><b>Couple rate:</b> Charlotte for 2 guests is ₱6,500 Sun–Thu and ₱7,000 Fri–Sat, all year. It applies automatically when you pick Charlotte for 2.</p>
           <p><b>December 12 to January 15:</b> one cabin is ₱15,000 a night and two cabins are ₱20,000 a night (Charlie + Charlotte on Fri and Sat nights: ₱28,000 all December). Holiday dates fill up first, so book early.</p>
         </div></div></div>
       </div>
@@ -1117,7 +1121,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
   var now = new Date(), today = iso(now);
   var firstMonth = new Date(now.getFullYear(), now.getMonth(), 1), view = new Date(firstMonth);
   var MAXM = 12;
-  var opt = "c2", ci = null, co = null, guests = 2;
+  var opt = "c2", ci = null, co = null, guests = 2, pets = 0;
   var booked = {}, live = false, failed = false;
 
   function nightTaken(s) {
@@ -1171,8 +1175,11 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
 
   // Same rules as cbtg_web_quote on the server. Charlie + Charlotte: Fri and Sat nights are
   // ₱24,000 (₱28,000 in December), even in the holiday season.
+  // Couple rate (same as the server): Charlotte with 1–2 guests, ₱6,500 Sun–Thu / ₱7,000 Fri–Sat, all year.
+  function isCouple() { return opt === "c2" && guests <= 2; }
   function rateFor(o, s) {
     var w = parse(s).getDay(), fs = w === 5 || w === 6;
+    if (isCouple()) return { t: fs ? "we" : "wk", r: fs ? 7000 : 6500 };
     if (o.weFirst && fs) return { t: "we", r: s.slice(5, 7) === "12" ? o.weDec : o.we };
     var t = nightType(s); return { t: t, r: o[t] };
   }
@@ -1186,7 +1193,8 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
     q.full = q.wk + q.we + q.hol + q.extra;
     q.pct = disc.pct || 0;
     q.discount = Math.round(q.full * q.pct / 100);
-    q.total = q.full - q.discount;
+    q.pets = pets; q.petFee = pets * 500;
+    q.total = q.full - q.discount + q.petFee;
     q.fee = Math.round(q.total * 0.3);
     return q;
   }
@@ -1200,7 +1208,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
     if (!c) { drawSummary(); return; }
     var d0 = ci || today, d1 = co || addDays(d0, 1);
     fetch(API + "cbtg_quote", { method: "POST", headers: { apikey: KEY, "Content-Type": "application/json" },
-      body: JSON.stringify({ p_option: opt, p_in: d0, p_out: d1, p_guests: guests, p_code: c }) })
+      body: JSON.stringify({ p_option: opt, p_in: d0, p_out: d1, p_guests: guests, p_code: c, p_pets: pets }) })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (j) {
         if (disc.code !== c) return;
@@ -1226,7 +1234,8 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
     var L = $("lines");
     if (!(ci && co)) {
       $("s-big").textContent = peso(o.wk); $("s-per").textContent = "a night, Sun to Thu";
-      L.innerHTML = '<div class="muted"><span>Fri and Sat nights</span><span>' + peso(o.we) + "</span></div>" +
+      L.innerHTML = (opt === "c2" ? '<div class="muted"><span>Couple rate, 2 guests (Sun–Thu / Fri–Sat)</span><span>₱6,500 / ₱7,000</span></div>' : "") +
+        '<div class="muted"><span>Fri and Sat nights</span><span>' + peso(o.we) + "</span></div>" +
         (o.weDec ? '<div class="muted"><span>Fri and Sat nights in December</span><span>' + peso(o.weDec) + "</span></div>" : "") +
         '<div class="muted"><span>Holiday nights (Dec 12 to Jan 15)</span><span>' + peso(o.hol) + "</span></div>";
       $("hint").hidden = false; $("req").hidden = true;
@@ -1234,10 +1243,12 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
       return;
     }
     var q = quote(), n = nights(), r = "";
-    if (q.nwk) r += row(q.nwk, o.wk, "weeknight", q.wk);
+    if (isCouple()) r += '<div class="muted"><span>Couple rate (2 guests)</span><span></span></div>';
+    if (q.nwk) r += row(q.nwk, q.wk / q.nwk, "weeknight", q.wk);
     if (q.nwe) Object.keys(q.rwe).forEach(function (k) { r += row(q.rwe[k], +k, "Fri/Sat night", q.rwe[k] * k); });
     if (q.nhol) r += row(q.nhol, o.hol, "holiday night", q.hol);
     if (q.extraN) r += '<div><span>' + q.extraN + " extra guest" + (q.extraN > 1 ? "s" : "") + " × " + n + " night" + (n > 1 ? "s" : "") + "</span><span>" + peso(q.extra) + "</span></div>";
+    if (q.petFee) r += "<div><span>" + q.pets + " pet" + (q.pets > 1 ? "s" : "") + " × ₱500</span><span>" + peso(q.petFee) + "</span></div>";
     if (q.discount) r += '<div class="disc"><span>Discount ' + disc.code.toUpperCase() + " (" + q.pct + "%)</span><span>−" + peso(q.discount) + "</span></div>";
     r += '<div class="tot"><span>Total</span><span>' + peso(q.total) + "</span></div>";
     r += '<div class="muted"><span>Reservation fee (30%) to hold your dates</span><span>' + peso(q.fee) + "</span></div>";
@@ -1301,6 +1312,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
   }
   var form = $("req");
   $("f-code").addEventListener("change", checkCode);
+  $("f-pets").addEventListener("change", function () { pets = Math.max(0, Math.min(10, +this.value || 0)); drawSummary(); });
   function valid() {
     var ok = form.name.value.trim().length >= 2 && form.phone.value.replace(/\D/g, "").length >= 10;
     var em = form.email.value.trim(), emOk = !em || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em);
@@ -1322,7 +1334,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
     var btn = $("send"); btn.disabled = true; btn.textContent = "Sending…";
     var body = { p_data: {
       option: opt, name: form.name.value.trim(), phone: form.phone.value.trim(), email: form.email.value.trim(),
-      checkIn: ci, checkOut: co, guests: guests, occasion: form.occ.value, note: form.note.value.trim(), code: disc.pct ? disc.code : ""
+      checkIn: ci, checkOut: co, guests: guests, pets: pets, occasion: form.occ.value, note: form.note.value.trim(), code: disc.pct ? disc.code : ""
     } };
     var done = function () { sending = false; btn.disabled = false; btn.textContent = "Send booking request"; };
     var ctl = window.AbortController ? new AbortController() : null, timer = setTimeout(function () { if (ctl) ctl.abort(); }, 20000);
