@@ -30,7 +30,7 @@
   "slogan": "Private. Stylish. Yours.",
   "image": ["https://kyriljamie.github.io/cbtg-guide/img/c1-hero.jpg","https://kyriljamie.github.io/cbtg-guide/img/c2-dusk.jpg"],
   "telephone": "+63 927 446 6154",
-  "priceRange": "₱7,100 – ₱28,000 per night",
+  "priceRange": "₱10,000 – ₱28,000 per night",
   "address": {"@type": "PostalAddress","addressLocality": "Sariaya","addressRegion": "Quezon","addressCountry": "PH"},
   "checkinTime": "16:00",
   "checkoutTime": "12:00",
@@ -533,7 +533,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
         </div>
         <aside class="rate-card glass-dark rise d3" aria-label="Rates and stay times">
           <div class="row"><span>Direct rate</span><a class="rev-chip" href="#reviews"><i data-lucide="star" class="ico" style="width:14px;height:14px;fill:currentColor"></i>4.7 · 30 reviews</a></div>
-          <p class="big">₱7,100 <small>a night</small></p>
+          <p class="big">₱10,000 <small>a night</small></p>
           <dl>
             <div><dt>Check-in</dt><dd>4:00 PM</dd></div>
             <div><dt>Check-out</dt><dd>12:00 NN</dd></div>
@@ -579,7 +579,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
           <li><i data-lucide="snowflake" class="ico"></i>Air-conditioned loft</li>
         </ul>
         <div class="price-line">
-          <p class="from">Sun–Thu, Fri–Sat ₱10,400<b>₱8,000 a night</b></p>
+          <p class="from">Any night, 8 guests<b>₱12,000 a night</b></p>
           <div class="price-btns">
             <button class="btn light small" data-pick="c1">Check dates</button>
             <button class="btn champ small" data-amen="charlie">All amenities</button>
@@ -604,7 +604,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
           <li><i data-lucide="bed-double" class="ico"></i>Bedroom facing the pool</li>
         </ul>
         <div class="price-line">
-          <p class="from">Sun–Thu, Fri–Sat ₱9,200<b>₱7,100 a night</b></p>
+          <p class="from">Any night, 8 guests<b>₱10,000 a night</b></p>
           <div class="price-btns">
             <button class="btn light small" data-pick="c2">Check dates</button>
             <button class="btn champ small" data-amen="charlotte">All amenities</button>
@@ -675,7 +675,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
 
       <aside class="panel summary" aria-labelledby="sum-h">
         <h3 class="sr" id="sum-h">Your stay</h3>
-        <div class="sum-top"><span class="big" id="s-big">₱8,000</span><span class="per" id="s-per">a night, weeknights</span></div>
+        <div class="sum-top"><span class="big" id="s-big">₱10,000</span><span class="per" id="s-per">a night, weeknights</span></div>
         <div class="dates">
           <button id="s-in"><small>Check-in</small><span class="v">Add date</span></button>
           <button id="s-out"><small>Check-out</small><span class="v">Add date</span></button>
@@ -797,7 +797,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
         <button class="acc" id="a3" aria-expanded="false" aria-controls="p3"><i data-lucide="users-round" class="ico"></i><span>Guests &amp; holiday rates</span><i class="plus" aria-hidden="true"><i data-lucide="plus" class="ico" style="color:inherit;width:16px;height:16px"></i></i></button>
         <div class="acc-panel" id="p3" role="region" aria-labelledby="a3"><div><div class="acc-body">
           <p>Charlie and Charlotte are comfortable for up to 14 guests each. If you're a group of 15 and want to save, you can book just one cabin, but the sleeping area will be tight. Charlotte + Choco fits up to 20, and Charlie + Charlotte up to 24.</p>
-          <p>Each booking includes a set number of guests: 8 for one cabin, 12 for Charlotte + Choco, 16 for Charlie + Charlotte. Extra guests are <b>₱600 each per night</b>, or <b>₱750</b> for nights in December.</p>
+          <p>Each booking includes a set number of guests: 8 for one cabin, 12 for Charlotte + Choco, 16 for Charlie + Charlotte. Extra guests are <b>₱750 each per night</b>.</p>
           <p><b>December 12 to January 15:</b> one cabin is ₱15,000 a night and two cabins are ₱20,000 a night (Charlie + Charlotte on Fri and Sat nights: ₱28,000 all December). Holiday dates fill up first, so book early.</p>
         </div></div></div>
       </div>
@@ -911,7 +911,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
 </footer>
 
 <div class="bar glass" id="bar" aria-hidden="true">
-  <div><b id="bar-b">From ₱7,100 a night</b><span id="bar-s">Private pool, Sariaya</span></div>
+  <div><b id="bar-b">From ₱10,000 a night</b><span id="bar-s">Private pool, Sariaya</span></div>
   <a class="btn" href="#book" id="bar-btn" tabindex="-1">Check dates</a>
 </div>
 
@@ -1094,8 +1094,8 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
 
   /* ---------- rates ---------- */
   var OPT = {
-    c1:  { name: "Charlie (Cabin 1)", short: "Charlie", cabins: ["Cabin 1"], wk: 8000, we: 10400, hol: 15000, base: 8, max: 15, comfy: 14 },
-    c2:  { name: "Charlotte (Cabin 2)", short: "Charlotte", cabins: ["Cabin 2"], wk: 7100, we: 9200, hol: 15000, base: 8, max: 15, comfy: 14 },
+    c1:  { name: "Charlie (Cabin 1)", short: "Charlie", cabins: ["Cabin 1"], wk: 12000, we: 12000, hol: 15000, base: 8, max: 15, comfy: 14 },
+    c2:  { name: "Charlotte (Cabin 2)", short: "Charlotte", cabins: ["Cabin 2"], wk: 10000, we: 10000, hol: 15000, base: 8, max: 15, comfy: 14 },
     c12: { name: "Charlie + Charlotte (Cabins 1 and 2)", short: "Charlie + Charlotte", cabins: ["Cabin 1", "Cabin 2"], wk: 14300, we: 24000, weDec: 28000, weFirst: true, hol: 20000, base: 16, max: 24 },
     c23: { name: "Charlotte + Choco (Cabins 2 and 3)", short: "Charlotte + Choco", cabins: ["Cabin 2", "Cabin 3"], wk: 12200, we: 15200, hol: 20000, base: 12, max: 20 }
   };
@@ -1111,7 +1111,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
     if (isHolSeason(s)) return "hol";
     var w = parse(s).getDay(); return (w === 5 || w === 6) ? "we" : "wk";
   }
-  function extraRate(s) { return s.slice(5, 7) === "12" ? 750 : 600; }
+  function extraRate(s) { return 750; }
 
   /* ---------- state ---------- */
   var now = new Date(), today = iso(now);
@@ -1371,7 +1371,7 @@ dialog.am::backdrop{background:rgba(18,20,18,.6);backdrop-filter:blur(4px);-webk
     barEl.setAttribute("aria-hidden", show ? "false" : "true");
     $("bar-btn").tabIndex = show ? 0 : -1;
     if (ci && co) { $("bar-b").textContent = peso(quote().total) + " · " + nights() + (nights() > 1 ? " nights" : " night"); $("bar-s").textContent = OPT[opt].short; $("bar-btn").textContent = "Request"; }
-    else { $("bar-b").textContent = "From ₱7,100 a night"; $("bar-s").textContent = "Private pool, Sariaya"; $("bar-btn").textContent = "Check dates"; }
+    else { $("bar-b").textContent = "From ₱10,000 a night"; $("bar-s").textContent = "Private pool, Sariaya"; $("bar-btn").textContent = "Check dates"; }
   }
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(function (es) { es.forEach(function (x) { inBook = x.isIntersecting; }); bar(); }, { threshold: 0.05 }).observe($("book"));
