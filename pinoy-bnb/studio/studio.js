@@ -18,6 +18,31 @@ const ADDONS = {
   square: { name: 'Extra square 1:1 version for the FB feed', price: 300 },
   event: { name: 'Birthday / event version', price: 500 },
 };
+// Type of business → its categories, goals and customers (index.html step 1–2).
+const NATURES = {
+  stay: ['Accommodation', 'Resort, staycation, condo, Airbnb, hotel'],
+  retail: ['Retail', 'Shop, store, online seller, food products'],
+  service: ['Service', 'Restaurant, salon, clinic, events, repairs…'],
+};
+const CATEGORIES = {
+  stay: ['Private resort', 'Staycation / Airbnb', 'Condo rental', 'Hotel / inn', 'Glamping / campsite', 'Events place', 'Other'],
+  retail: ['Clothing & fashion', 'Food & drinks', 'Bakery & desserts', 'Beauty & skincare', 'Gadgets & electronics', 'Home & furniture', 'Grocery / sari-sari', 'Online seller', 'Other'],
+  service: ['Restaurant / café', 'Salon & barbershop', 'Spa & wellness', 'Clinic & dental', 'Gym & fitness', 'Events & catering', 'Photo & video', 'Repair & auto', 'Tutoring & school', 'Travel & tours', 'Other'],
+};
+const GOALS_BIZ = {
+  launch: ['New product / service', 'Introduce something new'],
+  sale: ['Promo / sale', 'Limited-time price, countdown feel'],
+  open: ['Grand opening', 'New store, branch or business'],
+  more: ['Get more customers', 'More orders, bookings and inquiries'],
+  brand: ['Show off the business', 'Brand awareness, more followers'],
+  season: ['Holiday / season', 'Christmas, payday, back-to-school, summer'],
+};
+const AUDIENCE = {
+  stay: ['Barkada', 'Families', 'Couples', 'Company outings'],
+  retail: ['Students', 'Young professionals', 'Moms & families', 'Teens', 'Seniors', 'Businesses'],
+  service: ['Students', 'Young professionals', 'Moms & families', 'Teens', 'Seniors', 'Businesses'],
+};
+const goalsFor = (nature) => (nature === 'stay' ? GOALS : GOALS_BIZ);
 const GOALS = {
   empty: ['Fill empty dates', 'Weekdays and slow dates this month'],
   promo: ['Promo / discount', 'Limited-time price, countdown feel'],
@@ -26,11 +51,17 @@ const GOALS = {
   brand: ['Show off the place', 'Brand awareness, more followers'],
   holiday: ['Holiday season', 'Christmas, New Year, summer, Holy Week'],
 };
-const GUESTS = ['Barkada', 'Families', 'Couples', 'Company outings'];
+const GUESTS = AUDIENCE.stay;
+const goalLabel = (k) => (GOALS[k] || GOALS_BIZ[k] || [k, ''])[0];
 const FORMATS = { reels: 'FB / IG Reels 9:16', tiktok: 'TikTok', feed: 'FB feed 1:1', shorts: 'YouTube Shorts' };
 const FEELS = { hype: ['Hype & fun', 'Fast cuts, party music'], chill: ['Chill & relaxing', 'Slow, soft music'], luxury: ['Luxury', 'Elegant, cinematic'], family: ['Family-friendly', 'Warm and happy'] };
 const VOICES = { taglish: 'Taglish', english: 'English', tagalog: 'Tagalog', none: 'No voice, music only' };
-const CTAS = ['Message us to book', 'Book on our website', 'Call or text us'];
+const CTAS_FOR = {
+  stay: ['Message us to book', 'Book on our website', 'Call or text us'],
+  retail: ['Message us to order', 'Visit our store', 'Shop on our page', 'Call or text us'],
+  service: ['Message us to book', 'Book an appointment', 'Visit us today', 'Call or text us'],
+};
+const CTAS = CTAS_FOR.stay;
 
 const peso = (n) => '₱' + Math.round(Number(n) || 0).toLocaleString('en-PH');
 const downOf = (total) => Math.ceil(total * DOWN_PCT / 100);

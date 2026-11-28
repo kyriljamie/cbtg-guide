@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Pinoy BnB Studio · Video ads for resorts</title>
-<meta name="description" content="Upload your resort photos and videos. We make the reel that books your dates: video, voiceover, caption and hashtags.">
-<meta property="og:title" content="Pinoy BnB Studio · Video ads for resorts">
-<meta property="og:description" content="Upload your photos. We make the reel that books your dates. From ₱999.">
+<title>Pinoy BnB Studio · Video ads for your business</title>
+<meta name="description" content="Upload your photos and videos. We make the reel that brings you customers: video, voiceover, caption and hashtags. For resorts, shops and services.">
+<meta property="og:title" content="Pinoy BnB Studio · Video ads for your business">
+<meta property="og:description" content="Upload your photos. We make the reel that brings you customers. From ₱999.">
 <meta name="theme-color" content="#0F5C5A">
 <link rel="icon" href="../favicon-48.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,7 +24,7 @@
 const DRAFT = 'pinoy-studio-draft';
 const S = {
   step: 1, err: '', busy: false, sending: null, done: null,
-  f: { resort: '', town: '', fb: '', owner: '', mobile: '', love: '', goal: '', guests: [], format: 'reels', length: '15',
+  f: { nature: '', category: '', categoryOther: '', resort: '', town: '', fb: '', owner: '', mobile: '', love: '', goal: '', guests: [], format: 'reels', length: '15',
        feel: '', voice: 'taglish', gender: 'female', headline: '', price: '', until: '', cta: CTAS[0], useLogo: false,
        drive: '', notes: '', package: 'full', addons: [], rights: false },
   files: [], logo: null, receipt: null,
@@ -45,20 +45,25 @@ function head(n) {
 
 const STEPS = {
   1: () => `${head(1)}
-    <div class="hero"><span class="eyebrow">Video ads for resorts</span>
-      <h1>Upload your photos. We make the reel that books your dates.</h1>
+    <div class="hero"><span class="eyebrow">Video ads for your business</span>
+      <h1>Upload your photos. We make the reel that brings you customers.</h1>
       <p>Ready in 2–3 days, with caption, hashtags and voiceover. From ${peso(999)}. Only ${DOWN_PCT}% down to start.</p></div>
-    <h2>About your resort</h2>
-    ${field('resort', 'Resort name', 'e.g. Villa Azul Private Resort', 'text', 'autocomplete="organization" maxlength="100"')}
+    <h2>What kind of business?</h2>
+    <div style="display:grid;gap:8px">${Object.entries(NATURES).map(([k, [t, d]]) => `<button type="button" class="opt" data-nature="${k}" ${pressed(S.f.nature === k)}><b>${esc(t)}</b><span>${esc(d)}</span></button>`).join('')}</div>
+    ${S.f.nature ? `<h2>Category</h2>
+    <div class="chips">${CATEGORIES[S.f.nature].map((c) => `<button type="button" class="chip" data-pick="category" data-v="${esc(c)}" ${pressed(S.f.category === c)}>${esc(c)}</button>`).join('')}</div>
+    ${S.f.category === 'Other' ? field('categoryOther', 'What kind of business?', 'e.g. Pet grooming', 'text', 'maxlength="60"') : ''}` : ''}
+    <h2>About your business</h2>
+    ${field('resort', 'Business name', S.f.nature === 'stay' ? 'e.g. Villa Azul Private Resort' : S.f.nature === 'retail' ? "e.g. Aling Nena's Bakery" : 'e.g. Glow Up Salon', 'text', 'autocomplete="organization" maxlength="100"')}
     ${field('town', 'Town / province', 'e.g. Lucban, Quezon', 'text', 'maxlength="80"')}
-    ${field('fb', 'Facebook page or website (optional)', 'facebook.com/yourresort', 'text', 'maxlength="200"')}
+    ${field('fb', 'Facebook page or website (optional)', 'facebook.com/yourbusiness', 'text', 'maxlength="200"')}
     <div class="grid2">${field('owner', 'Your name', 'Juan Dela Cruz', 'text', 'autocomplete="name" maxlength="80"')}${field('mobile', 'Mobile / Viber', '0917 123 4567', 'tel', 'autocomplete="tel" inputmode="tel" maxlength="20"')}</div>
-    <div class="field"><label for="f-love">What guests love most (optional)</label><textarea class="inp" id="f-love" data-k="love" maxlength="400" placeholder="Infinity pool, mountain view, near the beach…">${esc(S.f.love)}</textarea></div>`,
+    <div class="field"><label for="f-love">${S.f.nature === 'stay' ? 'What guests love most' : 'What customers love most'} (optional)</label><textarea class="inp" id="f-love" data-k="love" maxlength="400" placeholder="${S.f.nature === 'stay' ? 'Infinity pool, mountain view, near the beach…' : S.f.nature === 'retail' ? 'Best-seller ube cheese pandesal, affordable, free delivery…' : 'Friendly staff, quick service, affordable…'}">${esc(S.f.love)}</textarea></div>`,
   2: () => `${head(2)}
     <div><h1>What should this ad do?</h1><p class="lede">Pick one main goal. It decides the hook, the text and the call to action.</p></div>
-    <div class="grid2">${Object.entries(GOALS).map(([k, [t, d]]) => `<button type="button" class="opt" data-pick="goal" data-v="${k}" ${pressed(S.f.goal === k)}><b>${esc(t)}</b><span>${esc(d)}</span></button>`).join('')}</div>
-    <h2>Who are you inviting?</h2>
-    <div class="chips">${GUESTS.map((g) => `<button type="button" class="chip" data-multi="guests" data-v="${esc(g)}" ${pressed(S.f.guests.includes(g))}>${esc(g)}</button>`).join('')}</div>
+    <div class="grid2">${Object.entries(goalsFor(S.f.nature)).map(([k, [t, d]]) => `<button type="button" class="opt" data-pick="goal" data-v="${k}" ${pressed(S.f.goal === k)}><b>${esc(t)}</b><span>${esc(d)}</span></button>`).join('')}</div>
+    <h2>${S.f.nature === 'stay' ? 'Who are you inviting?' : 'Who are your customers?'}</h2>
+    <div class="chips">${(AUDIENCE[S.f.nature] || GUESTS).map((g) => `<button type="button" class="chip" data-multi="guests" data-v="${esc(g)}" ${pressed(S.f.guests.includes(g))}>${esc(g)}</button>`).join('')}</div>
     <h2>Where will it run?</h2>
     <div class="chips">${Object.entries(FORMATS).map(([k, t]) => `<button type="button" class="chip" data-pick="format" data-v="${k}" ${pressed(S.f.format === k)}>${esc(t)}</button>`).join('')}</div>
     <h2>How long?</h2>
@@ -86,7 +91,7 @@ const STEPS = {
     <h2>Text on the video</h2>
     ${field('headline', 'Main offer or headline', 'e.g. 30% OFF this weekend', 'text', 'maxlength="80"')}
     <div class="grid2">${field('price', 'Price to show (optional)', '₱8,500 / night', 'text', 'maxlength="40"')}${field('until', 'Valid until (optional)', 'Dec 15', 'text', 'maxlength="40"')}</div>
-    <div class="field"><label for="f-cta">Call to action</label><select class="inp" id="f-cta" data-k="cta">${CTAS.map((c) => `<option ${S.f.cta === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select></div>
+    <div class="field"><label for="f-cta">Call to action</label><select class="inp" id="f-cta" data-k="cta">${(CTAS_FOR[S.f.nature] || CTAS).map((c) => `<option ${S.f.cta === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select></div>
     <div class="card"><label class="check"><input type="checkbox" data-k="useLogo" ${S.f.useLogo ? 'checked' : ''}>Add my logo</label>
       ${S.f.useLogo ? `<button type="button" class="btn alt sm" data-act="logo">${S.logo ? 'Logo added ✓ (tap to change)' : 'Upload logo'}</button>` : ''}</div>
     <div class="field"><label for="f-notes">Anything else? (optional)</label><textarea class="inp" id="f-notes" data-k="notes" maxlength="600" placeholder="Music you like, things to avoid, dates to promote…">${esc(S.f.notes)}</textarea></div>`,
@@ -98,8 +103,9 @@ const STEPS = {
     <div class="card"><b>Add-ons</b>${Object.entries(ADDONS).map(([k, a]) => `<label class="check"><input type="checkbox" data-addon="${k}" ${S.f.addons.includes(k) ? 'checked' : ''}>${esc(a.name)} <span class="price" style="margin-left:auto">+${peso(a.price)}</span></label>`).join('')}</div>
     ${S.f.package === 'quick' && S.f.voice !== 'none' ? '<div class="msg err" style="background:#FFF4E5;color:#7A4100">The Quick Reel has music only, no voiceover. Pick the Full Ad if you want the voice.</div>' : ''}
     <div class="card">
-      <div class="sr"><span>Resort</span><span>${esc(S.f.resort)}${S.f.town ? ', ' + esc(S.f.town) : ''}</span></div>
-      <div class="sr"><span>Goal</span><span>${esc(GOALS[S.f.goal]?.[0] || '')}</span></div>
+      <div class="sr"><span>Business</span><span>${esc(S.f.resort)}${S.f.town ? ', ' + esc(S.f.town) : ''}</span></div>
+      <div class="sr"><span>Type</span><span>${esc(NATURES[S.f.nature]?.[0] || '')} · ${esc(S.f.category === 'Other' ? S.f.categoryOther || 'Other' : S.f.category)}</span></div>
+      <div class="sr"><span>Goal</span><span>${esc(goalLabel(S.f.goal))}</span></div>
       <div class="sr"><span>Format</span><span>${esc(FORMATS[S.f.format])} · ${S.f.package === 'quick' ? '15' : esc(S.f.length)} sec</span></div>
       <div class="sr"><span>Files</span><span>${S.files.length} file${S.files.length === 1 ? '' : 's'}${S.f.drive ? ' + Drive link' : ''}</span></div>
       <div class="sr"><span>Total</span><span class="price">${peso(t)}</span></div>
@@ -141,14 +147,18 @@ function render() {
 function check(step) {
   const f = S.f;
   if (step === 1) {
-    if (f.resort.trim().length < 2) return 'Please type your resort name.';
+    if (!f.nature) return 'What kind of business is it? Pick Accommodation, Retail or Service.';
+    if (!f.category) return 'Please pick a category.';
+    if (f.category === 'Other' && f.categoryOther.trim().length < 2) return 'Please type what kind of business it is.';
+    if (f.resort.trim().length < 2) return 'Please type your business name.';
     if (f.town.trim().length < 2) return 'Please type the town or province.';
     if (f.owner.trim().length < 2) return 'Please type your name.';
     const dg = f.mobile.replace(/\D/g, ''); if (dg.length < 10 || dg.length > 13) return 'Please type a valid mobile number, like 0917 123 4567.';
   }
   if (step === 2) {
     if (!f.goal) return 'Please pick one goal for the ad.';
-    if (!f.guests.length) return 'Who are you inviting? Pick at least one.';
+    if (!goalsFor(f.nature)[f.goal]) return 'Please pick one goal for the ad.';
+    if (!f.guests.length) return f.nature === 'stay' ? 'Who are you inviting? Pick at least one.' : 'Who are your customers? Pick at least one.';
   }
   if (step === 3) {
     if (S.files.length < 3 && !f.drive.trim()) return 'Please add at least 3 photos or videos, or a Google Drive link.';
@@ -219,6 +229,11 @@ document.addEventListener('change', (e) => {
 });
 document.addEventListener('click', async (e) => {
   const b = e.target.closest('button,[data-copy]'); if (!b) return;
+  if (b.dataset.nature) {
+    const n = b.dataset.nature;
+    if (S.f.nature !== n) Object.assign(S.f, { nature: n, category: '', categoryOther: '', goal: '', guests: [], cta: CTAS_FOR[n][0] });
+    saveDraft(); S.err = ''; render(); return;
+  }
   if (b.dataset.pick) { S.f[b.dataset.pick] = b.dataset.v; saveDraft(); S.err = ''; render(); return; }
   if (b.dataset.multi) { const k = b.dataset.multi, v = b.dataset.v; S.f[k] = S.f[k].includes(v) ? S.f[k].filter((x) => x !== v) : [...S.f[k], v]; saveDraft(); render(); return; }
   if (b.dataset.rm) { const x = S.files.splice(+b.dataset.rm, 1)[0]; if (x) URL.revokeObjectURL(x.url); render(); return; }
